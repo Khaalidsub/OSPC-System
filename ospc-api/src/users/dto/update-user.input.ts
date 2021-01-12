@@ -6,10 +6,19 @@ import { Role, Status } from '../types';
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => ID)
   id: string;
-  @Field(() => Status, { description: 'Example field (placeholder)' })
-  coachingStatus?: Status;
-  @Field(() => Status, { description: 'Example field (placeholder)' })
+  @Field(() => Status, {
+    name: 'CoachingStatus',
+    defaultValue: Status.inactive,
+    nullable: true,
+    description: 'Example field (placeholder)',
+  })
+  coachingStatus: Status;
+  @Field(() => Status, {
+    description: 'Example field (placeholder)',
+  })
   accountStatus: Status;
-  @Field(() => Status, { description: 'Example field (placeholder)' })
+  @Field(() => Status, {
+    description: 'Example field (placeholder)',
+  })
   role: Role;
 }
