@@ -11,6 +11,8 @@ export class User implements IUser {
   @Prop()
   universityId: string;
   @Prop()
+  university: string;
+  @Prop()
   name: string;
   @Prop()
   description?: string;

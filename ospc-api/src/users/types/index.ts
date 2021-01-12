@@ -18,6 +18,7 @@ export interface IUser {
   email: string;
   phoneNumber: string;
   universityId: string;
+  university: string;
   role?: Role;
   accountStatus?: Status;
   coachingStatus?: Status;

@@ -16,6 +16,8 @@ export class User implements IUser {
   phoneNumber: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   universityId: string;
+  @Field(() => String, { description: 'Example field (placeholder)' })
+  university: string;
   @Field(() => Role, { description: 'Example field (placeholder)' })
   role: Role;
   @Field(() => Status, { description: 'Example field (placeholder)' })

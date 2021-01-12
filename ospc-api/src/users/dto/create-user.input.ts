@@ -1,10 +1,12 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IUser, Status } from '../types';
+import { IUser, Role, Status } from '../types';
 
 @InputType()
 export class CreateUserInput implements IUser {
   @Field(() => String, { description: 'Example field (placeholder)' })
   name: string;
+  @Field(() => String, { description: 'Example field (placeholder)' })
+  university: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   password?: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
