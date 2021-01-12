@@ -1,0 +1,194 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
+
+  """Example field (placeholder)"""
+  phoneNumber: String!
+
+  """Example field (placeholder)"""
+  universityId: String!
+
+  """Example field (placeholder)"""
+  role: Role!
+
+  """Example field (placeholder)"""
+  accountStatus: CoachingStatus!
+
+  """Example field (placeholder)"""
+  CoachingStatus: CoachingStatus
+}
+
+enum Role {
+  student
+  coach
+  admin
+  moderator
+  type
+}
+
+enum CoachingStatus {
+  active
+  pending
+  inactive
+}
+
+type Department {
+  """Example field (placeholder)"""
+  id: String!
+
+  """Example field (placeholder)"""
+  departmentName: String!
+
+  """Example field (placeholder)"""
+  departmentModerator: User
+}
+
+type Subject {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  subjectName: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+input userType {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
+
+  """Example field (placeholder)"""
+  phoneNumber: String!
+
+  """Example field (placeholder)"""
+  universityId: String!
+
+  """Example field (placeholder)"""
+  role: Role!
+
+  """Example field (placeholder)"""
+  accountStatus: CoachingStatus!
+
+  """Example field (placeholder)"""
+  CoachingStatus: CoachingStatus = inactive
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  currentUser: User!
+  departments: [Department!]!
+  department(id: String!): Department!
+  subjects: [Subject!]!
+  subject(id: String!): Subject!
+}
+
+type Mutation {
+  registerStudent(createUserInput: CreateUserInput!): String!
+  addModerator(createUserInput: CreateUserInput!): User!
+  approveStudent(id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: String!): User!
+  loginUser(password: String!, email: String!): String!
+  createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
+  removeDepartment(id: String!): Department!
+  createSubject(createSubjectInput: CreateSubjectInput!): Subject!
+  updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
+  removeSubject(id: String!): Subject!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
+
+  """Example field (placeholder)"""
+  phoneNumber: String!
+
+  """Example field (placeholder)"""
+  universityId: String!
+
+  """Example field (placeholder)"""
+  coachingStatus: CoachingStatus = inactive
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  name: String
+
+  """Example field (placeholder)"""
+  password: String
+
+  """Example field (placeholder)"""
+  email: String
+
+  """Example field (placeholder)"""
+  phoneNumber: String
+
+  """Example field (placeholder)"""
+  universityId: String
+
+  """Example field (placeholder)"""
+  coachingStatus: CoachingStatus = inactive
+  id: ID!
+}
+
+input CreateDepartmentInput {
+  """Example field (placeholder)"""
+  departmentName: String!
+}
+
+input UpdateDepartmentInput {
+  """Example field (placeholder)"""
+  departmentName: String
+  id: ID!
+
+  """Example field (placeholder)"""
+  departmentModerator: userType
+}
+
+input CreateSubjectInput {
+  """Example field (placeholder)"""
+  subjectName: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+input UpdateSubjectInput {
+  """Example field (placeholder)"""
+  subjectName: String
+
+  """Example field (placeholder)"""
+  description: String
+  id: ID!
+}
