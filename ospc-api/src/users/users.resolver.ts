@@ -9,6 +9,8 @@ import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { Role, Status } from './types';
+import { emailError, invalidEmailError } from '../util/exceptions';
+import { REG_EMAIL } from '../util/checkers';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -38,7 +40,10 @@ export class UsersResolver {
     const findUser = await this.usersService.findOne({ email: user.email });
 
     if (findUser) {
-      throw new HttpException('Email Already Exists!', HttpStatus.BAD_REQUEST);
+      throw new HttpException(emailError, HttpStatus.BAD_REQUEST);
+    }
+    if (!REG_EMAIL.test(user.email)) {
+      throw new HttpException(invalidEmailError, HttpStatus.BAD_REQUEST);
     }
   }
 

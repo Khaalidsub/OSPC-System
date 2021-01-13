@@ -11,6 +11,7 @@ import { Role, Status } from './types';
 
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
+import { emailError, invalidEmailError } from '../util/exceptions';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
@@ -67,11 +68,18 @@ describe('UsersResolver', () => {
 
       expect(result).toBeTruthy();
     });
-    it('should throw an error', async () => {
+    it('should throw an error because of email already registered', async () => {
       try {
         await resolver.registerStudent(student);
       } catch (error) {
-        expect(error.message).toBe('Error: Email Already Exists!');
+        expect(error.message).toBe(`Error: ${emailError}`);
+      }
+    });
+    it('should throw an error because of invalid email address', async () => {
+      try {
+        await resolver.registerStudent(student2);
+      } catch (error) {
+        expect(error.message).toBe(`Error: ${invalidEmailError}`);
       }
     });
   });
