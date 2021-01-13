@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import { UseGuards } from '@nestjs/common';
+import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { AuthService } from '../auth/auth.service';
@@ -22,15 +22,23 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
     try {
-      await this.authService.validateEmail(createUserInput);
+      await this.validateEmail(createUserInput);
 
       return this.authService.register(
         createUserInput,
-        Role.moderator,
-        Status.active,
+        Role.student,
+        Status.pending,
       );
     } catch (error) {
       return error;
+    }
+  }
+
+  async validateEmail(user: CreateUserInput) {
+    const findUser = await this.usersService.findOne({ email: user.email });
+
+    if (findUser) {
+      throw new HttpException('Email Already Exists!', HttpStatus.BAD_REQUEST);
     }
   }
 

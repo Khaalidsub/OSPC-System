@@ -27,13 +27,6 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  async validateEmail(user: CreateUserInput) {
-    const findUser = await this.usersService.findOne({ email: user.email });
-
-    if (findUser) {
-      throw new HttpException('Email Already Exists!', HttpStatus.BAD_REQUEST);
-    }
-  }
   async register(user: CreateUserInput, role: Role, status: Status) {
     const newUser = <User>{
       ...user,
