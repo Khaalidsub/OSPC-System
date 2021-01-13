@@ -30,7 +30,7 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 

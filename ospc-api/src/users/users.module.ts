@@ -12,14 +12,7 @@ import { AuthModule } from '../auth/auth.module';
     forwardRef(() => AuthModule),
   ],
 
-  providers: [
-    UsersResolver,
-    UsersService,
-    {
-      provide: getModelToken(User.name),
-      useValue: User,
-    },
-  ],
+  providers: [UsersResolver, UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}
