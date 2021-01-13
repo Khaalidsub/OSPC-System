@@ -11,36 +11,17 @@ import { Role, Status } from './types';
 
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
-import { emailError, invalidEmailError } from '../util/exceptions';
+import {
+  emailError,
+  invalidEmailError,
+  invalidPasswordError,
+} from '../util/exceptions';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
   let usersService: UsersService;
   let userModel: Model<UserDocument>;
-  const student = {
-    email: 'khaalidsubaan@gmail.com',
-    password: 'khaalid123',
-    name: 'Khaalid',
-    phoneNumber: '01125601863',
-    university: 'UTM',
-    universityId: '201702M10080',
-  } as CreateUserInput;
-  const student2 = {
-    email: 'khaalidsubaan',
-    password: 'khaalid123',
-    name: 'Khaalid',
-    phoneNumber: '01125601863',
-    university: 'UTM',
-    universityId: '201702M10080',
-  } as CreateUserInput;
-  const student3 = {
-    email: 'khaalidsubaan@gmail.com',
-    password: 'khaalid',
-    name: 'Khaalid',
-    phoneNumber: '01125601863',
-    university: 'UTM',
-    universityId: '201702M10080',
-  } as CreateUserInput;
+
   afterAll(() => {
     closeInMongodConnection();
   });
@@ -63,23 +44,54 @@ describe('UsersResolver', () => {
     userModel = module.get<Model<UserDocument>>('UserModel');
   });
   describe('register as a student', () => {
+    const student = {
+      email: 'khaalidsubaan@gmail.com',
+      password: 'khaalid123',
+      name: 'Khaalid',
+      phoneNumber: '01125601863',
+      university: 'UTM',
+      universityId: '201702M10080',
+    } as CreateUserInput;
+    const student2 = {
+      email: 'khaalidsubaan',
+      password: 'khaalid123',
+      name: 'Khaalid',
+      phoneNumber: '01125601863',
+      university: 'UTM',
+      universityId: '201702M10080',
+    } as CreateUserInput;
+    const student3 = {
+      email: 'khaalid@gmail.com',
+      password: 'khaa',
+      name: 'Khaalid',
+      phoneNumber: '01125601863',
+      university: 'UTM',
+      universityId: '201702M10080',
+    } as CreateUserInput;
     it('should return a student', async () => {
       const result = await resolver.registerStudent(student);
 
       expect(result).toBeTruthy();
     });
-    it('should throw an error because of email already registered', async () => {
+    it('should throw an error when email already registered', async () => {
       try {
         await resolver.registerStudent(student);
       } catch (error) {
         expect(error.message).toBe(`Error: ${emailError}`);
       }
     });
-    it('should throw an error because of invalid email address', async () => {
+    it('should throw an error when invalid email address', async () => {
       try {
         await resolver.registerStudent(student2);
       } catch (error) {
         expect(error.message).toBe(`Error: ${invalidEmailError}`);
+      }
+    });
+    it('should throw an error when invalid password', async () => {
+      try {
+        await resolver.registerStudent(student3);
+      } catch (error) {
+        expect(error.message).toBe(`Error: ${invalidPasswordError}`);
       }
     });
   });
