@@ -6,7 +6,7 @@ import { UpdateDepartmentInput } from './dto/update-department.input';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
-import { invalid } from '../util/exceptions';
+import { departmentNameError, invalid } from '../util/exceptions';
 
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -15,13 +15,23 @@ export class DepartmentsResolver {
 
   @Mutation(() => Department)
   @UseGuards(GqlAuthGuard, AdminGuard)
-  createDepartment(
+  async createDepartment(
     @Args('createDepartmentInput') createDepartmentInput: CreateDepartmentInput,
   ) {
     try {
+      await this.validate(createDepartmentInput);
       return this.departmentsService.create(createDepartmentInput);
     } catch (error) {
-      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+      throw new Error(error);
+    }
+  }
+
+  async validate(createDepartmentInput: CreateDepartmentInput) {
+    const result = await this.departmentsService.findOne({
+      departmentName: createDepartmentInput.departmentName,
+    });
+    if (result) {
+      throw new HttpException(departmentNameError, HttpStatus.BAD_REQUEST);
     }
   }
 

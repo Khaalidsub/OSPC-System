@@ -20,8 +20,8 @@ export class DepartmentsService {
     return this.departmentModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.departmentModel.findById(id).exec();
+  findOne(query) {
+    return this.departmentModel.findOne(query).exec();
   }
 
   update(id: string, data: any) {
