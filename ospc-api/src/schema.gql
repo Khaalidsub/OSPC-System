@@ -48,12 +48,20 @@ enum CoachingStatus {
   inactive
 }
 
-type Department {
-  """Example field (placeholder)"""
-  id: String!
+type Department implements IDepartment {
+  departmentName: String!
+  departmentDescription: String!
 
   """Example field (placeholder)"""
+  departmentModerator: User
+
+  """Example field (placeholder)"""
+  id: String!
+}
+
+interface IDepartment {
   departmentName: String!
+  departmentDescription: String!
 
   """Example field (placeholder)"""
   departmentModerator: User
@@ -119,7 +127,6 @@ type Mutation {
   loginUser(password: String!, email: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
-  removeDepartment(id: String!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
   removeSubject(id: String!): Subject!
@@ -184,11 +191,17 @@ input UpdateUserInput {
 input CreateDepartmentInput {
   """Example field (placeholder)"""
   departmentName: String!
+
+  """Example field (placeholder)"""
+  departmentDescription: String!
 }
 
 input UpdateDepartmentInput {
   """Example field (placeholder)"""
   departmentName: String
+
+  """Example field (placeholder)"""
+  departmentDescription: String
   id: ID!
 
   """Example field (placeholder)"""
