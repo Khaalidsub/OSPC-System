@@ -14,5 +14,5 @@ export class Department implements IDepartment {
     description: 'Example field (placeholder)',
     nullable: true,
   })
-  departmentModerator: User;
+  departmentModerator?: User;
 }

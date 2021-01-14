@@ -57,24 +57,16 @@ export class DepartmentsResolver {
 
   @Mutation(() => Department)
   @UseGuards(GqlAuthGuard, AdminGuard)
-  updateDepartment(
+  async updateDepartment(
     @Args('updateDepartmentInput') updateDepartmentInput: UpdateDepartmentInput,
   ) {
     try {
-      return this.departmentsService.update(
+      const result = await this.departmentsService.update(
         updateDepartmentInput.id,
         updateDepartmentInput,
       );
-    } catch (error) {
-      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  @Mutation(() => Department)
-  @UseGuards(GqlAuthGuard, AdminGuard)
-  removeDepartment(@Args('id', { type: () => String }) id: string) {
-    try {
-      return this.departmentsService.remove(id);
+      this.logger.error(result);
+      return result;
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }

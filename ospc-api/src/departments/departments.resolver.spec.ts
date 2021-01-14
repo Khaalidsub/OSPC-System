@@ -5,6 +5,7 @@ import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
 import { DepartmentsResolver } from './departments.resolver';
 import { DepartmentsService } from './departments.service';
 import { CreateDepartmentInput } from './dto/create-department.input';
+import { UpdateDepartmentInput } from './dto/update-department.input';
 import { Department, DepartmentSchema } from './schema/department.schema';
 
 describe('DepartmentsResolver', () => {
@@ -45,6 +46,26 @@ describe('DepartmentsResolver', () => {
       }
     });
   });
+
+  describe('update department', () => {
+    it('should return updated department', async () => {
+      const departments = await resolver.findAll();
+      // const department = departments.find(
+      //   (department) => department.departmentModerator === null,
+      // );
+      const department = departments[0];
+      department.departmentDescription = 'the description has been changed';
+      const response = await resolver.updateDepartment(({
+        ...department,
+      } as unknown) as UpdateDepartmentInput);
+      expect(response).toHaveProperty(
+        'departmentDescription',
+        'the description has been changed',
+      );
+    });
+  });
+
+  describe('assign department moderator', () => {});
 
   it('should be defined', () => {
     expect(resolver).toBeDefined();

@@ -10,8 +10,12 @@ export type DepartmentDocument = Department & Document;
 export class Department implements IDepartment {
   @Prop()
   departmentName: string;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  departmentModerator: User;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    required: false,
+  })
+  departmentModerator?: User;
   @Prop()
   departmentDescription: string;
 }
