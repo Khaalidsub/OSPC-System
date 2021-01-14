@@ -16,11 +16,35 @@ import {
   invalidEmailError,
   invalidPasswordError,
 } from '../util/exceptions';
+import { UpdateUserInput } from './dto/update-user.input';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
-  let usersService: UsersService;
-  let userModel: Model<UserDocument>;
+
+  const student = {
+    email: 'khaalidsubaan@gmail.com',
+    password: 'khaalid123',
+    name: 'Khaalid',
+    phoneNumber: '01125601863',
+    university: 'UTM',
+    universityId: '201702M10080',
+  } as CreateUserInput;
+  const student2 = {
+    email: 'khaalidsubaan',
+    password: 'khaalid123',
+    name: 'Khaalid',
+    phoneNumber: '01125601863',
+    university: 'UTM',
+    universityId: '201702M10080',
+  } as CreateUserInput;
+  const student3 = {
+    email: 'khaalid@gmail.com',
+    password: 'khaa',
+    name: 'Khaalid',
+    phoneNumber: '01125601863',
+    university: 'UTM',
+    universityId: '201702M10080',
+  } as CreateUserInput;
 
   afterAll(() => {
     closeInMongodConnection();
@@ -40,34 +64,8 @@ describe('UsersResolver', () => {
     }).compile();
 
     resolver = module.get<UsersResolver>(UsersResolver);
-    usersService = module.get<UsersService>(UsersService);
-    userModel = module.get<Model<UserDocument>>('UserModel');
   });
   describe('register as a student', () => {
-    const student = {
-      email: 'khaalidsubaan@gmail.com',
-      password: 'khaalid123',
-      name: 'Khaalid',
-      phoneNumber: '01125601863',
-      university: 'UTM',
-      universityId: '201702M10080',
-    } as CreateUserInput;
-    const student2 = {
-      email: 'khaalidsubaan',
-      password: 'khaalid123',
-      name: 'Khaalid',
-      phoneNumber: '01125601863',
-      university: 'UTM',
-      universityId: '201702M10080',
-    } as CreateUserInput;
-    const student3 = {
-      email: 'khaalid@gmail.com',
-      password: 'khaa',
-      name: 'Khaalid',
-      phoneNumber: '01125601863',
-      university: 'UTM',
-      universityId: '201702M10080',
-    } as CreateUserInput;
     it('should return a student', async () => {
       const result = await resolver.registerStudent(student);
 
@@ -96,7 +94,42 @@ describe('UsersResolver', () => {
     });
   });
 
-  it('should be defined', () => {
-    expect(resolver).toBeDefined();
+  describe('approve student', () => {
+    it('should return approved student', async () => {
+      const students = await resolver.findAll();
+      const student = students.find(
+        (student) => student.accountStatus === Status.pending,
+      );
+      const result = await resolver.approveStudent(student.id);
+      student.accountStatus = Status.active;
+
+      expect(result).toHaveProperty('accountStatus', Status.active);
+    });
   });
+  describe('update user', () => {
+    it('should return an updated user', async () => {
+      const students = await resolver.findAll();
+      const student = students.find(
+        (student) => student.accountStatus === Status.active,
+      );
+      const result = await resolver.updateUser({
+        ...student,
+        name: 'abdi',
+      } as UpdateUserInput);
+
+      expect(result).toHaveProperty('name', 'abdi');
+    });
+  });
+  // describe('get one user', () => {
+  //   it('should return approved student', async () => {
+  //     const students = await resolver.findAll();
+  //     const student = students.find(
+  //       (student) => student.accountStatus === Status.pending,
+  //     );
+  //     const result = await resolver.approveStudent(student.id);
+  //     student.accountStatus = Status.active;
+
+  //     expect(result).toHaveProperty('accountStatus', Status.active);
+  //   });
+  // });
 });

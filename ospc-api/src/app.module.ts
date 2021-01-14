@@ -17,7 +17,9 @@ import { CoachModule } from './coach/coach.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       include: [UsersModule, AuthModule, DepartmentsModule, SubjectsModule],
     }),
-    MongooseModule.forRoot('mongodb://localhost/selps'),
+    MongooseModule.forRoot('mongodb://localhost/selps', {
+      useFindAndModify: false,
+    }),
     UsersModule,
     AuthModule,
     DepartmentsModule,

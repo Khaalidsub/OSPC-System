@@ -24,7 +24,7 @@ export class UsersResolver {
     private authService: AuthService,
   ) {}
 
-  @Mutation(() => User || Boolean)
+  @Mutation(() => User)
   async registerStudent(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
@@ -37,6 +37,7 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
+      this.logger.error(error);
       throw new Error(error);
     }
   }
@@ -59,11 +60,15 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard, AdminGuard)
   async approveStudent(@Args('id') id: string) {
     try {
-      const result = await this.usersService.update(id, {
+      await this.usersService.update(id, {
         accountStatus: Status.active,
       });
+
+      const result = await this.usersService.findById(id);
+
       return result;
     } catch (error) {
+      this.logger.error(error);
       return error;
     }
   }
@@ -81,7 +86,15 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput.id, updateUserInput);
+  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+    try {
+      this.logger.error(`hello there${updateUserInput}`);
+      return await this.usersService.update(
+        updateUserInput.id,
+        updateUserInput,
+      );
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 }

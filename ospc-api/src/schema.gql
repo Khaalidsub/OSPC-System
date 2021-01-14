@@ -22,6 +22,9 @@ type User {
   universityId: String!
 
   """Example field (placeholder)"""
+  university: String!
+
+  """Example field (placeholder)"""
   role: Role!
 
   """Example field (placeholder)"""
@@ -87,6 +90,9 @@ input userType {
   universityId: String!
 
   """Example field (placeholder)"""
+  university: String!
+
+  """Example field (placeholder)"""
   role: Role!
 
   """Example field (placeholder)"""
@@ -107,11 +113,9 @@ type Query {
 }
 
 type Mutation {
-  registerStudent(createUserInput: CreateUserInput!): String!
-  addModerator(createUserInput: CreateUserInput!): User!
+  registerStudent(createUserInput: CreateUserInput!): User!
   approveStudent(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
   loginUser(password: String!, email: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
@@ -124,6 +128,9 @@ type Mutation {
 input CreateUserInput {
   """Example field (placeholder)"""
   name: String!
+
+  """Example field (placeholder)"""
+  university: String!
 
   """Example field (placeholder)"""
   password: String!
@@ -146,6 +153,9 @@ input UpdateUserInput {
   name: String
 
   """Example field (placeholder)"""
+  university: String
+
+  """Example field (placeholder)"""
   password: String
 
   """Example field (placeholder)"""
@@ -160,6 +170,15 @@ input UpdateUserInput {
   """Example field (placeholder)"""
   coachingStatus: CoachingStatus = inactive
   id: ID!
+
+  """Example field (placeholder)"""
+  CoachingStatus: CoachingStatus = inactive
+
+  """Example field (placeholder)"""
+  accountStatus: CoachingStatus!
+
+  """Example field (placeholder)"""
+  role: CoachingStatus!
 }
 
 input CreateDepartmentInput {
