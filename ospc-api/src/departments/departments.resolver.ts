@@ -26,7 +26,7 @@ export class DepartmentsResolver {
   }
 
   @Query(() => Department, { name: 'department' })
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  @UseGuards(GqlAuthGuard)
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.departmentsService.findOne(id);
   }
