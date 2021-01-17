@@ -58,15 +58,16 @@ export class DepartmentsResolver {
   @Mutation(() => Department)
   @UseGuards(GqlAuthGuard, AdminGuard)
   async updateDepartment(
-    @Args('updateDepartmentInput') updateDepartmentInput: UpdateDepartmentInput,
+    @Args('updateDepartmentInput')
+    updateDepartmentInput: UpdateDepartmentInput | any,
   ) {
     try {
-      const result = await this.departmentsService.update(
+      await this.departmentsService.update(
         updateDepartmentInput.id,
         updateDepartmentInput,
       );
-      this.logger.error(result);
-      return result;
+
+      return this.departmentsService.findById(updateDepartmentInput.id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }

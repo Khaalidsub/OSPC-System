@@ -8,6 +8,11 @@ export class CreateDepartmentInput implements IDepartment {
   departmentName: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   departmentDescription: string;
+  @Field(() => User, {
+    description: 'Example field (placeholder)',
+    nullable: true,
+  })
+  departmentModerator?: User;
   // @Field(() => String, { description: 'Example field (placeholder)' })
   // departmentModerator: string;
 }

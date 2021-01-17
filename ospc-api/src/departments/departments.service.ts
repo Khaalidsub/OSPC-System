@@ -23,6 +23,9 @@ export class DepartmentsService {
   findOne(query) {
     return this.departmentModel.findOne(query).exec();
   }
+  findById(id: string) {
+    return this.departmentModel.findById(id).exec();
+  }
 
   update(id: string, data: any) {
     return this.departmentModel.findByIdAndUpdate(id, data).exec();

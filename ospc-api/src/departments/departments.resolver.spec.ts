@@ -50,14 +50,11 @@ describe('DepartmentsResolver', () => {
   describe('update department', () => {
     it('should return updated department', async () => {
       const departments = await resolver.findAll();
-      // const department = departments.find(
-      //   (department) => department.departmentModerator === null,
-      // );
-      const department = departments[0];
+
+      const [department] = departments;
       department.departmentDescription = 'the description has been changed';
-      const response = await resolver.updateDepartment(({
-        ...department,
-      } as unknown) as UpdateDepartmentInput);
+
+      const response = await resolver.updateDepartment(department);
       expect(response).toHaveProperty(
         'departmentDescription',
         'the description has been changed',
