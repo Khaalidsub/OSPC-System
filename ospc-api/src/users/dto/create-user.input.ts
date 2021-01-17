@@ -20,5 +20,11 @@ export class CreateUserInput implements IUser {
     nullable: true,
     description: 'Example field (placeholder)',
   })
-  coachingStatus: Status;
+  coachingStatus?: Status;
+  @Field(() => Status, {
+    defaultValue: Status.inactive,
+    nullable: true,
+    description: 'Example field (placeholder)',
+  })
+  moderatorStatus?: Status;
 }

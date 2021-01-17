@@ -22,6 +22,7 @@ export interface IUser {
   role?: Role;
   accountStatus?: Status;
   coachingStatus?: Status;
+  moderatorStatus?: Status;
 }
 
 registerEnumType(Role, { name: 'Role' });

@@ -26,6 +26,8 @@ export class User implements IUser {
   accountStatus: Status;
   @Prop({ default: Status.inactive })
   coachingStatus?: Status;
+  @Prop({ default: Status.inactive })
+  moderatorStatus?: Status;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
