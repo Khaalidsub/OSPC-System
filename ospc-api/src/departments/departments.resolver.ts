@@ -93,7 +93,7 @@ export class DepartmentsResolver {
   @UseGuards(GqlAuthGuard, AdminGuard)
   async updateDepartment(
     @Args('updateDepartmentInput')
-    updateDepartmentInput: UpdateDepartmentInput | any,
+    updateDepartmentInput: UpdateDepartmentInput,
   ) {
     try {
       await this.departmentsService.update(

@@ -56,7 +56,7 @@ type Department implements IDepartment {
   departmentModerator: User
 
   """Example field (placeholder)"""
-  id: String!
+  id: ID!
 }
 
 interface IDepartment {
@@ -126,6 +126,8 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   loginUser(password: String!, email: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
+  approveDepartmentModerator(id: String!): User!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
@@ -153,6 +155,9 @@ input CreateUserInput {
 
   """Example field (placeholder)"""
   coachingStatus: CoachingStatus = inactive
+
+  """Example field (placeholder)"""
+  moderatorStatus: CoachingStatus = inactive
 }
 
 input UpdateUserInput {
@@ -176,10 +181,10 @@ input UpdateUserInput {
 
   """Example field (placeholder)"""
   coachingStatus: CoachingStatus = inactive
-  id: ID!
 
   """Example field (placeholder)"""
-  CoachingStatus: CoachingStatus = inactive
+  moderatorStatus: CoachingStatus = inactive
+  id: ID!
 
   """Example field (placeholder)"""
   accountStatus: CoachingStatus!
@@ -194,6 +199,23 @@ input CreateDepartmentInput {
 
   """Example field (placeholder)"""
   departmentDescription: String!
+
+  """Example field (placeholder)"""
+  departmentModerator: userType
+}
+
+input CreateDepartmentModeratorApplication {
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  department: String!
+
+  """Example field (placeholder)"""
+  resumeLinks: [String!]!
+
+  """Example field (placeholder)"""
+  user: String!
 }
 
 input UpdateDepartmentInput {
@@ -202,10 +224,10 @@ input UpdateDepartmentInput {
 
   """Example field (placeholder)"""
   departmentDescription: String
-  id: ID!
 
   """Example field (placeholder)"""
   departmentModerator: userType
+  id: ID!
 }
 
 input CreateSubjectInput {

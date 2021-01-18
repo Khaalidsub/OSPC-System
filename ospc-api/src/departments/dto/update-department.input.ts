@@ -6,9 +6,4 @@ import { User } from '../../users/entities/user.entity';
 export class UpdateDepartmentInput extends PartialType(CreateDepartmentInput) {
   @Field(() => ID)
   id: string;
-  @Field(() => User, {
-    description: 'Example field (placeholder)',
-    nullable: true,
-  })
-  departmentModerator?: User;
 }

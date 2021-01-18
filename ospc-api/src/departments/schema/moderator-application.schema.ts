@@ -25,7 +25,7 @@ export class DepartmentModeratorApplication
     type: mongoose.Schema.Types.ObjectId,
     ref: User.name,
   })
-  user: IUser | string;
+  user: IUser;
 }
 
 export const DepartmentModeratorApplicationSchema = SchemaFactory.createForClass(
