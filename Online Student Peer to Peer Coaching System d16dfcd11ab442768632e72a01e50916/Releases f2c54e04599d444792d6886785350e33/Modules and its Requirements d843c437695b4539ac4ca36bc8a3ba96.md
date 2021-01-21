@@ -1,0 +1,30 @@
+# Modules and its Requirements
+
+- users module
+    - register as a student
+    - login
+    - 
+- coaching module
+    - apply as a coach
+    - book lessons
+    - update schedule time
+    - 
+- department module
+    - manage department
+    - assign moderator
+    - 
+- subject module
+    - manage subjects
+- payment module
+    - top up
+    - make payment
+- transaction module
+    - create transaction
+    - validate transaction
+    - create block
+    - generate key pairs
+    - make consensus
+- forum module
+    - create question
+    - answer question
+    - approve question
