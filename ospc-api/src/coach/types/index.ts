@@ -31,11 +31,11 @@ export abstract class ISubjectDescription {
 @InterfaceType()
 export abstract class ISubjectSpecialization {
   @Field(() => ISubjectDescription)
-  specialization: ISubjectDescription[];
+  specialization: ISubjectDescription[] | string[];
   @Field(() => ISubject)
   subject: ISubject;
   @Field(() => User)
-  coach: IUser;
+  coach?: IUser | string;
 }
 @InterfaceType()
 export abstract class ISchedule {
@@ -49,18 +49,18 @@ export abstract class ISchedule {
 @InterfaceType()
 export abstract class IWeeklySchedule {
   @Field(() => User)
-  coach: IUser;
+  coach?: IUser | string;
   @Field(() => ISchedule)
   schedule: ISchedule[];
 }
 @InterfaceType()
 export abstract class ILesson {
   @Field(() => ISubject)
-  subject: ISubject;
+  subject: ISubject | string;
   @Field(() => User)
-  coach: IUser;
+  coach: IUser | string;
   @Field(() => String)
-  student: IUser;
+  student?: IUser | string;
   @Field(() => String)
   date: Date;
   @Field(() => Number)

@@ -7,10 +7,10 @@ import { ISubjectDescription, ISubjectSpecialization } from '../types';
 export class CreateSubjecSpecialization implements ISubjectSpecialization {
   @Field(() => [CreateSubjectDescription])
   specialization: CreateSubjectDescription[];
-  @Field(() => Subject)
+  @Field(() => Subject, { nullable: false })
   subject: Subject;
-  @Field(() => User)
-  coach: User;
+  @Field(() => String)
+  coach?: string;
 }
 
 @InputType()

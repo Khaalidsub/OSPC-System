@@ -5,12 +5,12 @@ import { ILesson } from '../types';
 
 @InputType()
 export class CreateLessonInput implements ILesson {
-  @Field(() => Subject)
-  subject: Subject;
-  @Field(() => User)
-  coach: User;
-  @Field(() => User)
-  student: User;
+  @Field(() => String)
+  subject: string;
+  @Field(() => String)
+  coach: string;
+  @Field(() => String)
+  student?: string;
   @Field(() => Date)
   date: Date;
   @Field(() => Number)
