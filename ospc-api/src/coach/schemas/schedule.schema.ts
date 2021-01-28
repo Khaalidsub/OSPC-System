@@ -3,11 +3,11 @@ import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { User } from 'src/users/schemas/user.schema';
 
-import { Days } from '../types';
+import { Days, ISchedule, IWeeklySchedule } from '../types';
 
 export type WeeklyScheduleDocument = WeeklySchedule & Document;
 @Schema()
-export class Schedule {
+export class Schedule implements ISchedule {
   @Prop(Days)
   day: Days;
   @Prop()
@@ -17,8 +17,7 @@ export class Schedule {
 }
 
 @Schema()
-// @MongoosePlugin(autopoulate)
-export class WeeklySchedule {
+export class WeeklySchedule implements IWeeklySchedule {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   coach: User;
   @Prop({

@@ -30,6 +30,8 @@ export class CoachResolver {
     return this.coachService.update(id, { status: Status.active });
   }
 
+  //booking a lesson
+
   @Query(() => [User], { name: 'coach' })
   findAll() {
     return this.coachService.findAll();
