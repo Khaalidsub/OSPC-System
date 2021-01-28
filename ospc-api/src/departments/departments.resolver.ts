@@ -7,10 +7,10 @@ import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
 import { departmentNameError, invalid } from '../util/exceptions';
-import { UsersService } from 'src/users/users.service';
-import { UpdateUserInput } from 'src/users/dto/update-user.input';
-import { Status } from 'src/users/types';
-import { User } from 'src/users/entities/user.entity';
+import { UsersService } from '../users/users.service';
+import { UpdateUserInput } from '../users/dto/update-user.input';
+import { Status } from '../users/types';
+import { User } from '../users/entities/user.entity';
 import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
 
 @Resolver(() => Department)
@@ -101,7 +101,7 @@ export class DepartmentsResolver {
         updateDepartmentInput,
       );
 
-      return this.departmentsService.findById(updateDepartmentInput.id);
+      return updateDepartmentInput;
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }

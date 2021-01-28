@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { IUser } from 'src/users/types';
+import { IUser } from '../../users/types';
 import { User } from '../../users/schemas/user.schema';
 import { IDepartment, IDepartmentModeratorApplication } from '../types';
 import { Department } from './department.schema';

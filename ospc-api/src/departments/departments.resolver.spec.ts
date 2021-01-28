@@ -1,5 +1,6 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { UsersModule } from '../users/users.module';
 import { departmentNameError } from '../util/exceptions';
 import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
 import { DepartmentsResolver } from './departments.resolver';
@@ -26,6 +27,7 @@ describe('DepartmentsResolver', () => {
         MongooseModule.forFeature([
           { name: Department.name, schema: DepartmentSchema },
         ]),
+        UsersModule,
       ],
       providers: [DepartmentsResolver, DepartmentsService],
     }).compile();
@@ -54,10 +56,13 @@ describe('DepartmentsResolver', () => {
       const [department] = departments;
       department.departmentDescription = 'the description has been changed';
 
-      const response = await resolver.updateDepartment(department);
+      const response = await resolver.updateDepartment({
+        ...department,
+        id: department.id,
+      } as any);
       expect(response).toHaveProperty(
         'departmentDescription',
-        'the description has been changed',
+        department.departmentDescription,
       );
     });
   });

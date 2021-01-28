@@ -88,11 +88,9 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
-      this.logger.error(`hello there${updateUserInput}`);
-      return await this.usersService.update(
-        updateUserInput.id,
-        updateUserInput,
-      );
+      await this.usersService.update(updateUserInput.id, updateUserInput);
+
+      return updateUserInput;
     } catch (error) {
       this.logger.error(error);
     }

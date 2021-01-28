@@ -114,6 +114,7 @@ describe('UsersResolver', () => {
       );
       const result = await resolver.updateUser({
         ...student,
+        id: student.id,
         name: 'abdi',
       } as UpdateUserInput);
 
