@@ -1,22 +1,60 @@
-import { getModelToken } from '@nestjs/mongoose';
+import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Subject } from './schemas/subject.schema';
+import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
+import { CreateSubjectInput } from './dto/create-subject.input';
+import { Subject, SubjectSchema } from './schemas/subject.schema';
 import { SubjectsResolver } from './subjects.resolver';
 import { SubjectsService } from './subjects.service';
 
 describe('SubjectsResolver', () => {
   let resolver: SubjectsResolver;
-
-  beforeEach(async () => {
+  const subject = {
+    subjectName: 'Computer Science',
+  } as CreateSubjectInput;
+  afterAll(() => {
+    closeInMongodConnection();
+  });
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SubjectsResolver,
-        SubjectsService,
-        { provide: getModelToken(Subject.name), useValue: Subject },
+      imports: [
+        rootMongooseTestModule(),
+        MongooseModule.forFeature([
+          { name: Subject.name, schema: SubjectSchema },
+        ]),
       ],
+      providers: [SubjectsResolver, SubjectsService],
     }).compile();
 
     resolver = module.get<SubjectsResolver>(SubjectsResolver);
+  });
+
+  describe('create Subject', () => {
+    it('should return a Subject', async () => {
+      const result = await resolver.createSubject(subject);
+      expect(result).toBeTruthy();
+    });
+    it('should throw error when Subjectname already exists', async () => {
+      try {
+        await resolver.createSubject(subject);
+      } catch (error) {
+        expect(error.message).toBe(`Error: ${subject}`);
+      }
+    });
+  });
+
+  describe('update Subject', () => {
+    it('should return updated Subject', async () => {
+      const subjects = await resolver.findAll();
+
+      const [subject] = subjects;
+      subject.subjectName = 'the name has been changed';
+
+      const response = await resolver.updateSubject({
+        ...subject,
+        id: subject.id,
+      } as any);
+      expect(response).toHaveProperty('subjectName', subject.subjectName);
+    });
   });
 
   it('should be defined', () => {

@@ -6,7 +6,7 @@ import { UpdateSubjectInput } from './dto/update-subject.input';
 import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
 import { ModeratorGuard } from '../auth/guards/graph-moderator.auth.guard';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { invalid, subjectNameError } from 'src/util/exceptions';
+import { invalid, subjectNameError } from '../util/exceptions';
 
 @Resolver(() => Subject)
 export class SubjectsResolver {
@@ -55,14 +55,15 @@ export class SubjectsResolver {
 
   @Mutation(() => Subject)
   @UseGuards(GqlAuthGuard, ModeratorGuard)
-  updateSubject(
+  async updateSubject(
     @Args('updateSubjectInput') updateSubjectInput: UpdateSubjectInput,
   ) {
     try {
-      return this.subjectsService.update(
+      await this.subjectsService.update(
         updateSubjectInput.id,
         updateSubjectInput,
       );
+      return updateSubjectInput;
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
