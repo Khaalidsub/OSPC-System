@@ -3,30 +3,54 @@ import { SubjectsService } from './subjects.service';
 import { Subject } from './entities/subject.entity';
 import { CreateSubjectInput } from './dto/create-subject.input';
 import { UpdateSubjectInput } from './dto/update-subject.input';
-import { UseGuards } from '@nestjs/common';
+import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
 import { ModeratorGuard } from '../auth/guards/graph-moderator.auth.guard';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
+import { invalid, subjectNameError } from 'src/util/exceptions';
 
 @Resolver(() => Subject)
 export class SubjectsResolver {
+  private readonly logger = new Logger(SubjectsResolver.name);
   constructor(private readonly subjectsService: SubjectsService) {}
 
   @Mutation(() => Subject)
   @UseGuards(GqlAuthGuard, ModeratorGuard)
-  createSubject(
+  async createSubject(
     @Args('createSubjectInput') createSubjectInput: CreateSubjectInput,
   ) {
-    return this.subjectsService.create(createSubjectInput);
+    try {
+      await this.validate(createSubjectInput);
+      return this.subjectsService.create(createSubjectInput);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async validate(createDepartmentInput: CreateSubjectInput) {
+    const result = await this.subjectsService.findOne({
+      subjectName: createDepartmentInput.subjectName,
+    });
+    if (result) {
+      throw new HttpException(subjectNameError, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Query(() => [Subject], { name: 'subjects' })
   findAll() {
-    return this.subjectsService.findAll();
+    try {
+      return this.subjectsService.findAll();
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Query(() => Subject, { name: 'subject' })
   findOne(@Args('id', { type: () => String }) id: string) {
-    return this.subjectsService.findOne(id);
+    try {
+      return this.subjectsService.findOne(id);
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Mutation(() => Subject)
@@ -34,15 +58,23 @@ export class SubjectsResolver {
   updateSubject(
     @Args('updateSubjectInput') updateSubjectInput: UpdateSubjectInput,
   ) {
-    return this.subjectsService.update(
-      updateSubjectInput.id,
-      updateSubjectInput,
-    );
+    try {
+      return this.subjectsService.update(
+        updateSubjectInput.id,
+        updateSubjectInput,
+      );
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Mutation(() => Subject)
   @UseGuards(GqlAuthGuard, ModeratorGuard)
   removeSubject(@Args('id', { type: () => String }) id: string) {
-    return this.subjectsService.remove(id);
+    try {
+      return this.subjectsService.remove(id);
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
   }
 }

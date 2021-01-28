@@ -21,7 +21,10 @@ export class SubjectsService {
     return this.subjectModel.find().exec();
   }
 
-  findOne(id: string) {
+  findOne(query) {
+    return this.subjectModel.findOne(query).exec();
+  }
+  findById(id: string) {
     return this.subjectModel.findById(id).exec();
   }
 
