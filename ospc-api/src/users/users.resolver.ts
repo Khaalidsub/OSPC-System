@@ -29,7 +29,7 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
     try {
-      await this.validate(createUserInput);
+      await this.validateUser(createUserInput);
 
       return this.authService.register(
         createUserInput,
@@ -42,7 +42,7 @@ export class UsersResolver {
     }
   }
 
-  async validate(user: CreateUserInput) {
+  async validateUser(user: CreateUserInput) {
     const findUser = await this.usersService.findOne({ email: user.email });
 
     if (findUser) {

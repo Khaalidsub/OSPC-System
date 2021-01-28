@@ -6,19 +6,27 @@ import { UpdateDepartmentInput } from './dto/update-department.input';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
-import { departmentNameError, invalid } from '../util/exceptions';
+import {
+  departmentNameError,
+  emailError,
+  invalid,
+  invalidEmailError,
+  invalidPasswordError,
+} from '../util/exceptions';
 import { UsersService } from '../users/users.service';
 import { UpdateUserInput } from '../users/dto/update-user.input';
-import { Status } from '../users/types';
+import { IUser, Role, Status } from '../users/types';
 import { User } from '../users/entities/user.entity';
 import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
+import { CreateUserInput } from 'src/users/dto/create-user.input';
+import { REG_EMAIL } from 'src/util/checkers';
 
 @Resolver(() => Department)
 export class DepartmentsResolver {
   private readonly logger = new Logger(DepartmentsResolver.name);
   constructor(
     private readonly departmentsService: DepartmentsService,
-    private readonly users: UsersService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Mutation(() => Department)
@@ -41,7 +49,7 @@ export class DepartmentsResolver {
     application: CreateDepartmentModeratorApplication,
   ) {
     try {
-      return this.users.update(user.id, {
+      return this.usersService.update(user.id, {
         moderatorStatus: Status.pending,
       });
     } catch (error) {
@@ -50,9 +58,43 @@ export class DepartmentsResolver {
   }
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard, AdminGuard)
+  async addModerator(
+    @CurrentUser() user: User,
+    @Args('createDepartmentModerator')
+    createUserInput: CreateUserInput,
+  ) {
+    try {
+      await this.validateUser(createUserInput);
+      return await this.usersService.create({
+        ...createUserInput,
+        moderatorStatus: Status.active,
+        role: Role.moderator,
+        accountStatus: Status.active,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async validateUser(user: CreateUserInput) {
+    const findUser = await this.usersService.findOne({ email: user.email });
+
+    if (findUser) {
+      throw new HttpException(emailError, HttpStatus.BAD_REQUEST);
+    }
+    if (!REG_EMAIL.test(user.email)) {
+      throw new HttpException(invalidEmailError, HttpStatus.BAD_REQUEST);
+    }
+    if (user.password.length < 6) {
+      throw new HttpException(invalidPasswordError, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Mutation(() => User)
+  @UseGuards(GqlAuthGuard, AdminGuard)
   async approveDepartmentModerator(@Args('id') id: string) {
     try {
-      return this.users.update(id, {
+      return this.usersService.update(id, {
         moderatorStatus: Status.active,
       });
     } catch (error) {
