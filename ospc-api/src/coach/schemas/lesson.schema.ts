@@ -1,5 +1,5 @@
-import { Subject } from 'src/subjects/entities/subject.entity';
-import { IUser } from 'src/users/types';
+import { Subject } from '../../subjects/entities/subject.entity';
+import { IUser } from '../../users/types';
 import { ILesson } from '../types';
 
 export class Lesson implements ILesson {

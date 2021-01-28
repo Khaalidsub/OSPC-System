@@ -1,12 +1,7 @@
-import { registerEnumType } from '@nestjs/graphql';
-
-import { Subject } from 'src/subjects/entities/subject.entity';
-import { IUser } from 'src/users/types';
-
-export type Specialization = {
-  title: string;
-  description: string;
-};
+import { Field, InterfaceType, registerEnumType } from '@nestjs/graphql';
+import { ISubject } from '../../subjects/types';
+import { User } from '../../users/entities/user.entity';
+import { IUser } from '../../users/types';
 
 export enum Days {
   monday = 'MON',
@@ -26,26 +21,50 @@ export type DaySchedule = {
 
 registerEnumType(Days, { name: 'Day' });
 
-export interface ISubjectDescription {
+@InterfaceType()
+export abstract class ISubjectDescription {
+  @Field(() => String)
   description: string;
+  @Field(() => String)
   title: string;
 }
-export interface ISubjectSpecialization {}
-export interface ISchedule {
+@InterfaceType()
+export abstract class ISubjectSpecialization {
+  @Field(() => ISubjectDescription)
+  specialization: ISubjectDescription[];
+  @Field(() => ISubject)
+  subject: ISubject;
+  @Field(() => User)
+  coach: IUser;
+}
+@InterfaceType()
+export abstract class ISchedule {
+  @Field(() => Days)
   day: Days;
+  @Field(() => Number)
   time_start: number;
+  @Field(() => Number)
   time_end: number;
 }
-
-export interface IWeeklySchedule {
+@InterfaceType()
+export abstract class IWeeklySchedule {
+  @Field(() => User)
   coach: IUser;
+  @Field(() => ISchedule)
   schedule: ISchedule[];
 }
-export interface ILesson {
-  subject: Subject;
+@InterfaceType()
+export abstract class ILesson {
+  @Field(() => ISubject)
+  subject: ISubject;
+  @Field(() => User)
   coach: IUser;
+  @Field(() => String)
   student: IUser;
+  @Field(() => String)
   date: Date;
+  @Field(() => Number)
   time_start: number;
+  @Field(() => Number)
   duration: number;
 }

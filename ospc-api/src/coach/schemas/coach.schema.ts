@@ -4,20 +4,15 @@ import { Document } from 'mongoose';
 import { Subject } from '../../subjects/schemas/subject.schema';
 
 import { User } from '../../users/schemas/user.schema';
-import { ISubjectDescription } from '../types';
+import { ISubjectDescription, ISubjectSpecialization } from '../types';
 
 export type SubjectSpecializationDocument = SubjectSpecialization & Document;
 
 @Schema()
-export class SubjectSpecialization {
-  @Prop(
-    raw([
-      {
-        title: { type: String },
-        description: { type: String },
-      },
-    ]),
-  )
+export class SubjectSpecialization implements ISubjectSpecialization {
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'SubjectDescription' }],
+  })
   specialization: SubjectDescription[];
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subject.name })
   subject: Subject;
