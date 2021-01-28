@@ -1,10 +1,12 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Subject } from '../../subjects/entities/subject.entity';
 import { User } from '../../users/entities/user.entity';
 import { ISubjectDescription, ISubjectSpecialization } from '../types';
 
 @ObjectType()
 export class SubjecSpecialization implements ISubjectSpecialization {
+  @Field(() => ID)
+  id: string;
   @Field(() => [SubjectDescription])
   specialization: SubjectDescription[];
   @Field(() => Subject)

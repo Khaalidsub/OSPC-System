@@ -1,10 +1,12 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Subject } from '../../subjects/entities/subject.entity';
 import { User } from '../../users/entities/user.entity';
 import { ILesson } from '../types';
 
 @ObjectType()
 export class Lesson implements ILesson {
+  @Field(() => ID)
+  id: string;
   @Field(() => User, { description: 'Example field (placeholder)' })
   student: User;
   @Field(() => Date)

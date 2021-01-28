@@ -1,14 +1,12 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CoachService } from './coach.service';
 
-import { CreateCoachInput } from './dto/create-coach.input';
-import { UpdateCoachInput } from './dto/update-coach.input';
-import { Status } from 'src/users/types';
-import { AdminGuard } from 'src/auth/guards/graph-admin.auth.guard';
-import { GqlAuthGuard } from 'src/auth/guards/graph-auth.guard';
+import { Status } from '../users/types';
+import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
+import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities/user.entity';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Resolver(() => User)
 export class CoachResolver {
@@ -19,7 +17,7 @@ export class CoachResolver {
 
   //apply as a coach
   @Mutation(() => Boolean)
-  applyCoach(@Args('createCoachInput') createcoachInput: CreateCoachInput) {
+  applyCoach(@Args('createCoachInput') createcoachInput: any) {
     return this.coachService.create(createcoachInput);
   }
   //approve coach
@@ -43,7 +41,7 @@ export class CoachResolver {
   }
 
   @Mutation(() => User)
-  updateCoach(@Args('updateCoachInput') updateCoachInput: UpdateCoachInput) {
+  updateCoach(@Args('updateCoachInput') updateCoachInput: any) {
     return this.coachService.update(updateCoachInput.id, updateCoachInput);
   }
 }

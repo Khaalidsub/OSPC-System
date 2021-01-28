@@ -20,6 +20,6 @@ export class WeeklySchedule implements IWeeklySchedule {
   id: string;
   @Field(() => User, { description: 'Example field (placeholder)' })
   coach: User;
-  @Field(() => Schedule, { description: 'Example field (placeholder)' })
+  @Field(() => [Schedule], { description: 'Example field (placeholder)' })
   schedule: Schedule[];
 }

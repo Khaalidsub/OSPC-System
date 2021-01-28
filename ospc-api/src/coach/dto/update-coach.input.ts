@@ -1,8 +1,10 @@
-import { CreateCoachInput } from './create-coach.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, Int, PartialType, ID } from '@nestjs/graphql';
+import { CreateSubjecSpecialization } from './create-coach.input';
 
 @InputType()
-export class UpdateCoachInput extends PartialType(CreateCoachInput) {
-  @Field(() => String)
+export class UpdateSubjectSpecialization extends PartialType(
+  CreateSubjecSpecialization,
+) {
+  @Field(() => ID)
   id: string;
 }
