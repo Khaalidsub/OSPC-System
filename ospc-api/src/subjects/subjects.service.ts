@@ -29,7 +29,7 @@ export class SubjectsService {
   }
 
   update(id: string, data: any) {
-    return this.subjectModel.findByIdAndUpdate(id, data).exec();
+    return this.subjectModel.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 
   remove(id: string) {

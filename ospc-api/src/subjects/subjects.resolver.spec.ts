@@ -1,5 +1,6 @@
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { subjectNameError } from '../util/exceptions';
 import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
 import { CreateSubjectInput } from './dto/create-subject.input';
 import { Subject, SubjectSchema } from './schemas/subject.schema';
@@ -37,7 +38,7 @@ describe('SubjectsResolver', () => {
       try {
         await resolver.createSubject(subject);
       } catch (error) {
-        expect(error.message).toBe(`Error: ${subject}`);
+        expect(error.message).toBe(`Error: ${subjectNameError}`);
       }
     });
   });

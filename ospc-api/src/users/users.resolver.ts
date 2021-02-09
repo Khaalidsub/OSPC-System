@@ -60,11 +60,9 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard, AdminGuard)
   async approveStudent(@Args('id') id: string) {
     try {
-      await this.usersService.update(id, {
+      const result = await this.usersService.update(id, {
         accountStatus: Status.active,
       });
-
-      const result = await this.usersService.findById(id);
 
       return result;
     } catch (error) {
@@ -88,9 +86,12 @@ export class UsersResolver {
   @UseGuards(GqlAuthGuard)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {
-      await this.usersService.update(updateUserInput.id, updateUserInput);
+      const result = await this.usersService.update(
+        updateUserInput.id,
+        updateUserInput,
+      );
 
-      return updateUserInput;
+      return result;
     } catch (error) {
       this.logger.error(error);
     }

@@ -28,7 +28,9 @@ export class DepartmentsService {
   }
 
   update(id: string, data: any) {
-    return this.departmentModel.findByIdAndUpdate(id, data).exec();
+    return this.departmentModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .exec();
   }
 
   remove(id: string) {

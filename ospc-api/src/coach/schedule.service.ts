@@ -34,7 +34,9 @@ export class ScheduleService {
   }
 
   update(id: string, data: any) {
-    return this.weeklyScheduleModel.findByIdAndUpdate(id, data).exec();
+    return this.weeklyScheduleModel
+      .findByIdAndUpdate(id, data, { new: true })
+      .exec();
   }
 
   remove(id: string) {

@@ -18,8 +18,8 @@ import { UpdateUserInput } from '../users/dto/update-user.input';
 import { IUser, Role, Status } from '../users/types';
 import { User } from '../users/entities/user.entity';
 import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
-import { CreateUserInput } from 'src/users/dto/create-user.input';
-import { REG_EMAIL } from 'src/util/checkers';
+import { CreateUserInput } from '../users/dto/create-user.input';
+import { REG_EMAIL } from '../util/checkers';
 
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -138,12 +138,12 @@ export class DepartmentsResolver {
     updateDepartmentInput: UpdateDepartmentInput,
   ) {
     try {
-      await this.departmentsService.update(
+      const result = await this.departmentsService.update(
         updateDepartmentInput.id,
         updateDepartmentInput,
       );
 
-      return updateDepartmentInput;
+      return result;
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }

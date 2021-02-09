@@ -65,10 +65,13 @@ export class CoachResolver {
     @Args('updateWeeklySchedule') updateWeeklySchedule: UpdateWeeklySchedule,
   ) {
     try {
-      await this.scheduleService.update(updateWeeklySchedule.id, {
-        ...updateWeeklySchedule,
-      });
-      return updateWeeklySchedule;
+      const result = await this.scheduleService.update(
+        updateWeeklySchedule.id,
+        {
+          ...updateWeeklySchedule,
+        },
+      );
+      return result;
     } catch (error) {
       throw new Error(error.message);
     }

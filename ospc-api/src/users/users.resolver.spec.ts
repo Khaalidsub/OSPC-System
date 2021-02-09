@@ -7,7 +7,7 @@ import { AuthService } from '../auth/auth.service';
 import { jwtConstants } from '../auth/constants';
 import { CreateUserInput } from './dto/create-user.input';
 import { User, UserDocument, UserSchema } from './schemas/user.schema';
-import { Role, Status } from './types';
+import { IUser, Role, Status } from './types';
 
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
@@ -112,13 +112,10 @@ describe('UsersResolver', () => {
       const student = students.find(
         (student) => student.accountStatus === Status.active,
       );
-      const result = await resolver.updateUser({
-        ...student,
-        id: student.id,
-        name: 'abdi',
-      } as UpdateUserInput);
+      student.name = 'abdi';
+      const result = await resolver.updateUser(student as any);
 
-      expect(result).toHaveProperty('name', 'abdi');
+      expect(result).toHaveProperty('name', student.name);
     });
   });
   // describe('get one user', () => {

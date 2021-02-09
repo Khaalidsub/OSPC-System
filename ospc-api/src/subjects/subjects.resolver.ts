@@ -59,11 +59,11 @@ export class SubjectsResolver {
     @Args('updateSubjectInput') updateSubjectInput: UpdateSubjectInput,
   ) {
     try {
-      await this.subjectsService.update(
+      const result = await this.subjectsService.update(
         updateSubjectInput.id,
         updateSubjectInput,
       );
-      return updateSubjectInput;
+      return result;
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
