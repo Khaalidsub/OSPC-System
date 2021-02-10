@@ -3,14 +3,9 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./Dockerfile.dev
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: 'khaalid-subaan/server-dev:latest'
-    container_name: selp-dev
-
+      dockerfile: ./Dockerfile
+    image: 'khaalid-subaan/ospc-api'
+    container_name: ospc-api
     ports:
       - '3000:3000'
     volumes:
@@ -25,7 +20,7 @@ services:
     container_name: mongodb
     restart: always
     volumes:
-      - /data/db:/mongodat
+      - /data/db:/data/db
     ports:
       - '27017:27017'
 
