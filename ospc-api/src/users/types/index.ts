@@ -1,4 +1,4 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { Field, ID, InterfaceType, registerEnumType } from '@nestjs/graphql';
 
 export enum Role {
   student = 'STUDENT',
@@ -12,17 +12,42 @@ export enum Status {
   inactive = 'INACTIVE',
 }
 
-export interface IUser {
+// export interface IUser {
+//   id?: string;
+//   name: string;
+//   password?: string;
+//   email: string;
+//   phoneNumber: string;
+//   universityId: string;
+//   university: string;
+//   role?: Role;
+//   accountStatus?: Status;
+//   coachingStatus?: Status;
+//   moderatorStatus?: Status;
+// }
+@InterfaceType()
+export abstract class IUser {
+  @Field(() => ID, { nullable: true })
   id?: string;
+  @Field(() => String)
   name: string;
+  @Field(() => String, { nullable: true })
   password?: string;
+  @Field(() => String)
   email: string;
+  @Field(() => String)
   phoneNumber: string;
+  @Field(() => String)
   universityId: string;
+  @Field(() => String)
   university: string;
+  @Field(() => Role, { nullable: true, defaultValue: Role.student })
   role?: Role;
+  @Field(() => Status, { nullable: true, defaultValue: Status.pending })
   accountStatus?: Status;
+  @Field(() => Status, { nullable: true, defaultValue: Status.inactive })
   coachingStatus?: Status;
+  @Field(() => Status)
   moderatorStatus?: Status;
 }
 

@@ -34,7 +34,7 @@ export abstract class ISubjectSpecialization {
   specialization: ISubjectDescription[] | string[];
   @Field(() => ISubject)
   subject: ISubject;
-  @Field(() => User)
+  @Field(() => IUser)
   coach?: IUser | string;
 }
 @InterfaceType()
@@ -57,7 +57,7 @@ export abstract class IWeeklySchedule {
 export abstract class ILesson {
   @Field(() => ISubject)
   subject: ISubject | string;
-  @Field(() => User)
+  @Field(() => IUser)
   coach: IUser | string;
   @Field(() => String)
   student?: IUser | string;

@@ -1,5 +1,4 @@
 import { Field, InterfaceType } from '@nestjs/graphql';
-import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
 import { Department } from '../entities/department.entity';
 
@@ -9,7 +8,7 @@ export abstract class IDepartment {
   departmentName: string;
   @Field(() => String)
   departmentDescription: string;
-  @Field(() => User, {
+  @Field(() => IUser, {
     description: 'Example field (placeholder)',
     nullable: true,
   })
@@ -24,6 +23,6 @@ export abstract class IDepartmentModeratorApplication {
   department: IDepartment | string;
   @Field(() => [String])
   resumeLinks: string[];
-  @Field(() => User || String, {})
+  @Field(() => IUser || String, {})
   user: IUser | string;
 }

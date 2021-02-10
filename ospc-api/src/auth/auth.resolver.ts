@@ -1,11 +1,11 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreateUserInput } from '../users/dto/create-user.input';
+import { IUser } from 'src/users/types';
 import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser, GqlAuthGuard } from './guards/graph-auth.guard';
 
-@Resolver(() => User)
+@Resolver(() => IUser)
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
@@ -21,7 +21,7 @@ export class AuthResolver {
     throw new UnauthorizedException(result);
   }
 
-  @Query(() => User)
+  @Query(() => IUser)
   @UseGuards(GqlAuthGuard)
   async currentUser(@CurrentUser() user: User) {
     return user;
