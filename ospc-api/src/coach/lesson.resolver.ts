@@ -12,11 +12,7 @@ import { CreateLessonInput } from './dto/create-lesson.input';
 
 @Resolver(() => Lesson)
 export class LessonResolver {
-  private readonly logger = new Logger(LessonResolver.name);
-  constructor(
-    private readonly lessonsService: LessonsService,
-    private readonly usersService: UsersService,
-  ) {}
+  constructor(private readonly lessonsService: LessonsService) {}
 
   //book a lesson
   @Mutation(() => Lesson)

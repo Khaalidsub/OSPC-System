@@ -12,6 +12,7 @@ import {
   SubjectSpecialization,
   SubjectSpecializationSchema,
 } from './schemas/coach.schema';
+import { LessonsService } from './lesson.service';
 
 @Module({
   imports: [
@@ -20,11 +21,12 @@ import {
       { name: WeeklySchedule.name, schema: WeeklyScheduleSchema },
       { name: SubjectSpecialization.name, schema: SubjectSpecializationSchema },
     ]),
-    forwardRef(() => UsersModule),
+    UsersModule,
   ],
   providers: [
     CoachResolver,
     LessonResolver,
+    LessonsService,
     ScheduleService,
     SubjectSpecializationService,
   ],

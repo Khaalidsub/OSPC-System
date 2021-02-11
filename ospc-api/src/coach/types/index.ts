@@ -31,7 +31,7 @@ export abstract class ISubjectDescription {
 @InterfaceType()
 export abstract class ISubjectSpecialization {
   @Field(() => ISubjectDescription)
-  specialization: ISubjectDescription[] | string[];
+  specialization: ISubjectDescription[];
   @Field(() => ISubject)
   subject: ISubject;
   @Field(() => IUser)

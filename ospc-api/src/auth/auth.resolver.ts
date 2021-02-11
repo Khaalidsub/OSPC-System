@@ -1,6 +1,6 @@
 import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { IUser } from 'src/users/types';
+import { IUser } from '../users/types';
 import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser, GqlAuthGuard } from './guards/graph-auth.guard';

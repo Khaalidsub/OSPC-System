@@ -1,4 +1,10 @@
-import { Field, ID, InterfaceType, registerEnumType } from '@nestjs/graphql';
+import {
+  Field,
+  ID,
+  InputType,
+  InterfaceType,
+  registerEnumType,
+} from '@nestjs/graphql';
 
 export enum Role {
   student = 'STUDENT',
@@ -26,6 +32,7 @@ export enum Status {
 //   moderatorStatus?: Status;
 // }
 @InterfaceType()
+@InputType('userType')
 export abstract class IUser {
   @Field(() => ID, { nullable: true })
   id?: string;

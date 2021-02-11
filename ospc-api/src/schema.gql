@@ -2,36 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  """Example field (placeholder)"""
-  id: ID!
-
-  """Example field (placeholder)"""
+interface IUser {
+  id: ID
   name: String!
-
-  """Example field (placeholder)"""
-  password: String!
-
-  """Example field (placeholder)"""
+  password: String
   email: String!
-
-  """Example field (placeholder)"""
   phoneNumber: String!
-
-  """Example field (placeholder)"""
   universityId: String!
-
-  """Example field (placeholder)"""
   university: String!
-
-  """Example field (placeholder)"""
-  role: Role!
-
-  """Example field (placeholder)"""
-  accountStatus: CoachingStatus!
-
-  """Example field (placeholder)"""
-  CoachingStatus: CoachingStatus
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
+  moderatorStatus: CoachingStatus!
 }
 
 enum Role {
@@ -48,12 +30,48 @@ enum CoachingStatus {
   inactive
 }
 
+interface ISubjectDescription {
+  description: String!
+  title: String!
+}
+
+interface ISchedule {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
+enum Day {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+  type
+}
+
+type User implements IUser {
+  id: ID
+  name: String!
+  password: String
+  email: String!
+  phoneNumber: String!
+  universityId: String!
+  university: String!
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
+  moderatorStatus: CoachingStatus!
+}
+
 type Department implements IDepartment {
   departmentName: String!
   departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: User
+  departmentModerator: IUser
 
   """Example field (placeholder)"""
   id: ID!
@@ -64,7 +82,7 @@ interface IDepartment {
   departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: User
+  departmentModerator: IUser
 }
 
 type Subject {
@@ -78,42 +96,31 @@ type Subject {
   description: String!
 }
 
-input userType {
-  """Example field (placeholder)"""
+type Schedule {
   id: ID!
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
 
-  """Example field (placeholder)"""
+input userType {
+  id: ID
   name: String!
-
-  """Example field (placeholder)"""
-  password: String!
-
-  """Example field (placeholder)"""
+  password: String
   email: String!
-
-  """Example field (placeholder)"""
   phoneNumber: String!
-
-  """Example field (placeholder)"""
   universityId: String!
-
-  """Example field (placeholder)"""
   university: String!
-
-  """Example field (placeholder)"""
-  role: Role!
-
-  """Example field (placeholder)"""
-  accountStatus: CoachingStatus!
-
-  """Example field (placeholder)"""
-  CoachingStatus: CoachingStatus = inactive
+  role: Role = student
+  accountStatus: CoachingStatus = pending
+  coachingStatus: CoachingStatus = inactive
+  moderatorStatus: CoachingStatus!
 }
 
 type Query {
-  users: [User!]!
-  user(id: String!): User!
-  currentUser: User!
+  users: [IUser!]!
+  user(id: String!): IUser!
+  currentUser: IUser!
   departments: [Department!]!
   department(id: String!): Department!
   subjects: [Subject!]!
@@ -121,12 +128,13 @@ type Query {
 }
 
 type Mutation {
-  registerStudent(createUserInput: CreateUserInput!): User!
-  approveStudent(id: String!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  registerStudent(createUserInput: CreateUserInput!): IUser!
+  approveStudent(id: String!): IUser!
+  updateUser(updateUserInput: UpdateUserInput!): IUser!
   loginUser(password: String!, email: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
+  addModerator(createDepartmentModerator: CreateUserInput!): User!
   approveDepartmentModerator(id: String!): User!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!

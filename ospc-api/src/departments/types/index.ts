@@ -1,4 +1,4 @@
-import { Field, InterfaceType } from '@nestjs/graphql';
+import { Field, InputType, InterfaceType } from '@nestjs/graphql';
 import { IUser } from '../../users/types';
 import { Department } from '../entities/department.entity';
 

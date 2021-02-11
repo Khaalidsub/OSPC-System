@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { IUser } from '../../users/types';
 import { User } from '../../users/entities/user.entity';
 import { IDepartment } from '../types';
 
@@ -8,11 +9,11 @@ export class CreateDepartmentInput implements IDepartment {
   departmentName: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   departmentDescription: string;
-  @Field(() => User, {
+  @Field(() => IUser, {
     description: 'Example field (placeholder)',
     nullable: true,
   })
-  departmentModerator?: User;
+  departmentModerator?: IUser;
   // @Field(() => String, { description: 'Example field (placeholder)' })
   // departmentModerator: string;
 }
