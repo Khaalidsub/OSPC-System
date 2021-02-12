@@ -3,7 +3,7 @@ import { Subject } from '../../subjects/entities/subject.entity';
 import { ILesson } from '../types';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { User } from 'src/users/schemas/user.schema';
+import { User } from '../../users/schemas/user.schema';
 export type LessonDocument = Lesson & Document;
 @Schema()
 export class Lesson implements ILesson {

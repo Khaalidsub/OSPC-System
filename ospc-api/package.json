@@ -31,6 +31,7 @@
     "apollo-server-express": "^2.19.0",
     "graphql": "^15.4.0",
     "graphql-tools": "^7.0.1",
+    "mongo-seeding": "^3.5.0",
     "mongoose": "^5.10.15",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
