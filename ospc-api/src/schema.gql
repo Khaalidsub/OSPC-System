@@ -30,6 +30,19 @@ enum CoachingStatus {
   inactive
 }
 
+interface IDepartment {
+  departmentName: String!
+  departmentDescription: String!
+
+  """Example field (placeholder)"""
+  departmentModerator: IUser
+}
+
+interface ISubject {
+  subjectName: String!
+  description: String!
+}
+
 interface ISubjectDescription {
   description: String!
   title: String!
@@ -37,8 +50,8 @@ interface ISubjectDescription {
 
 interface ISchedule {
   day: Day!
-  time_start: Float!
-  time_end: Float!
+  time_start: Int!
+  time_end: Int!
 }
 
 enum Day {
@@ -50,6 +63,22 @@ enum Day {
   saturday
   sunday
   type
+}
+
+interface IAnswer {
+  id: ID
+  input: String!
+  votes: Int!
+  user: IUser
+}
+
+interface IQuestion {
+  id: ID
+  answers: [IAnswer!]!
+  correctAnswer: IAnswer!
+  question: String!
+  subject: ISubject!
+  user: IUser
 }
 
 type User implements IUser {
@@ -77,14 +106,6 @@ type Department implements IDepartment {
   id: ID!
 }
 
-interface IDepartment {
-  departmentName: String!
-  departmentDescription: String!
-
-  """Example field (placeholder)"""
-  departmentModerator: IUser
-}
-
 type Subject {
   """Example field (placeholder)"""
   id: ID!
@@ -96,11 +117,40 @@ type Subject {
   description: String!
 }
 
-type Schedule {
+type WeeklySchedule {
   id: ID!
-  day: Day!
-  time_start: Float!
-  time_end: Float!
+
+  """Example field (placeholder)"""
+  coach: IUser!
+
+  """Example field (placeholder)"""
+  schedule: [ISchedule!]!
+}
+
+type Lesson {
+  id: ID!
+
+  """Example field (placeholder)"""
+  student: User!
+  date: DateTime!
+  time_start: Int!
+  subject: ISubject!
+  coach: User!
+  duration: Int!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Question implements IQuestion {
+  id: ID
+  answers: [IAnswer!]!
+  correctAnswer: IAnswer!
+  question: String!
+  subject: ISubject!
+  user: IUser
 }
 
 input userType {
@@ -117,6 +167,17 @@ input userType {
   moderatorStatus: CoachingStatus!
 }
 
+input ScheduleType {
+  subjectName: String!
+  description: String!
+}
+
+input ScheduleTypeInput {
+  day: Day!
+  time_start: Int!
+  time_end: Int!
+}
+
 type Query {
   users: [IUser!]!
   user(id: String!): IUser!
@@ -125,6 +186,8 @@ type Query {
   department(id: String!): Department!
   subjects: [Subject!]!
   subject(id: String!): Subject!
+  getLessons: [Lesson!]!
+  forum(id: String!): IQuestion!
 }
 
 type Mutation {
@@ -136,10 +199,18 @@ type Mutation {
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
   addModerator(createDepartmentModerator: CreateUserInput!): User!
   approveDepartmentModerator(id: String!): User!
+  assignDepartMentModerator(userId: String!, id: String!): IDepartment!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
   removeSubject(id: String!): Subject!
+  applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
+  approveCoach(id: String!): User!
+  updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
+  bookLesson(createLessonInput: CreateLessonInput!): Lesson!
+  createQuestion(createQuestionInput: CreateQuestionInput!): IQuestion!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): IQuestion!
+  removeQuestion(id: String!): IQuestion!
 }
 
 input CreateUserInput {
@@ -252,5 +323,50 @@ input UpdateSubjectInput {
 
   """Example field (placeholder)"""
   description: String
+  id: ID!
+}
+
+input CreateWeeklyScheduleInput {
+  coach: String!
+  schedule: [ScheduleTypeInput!]!
+}
+
+input CreateSubjecSpecialization {
+  specialization: [CreateSubjectDescription!]!
+  subject: ScheduleType!
+  coach: String!
+}
+
+input CreateSubjectDescription {
+  title: String!
+  description: String!
+}
+
+input UpdateWeeklySchedule {
+  id: ID!
+
+  """Example field (placeholder)"""
+  coach: userType
+
+  """Example field (placeholder)"""
+  schedule: [ScheduleTypeInput!]
+}
+
+input CreateLessonInput {
+  subject: String!
+  coach: String!
+  student: String!
+  date: DateTime!
+  time_start: Int!
+  duration: Int!
+}
+
+input CreateQuestionInput {
+  """"""
+  question: String!
+  subject: ScheduleType!
+}
+
+input UpdateQuestionInput {
   id: ID!
 }

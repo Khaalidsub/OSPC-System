@@ -1,4 +1,10 @@
-import { Field, InterfaceType, registerEnumType } from '@nestjs/graphql';
+import {
+  Field,
+  InputType,
+  Int,
+  InterfaceType,
+  registerEnumType,
+} from '@nestjs/graphql';
 import { ISubject } from '../../subjects/types';
 import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
@@ -38,17 +44,18 @@ export abstract class ISubjectSpecialization {
   coach?: IUser | string;
 }
 @InterfaceType()
+@InputType('ScheduleTypeInput')
 export abstract class ISchedule {
   @Field(() => Days)
   day: Days;
-  @Field(() => Number)
+  @Field(() => Int)
   time_start: number;
-  @Field(() => Number)
+  @Field(() => Int)
   time_end: number;
 }
 @InterfaceType()
 export abstract class IWeeklySchedule {
-  @Field(() => User)
+  @Field(() => IUser, { nullable: true })
   coach?: IUser | string;
   @Field(() => ISchedule)
   schedule: ISchedule[];

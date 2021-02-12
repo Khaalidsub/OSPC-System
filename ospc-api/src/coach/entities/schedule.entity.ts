@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { IUser } from '../../users/types';
 import { User } from '../../users/entities/user.entity';
 import { Days, ISchedule, IWeeklySchedule } from '../types';
 
@@ -18,8 +19,8 @@ export class Schedule implements ISchedule {
 export class WeeklySchedule implements IWeeklySchedule {
   @Field(() => ID)
   id: string;
-  @Field(() => User, { description: 'Example field (placeholder)' })
-  coach: User;
-  @Field(() => [Schedule], { description: 'Example field (placeholder)' })
-  schedule: Schedule[];
+  @Field(() => IUser, { description: 'Example field (placeholder)' })
+  coach: IUser;
+  @Field(() => [ISchedule], { description: 'Example field (placeholder)' })
+  schedule: ISchedule[];
 }
