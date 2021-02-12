@@ -21,7 +21,7 @@ export class CoachResolver {
     private readonly usersService: UsersService,
     private readonly specializationService: SubjectSpecializationService,
   ) {}
-  //apply as a coach
+
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
   async applyCoach(
@@ -32,24 +32,26 @@ export class CoachResolver {
     createWeeklySchedule: CreateWeeklyScheduleInput,
   ) {
     try {
+      await this.usersService.update(user.id, {
+        coachingStatus: Status.pending,
+      });
+
       await this.specializationService.create({
         ...createSubjectSpecialization,
         coach: user.id,
       });
+
       await this.scheduleService.create({
         ...createWeeklySchedule,
         coach: user.id,
       });
-      user.coachingStatus = Status.pending;
-      await this.usersService.update(user.id, {
-        coachingStatus: Status.pending,
-      });
+
       return user;
     } catch (error) {
       throw new Error(error.message);
     }
   }
-  //approve coach
+
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard, AdminGuard)
   approveCoach(@Args('id', { type: () => String }) id: string) {
@@ -59,7 +61,7 @@ export class CoachResolver {
       throw new Error(error.message);
     }
   }
-  //update weekly
+
   @Mutation(() => WeeklySchedule)
   async updateWeeklySchedule(
     @Args('updateWeeklySchedule') updateWeeklySchedule: UpdateWeeklySchedule,

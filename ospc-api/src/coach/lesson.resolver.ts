@@ -1,11 +1,7 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { LessonsService } from './lesson.service';
-
-import { Status } from '../users/types';
-import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { Logger, UseGuards } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UseGuards } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { Lesson } from './entities/lesson.entity';
 import { CreateLessonInput } from './dto/create-lesson.input';
@@ -14,7 +10,6 @@ import { CreateLessonInput } from './dto/create-lesson.input';
 export class LessonResolver {
   constructor(private readonly lessonsService: LessonsService) {}
 
-  //book a lesson
   @Mutation(() => Lesson)
   @UseGuards(GqlAuthGuard)
   bookLesson(
