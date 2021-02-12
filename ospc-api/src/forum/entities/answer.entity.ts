@@ -4,7 +4,7 @@ import { IAnswer } from '../types';
 
 @ObjectType({ implements: IAnswer })
 export class Answer implements IAnswer {
-  id?: string;
+  id: string;
   input: string;
   votes: number;
   user: IUser;

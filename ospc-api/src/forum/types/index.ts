@@ -3,6 +3,7 @@ import { ISubject } from '../../subjects/types';
 import { IUser } from '../../users/types';
 
 @InterfaceType()
+@InputType('IAnswerType')
 export abstract class IAnswer {
   @Field(() => ID, { nullable: true })
   id?: string;

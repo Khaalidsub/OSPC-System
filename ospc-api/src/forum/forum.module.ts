@@ -4,6 +4,7 @@ import { ForumResolver } from './forum.resolver';
 import { Answer, AnswerSchema } from './schemas/answer.schema';
 import { Question, QuestionSchema } from './schemas/question.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AnswerService } from './answer.service';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       { name: Question.name, schema: QuestionSchema },
     ]),
   ],
-  providers: [ForumResolver, QuestionService],
+  providers: [ForumResolver, QuestionService, AnswerService],
 })
 export class ForumModule {}

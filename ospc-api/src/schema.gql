@@ -153,6 +153,13 @@ type Question implements IQuestion {
   user: IUser
 }
 
+type Answer implements IAnswer {
+  id: ID
+  input: String!
+  votes: Int!
+  user: IUser
+}
+
 input userType {
   id: ID
   name: String!
@@ -178,6 +185,13 @@ input ScheduleTypeInput {
   time_end: Int!
 }
 
+input IAnswerType {
+  id: ID
+  input: String!
+  votes: Int!
+  user: userType
+}
+
 type Query {
   users: [IUser!]!
   user(id: String!): IUser!
@@ -187,7 +201,8 @@ type Query {
   subjects: [Subject!]!
   subject(id: String!): Subject!
   getLessons: [Lesson!]!
-  forum(id: String!): IQuestion!
+  questions: [IQuestion!]!
+  question(id: String!): IQuestion!
 }
 
 type Mutation {
@@ -208,8 +223,12 @@ type Mutation {
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
-  createQuestion(createQuestionInput: CreateQuestionInput!): IQuestion!
+  makeQuestion(createQuestionInput: CreateQuestionInput!): IQuestion!
+  answerQuestion(questionId: String!, updateAnswerInput: CreateAnswerInput!): IQuestion!
+  voteAnswer(answer: String!, vote: Boolean!): IQuestion!
+  approveAnswer(question: String!, answer: String!): IQuestion!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): IQuestion!
+  updateAnswer(updateAnswerInput: UpdateAnswerInput!): IQuestion!
   removeQuestion(id: String!): IQuestion!
 }
 
@@ -367,6 +386,23 @@ input CreateQuestionInput {
   subject: ScheduleType!
 }
 
+input CreateAnswerInput {
+  input: String!
+  votes: Int = 0
+}
+
 input UpdateQuestionInput {
+  answers: [IAnswerType!]!
+  correctAnswer: IAnswerType!
+  question: String!
+  subject: ScheduleType!
+  user: userType!
+  id: ID!
+}
+
+input UpdateAnswerInput {
+  input: String!
+  votes: Int!
+  user: userType!
   id: ID!
 }

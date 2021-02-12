@@ -75,12 +75,12 @@ export class ForumResolver {
     }
   }
 
-  @Query(() => [IQuestion], { name: 'forum' })
+  @Query(() => [IQuestion], { name: 'questions' })
   findAll() {
     return this.questionService.findAll();
   }
 
-  @Query(() => IQuestion, { name: 'forum' })
+  @Query(() => IQuestion, { name: 'question' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.questionService.findOne(id);
   }

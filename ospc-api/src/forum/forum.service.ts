@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateQuestionInput } from './dto/create-forum.input';
-import { UpdateQuestionInput } from './dto/update-forum.input';
 import { Question, QuestionDocument } from './schemas/question.schema';
 
 @Injectable()
