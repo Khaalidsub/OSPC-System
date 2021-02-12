@@ -22,7 +22,7 @@ export class QuestionService {
     return this.questionModel.find(query).exec();
   }
 
-  update(id: string, updateQuestionInput: UpdateQuestionInput) {
+  update(id: string, updateQuestionInput: any) {
     return this.questionModel
       .findByIdAndUpdate(id, updateQuestionInput, {
         new: true,
@@ -32,6 +32,7 @@ export class QuestionService {
   }
 
   remove(id: string) {
+    this.questionModel.findByIdAndUpdate(id, {});
     return this.questionModel.findByIdAndRemove(id).exec();
   }
 }
