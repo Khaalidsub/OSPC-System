@@ -14,12 +14,12 @@ import {
   invalidPasswordError,
 } from '../util/exceptions';
 import { UsersService } from '../users/users.service';
-import { UpdateUserInput } from '../users/dto/update-user.input';
-import { IUser, Role, Status } from '../users/types';
 import { User } from '../users/entities/user.entity';
 import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
 import { CreateUserInput } from '../users/dto/create-user.input';
 import { REG_EMAIL } from '../util/checkers';
+import { IDepartment } from './types';
+import { Role, Status } from '../users/types';
 
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -128,6 +128,31 @@ export class DepartmentsResolver {
       return this.departmentsService.findOne(id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
+  }
+  @Mutation(() => IDepartment)
+  @UseGuards(GqlAuthGuard, AdminGuard)
+  async assignDepartMentModerator(
+    @Args('id', { type: () => String }) departmentId: string,
+    @Args('userId', { type: () => String }) userId: string,
+  ) {
+    try {
+      const updatedUser = await this.usersService.update(userId, {
+        moderatorStatus: Status.active,
+        accountStatus: Status.active,
+        role: Role.moderator,
+      });
+
+      const updatedDepartment = await this.departmentsService.update(
+        departmentId,
+        {
+          departmentModerator: updatedUser.id,
+        },
+      );
+
+      return updatedDepartment;
+    } catch (error) {
+      this.logger.error(error.message);
     }
   }
 
