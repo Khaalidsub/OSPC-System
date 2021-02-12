@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist/jwt.service';
 import { CreateUserInput } from '../users/dto/create-user.input';
 import { User } from '../users/entities/user.entity';
@@ -21,7 +21,7 @@ export class AuthService {
       result.id = user._id;
       return result;
     }
-    return 'Wrong Email/Password !';
+    throw new HttpException('Wrong Email/Password !', HttpStatus.UNAUTHORIZED);
   }
   async login(payload: any) {
     return this.jwtService.sign(payload);
