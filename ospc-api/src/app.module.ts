@@ -9,13 +9,21 @@ import { DepartmentsModule } from './departments/departments.module';
 import { SubjectsModule } from './subjects/subjects.module';
 
 import { CoachModule } from './coach/coach.module';
+import { ForumModule } from './forum/forum.module';
 
 @Module({
   imports: [
     GraphQLModule.forRoot({
       context: ({ req }) => ({ req }),
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      include: [UsersModule, AuthModule, DepartmentsModule, SubjectsModule],
+      include: [
+        UsersModule,
+        AuthModule,
+        DepartmentsModule,
+        SubjectsModule,
+        ForumModule,
+        CoachModule,
+      ],
     }),
     MongooseModule.forRoot('mongodb://localhost/ospc', {
       useFindAndModify: false,
@@ -26,6 +34,8 @@ import { CoachModule } from './coach/coach.module';
     SubjectsModule,
 
     CoachModule,
+
+    ForumModule,
   ],
 })
 export class AppModule {}

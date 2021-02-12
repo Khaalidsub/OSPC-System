@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { Subject } from 'src/subjects/entities/subject.entity';
 import { User } from 'src/users/entities/user.entity';
 import { ILesson } from '../types';
@@ -13,8 +13,8 @@ export class CreateLessonInput implements ILesson {
   student?: string;
   @Field(() => Date)
   date: Date;
-  @Field(() => Number)
+  @Field(() => Int)
   time_start: number;
-  @Field(() => Number)
+  @Field(() => Int)
   duration: number;
 }

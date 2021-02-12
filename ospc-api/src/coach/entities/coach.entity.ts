@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Subject } from '../../subjects/entities/subject.entity';
+import { ISubject } from '../../subjects/types';
 import { User } from '../../users/entities/user.entity';
 import { ISubjectDescription, ISubjectSpecialization } from '../types';
 
@@ -9,8 +9,8 @@ export class SubjecSpecialization implements ISubjectSpecialization {
   id: string;
   @Field(() => [SubjectDescription])
   specialization: SubjectDescription[];
-  @Field(() => Subject)
-  subject: Subject;
+  @Field(() => ISubject)
+  subject: ISubject;
   @Field(() => User)
   coach: User;
 }
