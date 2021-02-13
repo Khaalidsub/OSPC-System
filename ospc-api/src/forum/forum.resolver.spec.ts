@@ -2,13 +2,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { rootMongooseTestModule } from '../util/mongo';
 import { AnswerService } from './answer.service';
-import { ForumResolver } from './forum.resolver';
+import { QuestionsResolver } from './question.resolver';
 import { QuestionService } from './forum.service';
 import { Answer, AnswerSchema } from './schemas/answer.schema';
 import { Question, QuestionSchema } from './schemas/question.schema';
+import { AnswersResolver } from './answer.resolver';
 
 describe('ForumResolver', () => {
-  let resolver: ForumResolver;
+  let resolver: QuestionsResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,10 +20,15 @@ describe('ForumResolver', () => {
         ]),
         rootMongooseTestModule(),
       ],
-      providers: [ForumResolver, QuestionService, AnswerService],
+      providers: [
+        QuestionsResolver,
+        QuestionService,
+        AnswerService,
+        AnswersResolver,
+      ],
     }).compile();
 
-    resolver = module.get<ForumResolver>(ForumResolver);
+    resolver = module.get<QuestionsResolver>(QuestionsResolver);
   });
 
   it('should be defined', () => {

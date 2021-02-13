@@ -211,6 +211,8 @@ type Query {
   subjects: [Subject!]!
   subject(id: String!): Subject!
   getLessons: [Lesson!]!
+  answers: [Answer!]!
+  answer(id: String!): Answer!
   questions: [Question!]!
   question(id: String!): Question!
 }
@@ -233,12 +235,12 @@ type Mutation {
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
-  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
   answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
   voteAnswer(answer: String!, vote: Boolean!): Answer!
   approveAnswer(id: String!): Answer!
-  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
   updateAnswer(updateAnswerInput: UpdateAnswerInput!): Answer!
+  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
   removeQuestion(id: String!): Question!
 }
 
@@ -398,23 +400,10 @@ input CreateLessonInput {
   duration: Int = 1
 }
 
-input CreateQuestionInput {
-  """"""
-  question: String!
-  subject: String!
-}
-
 input CreateAnswerInput {
   input: String!
   votes: Int = 0
   question: String!
-}
-
-input UpdateQuestionInput {
-  id: String
-  question: String
-  subject: SubjectType
-  user: userType
 }
 
 input UpdateAnswerInput {
@@ -423,5 +412,18 @@ input UpdateAnswerInput {
   input: String
   votes: Int
   isApproved: Boolean
+  user: userType
+}
+
+input CreateQuestionInput {
+  """"""
+  question: String!
+  subject: String!
+}
+
+input UpdateQuestionInput {
+  id: String
+  question: String
+  subject: SubjectType
   user: userType
 }
