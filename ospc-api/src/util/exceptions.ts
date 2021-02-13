@@ -10,3 +10,7 @@ export const studentPendingError =
   'Your Student Registration is currently Being Reviewed!';
 export const coachActiveError =
   'Your Coach Application Has Already Been Accepted!';
+
+export const lessonUnavailableError = 'Lesson has been booked before';
+export const invalidSelectedTimeError =
+  'The Time You Have Selected Is Not Valid';
