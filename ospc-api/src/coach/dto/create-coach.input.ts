@@ -3,17 +3,15 @@ import { ISubjectDescription, ISubjectSpecialization } from '../types';
 import { ISubject } from '../../subjects/types';
 
 @InputType()
-export class CreateSubjecSpecialization implements ISubjectSpecialization {
+export class CreateSubjecSpecialization {
   @Field(() => [CreateSubjectDescription])
   specialization: CreateSubjectDescription[];
-  @Field(() => ISubject, { nullable: false })
-  subject: ISubject;
-  @Field(() => String)
-  coach?: string;
+  @Field(() => String, { nullable: false })
+  subject: string;
 }
 
 @InputType()
-export class CreateSubjectDescription implements ISubjectDescription {
+export class CreateSubjectDescription {
   @Field(() => String)
   title: string;
   @Field(() => String)

@@ -8,6 +8,7 @@ import {
 import { ISubject } from '../../subjects/types';
 import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
+import { Schedule } from '../entities/schedule.entity';
 
 export enum Days {
   monday = 'MON',
@@ -44,7 +45,7 @@ export abstract class ISubjectSpecialization {
   coach?: IUser | string;
 }
 @InterfaceType()
-@InputType('ScheduleTypeInput')
+@InputType('IScheduleTypeInput')
 export abstract class ISchedule {
   @Field(() => Days)
   day: Days;
@@ -57,7 +58,7 @@ export abstract class ISchedule {
 export abstract class IWeeklySchedule {
   @Field(() => IUser, { nullable: true })
   coach?: IUser | string;
-  @Field(() => ISchedule)
+  @Field(() => [Schedule])
   schedule: ISchedule[];
 }
 @InterfaceType()

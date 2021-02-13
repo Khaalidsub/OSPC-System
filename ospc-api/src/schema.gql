@@ -51,23 +51,6 @@ interface ISubjectDescription {
   title: String!
 }
 
-interface ISchedule {
-  day: Day!
-  time_start: Int!
-  time_end: Int!
-}
-
-enum Day {
-  monday
-  tuesday
-  wednesday
-  thursday
-  friday
-  saturday
-  sunday
-  type
-}
-
 interface IAnswer {
   id: ID
   input: String!
@@ -120,6 +103,23 @@ type Subject implements ISubject {
   department: Department!
 }
 
+type Schedule {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
+enum Day {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+  type
+}
+
 type WeeklySchedule {
   id: ID!
 
@@ -127,7 +127,7 @@ type WeeklySchedule {
   coach: IUser!
 
   """Example field (placeholder)"""
-  schedule: [ISchedule!]!
+  schedule: [Schedule!]!
 }
 
 type Lesson {
@@ -191,8 +191,8 @@ input SubjectType {
 
 input ScheduleTypeInput {
   day: Day!
-  time_start: Int!
-  time_end: Int!
+  time_start: Float!
+  time_end: Float!
 }
 
 input IAnswerType {
@@ -361,14 +361,18 @@ input UpdateSubjectInput {
 }
 
 input CreateWeeklyScheduleInput {
-  coach: String!
-  schedule: [ScheduleTypeInput!]!
+  schedule: [IScheduleTypeInput!]!
+}
+
+input IScheduleTypeInput {
+  day: Day!
+  time_start: Int!
+  time_end: Int!
 }
 
 input CreateSubjecSpecialization {
   specialization: [CreateSubjectDescription!]!
-  subject: SubjectType!
-  coach: String!
+  subject: String!
 }
 
 input CreateSubjectDescription {

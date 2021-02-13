@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
@@ -6,13 +6,12 @@ import { User } from '../../users/schemas/user.schema';
 import { Days, ISchedule, IWeeklySchedule } from '../types';
 
 export type WeeklyScheduleDocument = WeeklySchedule & Document;
-@Schema()
 export class Schedule implements ISchedule {
   @Prop(Days)
   day: Days;
-  @Prop()
+  @Prop({ min: 0, max: 24 })
   time_start: number;
-  @Prop()
+  @Prop({ min: 0, max: 24 })
   time_end: number;
 }
 
@@ -20,9 +19,7 @@ export class Schedule implements ISchedule {
 export class WeeklySchedule implements IWeeklySchedule {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   coach: User;
-  @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: Schedule.name }],
-  })
+  @Prop(raw([Schedule]))
   schedule: Schedule[];
 }
 

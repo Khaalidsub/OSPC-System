@@ -14,8 +14,6 @@ export class CreateScheduleInput implements ISchedule {
 }
 @InputType()
 export class CreateWeeklyScheduleInput implements IWeeklySchedule {
-  @Field(() => String)
-  coach?: string;
   @Field(() => [ISchedule])
   schedule: ISchedule[];
 }
