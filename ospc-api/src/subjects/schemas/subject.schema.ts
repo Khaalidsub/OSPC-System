@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Department } from 'src/departments/schema/department.schema';
-import { IDepartment } from 'src/departments/types';
+import { Department } from '../../departments/schema/department.schema';
+import { IDepartment } from '../../departments/types';
 import { ISubject } from '../types';
 import * as mongoose from 'mongoose';
 export type SubjectDocument = Subject & Document;

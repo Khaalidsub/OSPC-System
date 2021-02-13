@@ -17,7 +17,7 @@ import {
   coachActiveError,
   coachPendingError,
   studentPendingError,
-} from 'src/util/exceptions';
+} from '../util/exceptions';
 
 @Resolver(() => User)
 export class CoachResolver {
