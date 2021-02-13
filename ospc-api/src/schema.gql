@@ -51,17 +51,8 @@ interface ISubjectDescription {
   title: String!
 }
 
-interface IAnswer {
-  id: ID
-  input: String!
-  votes: Int!
-  user: IUser
-}
-
 interface IQuestion {
-  id: ID
-  answers: [IAnswer!]!
-  correctAnswer: IAnswer!
+  id: String
   question: String!
   subject: ISubject!
   user: IUser
@@ -148,18 +139,27 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Question implements IQuestion {
-  id: ID
-  answers: [IAnswer!]!
-  correctAnswer: IAnswer!
+  id: String
   question: String!
-  subject: ISubject!
-  user: IUser
+  subject: Subject!
+  user: User!
 }
 
 type Answer implements IAnswer {
   id: ID
+  question: Question!
   input: String!
   votes: Int!
+  isApproved: Boolean
+  user: User!
+}
+
+interface IAnswer {
+  id: ID
+  question: IQuestion!
+  input: String!
+  votes: Int!
+  isApproved: Boolean
   user: IUser
 }
 
@@ -195,10 +195,10 @@ input ScheduleTypeInput {
   time_end: Float!
 }
 
-input IAnswerType {
-  id: ID
-  input: String!
-  votes: Int!
+input IQuestionType {
+  id: String
+  question: String!
+  subject: SubjectType!
   user: userType
 }
 
@@ -211,8 +211,8 @@ type Query {
   subjects: [Subject!]!
   subject(id: String!): Subject!
   getLessons: [Lesson!]!
-  questions: [IQuestion!]!
-  question(id: String!): IQuestion!
+  questions: [Question!]!
+  question(id: String!): Question!
 }
 
 type Mutation {
@@ -233,13 +233,13 @@ type Mutation {
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
-  makeQuestion(createQuestionInput: CreateQuestionInput!): IQuestion!
-  answerQuestion(questionId: String!, updateAnswerInput: CreateAnswerInput!): IQuestion!
-  voteAnswer(answer: String!, vote: Boolean!): IQuestion!
-  approveAnswer(question: String!, answer: String!): IQuestion!
-  updateQuestion(updateQuestionInput: UpdateQuestionInput!): IQuestion!
-  updateAnswer(updateAnswerInput: UpdateAnswerInput!): IQuestion!
-  removeQuestion(id: String!): IQuestion!
+  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
+  voteAnswer(answer: String!, vote: Boolean!): Answer!
+  approveAnswer(id: String!): Answer!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
+  updateAnswer(updateAnswerInput: UpdateAnswerInput!): Answer!
+  removeQuestion(id: String!): Question!
 }
 
 input CreateUserInput {
@@ -401,26 +401,27 @@ input CreateLessonInput {
 input CreateQuestionInput {
   """"""
   question: String!
-  subject: SubjectType!
+  subject: String!
 }
 
 input CreateAnswerInput {
   input: String!
   votes: Int = 0
+  question: String!
 }
 
 input UpdateQuestionInput {
-  answers: [IAnswerType!]!
-  correctAnswer: IAnswerType!
-  question: String!
-  subject: SubjectType!
-  user: userType!
-  id: ID!
+  id: String
+  question: String
+  subject: SubjectType
+  user: userType
 }
 
 input UpdateAnswerInput {
-  input: String!
-  votes: Int!
-  user: userType!
-  id: ID!
+  id: ID
+  question: IQuestionType
+  input: String
+  votes: Int
+  isApproved: Boolean
+  user: userType
 }

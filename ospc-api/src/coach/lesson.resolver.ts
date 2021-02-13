@@ -18,10 +18,12 @@ export class LessonResolver {
   ) {
     try {
       await this.validateLesson(createLessonInput);
-      return this.lessonsService.create({
-        ...createLessonInput,
-        student: user.id,
-      } as any);
+      return (
+        await this.lessonsService.create({
+          ...createLessonInput,
+          student: user.id,
+        } as any)
+      ).execPopulate();
     } catch (error) {
       throw new Error(error.message);
     }

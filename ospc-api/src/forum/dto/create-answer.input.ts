@@ -6,4 +6,6 @@ export class CreateAnswerInput {
   input: string;
   @Field(() => Int, { defaultValue: 0 })
   votes: number = 0;
+  @Field(() => String)
+  question: string;
 }

@@ -20,7 +20,9 @@ export class SubjectsResolver {
   ) {
     try {
       await this.validate(createSubjectInput);
-      return this.subjectsService.create(createSubjectInput);
+      return (
+        await this.subjectsService.create(createSubjectInput)
+      ).execPopulate();
     } catch (error) {
       throw new Error(error);
     }

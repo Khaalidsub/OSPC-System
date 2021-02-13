@@ -20,6 +20,9 @@ export class AnswerService {
   findOne(query) {
     return this.answerModel.find(query).exec();
   }
+  findById(id: string) {
+    return this.answerModel.findById(id).exec();
+  }
 
   update(id: string, updateAnswerInput: any) {
     return this.answerModel

@@ -36,7 +36,9 @@ export class DepartmentsResolver {
   ) {
     try {
       await this.validate(createDepartmentInput);
-      return this.departmentsService.create(createDepartmentInput);
+      return (
+        await this.departmentsService.create(createDepartmentInput)
+      ).execPopulate();
     } catch (error) {
       throw new Error(error);
     }

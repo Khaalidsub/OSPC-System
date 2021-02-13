@@ -49,7 +49,7 @@ export abstract class ISubjectSpecialization {
 export abstract class ISchedule {
   @Field(() => Days)
   day: Days;
-  @Field(() => Int)
+  @Field(() => Int, {})
   time_start: number;
   @Field(() => Int)
   time_end: number;

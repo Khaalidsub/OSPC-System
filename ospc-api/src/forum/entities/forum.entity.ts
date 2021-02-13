@@ -1,14 +1,16 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { User } from '../../users/entities/user.entity';
 import { ISubject } from '../../subjects/types';
 import { IUser } from '../../users/types';
-import { IAnswer, IQuestion } from '../types';
+import { IQuestion } from '../types/question.type';
+import { Subject } from '../../subjects/entities/subject.entity';
 
 @ObjectType({ implements: IQuestion })
 export class Question implements IQuestion {
   id?: string;
-  answers: IAnswer[];
-  correctAnswer: IAnswer;
   question: string;
+  @Field(() => Subject)
   subject: ISubject;
+  @Field(() => User)
   user: IUser;
 }

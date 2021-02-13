@@ -9,8 +9,8 @@ import { AnswerService } from './answer.service';
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Answer.name, schema: AnswerSchema },
       { name: Question.name, schema: QuestionSchema },
+      { name: Answer.name, schema: AnswerSchema },
     ]),
   ],
   providers: [ForumResolver, QuestionService, AnswerService],

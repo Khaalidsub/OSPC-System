@@ -2,50 +2,56 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { QuestionService } from './forum.service';
 import { CreateQuestionInput } from './dto/create-forum.input';
 import { UpdateQuestionInput } from './dto/update-forum.input';
-import { IAnswer, IQuestion } from './types';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { UseGuards } from '@nestjs/common';
+import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { UpdateAnswerInput } from './dto/update-answer.input';
 import { CreateAnswerInput } from './dto/create-answer.input';
+import { Question } from './entities/forum.entity';
+import { Answer } from './entities/answer.entity';
 
-@Resolver(() => IQuestion)
+@Resolver(() => Question)
 export class ForumResolver {
   constructor(
     private readonly questionService: QuestionService,
     private readonly answerService: AnswerService,
   ) {}
 
-  @Mutation(() => IQuestion)
+  @Mutation(() => Question)
   @UseGuards(GqlAuthGuard)
-  makeQuestion(
+  async makeQuestion(
     @CurrentUser() user: User,
     @Args('createQuestionInput') createQuestionInput: CreateQuestionInput,
   ) {
-    return this.questionService.create(createQuestionInput);
+    try {
+      const createdQuestion = await this.questionService.create({
+        ...createQuestionInput,
+        user: user.id,
+      } as any);
+      return createdQuestion.execPopulate();
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
-  @Mutation(() => IQuestion)
+  @Mutation(() => Answer)
   @UseGuards(GqlAuthGuard)
   async answerQuestion(
     @CurrentUser() user: User,
     @Args('updateAnswerInput') createAnswerInput: CreateAnswerInput,
-    @Args('questionId') questionId: string,
   ) {
     try {
       const createAnswer = await this.answerService.create({
         ...createAnswerInput,
         user: user,
-      } as IAnswer);
+      } as any);
 
-      return this.questionService.update(questionId, {
-        $push: { answers: createAnswer },
-      });
+      return createAnswer.execPopulate();
     } catch (error) {
       throw new Error(error.message);
     }
   }
-  @Mutation(() => IQuestion)
+  @Mutation(() => Answer)
   @UseGuards(GqlAuthGuard)
   async voteAnswer(
     @CurrentUser() user: User,
@@ -53,45 +59,57 @@ export class ForumResolver {
     @Args('answer') answerId: string,
   ) {
     try {
-      return this.answerService.update(answerId, { votes: vote ? +1 : -1 });
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  @Mutation(() => IQuestion)
-  @UseGuards(GqlAuthGuard)
-  approveAnswer(
-    @CurrentUser() user: User,
-    @Args('answer') answerId: string,
-    @Args('question') questionId: string,
-  ) {
-    try {
-      return this.questionService.update(questionId, {
-        correctAnswer: answerId,
+      return this.answerService.update(answerId, {
+        $inc: { votes: vote ? +1 : -1 },
       });
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  @Query(() => [IQuestion], { name: 'questions' })
+  @Mutation(() => Answer)
+  @UseGuards(GqlAuthGuard)
+  async approveAnswer(@CurrentUser() user: User, @Args('id') id: string) {
+    try {
+      const { question } = await this.answerService.findById(id);
+      await this.validateApprovedByQuestionMaker(user, question.user.id);
+      return this.answerService.update(id, {
+        isApproved: true,
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async validateApprovedByQuestionMaker(user: User, questionId: string) {
+    if (questionId !== user.id) {
+      throw new HttpException('Not Authorized', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  @Query(() => [Question], { name: 'questions' })
   findAll() {
     return this.questionService.findAll();
   }
 
-  @Query(() => IQuestion, { name: 'question' })
+  @Query(() => Question, { name: 'question' })
   findOne(@Args('id', { type: () => String }) id: string) {
-    return this.questionService.findOne(id);
+    return this.questionService.findById(id);
   }
 
-  @Mutation(() => IQuestion)
+  @Mutation(() => Question)
   @UseGuards(GqlAuthGuard)
-  updateQuestion(
+  async updateQuestion(
+    @CurrentUser() user: User,
     @Args('updateQuestionInput') updateQuestionInput: UpdateQuestionInput,
   ) {
     try {
-      return this.questionService.update(
+      const question = await this.questionService.findById(
+        updateQuestionInput.id,
+      );
+
+      await this.validateApprovedByQuestionMaker(user, question.user.id);
+      return await this.questionService.update(
         updateQuestionInput.id,
         updateQuestionInput,
       );
@@ -100,19 +118,25 @@ export class ForumResolver {
     }
   }
 
-  @Mutation(() => IQuestion)
+  @Mutation(() => Answer)
   @UseGuards(GqlAuthGuard)
-  updateAnswer(
+  async updateAnswer(
+    @CurrentUser() user: User,
     @Args('updateAnswerInput') updateAnswerInput: UpdateAnswerInput,
   ) {
     try {
+      const { question } = await this.answerService.findById(
+        updateAnswerInput.id,
+      );
+
+      await this.validateApprovedByQuestionMaker(user, question.user.id);
       return this.answerService.update(updateAnswerInput.id, updateAnswerInput);
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  @Mutation(() => IQuestion)
+  @Mutation(() => Question)
   @UseGuards(GqlAuthGuard)
   removeQuestion(@Args('id', { type: () => String }) id: string) {
     return this.questionService.remove(id);

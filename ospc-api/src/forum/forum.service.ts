@@ -20,8 +20,11 @@ export class QuestionService {
   findOne(query) {
     return this.questionModel.find(query).exec();
   }
-
+  findById(id: string) {
+    return this.questionModel.findById(id).exec();
+  }
   update(id: string, updateQuestionInput: any) {
+    console.log(updateQuestionInput);
     return this.questionModel
       .findByIdAndUpdate(id, updateQuestionInput, {
         new: true,
