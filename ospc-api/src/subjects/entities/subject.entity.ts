@@ -1,9 +1,11 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { IDepartment } from 'src/departments/types';
 import { ISubject } from '../types';
 
-@ObjectType()
+@ObjectType({ implements: ISubject })
 export class Subject implements ISubject {
-  @Field(() => ID, { description: 'Example field (placeholder)' })
+  department: IDepartment;
+  @Field(() => String, { description: 'Example field (placeholder)' })
   id: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   subjectName: string;

@@ -40,8 +40,10 @@ interface IDepartment {
 }
 
 interface ISubject {
+  id: String!
   subjectName: String!
   description: String!
+  department: Department!
 }
 
 interface ISubjectDescription {
@@ -106,15 +108,16 @@ type Department implements IDepartment {
   departmentModerator: User
 }
 
-type Subject {
+type Subject implements ISubject {
   """Example field (placeholder)"""
-  id: ID!
+  id: String!
 
   """Example field (placeholder)"""
   subjectName: String!
 
   """Example field (placeholder)"""
   description: String!
+  department: Department!
 }
 
 type WeeklySchedule {
@@ -174,9 +177,16 @@ input userType {
   moderatorStatus: CoachingStatus!
 }
 
-input ScheduleType {
+input DepartmentType {
+  """Example field (placeholder)"""
+  id: String!
+}
+
+input SubjectType {
+  id: String!
   subjectName: String!
   description: String!
+  department: DepartmentType!
 }
 
 input ScheduleTypeInput {
@@ -334,15 +344,20 @@ input CreateSubjectInput {
 
   """Example field (placeholder)"""
   description: String!
+
+  """Example field (placeholder)"""
+  department: String!
 }
 
 input UpdateSubjectInput {
+  """Example field (placeholder)"""
+  id: String
+
   """Example field (placeholder)"""
   subjectName: String
 
   """Example field (placeholder)"""
   description: String
-  id: ID!
 }
 
 input CreateWeeklyScheduleInput {
@@ -352,7 +367,7 @@ input CreateWeeklyScheduleInput {
 
 input CreateSubjecSpecialization {
   specialization: [CreateSubjectDescription!]!
-  subject: ScheduleType!
+  subject: SubjectType!
   coach: String!
 }
 
@@ -383,7 +398,7 @@ input CreateLessonInput {
 input CreateQuestionInput {
   """"""
   question: String!
-  subject: ScheduleType!
+  subject: SubjectType!
 }
 
 input CreateAnswerInput {
@@ -395,7 +410,7 @@ input UpdateQuestionInput {
   answers: [IAnswerType!]!
   correctAnswer: IAnswerType!
   question: String!
-  subject: ScheduleType!
+  subject: SubjectType!
   user: userType!
   id: ID!
 }

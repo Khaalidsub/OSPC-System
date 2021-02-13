@@ -6,4 +6,6 @@ export class CreateSubjectInput {
   subjectName: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   description: string;
+  @Field(() => String, { description: 'Example field (placeholder)' })
+  department: string;
 }

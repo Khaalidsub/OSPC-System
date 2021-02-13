@@ -96,6 +96,7 @@ export class DepartmentsResolver {
     try {
       return this.usersService.update(id, {
         moderatorStatus: Status.active,
+        role: Role.moderator,
       });
     } catch (error) {
       throw new Error(error);
