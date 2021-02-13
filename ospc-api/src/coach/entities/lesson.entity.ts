@@ -1,5 +1,5 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { ISubject } from 'src/subjects/types';
+import { ISubject } from '../../subjects/types';
 import { Subject } from '../../subjects/entities/subject.entity';
 import { User } from '../../users/entities/user.entity';
 import { ILesson } from '../types';

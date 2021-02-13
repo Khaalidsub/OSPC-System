@@ -13,9 +13,8 @@ export class Department implements IDepartment {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User.name,
-    required: false,
   })
-  departmentModerator?: User;
+  departmentModerator: User;
   @Prop()
   departmentDescription: string;
 }

@@ -7,15 +7,16 @@ import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { AuthService } from '../auth/auth.service';
-import { IUser, Role, Status } from './types';
+import { Role, Status } from './types';
 import {
   emailError,
   invalidEmailError,
   invalidPasswordError,
 } from '../util/exceptions';
 import { REG_EMAIL } from '../util/checkers';
+import { User } from './entities/user.entity';
 
-@Resolver(() => IUser)
+@Resolver(() => User)
 export class UsersResolver {
   private readonly logger = new Logger(UsersResolver.name);
   constructor(
@@ -23,7 +24,7 @@ export class UsersResolver {
     private authService: AuthService,
   ) {}
 
-  @Mutation(() => IUser)
+  @Mutation(() => User)
   async registerStudent(
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
@@ -55,7 +56,7 @@ export class UsersResolver {
     }
   }
 
-  @Mutation(() => IUser)
+  @Mutation(() => User)
   @UseGuards(GqlAuthGuard, AdminGuard)
   async approveStudent(@Args('id') id: string) {
     try {
@@ -70,18 +71,18 @@ export class UsersResolver {
     }
   }
 
-  @Query(() => [IUser], { name: 'users' })
+  @Query(() => [User], { name: 'users' })
   @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Query(() => IUser, { name: 'user' })
+  @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.usersService.findOne({ _id: id });
   }
 
-  @Mutation(() => IUser)
+  @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
   async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     try {

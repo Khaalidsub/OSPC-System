@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { ISubject } from 'src/subjects/types';
+import { ISubject } from '../../subjects/types';
 
 @InputType()
 export class CreateQuestionInput {

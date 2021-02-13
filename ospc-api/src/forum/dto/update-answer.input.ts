@@ -1,5 +1,5 @@
 import { Field, ID, InputType, Int, PartialType } from '@nestjs/graphql';
-import { IUser } from 'src/users/types';
+import { IUser } from '../../users/types';
 import { Answer } from '../entities/answer.entity';
 
 @InputType()

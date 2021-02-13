@@ -31,11 +31,12 @@ enum CoachingStatus {
 }
 
 interface IDepartment {
+  id: String!
   departmentName: String!
   departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: IUser
+  departmentModerator: User
 }
 
 interface ISubject {
@@ -96,14 +97,13 @@ type User implements IUser {
 }
 
 type Department implements IDepartment {
+  """Example field (placeholder)"""
+  id: String!
   departmentName: String!
   departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: IUser
-
-  """Example field (placeholder)"""
-  id: ID!
+  departmentModerator: User
 }
 
 type Subject {
@@ -193,8 +193,8 @@ input IAnswerType {
 }
 
 type Query {
-  users: [IUser!]!
-  user(id: String!): IUser!
+  users: [User!]!
+  user(id: String!): User!
   currentUser: IUser!
   departments: [Department!]!
   department(id: String!): Department!
@@ -206,9 +206,9 @@ type Query {
 }
 
 type Mutation {
-  registerStudent(createUserInput: CreateUserInput!): IUser!
-  approveStudent(id: String!): IUser!
-  updateUser(updateUserInput: UpdateUserInput!): IUser!
+  registerStudent(createUserInput: CreateUserInput!): User!
+  approveStudent(id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
   loginUser(password: String!, email: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
@@ -299,7 +299,7 @@ input CreateDepartmentInput {
   departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: userType
+  departmentModerator: String!
 }
 
 input CreateDepartmentModeratorApplication {
@@ -324,7 +324,7 @@ input UpdateDepartmentInput {
   departmentDescription: String
 
   """Example field (placeholder)"""
-  departmentModerator: userType
+  departmentModerator: String
   id: ID!
 }
 

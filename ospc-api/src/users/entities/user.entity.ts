@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { IUser, Role, Status } from '../types';
 
-@ObjectType({ implements: [IUser] })
+@ObjectType({ implements: IUser })
 export class User implements IUser {
   id: string;
   name: string;

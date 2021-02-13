@@ -10,7 +10,7 @@ import { SubjectsModule } from './subjects/subjects.module';
 
 import { CoachModule } from './coach/coach.module';
 import { ForumModule } from './forum/forum.module';
-
+import { autoPopulateAllFields } from 'mongoose-autopopulator';
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -27,14 +27,16 @@ import { ForumModule } from './forum/forum.module';
     }),
     MongooseModule.forRoot('mongodb://localhost/ospc', {
       useFindAndModify: false,
+      connectionFactory: (connection) => {
+        connection.plugin(autoPopulateAllFields);
+        return connection;
+      },
     }),
     UsersModule,
     AuthModule,
     DepartmentsModule,
     SubjectsModule,
-
     CoachModule,
-
     ForumModule,
   ],
 })

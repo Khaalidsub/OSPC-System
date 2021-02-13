@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ISubjectDescription, ISubjectSpecialization } from '../types';
-import { ISubject } from 'src/subjects/types';
+import { ISubject } from '../../subjects/types';
 
 @InputType()
 export class CreateSubjecSpecialization implements ISubjectSpecialization {

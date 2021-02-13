@@ -3,10 +3,10 @@ import { IAnswer, IQuestion } from '../types';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { User } from '../../users/schemas/user.schema';
-import { ISubject } from 'src/subjects/types';
-import { IUser } from 'src/users/types';
+import { ISubject } from '../../subjects/types';
+import { IUser } from '../../users/types';
 import { Answer } from './answer.schema';
-import { Subject } from 'src/subjects/schemas/subject.schema';
+import { Subject } from '../../subjects/schemas/subject.schema';
 export type QuestionDocument = Question & Document;
 @Schema()
 export class Question implements IQuestion {

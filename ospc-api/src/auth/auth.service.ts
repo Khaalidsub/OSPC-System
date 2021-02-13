@@ -33,8 +33,8 @@ export class AuthService {
       accountStatus: status,
       role: role,
     };
-    await this.usersService.create(newUser);
-    return true;
+
+    return this.usersService.create(newUser);
   }
   async validateToken(id: string) {
     return this.usersService.findById(id);

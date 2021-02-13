@@ -1,6 +1,6 @@
 import { Field, ID, InputType, PartialType } from '@nestjs/graphql';
-import { ISubject } from 'src/subjects/types';
-import { IUser } from 'src/users/types';
+import { ISubject } from '../../subjects/types';
+import { IUser } from '../../users/types';
 import { Question } from '../entities/forum.entity';
 import { IAnswer, IQuestion } from '../types';
 

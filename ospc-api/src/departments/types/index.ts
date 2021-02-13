@@ -1,18 +1,21 @@
 import { Field, InputType, InterfaceType } from '@nestjs/graphql';
+import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
 import { Department } from '../entities/department.entity';
 
 @InterfaceType()
 export abstract class IDepartment {
   @Field(() => String)
+  id?: string;
+  @Field(() => String)
   departmentName: string;
   @Field(() => String)
   departmentDescription: string;
-  @Field(() => IUser, {
+  @Field(() => User, {
     description: 'Example field (placeholder)',
     nullable: true,
   })
-  departmentModerator?: IUser;
+  departmentModerator: IUser;
 }
 
 @InterfaceType()
