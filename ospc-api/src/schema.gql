@@ -393,10 +393,9 @@ input UpdateWeeklySchedule {
 input CreateLessonInput {
   subject: String!
   coach: String!
-  student: String!
   date: DateTime!
   time_start: Int!
-  duration: Int!
+  duration: Int = 1
 }
 
 input CreateQuestionInput {

@@ -9,12 +9,10 @@ export class CreateLessonInput implements ILesson {
   subject: string;
   @Field(() => String)
   coach: string;
-  @Field(() => String)
-  student?: string;
   @Field(() => Date)
   date: Date;
   @Field(() => Int)
   time_start: number;
-  @Field(() => Int)
+  @Field(() => Int, { defaultValue: 1 })
   duration: number;
 }
