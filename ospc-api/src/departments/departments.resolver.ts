@@ -5,7 +5,13 @@ import { CreateDepartmentInput } from './dto/create-department.input';
 import { UpdateDepartmentInput } from './dto/update-department.input';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Logger,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   departmentNameError,
   emailError,
@@ -20,7 +26,8 @@ import { CreateUserInput } from '../users/dto/create-user.input';
 import { REG_EMAIL } from '../util/checkers';
 import { IDepartment } from './types';
 import { Role, Status } from '../users/types';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => Department)
 export class DepartmentsResolver {
   private readonly logger = new Logger(DepartmentsResolver.name);

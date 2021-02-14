@@ -4,9 +4,15 @@ import { CreateQuestionInput } from './dto/create-forum.input';
 import { UpdateQuestionInput } from './dto/update-forum.input';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Question } from './entities/forum.entity';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => Question)
 export class QuestionsResolver {
   constructor(private readonly questionService: QuestionService) {}

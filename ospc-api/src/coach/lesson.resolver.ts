@@ -1,7 +1,12 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { LessonsService } from './lesson.service';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { Lesson } from './entities/lesson.entity';
 import { CreateLessonInput } from './dto/create-lesson.input';
@@ -11,7 +16,8 @@ import {
   invalidSelectedTimeError,
   lessonUnavailableError,
 } from 'src/util/exceptions';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)
 export class LessonResolver {
   constructor(

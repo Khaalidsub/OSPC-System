@@ -1,12 +1,18 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { User } from '../users/entities/user.entity';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AnswerService } from './answer.service';
 import { UpdateAnswerInput } from './dto/update-answer.input';
 import { CreateAnswerInput } from './dto/create-answer.input';
 import { Answer } from './entities/answer.entity';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => Answer)
 export class AnswersResolver {
   constructor(private readonly answerService: AnswerService) {}

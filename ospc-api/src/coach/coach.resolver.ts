@@ -4,7 +4,13 @@ import { ScheduleService } from './schedule.service';
 import { IUser, Role, Status } from '../users/types';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Logger,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { SubjectSpecializationService } from './specialization.service';
@@ -18,7 +24,8 @@ import {
   coachPendingError,
   studentPendingError,
 } from '../util/exceptions';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class CoachResolver {
   private readonly logger = new Logger(CoachResolver.name);
