@@ -1,6 +1,4 @@
-FROM node:12.13.0-alpine As development
-
-RUN apk update && apk add build-base git python
+FROM node:14.0-alpine As development
 
 WORKDIR /usr/src/app
 
@@ -12,7 +10,7 @@ RUN yarn install --only=development
 COPY . .
 RUN yarn build
 
-FROM node:12.13.0-alpine as production
+FROM node:14.0-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
