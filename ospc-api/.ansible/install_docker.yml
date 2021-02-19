@@ -1,0 +1,72 @@
+---
+- hosts: all
+  # become : true
+  gather_facts: no
+  vars_files:
+    - repo.yml
+    
+  tasks:
+    - name: install aptitude using apt
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: yes
+
+    - name: Install required system packages
+      tags: docker
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      tags: docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      tags: docker
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      tags: docker
+      apt: 
+        update_cache: yes 
+        name: docker-ce
+        state: latest
+
+    - name: Install Docker Compose
+      tags: docker
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.28.3/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+
+    - name: Copy git repo
+      tags: git
+      ansible.builtin.git: 
+        repo: https://github.com/Khaalidsub/OSPC-System.git
+        dest: ./ospc
+  
+    - name: Install Docker Module for Python
+      tags: compose
+      pip:
+        name: docker
+
+    - name: Install Docker-Compose Module for Python
+      tags: compose
+      pip:
+        name: docker-compose
+        
+    - name: compose the backend api
+      tags: compose
+      docker_compose:
+        project_src: ./ospc/ospc-api
+        build: yes
+    # - name: enable https
+    #   tags: compose
+    #   shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d   -d www.$1  -m  khaalidsubaan@gmail.com  --redirect"
+    #   args:
+    #     warn: no
+    

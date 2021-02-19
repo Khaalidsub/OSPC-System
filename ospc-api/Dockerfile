@@ -1,5 +1,7 @@
 FROM node:14.0-alpine As development
 
+RUN apk update && apk add build-base git python
+
 WORKDIR /usr/src/app
 
 COPY package.json .
