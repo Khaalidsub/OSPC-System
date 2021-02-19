@@ -44,29 +44,34 @@
         mode: 'u+x,g+x'
 
     - name: Copy git repo
-      tags: git
+      tags: project_starter
       ansible.builtin.git: 
         repo: https://github.com/Khaalidsub/OSPC-System.git
         dest: ./ospc
+    - name: checkout repo to dev
+      tags: project_starter
+      command: 
+        cmd: git checkout developing_branch
+        chdir: ./ospc/ospc-api
   
     - name: Install Docker Module for Python
-      tags: compose
+      tags: project_starter
       pip:
         name: docker
 
     - name: Install Docker-Compose Module for Python
-      tags: compose
+      tags: project_starter
       pip:
         name: docker-compose
         
     - name: compose the backend api
-      tags: compose
+      tags: compose, project_starter
       docker_compose:
         project_src: ./ospc/ospc-api
         build: yes
     # - name: enable https
     #   tags: compose
-    #   shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d   -d www.$1  -m  khaalidsubaan@gmail.com  --redirect"
+    #   shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
     #   args:
     #     warn: no
     

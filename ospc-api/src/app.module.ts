@@ -11,6 +11,7 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { CoachModule } from './coach/coach.module';
 import { ForumModule } from './forum/forum.module';
 import { autoPopulateAllFields } from 'mongoose-autopopulator';
+const db = process.env.DB ? process.env.DB : 'localhost' 
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -25,7 +26,7 @@ import { autoPopulateAllFields } from 'mongoose-autopopulator';
         CoachModule,
       ],
     }),
-    MongooseModule.forRoot('mongodb://localhost/ospc', {
+    MongooseModule.forRoot(`mongodb://${db}/ospc`, {
       useFindAndModify: false,
       connectionFactory: (connection) => {
         connection.plugin(autoPopulateAllFields);

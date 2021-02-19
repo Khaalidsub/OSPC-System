@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: nginx
     volumes:
-      - ./nginx/production.conf::/etc/nginx/conf.d/default.conf
+      - ./nginx/production.conf:/etc/nginx/nginx.conf
       - ~/etc/letsencrypt:/etc/letsencrypt
     ports:
       - '80:80'
@@ -24,6 +24,8 @@ services:
     container_name: cat1
     ports:
       - '3050:3000'
+    environment:
+    - DB=mongodb
     depends_on:
       - mongodb
     stdin_open: true
@@ -36,6 +38,8 @@ services:
     container_name: cat2
     ports:
       - '3051:3000'
+    environment:
+    - DB=mongodb
     depends_on:
       - mongodb
     stdin_open: true
@@ -48,6 +52,8 @@ services:
     container_name: cat3
     ports:
       - '3052:3000'
+    environment:
+    - DB=mongodb
     depends_on:
       - mongodb
     stdin_open: true

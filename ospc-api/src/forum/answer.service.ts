@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAnswerInput } from './dto/create-answer.input';
-import { Answer, AnswerDocument } from './schemas/Answer.schema';
+import { Answer, AnswerDocument } from './schemas/answer.schema';
 
 @Injectable()
 export class AnswerService {
