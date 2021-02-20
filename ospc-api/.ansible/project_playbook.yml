@@ -56,7 +56,7 @@
     - name: Copy git repo and change branch
       tags: init, project
       git: 
-        repo: https://github.com/Khaalidsub/OSPC-System.git
+        repo: "{{git_repo}}"
         dest: ./ospc
         update: yes
         version: developing_branch  
@@ -64,7 +64,7 @@
     - name: compose the backend api
       tags: init,project
       docker_compose:
-        project_src: ./ospc/ospc-api
+        project_src: "{{project_api_src}}"
         build: yes
 
     - name: enable https 
@@ -81,11 +81,6 @@
       args:
         warn: no
 
-    # - name: compose the backend with the updated images
-    #   tags: project
-    #   docker-compose:
-    #     project_src: ./ospc/ospc-api
-    #     build: yes
     - name: remove previous image version
       tags: project,dev
       docker_prune:
