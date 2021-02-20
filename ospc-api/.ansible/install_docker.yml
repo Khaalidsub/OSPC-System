@@ -72,7 +72,7 @@
         build: yes
 
     - name: enable https
-      tags: init, project
+      tags: init, project,renew
       shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
       args:
         warn: no
