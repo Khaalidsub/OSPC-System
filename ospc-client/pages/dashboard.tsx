@@ -1,5 +1,5 @@
 import React from 'react'
-import SecondaryCard from '../components/Cards/SecondaryCard'
+import { SecondaryCard } from "components"
 
 export const Dashboard = () => {
     const UpComingCourses = () => {

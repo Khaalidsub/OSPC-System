@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SecondaryCard(props: SecondaryCardProps) {
+export const SecondaryCard = (props: SecondaryCardProps) => {
     return (
         <div className="">
 

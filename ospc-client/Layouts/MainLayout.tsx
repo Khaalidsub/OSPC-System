@@ -1,5 +1,5 @@
 import React from 'react'
-import Navigation from '../components/Navigation'
+import { Navigation } from 'components'
 
 export default function MainLayout(props: MainLayoutProps) {
     return (

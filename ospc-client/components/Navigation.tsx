@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Navigation() {
+export const Navigation = () => {
     return (
         <div className="bg-purple-100 text-center p-3 md:w-40">
             <h3 className="inline-block md:block text-purple-400 text-lg font-bold">OSPC</h3>
