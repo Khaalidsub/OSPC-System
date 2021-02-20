@@ -13,65 +13,67 @@
         update_cache: yes
 
     - name: Install required system packages
-      tags: docker
+      tags: init
       apt: name={{ item }} state=latest update_cache=yes
       loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
 
     - name: Add Docker GPG apt Key
-      tags: docker
+      tags: init
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
     - name: Add Docker Repository
-      tags: docker
+      tags: init
       apt_repository:
         repo: deb https://download.docker.com/linux/ubuntu bionic stable
         state: present
 
     - name: Update apt and install docker-ce
-      tags: docker
+      tags: init
       apt: 
         update_cache: yes 
         name: docker-ce
         state: latest
 
     - name: Install Docker Compose
-      tags: docker
+      tags: init
       get_url:
         url: https://github.com/docker/compose/releases/download/1.28.3/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
         mode: 'u+x,g+x'
 
     - name: Copy git repo
-      tags: project_starter
+      tags: init, project
       ansible.builtin.git: 
         repo: https://github.com/Khaalidsub/OSPC-System.git
         dest: ./ospc
+   
     - name: checkout repo to dev
-      tags: project_starter
+      tags: init, project
       command: 
         cmd: git checkout developing_branch
         chdir: ./ospc/ospc-api
   
     - name: Install Docker Module for Python
-      tags: project_starter
+      tags: init
       pip:
         name: docker
 
     - name: Install Docker-Compose Module for Python
-      tags: project_starter
+      tags: init
       pip:
         name: docker-compose
         
     - name: compose the backend api
-      tags: compose, project_starter
+      tags: init, project
       docker_compose:
         project_src: ./ospc/ospc-api
         build: yes
-    # - name: enable https
-    #   tags: compose
-    #   shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
-    #   args:
-    #     warn: no
+
+    - name: enable https
+      tags: init, project
+      shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
+      args:
+        warn: no
     
