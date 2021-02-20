@@ -26,6 +26,9 @@ services:
       - '3050:3000'
     environment:
     - DB=mongodb
+    - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+    - APOLLO_GRAPH_VARIANT=current
+    - APOLLO_SCHEMA_REPORTING=true
     depends_on:
       - mongodb
     stdin_open: true
@@ -40,6 +43,9 @@ services:
       - '3051:3000'
     environment:
     - DB=mongodb
+    - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+    - APOLLO_GRAPH_VARIANT=current
+    - APOLLO_SCHEMA_REPORTING=true
     depends_on:
       - mongodb
     stdin_open: true
@@ -54,6 +60,9 @@ services:
       - '3052:3000'
     environment:
     - DB=mongodb
+    - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+    - APOLLO_GRAPH_VARIANT=current
+    - APOLLO_SCHEMA_REPORTING=true
     depends_on:
       - mongodb
     stdin_open: true
