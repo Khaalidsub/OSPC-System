@@ -43,18 +43,6 @@
         dest: /usr/local/bin/docker-compose
         mode: 'u+x,g+x'
 
-    - name: Copy git repo
-      tags: init, project
-      ansible.builtin.git: 
-        repo: https://github.com/Khaalidsub/OSPC-System.git
-        dest: ./ospc
-   
-    - name: checkout repo to dev
-      tags: init, project
-      command: 
-        cmd: git checkout developing_branch
-        chdir: ./ospc/ospc-api
-  
     - name: Install Docker Module for Python
       tags: init
       pip:
@@ -65,15 +53,46 @@
       pip:
         name: docker-compose
         
-    - name: compose the backend api
+    - name: Copy git repo
       tags: init, project
+      git: 
+        repo: git@github.com:Khaalidsub/OSPC-System.git
+        dest: ./ospc
+        update: yes
+        accept_hostkey: yes
+        version: devloping_branch  
+
+    - name: compose the backend api first time
+      tags: init
       docker_compose:
         project_src: ./ospc/ospc-api
-        build: yes
-
-    - name: enable https
-      tags: init, project,renew
+        build: no
+        
+    - name: enable https 
+      tags: init,renew
       shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
       args:
         warn: no
+
+    - name: push the latest nginx.conf
+      tags: init
+      command: 
+        cmd: git add . && git commit -m "Update nginx.con" && git push  
+        chdir: ./ospc
+      args:
+        warn: no
+
+    - name: compose the backend with the updated images
+      tags: project
+      docker-compose:
+        project_src: ./ospc/ospc-api
+        build: yes
+        
+    - name: remove previous image version
+      tags: project
+      docker_prune:
+      images: yes
+      images_filters:
+        dangling: true
+
     
