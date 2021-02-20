@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { QuestionService } from './forum.service';
-import { ForumResolver } from './forum.resolver';
 import { Answer, AnswerSchema } from './schemas/answer.schema';
 import { Question, QuestionSchema } from './schemas/question.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AnswerService } from './answer.service';
+import { AnswersResolver } from './answer.resolver';
+import { QuestionsResolver } from './question.resolver';
 
 @Module({
   imports: [
@@ -13,6 +14,11 @@ import { AnswerService } from './answer.service';
       { name: Answer.name, schema: AnswerSchema },
     ]),
   ],
-  providers: [ForumResolver, QuestionService, AnswerService],
+  providers: [
+    QuestionsResolver,
+    QuestionService,
+    AnswerService,
+    AnswersResolver,
+  ],
 })
 export class ForumModule {}

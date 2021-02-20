@@ -3,7 +3,13 @@ import { UsersService } from './users.service';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Logger,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
 import { AuthService } from '../auth/auth.service';
@@ -15,7 +21,8 @@ import {
 } from '../util/exceptions';
 import { REG_EMAIL } from '../util/checkers';
 import { User } from './entities/user.entity';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
   private readonly logger = new Logger(UsersResolver.name);

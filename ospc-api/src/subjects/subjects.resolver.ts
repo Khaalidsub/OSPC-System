@@ -3,11 +3,18 @@ import { SubjectsService } from './subjects.service';
 import { Subject } from './entities/subject.entity';
 import { CreateSubjectInput } from './dto/create-subject.input';
 import { UpdateSubjectInput } from './dto/update-subject.input';
-import { HttpException, HttpStatus, Logger, UseGuards } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Logger,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ModeratorGuard } from '../auth/guards/graph-moderator.auth.guard';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import { invalid, subjectNameError } from '../util/exceptions';
-
+import { SentryInterceptor } from '../Sentry';
+@UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)
 export class SubjectsResolver {
   private readonly logger = new Logger(SubjectsResolver.name);

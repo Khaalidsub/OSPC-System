@@ -5,7 +5,7 @@ export class CreateAnswerInput {
   @Field(() => String)
   input: string;
   @Field(() => Int, { defaultValue: 0 })
-  votes: number = 0;
+  votes = 0;
   @Field(() => String)
   question: string;
 }

@@ -1,14 +1,13 @@
 import { InterfaceType, Field, ID, Int, InputType } from '@nestjs/graphql';
-import { IUser } from 'src/users/types';
-import { IQuestion as QuestionType } from './question.type';
-const { IQuestion } = require('./question.type');
+import { IUser } from '../../users/types';
+import { IQuestion } from './question.type';
 @InterfaceType()
 @InputType('IAnswerType')
 export class IAnswer {
   @Field(() => ID, { nullable: true })
   id?: string;
   @Field(() => IQuestion)
-  question: QuestionType;
+  question: IQuestion;
   @Field(() => String)
   input: string;
   @Field(() => Int)

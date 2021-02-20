@@ -1,10 +1,12 @@
 import {
   Field,
+  GraphQLISODateTime,
   InputType,
   Int,
   InterfaceType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { type } from 'os';
 import { ISubject } from '../../subjects/types';
 import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
@@ -64,15 +66,19 @@ export abstract class IWeeklySchedule {
 @InterfaceType()
 export abstract class ILesson {
   @Field(() => ISubject)
-  subject: ISubject | string;
+  subject: ISubject;
   @Field(() => IUser)
-  coach: IUser | string;
-  @Field(() => String)
-  student?: IUser | string;
-  @Field(() => String)
-  date: Date;
-  @Field(() => Number)
+  coach: IUser;
+  @Field(() => IUser)
+  student?: IUser;
+  @Field(() => Int)
+  date: number;
+  @Field(() => Int)
   time_start: number;
-  @Field(() => Number)
+  @Field(() => Int)
   duration: number;
+  @Field(() => Days)
+  day: Days;
 }
+
+export type BookingDateType = {};
