@@ -11,7 +11,7 @@ async function bootstrap() {
     dsn:
       'https://22d588d25f6e403ab2070c38abe3b644@o334664.ingest.sentry.io/5636077',
     integrations: [
-      new Sentry.Integrations.Http({ tracing: true }),
+      new Sentry.Integrations.Http({ tracing: false }),
       // new Tracing.Integrations.Express({
       //   // to trace all requests to the default router
       //   // alternatively, you can specify the routes you want to trace:
