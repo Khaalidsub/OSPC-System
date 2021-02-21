@@ -1,10 +1,10 @@
 @tailwindcss base;
 @tailwindcss components;
 @tailwindcss utilities;
-html,
+/* html,
 body,
 #__next,
 #__next > div {
   height: 100%;
   margin: 0;
-}
+} */

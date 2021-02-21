@@ -3,8 +3,8 @@ import { Navigation } from 'components'
 
 export default function MainLayout(props: MainLayoutProps) {
     return (
-        <div className="h-full bg-purple-50 ">
-            <div className="h-full  flex flex-col-reverse md:justify-items-stretch md:flex-row ">
+        <div className="  bg-blue-50 ">
+            <div className="3xl:h-screen relative md:static flex flex-col-reverse md:justify-items-stretch md:flex-row ">
                 <Navigation />
                 <div className="w-full">
                     {props.children}
