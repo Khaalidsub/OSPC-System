@@ -1,5 +1,5 @@
 import React from 'react'
-import { SecondaryCard, TertiaryCard } from "components"
+import { MetricCard, SecondaryCard, TertiaryCard } from "components"
 
 export const Dashboard = () => {
     const UpComingLessons = () => {
@@ -29,6 +29,15 @@ export const Dashboard = () => {
             </div>
         )
     }
+
+
+    const Metrics = () => {
+        return (<div className="flex flex-row justify-evenly mt-12">
+            <MetricCard />
+            <MetricCard />
+            <MetricCard />
+        </div>)
+    }
     return (
         <div className="md:m-6 lg:m-24 flex flex-col">
             <h2 className="text-6xl font-extrabold my-4">Welcome Back!</h2>
@@ -36,6 +45,8 @@ export const Dashboard = () => {
                 <UpComingLessons />
                 <LatestQuestions />
             </div>
+            <Metrics />
+
         </div>
     )
 }
