@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
-import * as Tracing from '@sentry/tracing';
+// import * as Tracing from '@sentry/tracing';
 import * as helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,11 +12,11 @@ async function bootstrap() {
       'https://22d588d25f6e403ab2070c38abe3b644@o334664.ingest.sentry.io/5636077',
     integrations: [
       new Sentry.Integrations.Http({ tracing: true }),
-      new Tracing.Integrations.Express({
-        // to trace all requests to the default router
-        // alternatively, you can specify the routes you want to trace:
-        // router: someRouter,
-      }),
+      // new Tracing.Integrations.Express({
+      //   // to trace all requests to the default router
+      //   // alternatively, you can specify the routes you want to trace:
+      //   // router: someRouter,
+      // }),
     ],
     tracesSampleRate: 1.0,
   });
