@@ -2,9 +2,9 @@ import React from 'react'
 
 export const Navigation = () => {
     return (
-        <div className="bg-purple-100 text-center p-3 md:w-40">
-            <h3 className="inline-block md:block text-purple-400 text-lg font-bold">OSPC</h3>
-            <ul className="inline text-base font-normal text-purple-400">
+        <div className="bg-blue-100 text-center p-3 md:w-56 ">
+            <h3 className="inline-block md:block text-blue-900 text-xl font-bold">OSPC</h3>
+            <ul className="inline text-base font-normal text-blue-800">
 
 
                 <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2 text-white" src="/icons/home_alt.svg" /><p>Home</p></li>

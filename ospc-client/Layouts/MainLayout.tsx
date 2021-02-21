@@ -6,7 +6,9 @@ export default function MainLayout(props: MainLayoutProps) {
         <div className="h-full bg-purple-50 ">
             <div className="h-full  flex flex-col md:justify-items-stretch md:flex-row ">
                 <Navigation />
-                {props.children}
+                <div className="w-full">
+                    {props.children}
+                </div>
             </div>
 
         </div>
