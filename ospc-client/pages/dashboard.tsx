@@ -43,6 +43,7 @@ export const Dashboard = () => {
             <h2 className="text-6xl font-extrabold my-4">Welcome Back!</h2>
             <div className="flex md:flex-row flex-col">
                 <UpComingLessons />
+                <div></div>
                 <LatestQuestions />
             </div>
             <Metrics />
