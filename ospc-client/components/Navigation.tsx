@@ -5,12 +5,15 @@ export const Navigation = () => {
         <div className="bg-purple-100 text-center p-3 md:w-40">
             <h3 className="inline-block md:block text-purple-400 text-lg font-bold">OSPC</h3>
             <ul className="inline text-base font-normal text-purple-400">
-                <li className="inline-block m-3">Home</li>
-                <li className="inline-block m-3">Dashboard</li>
-                <li className="inline-block m-3">Forum</li>
-                <li className="inline-block m-3">Lessons</li>
-                <li className="inline-block m-3">Chats</li>
-                <li className="inline-block m-3">Settings</li>
+
+
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2 text-white" src="/icons/home_alt.svg" /><p>Home</p></li>
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2" src="/icons/dashboard_alt.svg" /><p>Dashboard</p></li>
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2" src="/icons/forum_alt.svg" /><p>Forum</p></li>
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2" src="/icons/lesson_alt.svg" /><p>Lessons</p></li>
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2" src="/icons/chat_alt.svg" /><p>Chats</p></li>
+                <li className="flex flex-row m-4 md:my-8"><img className="h-7 w-7 mr-2" src="/icons/settings_alt.svg" /><p>Settings</p></li>
+
             </ul>
         </div>
     )
