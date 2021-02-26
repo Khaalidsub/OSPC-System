@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
 // import * as Tracing from '@sentry/tracing';
 import * as helmet from 'helmet';
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -18,6 +20,7 @@ async function bootstrap() {
       //   // router: someRouter,
       // }),
     ],
+
     tracesSampleRate: 1.0,
   });
   app.use(Sentry.Handlers.requestHandler());
@@ -25,5 +28,9 @@ async function bootstrap() {
   // app.use(helmet());
   app.use(Sentry.Handlers.errorHandler());
   await app.listen(3000);
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();

@@ -11,7 +11,7 @@ import { SubjectsModule } from './subjects/subjects.module';
 import { CoachModule } from './coach/coach.module';
 import { ForumModule } from './forum/forum.module';
 import { autoPopulateAllFields } from 'mongoose-autopopulator';
-const db = process.env.DB ? process.env.DB : 'localhost' 
+const db = process.env.DB ? process.env.DB : 'mongodb';
 @Module({
   imports: [
     GraphQLModule.forRoot({
