@@ -6,7 +6,6 @@ import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
 import { AuthService } from '../auth/auth.service';
 import { jwtConstants } from '../auth/constants';
 import { CreateUserInput } from './dto/create-user.input';
-import { User, UserDocument, UserSchema } from './schemas/user.schema';
 import { IUser, Role, Status } from './types';
 
 import { UsersResolver } from './users.resolver';
@@ -17,6 +16,7 @@ import {
   invalidPasswordError,
 } from '../util/exceptions';
 import { UpdateUserInput } from './dto/update-user.input';
+import { User, UserSchema } from './entities/user.entity';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;

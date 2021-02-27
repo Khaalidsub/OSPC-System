@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { CoachResolver } from './coach.resolver';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 import { LessonResolver } from './lesson.resolver';
 import { ScheduleService } from './schedule.service';
 import { SubjectSpecializationService } from './specialization.service';

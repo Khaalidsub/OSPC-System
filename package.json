@@ -12,8 +12,8 @@
             "**/next/**",
             "**/react",
             "**/react/**",
-            "**/@oscp-co",
-            "**/@oscp-co/**"
+            "**/@oscp",
+            "**/@oscp/**"
         ]
     },
     "scripts": {

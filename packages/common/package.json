@@ -1,6 +1,7 @@
 {
     "name": "@ospc/common",
     "private": false,
+    "version": "1.0.1",
     "scripts": {
         "watch": "tsc -p ./tsconfig.build.json -w",
         "build": "rimraf build && tsc -p ./tsconfig.build.json",
