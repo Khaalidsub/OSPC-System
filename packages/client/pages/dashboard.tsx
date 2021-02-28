@@ -22,9 +22,16 @@ export const Dashboard = () => {
 
                 <h3 className="text-2xl font-semibold  text-center">Latest Questions</h3>
                 <div className="bg-blue-100 p-3 px-6 rounded-lg">
-                    <TertiaryCard />
-                    <TertiaryCard />
-                    <TertiaryCard />
+                    <TertiaryCard title="Question" subtitle="Date">
+                        <h3 className="font-bold text-xl  bg-blue-400 p-4 rounded-xl text-white">S</h3>
+                    </TertiaryCard>
+                    <TertiaryCard title="Question" subtitle="Date">
+                        <h3 className="font-bold text-xl  bg-blue-400 p-4 rounded-xl text-white">S</h3>
+                    </TertiaryCard>
+                    <TertiaryCard title="Question" subtitle="Date">
+                        <h3 className="font-bold text-xl  bg-blue-400 p-4 rounded-xl text-white">S</h3>
+                    </TertiaryCard>
+
                 </div>
             </div>
         )
