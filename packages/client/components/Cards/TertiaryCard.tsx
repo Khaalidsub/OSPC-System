@@ -3,7 +3,7 @@
 export const TertiaryCard = ({ title, subtitle, children }: TertiaryCardProps) => {
     return (
 
-        <div className="flex flex-row rounded-lg text-black  bg-blue-200 p-3 my-4 ">
+        <div className="flex flex-row rounded-lg text-black  bg-blue-200 p-3">
             <div className="flex mx-2 items-center">
                 {children}
 

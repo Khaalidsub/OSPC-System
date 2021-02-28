@@ -21,7 +21,7 @@ export const Dashboard = () => {
             <div className=" flex flex-col lg:w-96  space-y-6">
 
                 <h3 className="text-2xl font-semibold  text-center">Latest Questions</h3>
-                <div className="bg-blue-100 p-3 px-6 rounded-lg">
+                <div className="bg-blue-100 p-3 px-6 rounded-lg space-y-6">
                     <TertiaryCard title="Question" subtitle="Date">
                         <h3 className="font-bold text-xl  bg-blue-400 p-4 rounded-xl text-white">S</h3>
                     </TertiaryCard>

@@ -1,6 +1,6 @@
 
 import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectField, TertiaryCard } from "components"
-import React from "react"
+
 
 
 export const Home = () => {
