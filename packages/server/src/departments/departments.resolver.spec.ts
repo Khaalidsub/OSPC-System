@@ -3,8 +3,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersResolver } from '../users/users.resolver';
 import { CreateUserInput } from '../users/dto/create-user.input';
 import { UsersModule } from '../users/users.module';
-import { departmentNameError } from '../util/exceptions';
-import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
+import { departmentNameError } from '../utils/exceptions';
+import {
+  closeInMongodConnection,
+  rootMongooseTestModule,
+} from '../utils/mongo';
 import { DepartmentsResolver } from './departments.resolver';
 import { DepartmentsService } from './departments.service';
 import { CreateDepartmentInput } from './dto/create-department.input';

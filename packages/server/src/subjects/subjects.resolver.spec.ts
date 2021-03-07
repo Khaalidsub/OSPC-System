@@ -1,7 +1,10 @@
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { subjectNameError } from '../util/exceptions';
-import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
+import { subjectNameError } from '../utils/exceptions';
+import {
+  closeInMongodConnection,
+  rootMongooseTestModule,
+} from '../utils/mongo';
 import { CreateSubjectInput } from './dto/create-subject.input';
 import { Subject, SubjectSchema } from './schemas/subject.schema';
 import { SubjectsResolver } from './subjects.resolver';

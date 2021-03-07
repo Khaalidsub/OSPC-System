@@ -10,18 +10,18 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
-import { AuthService } from '../auth/auth.service';
-import { Role, Status } from './types';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
+import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
+import { AuthService } from 'auth/auth.service';
 import {
   emailError,
   invalidEmailError,
   invalidPasswordError,
-} from '../util/exceptions';
-import { REG_EMAIL } from '../util/checkers';
+  REG_EMAIL,
+} from '@common/utils';
 import { User } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
+import { Role, Status } from '@common/enums';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -91,12 +91,12 @@ export class UsersResolver {
 
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
-  async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  async updateUser(
+    @CurrentUser() user: User,
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+  ) {
     try {
-      const result = await this.usersService.update(
-        updateUserInput.id,
-        updateUserInput,
-      );
+      const result = await this.usersService.update(user.id, updateUserInput);
 
       return result;
     } catch (error) {

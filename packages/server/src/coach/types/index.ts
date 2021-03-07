@@ -6,9 +6,7 @@ import {
   InterfaceType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { type } from 'os';
 import { ISubject } from '../../subjects/types';
-import { User } from '../../users/entities/user.entity';
 import { IUser } from '../../users/types';
 import { Schedule } from '../entities/schedule.entity';
 

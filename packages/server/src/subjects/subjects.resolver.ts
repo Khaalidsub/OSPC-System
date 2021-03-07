@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ModeratorGuard } from '../auth/guards/graph-moderator.auth.guard';
 import { GqlAuthGuard } from '../auth/guards/graph-auth.guard';
-import { invalid, subjectNameError } from '../util/exceptions';
+import { invalid, subjectNameError } from '../utils/exceptions';
 import { SentryInterceptor } from '../Sentry';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)

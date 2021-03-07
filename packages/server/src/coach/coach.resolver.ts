@@ -23,7 +23,7 @@ import {
   coachActiveError,
   coachPendingError,
   studentPendingError,
-} from '../util/exceptions';
+} from '../utils/exceptions';
 import { SentryInterceptor } from '../Sentry';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)

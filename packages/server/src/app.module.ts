@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from 'users/users.module';
 
 import { join } from 'path';
-import { AuthModule } from './auth/auth.module';
-import { DepartmentsModule } from './departments/departments.module';
-import { SubjectsModule } from './subjects/subjects.module';
+import { AuthModule } from 'auth/auth.module';
+import { DepartmentsModule } from 'departments/departments.module';
+import { SubjectsModule } from 'subjects/subjects.module';
 
-import { CoachModule } from './coach/coach.module';
-import { ForumModule } from './forum/forum.module';
+import { CoachModule } from 'coach/coach.module';
+import { ForumModule } from 'forum/forum.module';
 import { autoPopulateAllFields } from 'mongoose-autopopulator';
 const db = process.env.DB ? process.env.DB : 'mongodb';
 @Module({

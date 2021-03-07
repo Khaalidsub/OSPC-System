@@ -33,7 +33,7 @@ module.exports = function (options) {
         forum: path.resolve('./src/forum/'),
         departments: path.resolve('./src/departments/'),
         coach: path.resolve('./src/coach/'),
-        '@ospc/common': path.resolve('./node_modules/@ospc/common/src'),
+        '@common': path.resolve('./node_modules/@ospc/common/src'),
       },
     },
     // output: {

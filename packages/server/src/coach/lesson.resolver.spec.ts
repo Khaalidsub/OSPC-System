@@ -1,7 +1,10 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersModule } from '../users/users.module';
-import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
+import {
+  closeInMongodConnection,
+  rootMongooseTestModule,
+} from '../utils/mongo';
 import { CoachResolver } from './coach.resolver';
 import { WeeklySchedule } from './entities/schedule.entity';
 import { LessonResolver } from './lesson.resolver';

@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { IDepartment } from 'src/departments/types';
+import { IDepartment } from 'departments/types';
 import { ISubject } from '../types';
 
 @ObjectType({ implements: ISubject })

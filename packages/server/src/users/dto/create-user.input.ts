@@ -1,8 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IUser, Role, Status } from '../types';
 
 @InputType()
-export class CreateUserInput implements IUser {
+export class CreateUserInput {
   @Field(() => String, { description: 'Example field (placeholder)' })
   name: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
@@ -15,16 +14,4 @@ export class CreateUserInput implements IUser {
   phoneNumber: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   universityId: string;
-  @Field(() => Status, {
-    defaultValue: Status.inactive,
-    nullable: true,
-    description: 'Example field (placeholder)',
-  })
-  coachingStatus?: Status;
-  @Field(() => Status, {
-    defaultValue: Status.inactive,
-    nullable: true,
-    description: 'Example field (placeholder)',
-  })
-  moderatorStatus?: Status;
 }

@@ -2,7 +2,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
-import { closeInMongodConnection, rootMongooseTestModule } from '../util/mongo';
+import {
+  closeInMongodConnection,
+  rootMongooseTestModule,
+} from '../utils/mongo';
 import { AuthService } from '../auth/auth.service';
 import { jwtConstants } from '../auth/constants';
 import { CreateUserInput } from './dto/create-user.input';
@@ -14,7 +17,7 @@ import {
   emailError,
   invalidEmailError,
   invalidPasswordError,
-} from '../util/exceptions';
+} from '../utils/exceptions';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User, UserSchema } from './entities/user.entity';
 

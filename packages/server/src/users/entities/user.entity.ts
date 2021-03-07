@@ -6,12 +6,13 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
-import { IUser, Role, Status } from '../types';
 import { Document } from 'mongoose';
+import { Role, Status } from '@common/enums';
+import { IUser } from '@common/interfaces';
 export type UserDocument = User & Document;
 
 @Schema()
-@InputType('userType')
+@InputType('UserInputType')
 @ObjectType()
 export class User implements IUser {
   @Field(() => ID, { nullable: true })
@@ -19,9 +20,8 @@ export class User implements IUser {
   @Field(() => String)
   @Prop()
   name: string;
-  @Field(() => String)
   @Prop()
-  password?: string;
+  password: string;
   @Field(() => String)
   @Prop()
   email: string;
@@ -35,7 +35,7 @@ export class User implements IUser {
   @Prop()
   university: string;
   @Field(() => Role, { nullable: true, defaultValue: Role.student })
-  @Prop({ default: Status.pending })
+  @Prop({ default: Role.student })
   role: Role;
   @Field(() => Status, { nullable: true, defaultValue: Status.pending })
   @Prop({ default: Status.inactive })

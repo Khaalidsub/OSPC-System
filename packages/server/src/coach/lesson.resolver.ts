@@ -15,7 +15,7 @@ import { ScheduleService } from './schedule.service';
 import {
   invalidSelectedTimeError,
   lessonUnavailableError,
-} from '../util/exceptions';
+} from '../utils/exceptions';
 import { SentryInterceptor } from '../Sentry';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)

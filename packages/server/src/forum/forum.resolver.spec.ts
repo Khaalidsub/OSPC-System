@@ -1,6 +1,6 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { rootMongooseTestModule } from '../util/mongo';
+import { rootMongooseTestModule } from '../utils/mongo';
 import { AnswerService } from './answer.service';
 import { QuestionsResolver } from './question.resolver';
 import { QuestionService } from './forum.service';

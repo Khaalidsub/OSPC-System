@@ -18,12 +18,12 @@ import {
   invalid,
   invalidEmailError,
   invalidPasswordError,
-} from '../util/exceptions';
+} from '../utils/exceptions';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
 import { CreateUserInput } from '../users/dto/create-user.input';
-import { REG_EMAIL } from '../util/checkers';
+import { REG_EMAIL } from '../utils/checkers';
 import { IDepartment } from './types';
 import { Role, Status } from '../users/types';
 import { SentryInterceptor } from '../Sentry';
