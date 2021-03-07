@@ -1,8 +1,9 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { AuthenticationError } from 'apollo-server-core';
-import { IUser, Role } from '../../users/types';
 
+import { Role } from '@common/enums';
+import { IUser } from '@common/interfaces';
 @Injectable()
 export class CoachGuard implements CanActivate {
   constructor() {}

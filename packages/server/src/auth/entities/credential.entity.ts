@@ -1,6 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { ICredential } from '../types';
-@ObjectType({ implements: ICredential })
+@ObjectType()
 @InputType()
 export class Credential implements ICredential {
   @Field(() => String, { description: 'Example field (placeholder)' })

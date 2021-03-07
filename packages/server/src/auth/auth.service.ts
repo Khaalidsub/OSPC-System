@@ -1,10 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist/jwt.service';
+import { Role } from '@ospc/common/src/enums';
+import { Status } from '@sentry/node';
 import { CreateUserInput } from '../users/dto/create-user.input';
-import { User } from '../users/entities/user.entity';
-import { UserDocument } from '../users/schemas/user.schema';
-import { Role, Status } from '../users/types';
-
+import { User, UserDocument } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { ICredential } from './types';
 @Injectable()
@@ -28,13 +27,13 @@ export class AuthService {
   }
 
   async register(user: CreateUserInput, role: Role, status: Status) {
-    const newUser = <User>{
-      ...user,
-      accountStatus: status,
-      role: role,
-    };
+    // const newUser = <User>{
+    //   ...user,
+    //   accountStatus: status,
+    //   role: role,
+    // };
 
-    return this.usersService.create(newUser);
+    return this.usersService.create(user as User);
   }
   async validateToken(id: string) {
     return this.usersService.findById(id);
