@@ -3,8 +3,8 @@ import { DepartmentsService } from './departments.service';
 import { Department } from './entities/department.entity';
 import { CreateDepartmentInput } from './dto/create-department.input';
 import { UpdateDepartmentInput } from './dto/update-department.input';
-import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
-import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
+import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import {
   HttpException,
   HttpStatus,
@@ -12,21 +12,20 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { UsersService } from 'users/users.service';
+import { User } from 'users/entities/user.entity';
+import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
+import { CreateUserInput } from 'users/dto/create-user.input';
+import { SentryInterceptor } from '../Sentry';
+import { Role, Status } from '@common/enums';
 import {
   departmentNameError,
   emailError,
   invalid,
   invalidEmailError,
   invalidPasswordError,
-} from '../utils/exceptions';
-import { UsersService } from '../users/users.service';
-import { User } from '../users/entities/user.entity';
-import { CreateDepartmentModeratorApplication } from './dto/create-moderator.input';
-import { CreateUserInput } from '../users/dto/create-user.input';
-import { REG_EMAIL } from '../utils/checkers';
-import { IDepartment } from './types';
-import { Role, Status } from '../users/types';
-import { SentryInterceptor } from '../Sentry';
+  REG_EMAIL,
+} from '@common/utils';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -79,7 +78,7 @@ export class DepartmentsResolver {
         moderatorStatus: Status.active,
         role: Role.moderator,
         accountStatus: Status.active,
-      });
+      } as User);
     } catch (error) {
       throw new Error(error);
     }
@@ -114,7 +113,7 @@ export class DepartmentsResolver {
 
   async validate(createDepartmentInput: CreateDepartmentInput) {
     const result = await this.departmentsService.findOne({
-      departmentName: createDepartmentInput.departmentName,
+      departmentName: createDepartmentInput.name,
     });
     if (result) {
       throw new HttpException(departmentNameError, HttpStatus.BAD_REQUEST);
@@ -140,7 +139,7 @@ export class DepartmentsResolver {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
   }
-  @Mutation(() => IDepartment)
+  @Mutation(() => Department)
   @UseGuards(GqlAuthGuard, AdminGuard)
   async assignDepartMentModerator(
     @Args('id', { type: () => String }) departmentId: string,

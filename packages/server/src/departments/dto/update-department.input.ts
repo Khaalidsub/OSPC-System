@@ -1,9 +1,5 @@
-import { CreateDepartmentInput } from './create-department.input';
-import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
-import { User } from '../../users/entities/user.entity';
+import { InputType, Field, PartialType, ID, OmitType } from '@nestjs/graphql';
+import { Department } from 'departments/entities/department.entity';
 
 @InputType()
-export class UpdateDepartmentInput extends PartialType(CreateDepartmentInput) {
-  @Field(() => ID)
-  id: string;
-}
+export class UpdateDepartmentInput extends PartialType(Department, InputType) {}

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateDepartmentInput } from './dto/create-department.input';
-import { Department, DepartmentDocument } from './schema/department.schema';
+import { Department, DepartmentDocument } from './entities/department.entity';
 
 @Injectable()
 export class DepartmentsService {

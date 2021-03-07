@@ -1,11 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  IDepartment,
+  IDepartmentModeratorApplication,
+  IUser,
+} from '@common/interfaces';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
-import { IUser } from '../../users/types';
-import { User } from '../../users/schemas/user.schema';
-import { IDepartment, IDepartmentModeratorApplication } from '../types';
-import { Department } from './department.schema';
-
+import { Department } from './department.entity';
+import { User } from 'users/entities/user.entity';
 export type DepartmentModeratorApplicationDocument = DepartmentModeratorApplication &
   Document;
 @Schema()
@@ -27,7 +29,3 @@ export class DepartmentModeratorApplication
   })
   user: IUser;
 }
-
-export const DepartmentModeratorApplicationSchema = SchemaFactory.createForClass(
-  DepartmentModeratorApplication,
-);

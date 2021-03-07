@@ -1,9 +1,8 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersResolver } from '../users/users.resolver';
-import { CreateUserInput } from '../users/dto/create-user.input';
-import { UsersModule } from '../users/users.module';
-import { departmentNameError } from '../utils/exceptions';
+import { UsersResolver } from 'users/users.resolver';
+import { CreateUserInput } from 'users/dto/create-user.input';
+import { UsersModule } from 'users/users.module';
 import {
   closeInMongodConnection,
   rootMongooseTestModule,
@@ -12,14 +11,15 @@ import { DepartmentsResolver } from './departments.resolver';
 import { DepartmentsService } from './departments.service';
 import { CreateDepartmentInput } from './dto/create-department.input';
 import { UpdateDepartmentInput } from './dto/update-department.input';
-import { Department, DepartmentSchema } from './schema/department.schema';
+import { Department, DepartmentSchema } from './entities/department.entity';
+import { departmentNameError } from '@ospc/common/src/utils';
 
 describe('DepartmentsResolver', () => {
   let resolver: DepartmentsResolver;
   let userResolver: UsersResolver;
   const department = {
-    departmentName: 'Computer Science',
-    departmentDescription:
+    name: 'Computer Science',
+    description:
       'the department for all the computer studies such as data science,software engineering and more',
   } as CreateDepartmentInput;
 
@@ -70,7 +70,7 @@ describe('DepartmentsResolver', () => {
       const departments = await resolver.findAll();
 
       const [department] = departments;
-      department.departmentDescription = 'the description has been changed';
+      department.description = 'the description has been changed';
 
       const response = await resolver.updateDepartment({
         ...department,
@@ -78,7 +78,7 @@ describe('DepartmentsResolver', () => {
       } as any);
       expect(response).toHaveProperty(
         'departmentDescription',
-        department.departmentDescription,
+        department.description,
       );
     });
   });
@@ -88,12 +88,12 @@ describe('DepartmentsResolver', () => {
       await userResolver.registerStudent(student);
       const [user] = await userResolver.findAll();
       const [department] = await resolver.findAll();
-      const { departmentModerator } = await resolver.assignDepartMentModerator(
+      const { moderator } = await resolver.assignDepartMentModerator(
         department.id,
         user.id,
       );
 
-      expect(departmentModerator).toBeTruthy();
+      expect(moderator).toBeTruthy();
     });
   });
 

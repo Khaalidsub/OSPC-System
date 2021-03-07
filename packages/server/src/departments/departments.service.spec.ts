@@ -1,7 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DepartmentsService } from './departments.service';
-import { Department } from './schema/department.schema';
+import { Department } from './entities/department.entity';
 
 describe('DepartmentsService', () => {
   let service: DepartmentsService;
