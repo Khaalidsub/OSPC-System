@@ -1,9 +1,8 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ScheduleService } from './schedule.service';
 
-import { IUser, Role, Status } from '../users/types';
-import { AdminGuard } from '../auth/guards/graph-admin.auth.guard';
-import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
+import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import {
   HttpException,
   HttpStatus,
@@ -11,20 +10,20 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { User } from '../users/entities/user.entity';
+import { UsersService } from 'users/users.service';
+import { User } from 'users/entities/user.entity';
 import { SubjectSpecializationService } from './specialization.service';
 import { CreateSubjecSpecialization } from './dto/create-coach.input';
 import { CreateWeeklyScheduleInput } from './dto/create-schedule.input';
 import { WeeklySchedule } from './entities/schedule.entity';
 import { UpdateWeeklySchedule } from './dto/update-schedule.input';
-import { IWeeklySchedule } from './types';
+import { SentryInterceptor } from '../Sentry';
+import { Role, Status } from '@common/enums';
 import {
-  coachActiveError,
   coachPendingError,
   studentPendingError,
-} from '../utils/exceptions';
-import { SentryInterceptor } from '../Sentry';
+  coachActiveError,
+} from '@ospc/common/src/utils';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class CoachResolver {
@@ -55,10 +54,10 @@ export class CoachResolver {
         coach: user.id,
       } as any);
 
-      await this.scheduleService.create({
+      await this.scheduleService.create(({
         ...createWeeklySchedule,
         coach: user.id,
-      } as IWeeklySchedule);
+      } as unknown) as WeeklySchedule);
 
       return user;
     } catch (error) {
@@ -66,7 +65,7 @@ export class CoachResolver {
     }
   }
 
-  validateApplication(user: IUser) {
+  validateApplication(user: User) {
     if (user.coachingStatus === Status.pending) {
       throw new HttpException(coachPendingError, HttpStatus.BAD_REQUEST);
     }

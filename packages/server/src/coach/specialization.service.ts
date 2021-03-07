@@ -5,7 +5,7 @@ import { CreateSubjecSpecialization } from './dto/create-coach.input';
 import {
   SubjectSpecialization,
   SubjectSpecializationDocument,
-} from './schemas/coach.schema';
+} from './entities/coach.entity';
 
 @Injectable()
 export class SubjectSpecializationService {

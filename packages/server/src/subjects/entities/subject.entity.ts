@@ -15,7 +15,7 @@ export class Subject implements ISubject {
   department: IDepartment;
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()
-  subjectName: string;
+  name: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()
   description: string;

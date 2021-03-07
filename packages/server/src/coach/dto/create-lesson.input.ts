@@ -1,7 +1,5 @@
 import { Field, GraphQLISODateTime, InputType, Int } from '@nestjs/graphql';
-import { Subject } from 'src/subjects/entities/subject.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Days, ILesson } from '../types';
+import { Days } from '@common/enums';
 
 @InputType()
 export class CreateLessonInput {

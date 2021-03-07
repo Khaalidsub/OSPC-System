@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateWeeklyScheduleInput } from './dto/create-schedule.input';
 import {
   WeeklySchedule,
   WeeklyScheduleDocument,
-} from './schemas/schedule.schema';
+} from './entities/schedule.entity';
 
 @Injectable()
 export class ScheduleService {
@@ -13,7 +12,7 @@ export class ScheduleService {
     @InjectModel(WeeklySchedule.name)
     private weeklyScheduleModel: Model<WeeklyScheduleDocument>,
   ) {}
-  create(weeklySchedule: CreateWeeklyScheduleInput) {
+  create(weeklySchedule: WeeklySchedule) {
     const newWeeklySchedule = new this.weeklyScheduleModel(weeklySchedule);
 
     return newWeeklySchedule.save();

@@ -5,14 +5,16 @@ import { LessonResolver } from './lesson.resolver';
 import { ScheduleService } from './schedule.service';
 import { SubjectSpecializationService } from './specialization.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Lesson, LessonSchema } from './schemas/lesson.schema';
-import { WeeklySchedule } from './entities/schedule.entity';
-import { WeeklyScheduleSchema } from './schemas/schedule.schema';
+import {
+  WeeklySchedule,
+  WeeklyScheduleSchema,
+} from './entities/schedule.entity';
+import { LessonsService } from './lesson.service';
+import { Lesson, LessonSchema } from './entities/lesson.entity';
 import {
   SubjectSpecialization,
   SubjectSpecializationSchema,
-} from './schemas/coach.schema';
-import { LessonsService } from './lesson.service';
+} from './entities/coach.entity';
 
 @Module({
   imports: [

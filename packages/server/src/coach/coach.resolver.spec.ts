@@ -7,16 +7,18 @@ import {
   rootMongooseTestModule,
 } from '../utils/mongo';
 import { CoachResolver } from './coach.resolver';
-import { WeeklySchedule } from './entities/schedule.entity';
-import { LessonResolver } from './lesson.resolver';
-import { LessonsService } from './lesson.service';
-import { ScheduleService } from './schedule.service';
 import {
   SubjectSpecialization,
   SubjectSpecializationSchema,
-} from './schemas/coach.schema';
-import { Lesson, LessonSchema } from './schemas/lesson.schema';
-import { WeeklyScheduleSchema } from './schemas/schedule.schema';
+} from './entities/coach.entity';
+import { Lesson, LessonSchema } from './entities/lesson.entity';
+import {
+  WeeklySchedule,
+  WeeklyScheduleSchema,
+} from './entities/schedule.entity';
+import { LessonResolver } from './lesson.resolver';
+import { LessonsService } from './lesson.service';
+import { ScheduleService } from './schedule.service';
 import { SubjectSpecializationService } from './specialization.service';
 
 describe('CoachResolver', () => {

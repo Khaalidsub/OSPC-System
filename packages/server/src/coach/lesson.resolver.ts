@@ -8,15 +8,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
-import { Lesson } from './entities/lesson.entity';
+import { Lesson, LessonDocument } from './entities/lesson.entity';
 import { CreateLessonInput } from './dto/create-lesson.input';
-import { LessonDocument } from './schemas/lesson.schema';
 import { ScheduleService } from './schedule.service';
+import { SentryInterceptor } from '../Sentry';
 import {
   invalidSelectedTimeError,
   lessonUnavailableError,
-} from '../utils/exceptions';
-import { SentryInterceptor } from '../Sentry';
+} from '@common/utils';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)
 export class LessonResolver {
