@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { User } from '../users/entities/user.entity';
-import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
+import { User } from 'users/entities/user.entity';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import {
   HttpException,
   HttpStatus,

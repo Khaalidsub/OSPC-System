@@ -2,8 +2,8 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { QuestionService } from './forum.service';
 import { CreateQuestionInput } from './dto/create-forum.input';
 import { UpdateQuestionInput } from './dto/update-forum.input';
-import { User } from '../users/entities/user.entity';
-import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
+import { User } from 'users/entities/user.entity';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import {
   HttpException,
   HttpStatus,

@@ -1,4 +1,4 @@
-import { InputType, PartialType } from '@nestjs/graphql';
-import { IAnswer } from '../types/answer.types';
+import { InputType, OmitType, PartialType } from '@nestjs/graphql';
+import { Answer } from 'forum/entities/answer.entity';
 @InputType()
-export class UpdateAnswerInput extends PartialType(IAnswer, InputType) {}
+export class UpdateAnswerInput extends OmitType(Answer, ['user'], InputType) {}

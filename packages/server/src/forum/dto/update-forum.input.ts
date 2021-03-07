@@ -1,6 +1,9 @@
-import { InputType, PartialType } from '@nestjs/graphql';
-
-import { IQuestion } from '../types/question.type';
+import { InputType, OmitType, PartialType } from '@nestjs/graphql';
+import { Question } from 'forum/entities/forum.entity';
 
 @InputType()
-export class UpdateQuestionInput extends PartialType(IQuestion, InputType) {}
+export class UpdateQuestionInput extends OmitType(
+  Question,
+  ['user', 'subject'],
+  InputType,
+) {}

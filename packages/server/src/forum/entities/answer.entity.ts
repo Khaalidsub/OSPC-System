@@ -1,18 +1,32 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { User } from '../../users/entities/user.entity';
-import { IUser } from '../../users/types';
-import { IAnswer } from '../types/answer.types';
-import { IQuestion } from '../types/question.type';
+import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
+import { IAnswer, IUser } from '@common/interfaces';
+import { User } from 'users/entities/user.entity';
 import { Question } from './forum.entity';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 
-@ObjectType({ implements: IAnswer })
+export type AnswerDocument = Answer & Document;
+@ObjectType()
+@Schema()
 export class Answer implements IAnswer {
-  id?: string;
+  @Field(() => ID)
+  id: string;
   @Field(() => Question)
-  question: IQuestion;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Question.name })
+  question: Question;
+  @Field(() => String)
+  @Prop()
   input: string;
+  @Field(() => Int)
+  @Prop()
   votes: number;
+  @Field(() => Boolean)
+  @Prop()
   isApproved: boolean;
   @Field(() => User)
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: IUser;
 }
+
+export const AnswerSchema = SchemaFactory.createForClass(Answer);

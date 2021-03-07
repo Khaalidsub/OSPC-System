@@ -4,9 +4,9 @@ import { rootMongooseTestModule } from '../utils/mongo';
 import { AnswerService } from './answer.service';
 import { QuestionsResolver } from './question.resolver';
 import { QuestionService } from './forum.service';
-import { Answer, AnswerSchema } from './schemas/answer.schema';
-import { Question, QuestionSchema } from './schemas/question.schema';
 import { AnswersResolver } from './answer.resolver';
+import { Answer, AnswerSchema } from './entities/answer.entity';
+import { Question, QuestionSchema } from './entities/forum.entity';
 
 describe('ForumService', () => {
   let service: QuestionService;
