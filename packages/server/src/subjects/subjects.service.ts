@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Subject } from 'rxjs';
 import { CreateSubjectInput } from './dto/create-subject.input';
-import { UpdateSubjectInput } from './dto/update-subject.input';
-import { SubjectDocument } from './schemas/subject.schema';
+import { SubjectDocument } from './entities/subject.entity';
 
 @Injectable()
 export class SubjectsService {

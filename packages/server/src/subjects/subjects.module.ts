@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { SubjectsResolver } from './subjects.resolver';
-import { Subject, SubjectSchema } from './schemas/subject.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SubjectSchema, Subject } from './entities/subject.entity';
 
 @Module({
   imports: [

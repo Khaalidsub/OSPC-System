@@ -1,6 +1,6 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Subject } from './schemas/subject.schema';
+import { Subject } from './entities/subject.entity';
 import { SubjectsService } from './subjects.service';
 
 describe('SubjectsService', () => {
