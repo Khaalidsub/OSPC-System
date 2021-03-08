@@ -1,10 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist/jwt.service';
-import { Role } from '@ospc/common/src/enums';
-import { Status } from '@sentry/node';
-import { CreateUserInput } from '../users/dto/create-user.input';
-import { User, UserDocument } from '../users/entities/user.entity';
-import { UsersService } from '../users/users.service';
+import { Role, Status } from '@common/enums';
+import { CreateUserInput } from 'users/dto/create-user.input';
+import { User, UserDocument } from 'users/entities/user.entity';
+import { UsersService } from 'users/users.service';
 import { ICredential } from './types';
 @Injectable()
 export class AuthService {

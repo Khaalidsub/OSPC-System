@@ -2,10 +2,9 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-interface IUser {
+type User {
   id: ID
   name: String!
-  password: String
   email: String!
   phoneNumber: String!
   universityId: String!
@@ -21,7 +20,6 @@ enum Role {
   coach
   admin
   moderator
-  type
 }
 
 enum CoachingStatus {
@@ -30,68 +28,32 @@ enum CoachingStatus {
   inactive
 }
 
-interface IDepartment {
+type Department {
+  """Example field (placeholder)"""
   id: String!
-  departmentName: String!
-  departmentDescription: String!
 
   """Example field (placeholder)"""
-  departmentModerator: User
-}
-
-interface ISubject {
-  id: String!
-  subjectName: String!
-  description: String!
-  department: Department!
-}
-
-interface ISubjectDescription {
-  description: String!
-  title: String!
-}
-
-interface IQuestion {
-  id: String
-  question: String!
-  subject: ISubject!
-  user: IUser
-}
-
-type User implements IUser {
-  id: ID
   name: String!
-  password: String
-  email: String!
-  phoneNumber: String!
-  universityId: String!
-  university: String!
-  role: Role
-  accountStatus: CoachingStatus
-  coachingStatus: CoachingStatus
-  moderatorStatus: CoachingStatus!
-}
-
-type Department implements IDepartment {
-  """Example field (placeholder)"""
-  id: String!
-  departmentName: String!
-  departmentDescription: String!
-
-  """Example field (placeholder)"""
-  departmentModerator: User
-}
-
-type Subject implements ISubject {
-  """Example field (placeholder)"""
-  id: String!
-
-  """Example field (placeholder)"""
-  subjectName: String!
 
   """Example field (placeholder)"""
   description: String!
-  department: Department!
+
+  """Example field (placeholder)"""
+  moderator: User!
+}
+
+type Subject {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  department: String!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
 }
 
 type Schedule {
@@ -115,64 +77,49 @@ type WeeklySchedule {
   id: ID!
 
   """Example field (placeholder)"""
-  coach: IUser!
+  coach: User!
 
   """Example field (placeholder)"""
   schedule: [Schedule!]!
 }
 
-type Lesson implements ILesson {
-  subject: ISubject!
-  coach: User!
+type SubjectDescription {
+  title: String!
+  description: String!
+}
+
+type Lesson {
+  id: ID!
+  day: Day!
 
   """Example field (placeholder)"""
   student: User!
   date: Int!
   time_start: Int!
+  subject: Subject!
+  coach: User!
   duration: Int!
-  day: Day!
+}
+
+type Question {
   id: ID!
-}
-
-interface ILesson {
-  subject: ISubject!
-  coach: IUser!
-  student: IUser!
-  date: Int!
-  time_start: Int!
-  duration: Int!
-  day: Day!
-}
-
-type Question implements IQuestion {
-  id: String
   question: String!
   subject: Subject!
   user: User!
 }
 
-type Answer implements IAnswer {
-  id: ID
+type Answer {
+  id: ID!
   question: Question!
   input: String!
   votes: Int!
-  isApproved: Boolean
+  isApproved: Boolean!
   user: User!
 }
 
-interface IAnswer {
-  id: ID
-  question: IQuestion!
-  input: String!
-  votes: Int!
-  isApproved: Boolean
-  user: IUser
-}
-
-input userType {
+input UserInputType {
   id: ID
   name: String!
-  password: String
   email: String!
   phoneNumber: String!
   universityId: String!
@@ -183,44 +130,69 @@ input userType {
   moderatorStatus: CoachingStatus!
 }
 
-input DepartmentType {
+input DepartmentInputType {
   """Example field (placeholder)"""
   id: String!
-}
 
-input SubjectType {
-  id: String!
-  subjectName: String!
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
   description: String!
-  department: DepartmentType!
+
+  """Example field (placeholder)"""
+  moderator: UserInputType!
 }
 
-input ScheduleTypeInput {
+input SubjectInputType {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  department: String!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+input ScheduleInputType {
   day: Day!
   time_start: Float!
   time_end: Float!
 }
 
-input IQuestionType {
-  id: String
+input QuestionInputType {
+  id: ID!
   question: String!
-  subject: SubjectType!
-  user: userType
+  subject: SubjectInputType!
+  user: UserInputType!
+}
+
+input AnswerInputType {
+  id: ID!
+  question: QuestionInputType!
+  input: String!
+  votes: Int!
+  isApproved: Boolean!
+  user: UserInputType!
 }
 
 type Query {
   users: [User!]!
   user(id: String!): User!
-  currentUser: IUser!
+  currentUser: User!
   departments: [Department!]!
   department(id: String!): Department!
   subjects: [Subject!]!
   subject(id: String!): Subject!
   getLessons: [Lesson!]!
-  answers: [Answer!]!
-  answer(id: String!): Answer!
   questions: [Question!]!
   question(id: String!): Question!
+  answers: [Answer!]!
+  answer(id: String!): Answer!
 }
 
 type Mutation {
@@ -232,7 +204,7 @@ type Mutation {
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
   addModerator(createDepartmentModerator: CreateUserInput!): User!
   approveDepartmentModerator(id: String!): User!
-  assignDepartMentModerator(userId: String!, id: String!): IDepartment!
+  assignDepartMentModerator(userId: String!, id: String!): Department!
   updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
@@ -241,13 +213,13 @@ type Mutation {
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
+  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
+  removeQuestion(id: String!): Question!
   answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
   voteAnswer(answer: String!, vote: Boolean!): Answer!
   approveAnswer(id: String!): Answer!
   updateAnswer(updateAnswerInput: UpdateAnswerInput!): Answer!
-  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
-  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
-  removeQuestion(id: String!): Question!
 }
 
 input CreateUserInput {
@@ -268,56 +240,28 @@ input CreateUserInput {
 
   """Example field (placeholder)"""
   universityId: String!
-
-  """Example field (placeholder)"""
-  coachingStatus: CoachingStatus = inactive
-
-  """Example field (placeholder)"""
-  moderatorStatus: CoachingStatus = inactive
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  name: String
-
-  """Example field (placeholder)"""
-  university: String
-
-  """Example field (placeholder)"""
-  password: String
-
-  """Example field (placeholder)"""
-  email: String
-
-  """Example field (placeholder)"""
-  phoneNumber: String
-
-  """Example field (placeholder)"""
-  universityId: String
-
-  """Example field (placeholder)"""
+  name: String!
+  phoneNumber: String!
+  universityId: String!
+  university: String!
+  role: Role = student
+  accountStatus: CoachingStatus = pending
   coachingStatus: CoachingStatus = inactive
-
-  """Example field (placeholder)"""
-  moderatorStatus: CoachingStatus = inactive
-  id: ID!
-
-  """Example field (placeholder)"""
-  accountStatus: CoachingStatus!
-
-  """Example field (placeholder)"""
-  role: CoachingStatus!
+  moderatorStatus: CoachingStatus!
 }
 
 input CreateDepartmentInput {
   """Example field (placeholder)"""
-  departmentName: String!
+  name: String!
 
   """Example field (placeholder)"""
-  departmentDescription: String!
+  description: String!
 
   """Example field (placeholder)"""
-  departmentModerator: String!
+  moderator: String!
 }
 
 input CreateDepartmentModeratorApplication {
@@ -336,14 +280,16 @@ input CreateDepartmentModeratorApplication {
 
 input UpdateDepartmentInput {
   """Example field (placeholder)"""
-  departmentName: String
+  id: String
 
   """Example field (placeholder)"""
-  departmentDescription: String
+  name: String
 
   """Example field (placeholder)"""
-  departmentModerator: String
-  id: ID!
+  description: String
+
+  """Example field (placeholder)"""
+  moderator: UserInputType
 }
 
 input CreateSubjectInput {
@@ -359,23 +305,17 @@ input CreateSubjectInput {
 
 input UpdateSubjectInput {
   """Example field (placeholder)"""
-  id: String
+  id: ID!
 
   """Example field (placeholder)"""
-  subjectName: String
+  name: String!
 
   """Example field (placeholder)"""
-  description: String
+  description: String!
 }
 
 input CreateWeeklyScheduleInput {
-  schedule: [IScheduleTypeInput!]!
-}
-
-input IScheduleTypeInput {
-  day: Day!
-  time_start: Int!
-  time_end: Int!
+  schedule: [ScheduleInputType!]!
 }
 
 input CreateSubjecSpecialization {
@@ -389,13 +329,13 @@ input CreateSubjectDescription {
 }
 
 input UpdateWeeklySchedule {
-  id: ID!
+  id: ID
 
   """Example field (placeholder)"""
-  coach: userType
+  coach: UserInputType
 
   """Example field (placeholder)"""
-  schedule: [ScheduleTypeInput!]
+  schedule: [ScheduleInputType!]
 }
 
 input CreateLessonInput {
@@ -407,21 +347,6 @@ input CreateLessonInput {
   day: Day!
 }
 
-input CreateAnswerInput {
-  input: String!
-  votes: Int = 0
-  question: String!
-}
-
-input UpdateAnswerInput {
-  id: ID
-  question: IQuestionType
-  input: String
-  votes: Int
-  isApproved: Boolean
-  user: userType
-}
-
 input CreateQuestionInput {
   """"""
   question: String!
@@ -429,8 +354,19 @@ input CreateQuestionInput {
 }
 
 input UpdateQuestionInput {
-  id: String
-  question: String
-  subject: SubjectType
-  user: userType
+  id: ID!
+  question: String!
+}
+
+input CreateAnswerInput {
+  input: String!
+  question: String!
+}
+
+input UpdateAnswerInput {
+  id: ID!
+  question: QuestionInputType!
+  input: String!
+  votes: Int!
+  isApproved: Boolean!
 }

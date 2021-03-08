@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
@@ -7,6 +7,7 @@ import { Department } from 'departments/entities/department.entity';
 export type SubjectDocument = Subject & Document;
 @ObjectType()
 @Schema()
+@InputType('SubjectInputType')
 export class Subject implements ISubject {
   @Field(() => ID, { description: 'Example field (placeholder)' })
   id: string;

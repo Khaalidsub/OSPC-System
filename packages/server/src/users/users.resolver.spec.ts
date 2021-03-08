@@ -1,7 +1,6 @@
 import { JwtModule } from '@nestjs/jwt';
 import { getModelToken, MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Model } from 'mongoose';
 import {
   closeInMongodConnection,
   rootMongooseTestModule,
@@ -9,17 +8,16 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { jwtConstants } from '../auth/constants';
 import { CreateUserInput } from './dto/create-user.input';
-import { IUser, Role, Status } from './types';
 
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
+import { User, UserSchema } from './entities/user.entity';
 import {
   emailError,
   invalidEmailError,
   invalidPasswordError,
-} from '../utils/exceptions';
-import { UpdateUserInput } from './dto/update-user.input';
-import { User, UserSchema } from './entities/user.entity';
+} from '@common/utils';
+import { Status } from '@common/enums';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
@@ -116,7 +114,7 @@ describe('UsersResolver', () => {
         (student) => student.accountStatus === Status.active,
       );
       student.name = 'abdi';
-      const result = await resolver.updateUser(student as any);
+      const result = await resolver.updateUser(student.id, student as any);
 
       expect(result).toHaveProperty('name', student.name);
     });

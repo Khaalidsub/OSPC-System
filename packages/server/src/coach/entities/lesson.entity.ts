@@ -7,6 +7,8 @@ import { Subject } from 'subjects/entities/subject.entity';
 import { ILesson } from '@common/interfaces';
 import { Days } from '@common/enums';
 export type LessonDocument = Lesson & Document;
+
+registerEnumType(Days, { name: 'Day' });
 @ObjectType()
 @Schema()
 export class Lesson implements ILesson {

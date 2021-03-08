@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
 import { User } from 'users/entities/user.entity';
 import { Subject } from 'subjects/entities/subject.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -8,6 +8,7 @@ import { Document } from 'mongoose';
 export type QuestionDocument = Question & Document;
 @ObjectType()
 @Schema()
+@InputType('QuestionInputType')
 export class Question implements IQuestion {
   @Field(() => ID)
   id: string;

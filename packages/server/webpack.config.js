@@ -15,9 +15,14 @@ module.exports = function (options) {
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
+          test: /\.graphql?$/,
+          use: 'webpack-graphql-loader',
+        },
+
+        {
+          test: /\.(ts|tsx)?$/,
+          loader: 'ts-loader',
+          options: { allowTsInNodeModules: true },
         },
       ],
     },
@@ -29,7 +34,7 @@ module.exports = function (options) {
         users: path.resolve('./src/users/'),
         auth: path.resolve('./src/auth/'),
         subjects: path.resolve('./src/subjects/'),
-        util: path.resolve('./src/util/'),
+        utils: path.resolve('./src/utils/'),
         forum: path.resolve('./src/forum/'),
         departments: path.resolve('./src/departments/'),
         coach: path.resolve('./src/coach/'),

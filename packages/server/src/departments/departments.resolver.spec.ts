@@ -12,7 +12,7 @@ import { DepartmentsService } from './departments.service';
 import { CreateDepartmentInput } from './dto/create-department.input';
 import { UpdateDepartmentInput } from './dto/update-department.input';
 import { Department, DepartmentSchema } from './entities/department.entity';
-import { departmentNameError } from '@ospc/common/src/utils';
+import { departmentNameError } from '@common/utils';
 
 describe('DepartmentsResolver', () => {
   let resolver: DepartmentsResolver;

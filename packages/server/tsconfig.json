@@ -15,7 +15,7 @@
     "users/*":["./src/users/*"], 
     "auth/*":["./src/auth/*"],
     "subjects/*":["./src/subjects/*"],
-    "util":["src/utils"],
+    "utils":["src/utils"],
     "forum/*":["./src/forum/*"], 
     "departments/*":["./src/departments/*"],
     "coach/*":["./src/coach/*"],
@@ -23,5 +23,6 @@
      "./node_modules/@ospc/common/src/*"
     ]
     }
-  }
+  },
+  "include": ["./src"]
 }

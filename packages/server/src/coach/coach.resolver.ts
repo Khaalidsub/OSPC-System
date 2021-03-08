@@ -23,7 +23,7 @@ import {
   coachPendingError,
   studentPendingError,
   coachActiveError,
-} from '@ospc/common/src/utils';
+} from '@common/utils';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class CoachResolver {

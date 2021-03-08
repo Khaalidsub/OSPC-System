@@ -51,13 +51,13 @@ describe('SubjectsResolver', () => {
       const subjects = await resolver.findAll();
 
       const [subject] = subjects;
-      subject.subjectName = 'the name has been changed';
+      subject.name = 'the name has been changed';
 
       const response = await resolver.updateSubject({
         ...subject,
         id: subject.id,
       } as any);
-      expect(response).toHaveProperty('subjectName', subject.subjectName);
+      expect(response).toHaveProperty('subjectName', subject.name);
     });
   });
 
