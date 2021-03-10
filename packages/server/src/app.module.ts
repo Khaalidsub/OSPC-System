@@ -11,12 +11,14 @@ import { SubjectsModule } from 'subjects/subjects.module';
 import { CoachModule } from 'coach/coach.module';
 import { ForumModule } from 'forum/forum.module';
 import { autoPopulateAllFields } from 'mongoose-autopopulator';
+import { formatError } from 'utils';
 const db = process.env.DB ? process.env.DB : 'localhost';
 @Module({
   imports: [
     GraphQLModule.forRoot({
       context: ({ req }) => ({ req }),
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      formatError: formatError,
       include: [
         UsersModule,
         AuthModule,

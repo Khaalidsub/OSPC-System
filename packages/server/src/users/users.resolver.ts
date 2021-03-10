@@ -36,12 +36,10 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
     try {
-      await this.validateUser(createUserInput);
-
       return this.authService.register(
         createUserInput,
         Role.student,
-        Status.pending,
+        Status.active,
       );
     } catch (error) {
       this.logger.error(error);
@@ -49,22 +47,8 @@ export class UsersResolver {
     }
   }
 
-  async validateUser(user: CreateUserInput) {
-    const findUser = await this.usersService.findOne({ email: user.email });
-
-    if (findUser) {
-      throw new HttpException(emailError, HttpStatus.BAD_REQUEST);
-    }
-    if (!REG_EMAIL.test(user.email)) {
-      throw new HttpException(invalidEmailError, HttpStatus.BAD_REQUEST);
-    }
-    if (user.password.length < 6) {
-      throw new HttpException(invalidPasswordError, HttpStatus.BAD_REQUEST);
-    }
-  }
-
   @Mutation(() => User)
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  // @UseGuards(GqlAuthGuard, AdminGuard)
   async approveStudent(@Args('id') id: string) {
     try {
       const result = await this.usersService.update(id, {
@@ -79,7 +63,7 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'users' })
-  @UseGuards(GqlAuthGuard)
+  // @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
   }

@@ -26,13 +26,13 @@ export class AuthService {
   }
 
   async register(user: CreateUserInput, role: Role, status: Status) {
-    // const newUser = <User>{
-    //   ...user,
-    //   accountStatus: status,
-    //   role: role,
-    // };
+    const newUser = <User>{
+      ...user,
+      accountStatus: status,
+      role: role,
+    };
 
-    return this.usersService.create(user as User);
+    return this.usersService.create(newUser as User);
   }
   async validateToken(id: string) {
     return this.usersService.findById(id);

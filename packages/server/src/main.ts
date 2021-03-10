@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
 // import * as Tracing from '@sentry/tracing';
 import * as helmet from 'helmet';
+import { ValidationPipe } from '@nestjs/common';
 declare const module: any;
 
 async function bootstrap() {
@@ -27,6 +28,7 @@ async function bootstrap() {
   app.use(Sentry.Handlers.tracingHandler());
   // app.use(helmet());
   app.use(Sentry.Handlers.errorHandler());
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
   if (module.hot) {
     module.hot.accept();

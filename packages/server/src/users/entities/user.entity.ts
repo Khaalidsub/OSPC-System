@@ -23,7 +23,7 @@ export class User implements IUser {
   @Prop()
   password: string;
   @Field(() => String)
-  @Prop()
+  @Prop({ unique: true })
   email: string;
   @Field(() => String)
   @Prop()
