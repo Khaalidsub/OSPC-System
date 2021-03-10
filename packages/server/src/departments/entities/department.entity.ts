@@ -11,8 +11,8 @@ export type DepartmentDocument = Department & Document;
 export class Department implements IDepartment {
   @Field(() => String, { description: 'Example field (placeholder)' })
   id: string;
-  @Prop()
   @Field(() => String, { description: 'Example field (placeholder)' })
+  @Prop({ unique: true })
   name: string;
   @Prop()
   @Field(() => String, { description: 'Example field (placeholder)' })

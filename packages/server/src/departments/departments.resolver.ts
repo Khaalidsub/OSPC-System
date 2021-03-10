@@ -36,12 +36,12 @@ export class DepartmentsResolver {
   ) {}
 
   @Mutation(() => Department)
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  // @UseGuards(GqlAuthGuard, AdminGuard)
   async createDepartment(
     @Args('createDepartmentInput') createDepartmentInput: CreateDepartmentInput,
   ) {
     try {
-      await this.validate(createDepartmentInput);
+      // await this.validate(createDepartmentInput);
       return (
         await this.departmentsService.create(createDepartmentInput)
       ).execPopulate();
@@ -65,9 +65,9 @@ export class DepartmentsResolver {
     }
   }
   @Mutation(() => User)
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  // @UseGuards(GqlAuthGuard, AdminGuard)
   async addModerator(
-    @CurrentUser() user: User,
+    // @CurrentUser() user: User,
     @Args('createDepartmentModerator')
     createUserInput: CreateUserInput,
   ) {
@@ -108,15 +108,6 @@ export class DepartmentsResolver {
       });
     } catch (error) {
       throw new Error(error);
-    }
-  }
-
-  async validate(createDepartmentInput: CreateDepartmentInput) {
-    const result = await this.departmentsService.findOne({
-      departmentName: createDepartmentInput.name,
-    });
-    if (result) {
-      throw new HttpException(departmentNameError, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -168,12 +159,13 @@ export class DepartmentsResolver {
   @Mutation(() => Department)
   @UseGuards(GqlAuthGuard, AdminGuard)
   async updateDepartment(
+    @Args('id') id: string,
     @Args('updateDepartmentInput')
     updateDepartmentInput: UpdateDepartmentInput,
   ) {
     try {
       const result = await this.departmentsService.update(
-        updateDepartmentInput.id,
+        id,
         updateDepartmentInput,
       );
 

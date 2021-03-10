@@ -47,7 +47,7 @@ type Subject {
   id: ID!
 
   """Example field (placeholder)"""
-  department: String!
+  department: Department!
 
   """Example field (placeholder)"""
   name: String!
@@ -149,7 +149,7 @@ input SubjectInputType {
   id: ID!
 
   """Example field (placeholder)"""
-  department: String!
+  department: DepartmentInputType!
 
   """Example field (placeholder)"""
   name: String!
@@ -205,9 +205,9 @@ type Mutation {
   addModerator(createDepartmentModerator: CreateUserInput!): User!
   approveDepartmentModerator(id: String!): User!
   assignDepartMentModerator(userId: String!, id: String!): Department!
-  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!): Department!
+  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!, id: String!): Department!
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
-  updateSubject(updateSubjectInput: UpdateSubjectInput!): Subject!
+  updateSubject(updateSubjectInput: UpdateSubjectInput!, id: String!): Subject!
   removeSubject(id: String!): Subject!
   applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
   approveCoach(id: String!): User!
@@ -294,7 +294,7 @@ input UpdateDepartmentInput {
 
 input CreateSubjectInput {
   """Example field (placeholder)"""
-  subjectName: String!
+  name: String!
 
   """Example field (placeholder)"""
   description: String!
@@ -305,13 +305,13 @@ input CreateSubjectInput {
 
 input UpdateSubjectInput {
   """Example field (placeholder)"""
-  id: ID!
+  id: ID
 
   """Example field (placeholder)"""
-  name: String!
+  name: String
 
   """Example field (placeholder)"""
-  description: String!
+  description: String
 }
 
 input CreateWeeklyScheduleInput {

@@ -72,10 +72,9 @@ describe('DepartmentsResolver', () => {
       const [department] = departments;
       department.description = 'the description has been changed';
 
-      const response = await resolver.updateDepartment({
+      const response = await resolver.updateDepartment(department.id, {
         ...department,
-        id: department.id,
-      } as any);
+      });
       expect(response).toHaveProperty(
         'departmentDescription',
         department.description,

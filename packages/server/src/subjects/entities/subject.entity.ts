@@ -11,11 +11,11 @@ export type SubjectDocument = Subject & Document;
 export class Subject implements ISubject {
   @Field(() => ID, { description: 'Example field (placeholder)' })
   id: string;
-  @Field(() => String, { description: 'Example field (placeholder)' })
+  @Field(() => Department, { description: 'Example field (placeholder)' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Department.name })
-  department: IDepartment;
+  department: Department;
   @Field(() => String, { description: 'Example field (placeholder)' })
-  @Prop()
+  @Prop({ unique: true })
   name: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()

@@ -13,7 +13,7 @@ import { SubjectsService } from './subjects.service';
 describe('SubjectsResolver', () => {
   let resolver: SubjectsResolver;
   const subject = {
-    subjectName: 'Computer Science',
+    name: 'Computer Science',
   } as CreateSubjectInput;
   afterAll(() => {
     closeInMongodConnection();
@@ -53,9 +53,8 @@ describe('SubjectsResolver', () => {
       const [subject] = subjects;
       subject.name = 'the name has been changed';
 
-      const response = await resolver.updateSubject({
+      const response = await resolver.updateSubject(subject.id, {
         ...subject,
-        id: subject.id,
       } as any);
       expect(response).toHaveProperty('subjectName', subject.name);
     });
