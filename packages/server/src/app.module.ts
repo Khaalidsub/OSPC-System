@@ -12,6 +12,8 @@ import { CoachModule } from 'coach/coach.module';
 import { ForumModule } from 'forum/forum.module';
 import { autoPopulateAllFields } from 'mongoose-autopopulator';
 import { formatError } from 'utils';
+import { ChatsModule } from './chats/chats.module';
+import { PaymentModule } from './payment/payment.module';
 const db = process.env.DB ? process.env.DB : 'localhost';
 @Module({
   imports: [
@@ -41,6 +43,8 @@ const db = process.env.DB ? process.env.DB : 'localhost';
     SubjectsModule,
     CoachModule,
     ForumModule,
+    ChatsModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}
