@@ -54,18 +54,14 @@ export class QuestionsResolver {
   @UseGuards(GqlAuthGuard)
   async updateQuestion(
     @CurrentUser() user: User,
+    @Args('id') id: string,
     @Args('updateQuestionInput') updateQuestionInput: UpdateQuestionInput,
   ) {
     try {
-      const question = await this.questionService.findById(
-        updateQuestionInput.id,
-      );
+      const question = await this.questionService.findById(id);
 
       await this.validateApprovedByQuestionMaker(user, question.user.id);
-      return await this.questionService.update(
-        updateQuestionInput.id,
-        updateQuestionInput,
-      );
+      return await this.questionService.update(id, updateQuestionInput);
     } catch (error) {
       throw new Error(error.message);
     }

@@ -27,7 +27,7 @@ export class Answer implements IAnswer {
   isApproved: boolean;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  user: IUser;
+  user: User;
 }
 
 export const AnswerSchema = SchemaFactory.createForClass(Answer);

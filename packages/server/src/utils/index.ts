@@ -23,3 +23,10 @@ export const formatError = (error: GraphQLError) => {
   };
   return graphQLFormattedError;
 };
+
+const findRef = (schema, options) => {
+  schema.statics.any = async function (query) {
+    const result = await this.findOne(query).select('_id').lean();
+    return result ? true : false;
+  };
+};

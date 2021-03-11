@@ -84,15 +84,14 @@ export class AnswersResolver {
   @UseGuards(GqlAuthGuard)
   async updateAnswer(
     @CurrentUser() user: User,
+    @Args('id') id: string,
     @Args('updateAnswerInput') updateAnswerInput: UpdateAnswerInput,
   ) {
     try {
-      const { question } = await this.answerService.findById(
-        updateAnswerInput.id,
-      );
+      const { question } = await this.answerService.findById(id);
 
       await this.validateApprovedByQuestionMaker(user, question.user.id);
-      return this.answerService.update(updateAnswerInput.id, updateAnswerInput);
+      return this.answerService.update(id, updateAnswerInput);
     } catch (error) {
       throw new Error(error.message);
     }

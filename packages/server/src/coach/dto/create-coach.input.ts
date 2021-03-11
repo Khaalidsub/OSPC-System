@@ -4,7 +4,7 @@ import { InputType, Field } from '@nestjs/graphql';
 export class CreateSubjecSpecialization {
   @Field(() => [CreateSubjectDescription])
   specialization: CreateSubjectDescription[];
-  @Field(() => String, { nullable: false })
+  @Field(() => String)
   subject: string;
 }
 

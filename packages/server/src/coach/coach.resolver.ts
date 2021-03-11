@@ -92,15 +92,13 @@ export class CoachResolver {
 
   @Mutation(() => WeeklySchedule)
   async updateWeeklySchedule(
+    @Args('id') id: string,
     @Args('updateWeeklySchedule') updateWeeklySchedule: UpdateWeeklySchedule,
   ) {
     try {
-      const result = await this.scheduleService.update(
-        updateWeeklySchedule.id,
-        {
-          ...updateWeeklySchedule,
-        },
-      );
+      const result = await this.scheduleService.update(id, {
+        ...updateWeeklySchedule,
+      });
       return result;
     } catch (error) {
       throw new Error(error.message);
