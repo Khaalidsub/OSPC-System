@@ -17,10 +17,10 @@ export class Question implements IQuestion {
   question: string;
   @Field(() => Subject)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subject.name })
-  subject: Subject;
+  subject: string;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  user: User;
+  user: string;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

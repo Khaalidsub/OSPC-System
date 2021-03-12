@@ -15,7 +15,7 @@ export class Answer implements IAnswer {
   id: string;
   @Field(() => Question)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Question.name })
-  question: Question;
+  question: string;
   @Field(() => String)
   @Prop()
   input: string;
@@ -27,7 +27,7 @@ export class Answer implements IAnswer {
   isApproved: boolean;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  user: User;
+  user: string;
 }
 
 export const AnswerSchema = SchemaFactory.createForClass(Answer);

@@ -16,7 +16,7 @@ export class Chat implements IChat {
   isOpen: boolean;
   @Field(() => [User])
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
-  users: User[] | string[];
+  users: string[];
   @Field(() => Int)
   @Prop()
   chat_time: number;

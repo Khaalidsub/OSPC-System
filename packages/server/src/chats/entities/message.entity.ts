@@ -14,10 +14,10 @@ export class Message implements IMessage {
   id: string;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  sender: User | string;
+  sender: string;
   @Field(() => Chat)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Chat.name })
-  chat: Chat | string;
+  chat: string;
   @Field(() => String)
   @Prop()
   input: string;

@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { QuestionService } from './forum.service';
 import { CreateQuestionInput } from './dto/create-forum.input';
 import { UpdateQuestionInput } from './dto/update-forum.input';
@@ -12,10 +19,14 @@ import {
 } from '@nestjs/common';
 import { Question } from './entities/forum.entity';
 import { SentryInterceptor } from '../Sentry';
+import { UsersService } from 'users/users.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Question)
 export class QuestionsResolver {
-  constructor(private readonly questionService: QuestionService) {}
+  constructor(
+    private readonly questionService: QuestionService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Mutation(() => Question)
   @UseGuards(GqlAuthGuard)
@@ -60,7 +71,7 @@ export class QuestionsResolver {
     try {
       const question = await this.questionService.findById(id);
 
-      await this.validateApprovedByQuestionMaker(user, question.user.id);
+      await this.validateApprovedByQuestionMaker(user, question.user);
       return await this.questionService.update(id, updateQuestionInput);
     } catch (error) {
       throw new Error(error.message);
@@ -71,5 +82,9 @@ export class QuestionsResolver {
   @UseGuards(GqlAuthGuard)
   removeQuestion(@Args('id', { type: () => String }) id: string) {
     return this.questionService.remove(id);
+  }
+  @ResolveField()
+  user(@Parent() question: Question) {
+    return this.usersService.findById(question.id);
   }
 }

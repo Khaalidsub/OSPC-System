@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql';
 import { User } from 'users/entities/user.entity';
 import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import {
@@ -12,10 +19,16 @@ import { UpdateAnswerInput } from './dto/update-answer.input';
 import { CreateAnswerInput } from './dto/create-answer.input';
 import { Answer } from './entities/answer.entity';
 import { SentryInterceptor } from '../Sentry';
+import { QuestionService } from './forum.service';
+import { UsersService } from 'users/users.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Answer)
 export class AnswersResolver {
-  constructor(private readonly answerService: AnswerService) {}
+  constructor(
+    private readonly answerService: AnswerService,
+    private readonly questionService: QuestionService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Mutation(() => Answer)
   @UseGuards(GqlAuthGuard)
@@ -54,8 +67,9 @@ export class AnswersResolver {
   @UseGuards(GqlAuthGuard)
   async approveAnswer(@CurrentUser() user: User, @Args('id') id: string) {
     try {
-      const { question } = await this.answerService.findById(id);
-      await this.validateApprovedByQuestionMaker(user, question.user.id);
+      const answer = await this.answerService.findById(id);
+      const completeQuestion = await this.question(answer);
+      await this.validateApprovedByQuestionMaker(user, completeQuestion.user);
       return this.answerService.update(id, {
         isApproved: true,
       });
@@ -88,12 +102,22 @@ export class AnswersResolver {
     @Args('updateAnswerInput') updateAnswerInput: UpdateAnswerInput,
   ) {
     try {
-      const { question } = await this.answerService.findById(id);
-
-      await this.validateApprovedByQuestionMaker(user, question.user.id);
+      const answer = await this.answerService.findById(id);
+      const completeQuestion = await this.question(answer);
+      await this.validateApprovedByQuestionMaker(user, completeQuestion.user);
       return this.answerService.update(id, updateAnswerInput);
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  @ResolveField()
+  question(@Parent() answer: Answer) {
+    return this.questionService.findById(answer.id);
+  }
+
+  @ResolveField()
+  user(@Parent() answer: Answer) {
+    return this.usersService.findById(answer.user);
   }
 }
