@@ -13,7 +13,7 @@ export class Subject implements ISubject {
   id: string;
   @Field(() => Department, { description: 'Example field (placeholder)' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Department.name })
-  department: Department;
+  department: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop({ unique: true })
   name: string;

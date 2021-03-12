@@ -22,7 +22,7 @@ export class Department implements IDepartment {
     ref: User.name,
   })
   @Field(() => User, { description: 'Example field (placeholder)' })
-  moderator: User;
+  moderator: string;
 }
 
 export const DepartmentSchema = SchemaFactory.createForClass(Department);

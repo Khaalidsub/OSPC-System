@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { DepartmentsService } from './departments.service';
 import { Department } from './entities/department.entity';
 import { CreateDepartmentInput } from './dto/create-department.input';
@@ -173,5 +180,9 @@ export class DepartmentsResolver {
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
+  }
+  @ResolveField()
+  moderator(@Parent() department: Department) {
+    return this.usersService.findById(department.moderator);
   }
 }

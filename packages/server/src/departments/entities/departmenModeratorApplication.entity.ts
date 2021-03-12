@@ -20,7 +20,7 @@ export class DepartmentModeratorApplication
     type: mongoose.Schema.Types.ObjectId,
     ref: Department.name,
   })
-  department: IDepartment;
+  department: string;
   @Prop()
   resumeLinks: string[];
   @Prop({

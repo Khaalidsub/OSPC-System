@@ -85,6 +85,6 @@ export class SubjectsResolver {
   }
   @ResolveField()
   department(@Parent() subject: Subject) {
-    return this.departmentsService.findById(subject.id);
+    return this.departmentsService.findById(subject.department);
   }
 }
