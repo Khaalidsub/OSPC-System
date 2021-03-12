@@ -9,7 +9,16 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
-  }
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "incremental": true,
+"paths": {
+  "interfaces/*":["./src/interfaces/*"],
+  "errors/*":["./src/errors/*"],
+  "enums/*":["./src/enums/*"]
+}
+  },
+
+  
+  "include": ["./src/**/*.ts"]
 }

@@ -4,6 +4,6 @@ import { IUser } from './IUser';
 
 export interface ISubjectSpecialization {
   specialization: ISubjectDescription[];
-  subject: ISubject;
-  coach?: IUser;
+  subject: string;
+  coach: string;
 }

@@ -8,3 +8,5 @@ export * from './IWeeklySchedule';
 export * from './ISubject';
 export * from './ISubjectDescription';
 export * from './ISubjectSpecialization';
+export * from './IMessage';
+export * from './IChat';

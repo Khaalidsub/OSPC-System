@@ -1,11 +1,10 @@
-import { IQuestion } from './IQuestion';
 import { IUser } from './IUser';
 
 export class IAnswer {
   id: string;
-  question: IQuestion;
+  question: string;
   input: string;
   votes: number;
   isApproved: boolean;
-  user: IUser;
+  user: string;
 }

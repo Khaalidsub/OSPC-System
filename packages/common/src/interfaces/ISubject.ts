@@ -1,8 +1,6 @@
-import { IDepartment } from './IDepartment';
-
 export interface ISubject {
   id: string;
-  subjectName: string;
+  name: string;
   description: string;
-  department: IDepartment;
+  department: string;
 }

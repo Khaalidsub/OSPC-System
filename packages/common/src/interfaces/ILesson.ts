@@ -9,7 +9,7 @@ export type DaySchedule = {
 };
 
 export interface ILesson {
-  subject: ISubject;
-  coach: IUser;
-  student?: IUser;
+  subject: string;
+  coach: string;
+  student: string;
 }

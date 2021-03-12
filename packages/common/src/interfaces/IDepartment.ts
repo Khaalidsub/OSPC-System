@@ -1,13 +1,11 @@
-import { IUser } from './IUser';
-
 export interface IDepartment {
   id: string;
-  departmentName: string;
-  departmentDescription: string;
-  departmentModerator: IUser;
+  name: string;
+  description: string;
+  moderator: string;
 }
 
 export interface IDepartmentModeratorApplication {
   description: string;
-  department: IDepartment | string;
+  department: string;
 }
