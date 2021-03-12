@@ -13,5 +13,6 @@ import { UsersModule } from 'users/users.module';
     UsersModule,
   ],
   providers: [DepartmentsResolver, DepartmentsService],
+  exports: [DepartmentsService],
 })
 export class DepartmentsModule {}

@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Parent,
+  ResolveField,
+} from '@nestjs/graphql';
 import { SubjectsService } from './subjects.service';
 import { Subject } from './entities/subject.entity';
 import { CreateSubjectInput } from './dto/create-subject.input';
@@ -14,11 +21,15 @@ import { ModeratorGuard } from 'auth/guards/graph-moderator.auth.guard';
 import { GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import { invalid, subjectNameError } from '@common/utils';
 import { SentryInterceptor } from '../Sentry';
+import { DepartmentsService } from 'departments/departments.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)
 export class SubjectsResolver {
   private readonly logger = new Logger(SubjectsResolver.name);
-  constructor(private readonly subjectsService: SubjectsService) {}
+  constructor(
+    private readonly subjectsService: SubjectsService,
+    private readonly departmentsService: DepartmentsService,
+  ) {}
 
   @Mutation(() => Subject)
   // @UseGuards(GqlAuthGuard, ModeratorGuard)
@@ -26,9 +37,7 @@ export class SubjectsResolver {
     @Args('createSubjectInput') createSubjectInput: CreateSubjectInput,
   ) {
     try {
-      return (
-        await this.subjectsService.create(createSubjectInput)
-      ).execPopulate();
+      return this.subjectsService.create(createSubjectInput);
     } catch (error) {
       throw new Error(error);
     }
@@ -59,8 +68,7 @@ export class SubjectsResolver {
     @Args('updateSubjectInput') updateSubjectInput: UpdateSubjectInput,
   ) {
     try {
-      const result = await this.subjectsService.update(id, updateSubjectInput);
-      return result.populate('department').execPopulate();
+      return this.subjectsService.update(id, updateSubjectInput);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
@@ -74,5 +82,9 @@ export class SubjectsResolver {
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
+  }
+  @ResolveField()
+  department(@Parent() subject: Subject) {
+    return this.departmentsService.findById(subject.id);
   }
 }
