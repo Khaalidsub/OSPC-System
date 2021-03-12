@@ -13,6 +13,7 @@ type User {
   accountStatus: CoachingStatus
   coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
+  sender: User!
 }
 
 enum Role {
@@ -26,6 +27,21 @@ enum CoachingStatus {
   active
   pending
   inactive
+}
+
+type Chat {
+  id: String!
+  isOpen: Boolean!
+  users: [User!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+type Message {
+  id: ID!
+  sender: User!
+  chat: Chat!
+  input: String!
 }
 
 type Department {
@@ -130,6 +146,21 @@ input UserInputType {
   moderatorStatus: CoachingStatus!
 }
 
+input ChatInputType {
+  id: String!
+  isOpen: Boolean!
+  users: [UserInputType!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+input MessageInputType {
+  id: ID!
+  sender: UserInputType!
+  chat: ChatInputType!
+  input: String!
+}
+
 input DepartmentInputType {
   """Example field (placeholder)"""
   id: String!
@@ -193,6 +224,10 @@ type Query {
   question(id: String!): Question!
   answers: [Answer!]!
   answer(id: String!): Answer!
+  chats: [Chat!]!
+  chat(id: String!): Chat!
+  messages: [Message!]!
+  message(id: String!): Message!
 }
 
 type Mutation {
@@ -211,15 +246,21 @@ type Mutation {
   removeSubject(id: String!): Subject!
   applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
   approveCoach(id: String!): User!
-  updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!): WeeklySchedule!
+  updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!, id: String!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
   makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
-  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!, id: String!): Question!
   removeQuestion(id: String!): Question!
   answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
   voteAnswer(answer: String!, vote: Boolean!): Answer!
   approveAnswer(id: String!): Answer!
-  updateAnswer(updateAnswerInput: UpdateAnswerInput!): Answer!
+  updateAnswer(updateAnswerInput: UpdateAnswerInput!, id: String!): Answer!
+  createChat(createChatInput: CreateChatInput!): Chat!
+  updateChat(updateChatInput: UpdateChatInput!): Chat!
+  removeChat(id: String!): Chat!
+  createMessage(createMessageInput: CreateMessageInput!): Message!
+  updateMessage(updateMessageInput: UpdateMessageInput!, id: String!): Message!
+  removeMessage(id: String!): Message!
 }
 
 input CreateUserInput {
@@ -354,8 +395,8 @@ input CreateQuestionInput {
 }
 
 input UpdateQuestionInput {
-  id: ID!
-  question: String!
+  id: ID
+  question: String
 }
 
 input CreateAnswerInput {
@@ -364,9 +405,35 @@ input CreateAnswerInput {
 }
 
 input UpdateAnswerInput {
-  id: ID!
-  question: QuestionInputType!
+  id: ID
+  question: QuestionInputType
+  input: String
+  votes: Int
+  isApproved: Boolean
+}
+
+input CreateChatInput {
+  users: [String!]!
+  chat_time: Int!
+}
+
+input UpdateChatInput {
+  id: String
+  isOpen: Boolean
+  users: [UserInputType!]
+  chat_time: Int
+  duration: Int
+}
+
+input CreateMessageInput {
   input: String!
-  votes: Int!
-  isApproved: Boolean!
+  sender: String!
+  chat: String!
+}
+
+input UpdateMessageInput {
+  id: ID
+  sender: UserInputType
+  chat: ChatInputType
+  input: String
 }

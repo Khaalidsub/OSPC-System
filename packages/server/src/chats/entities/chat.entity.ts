@@ -1,7 +1,28 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-
+import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+import { IChat, IUser } from '@common/interfaces';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
+import { Document } from 'mongoose';
+import { User } from 'users/entities/user.entity';
+export type ChatDocument = Chat & Document;
 @ObjectType()
-export class Chat {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+@Schema()
+@InputType('ChatInputType')
+export class Chat implements IChat {
+  @Field(() => String)
+  id: string;
+  @Field(() => Boolean)
+  @Prop({ default: false })
+  isOpen: boolean;
+  @Field(() => [User])
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
+  users: User[] | string[];
+  @Field(() => Int)
+  @Prop()
+  chat_time: number;
+  @Field(() => Int)
+  @Prop({ default: 1 })
+  duration: number;
 }
+
+export const ChatSchema = SchemaFactory.createForClass(Chat);

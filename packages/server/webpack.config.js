@@ -37,6 +37,7 @@ module.exports = function (options) {
         utils: path.resolve('./src/utils/'),
         forum: path.resolve('./src/forum/'),
         departments: path.resolve('./src/departments/'),
+        chats: path.resolve('./src/chats/'),
         coach: path.resolve('./src/coach/'),
         '@common': path.resolve('./node_modules/@ospc/common/src'),
       },

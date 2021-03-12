@@ -31,4 +31,11 @@ export class UsersService {
   remove(id: string) {
     return this.userModel.findByIdAndDelete(id).exec();
   }
+  findByIds(users: string[]) {
+    return this.userModel.find({
+      _id: {
+        $in: users,
+      },
+    });
+  }
 }

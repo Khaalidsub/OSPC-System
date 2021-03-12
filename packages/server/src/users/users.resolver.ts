@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveProperty,
+  Root,
+  ResolveField,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -22,6 +30,8 @@ import {
 import { User } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
+import { Chat } from 'chats/entities/chat.entity';
+import { Message } from 'chats/entities/message.entity';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -86,5 +96,10 @@ export class UsersResolver {
     } catch (error) {
       this.logger.error(error);
     }
+  }
+
+  @ResolveField('sender', () => User)
+  async getUser(@Root() message: Message) {
+    return this.usersService.findById(message.sender as string);
   }
 }

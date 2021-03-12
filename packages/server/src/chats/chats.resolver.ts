@@ -1,12 +1,26 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  ResolveProperty,
+  Root,
+  Parent,
+} from '@nestjs/graphql';
 import { ChatsService } from './chats.service';
 import { Chat } from './entities/chat.entity';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
+import { User } from 'users/entities/user.entity';
+import { UsersService } from 'users/users.service';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
-  constructor(private readonly chatsService: ChatsService) {}
+  constructor(
+    private readonly chatsService: ChatsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Mutation(() => Chat)
   createChat(@Args('createChatInput') createChatInput: CreateChatInput) {
@@ -19,7 +33,7 @@ export class ChatsResolver {
   }
 
   @Query(() => Chat, { name: 'chat' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.chatsService.findOne(id);
   }
 
@@ -29,7 +43,11 @@ export class ChatsResolver {
   }
 
   @Mutation(() => Chat)
-  removeChat(@Args('id', { type: () => Int }) id: number) {
+  removeChat(@Args('id', { type: () => String }) id: string) {
     return this.chatsService.remove(id);
+  }
+  @ResolveField('users', () => [User])
+  async getUsers(@Parent() chat: Chat) {
+    return this.usersService.findByIds(chat.users as string[]);
   }
 }

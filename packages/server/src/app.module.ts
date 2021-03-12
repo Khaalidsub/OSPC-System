@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from 'users/users.module';
@@ -28,12 +28,14 @@ const db = process.env.DB ? process.env.DB : 'localhost';
         SubjectsModule,
         ForumModule,
         CoachModule,
+        ChatsModule,
       ],
     }),
     MongooseModule.forRoot(`mongodb://${db}/ospc`, {
       useFindAndModify: false,
+
       connectionFactory: (connection) => {
-        connection.plugin(autoPopulateAllFields);
+        // connection.plugin(autoPopulateAllFields);
         return connection;
       },
     }),
