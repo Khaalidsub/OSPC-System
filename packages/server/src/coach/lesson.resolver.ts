@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { LessonsService } from './lesson.service';
 import { CurrentUser, GqlAuthGuard } from '../auth/guards/graph-auth.guard';
 import {
@@ -16,12 +23,16 @@ import {
   invalidSelectedTimeError,
   lessonUnavailableError,
 } from '@common/utils';
+import { UsersService } from 'users/users.service';
+import { SubjectsService } from 'subjects/subjects.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)
 export class LessonResolver {
   constructor(
     private readonly lessonsService: LessonsService,
     private readonly scheduleService: ScheduleService,
+    private readonly usersService: UsersService,
+    private readonly subjectsService: SubjectsService,
   ) {}
 
   @Mutation(() => Lesson)
@@ -34,12 +45,10 @@ export class LessonResolver {
       await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
 
-      return (
-        await this.lessonsService.create({
-          ...createLessonInput,
-          student: user.id,
-        } as any)
-      ).execPopulate();
+      return this.lessonsService.create({
+        ...createLessonInput,
+        student: user.id,
+      } as any);
     } catch (error) {
       throw new Error(error.message);
     }
@@ -105,5 +114,17 @@ export class LessonResolver {
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+  @ResolveField()
+  student(@Parent() lesson: Lesson) {
+    return this.usersService.findById(lesson.student);
+  }
+  @ResolveField()
+  subject(@Parent() lesson: Lesson) {
+    return this.subjectsService.findById(lesson.subject);
+  }
+  @ResolveField()
+  coach(@Parent() lesson: Lesson) {
+    return this.usersService.findById(lesson.coach);
   }
 }

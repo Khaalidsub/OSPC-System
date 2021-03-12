@@ -11,5 +11,6 @@ import { DepartmentsModule } from 'departments/departments.module';
     DepartmentsModule,
   ],
   providers: [SubjectsResolver, SubjectsService],
+  exports: [SubjectsService],
 })
 export class SubjectsModule {}

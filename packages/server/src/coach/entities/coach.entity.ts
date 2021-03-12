@@ -24,14 +24,14 @@ export class SubjectSpecialization implements ISubjectSpecialization {
   @Field(() => ID)
   id: string;
   @Field(() => [SubjectDescription])
-  @Prop(raw([SubjectDescription]))
+  @Prop({ childSchemas: [SubjectDescription] })
   specialization: SubjectDescription[];
   @Field(() => Subject)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subject.name })
-  subject: Subject;
+  subject: string;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  coach: User;
+  coach: string;
 }
 
 export const SubjectSpecializationSchema = SchemaFactory.createForClass(

@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ScheduleService } from './schedule.service';
 
 import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
@@ -25,7 +33,7 @@ import {
   coachActiveError,
 } from '@common/utils';
 @UseInterceptors(SentryInterceptor)
-@Resolver(() => User)
+@Resolver(() => WeeklySchedule)
 export class CoachResolver {
   private readonly logger = new Logger(CoachResolver.name);
   constructor(
@@ -103,5 +111,10 @@ export class CoachResolver {
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  @ResolveField()
+  coach(@Parent() weeklySchedule: WeeklySchedule) {
+    return this.usersService.findById(weeklySchedule.coach);
   }
 }

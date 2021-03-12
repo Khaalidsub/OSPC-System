@@ -19,7 +19,7 @@ export class Lesson implements ILesson {
   day: Days;
   @Field(() => User, { description: 'Example field (placeholder)' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  student: User;
+  student: string;
   @Field(() => Int)
   @Prop()
   date: number;
@@ -28,10 +28,10 @@ export class Lesson implements ILesson {
   time_start: number; //hours and booking time is 45 minutes so start time 1->1:45
   @Field(() => Subject)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subject.name })
-  subject: Subject;
+  subject: string;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  coach: User;
+  coach: string;
   @Field(() => Int)
   @Prop()
   duration: number;

@@ -29,9 +29,9 @@ export class WeeklySchedule implements IWeeklySchedule {
   id: string;
   @Field(() => User, { description: 'Example field (placeholder)' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  coach: User;
+  coach: string;
   @Field(() => [Schedule], { description: 'Example field (placeholder)' })
-  @Prop(raw([Schedule]))
+  @Prop({ childSchemas: [Schedule] })
   schedule: Schedule[];
 }
 export const WeeklyScheduleSchema = SchemaFactory.createForClass(
