@@ -18,7 +18,7 @@ export class CreateScheduleInput implements ISchedule {
   time_end: number;
 }
 @InputType()
-export class CreateWeeklyScheduleInput implements IWeeklySchedule {
+export class CreateWeeklyScheduleInput {
   @Field(() => [Schedule])
   schedule: Schedule[];
 }
