@@ -5,6 +5,8 @@ import {
   Args,
   ResolveField,
   Parent,
+  Subscription,
+  Context,
 } from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
 import { Message } from './entities/message.entity';
@@ -12,6 +14,7 @@ import { CreateMessageInput } from './dto/create-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
 import { UsersService } from 'users/users.service';
 import { ChatsService } from './chats.service';
+import { PubSub } from 'apollo-server-express';
 
 @Resolver(() => Message)
 export class MessagesResolver {
@@ -22,10 +25,17 @@ export class MessagesResolver {
   ) {}
 
   @Mutation(() => Message)
-  createMessage(
+  async createMessage(
     @Args('createMessageInput') createMessageInput: CreateMessageInput,
+    @Context('pubSub') pubSub: PubSub,
   ) {
-    return this.MessagesService.create(createMessageInput);
+    try {
+      const message = await this.MessagesService.create(createMessageInput);
+      pubSub.publish('onMessageSent', { onMessageSent: message });
+      return message;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   @Query(() => [Message], { name: 'messages' })
@@ -49,6 +59,10 @@ export class MessagesResolver {
   @Mutation(() => Message)
   removeMessage(@Args('id', { type: () => String }) id: string) {
     return this.MessagesService.remove(id);
+  }
+  @Subscription(() => Message)
+  onMessageSent(@Context('pubSub') pubSub: PubSub) {
+    return pubSub.asyncIterator('onMessageSent');
   }
 
   @ResolveField()

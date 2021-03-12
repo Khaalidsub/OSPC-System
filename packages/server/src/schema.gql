@@ -437,3 +437,8 @@ input UpdateMessageInput {
   chat: ChatInputType
   input: String
 }
+
+type Subscription {
+  onChatCreate: Chat!
+  onMessageSent: Message!
+}

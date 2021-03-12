@@ -7,6 +7,8 @@ import {
   ResolveProperty,
   Root,
   Parent,
+  Context,
+  Subscription,
 } from '@nestjs/graphql';
 import { ChatsService } from './chats.service';
 import { Chat } from './entities/chat.entity';
@@ -14,6 +16,7 @@ import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { User } from 'users/entities/user.entity';
 import { UsersService } from 'users/users.service';
+import { PubSub } from 'apollo-server-express';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
@@ -23,8 +26,19 @@ export class ChatsResolver {
   ) {}
 
   @Mutation(() => Chat)
-  createChat(@Args('createChatInput') createChatInput: CreateChatInput) {
-    return this.chatsService.create(createChatInput);
+  async createChat(
+    @Args('createChatInput') createChatInput: CreateChatInput,
+    @Context('pubSub') pubSub: PubSub,
+  ) {
+    try {
+      const chat = await this.chatsService.create(createChatInput);
+      pubSub.publish('onChatCreate', {
+        onChatCreate: chat,
+      });
+      return chat;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   @Query(() => [Chat], { name: 'chats' })
@@ -40,6 +54,10 @@ export class ChatsResolver {
   @Mutation(() => Chat)
   updateChat(@Args('updateChatInput') updateChatInput: UpdateChatInput) {
     return this.chatsService.update(updateChatInput.id, updateChatInput);
+  }
+  @Subscription(() => Chat)
+  onChatCreate(@Context('pubSub') pubSub: PubSub) {
+    return pubSub.asyncIterator('onChatCreate');
   }
 
   @Mutation(() => Chat)

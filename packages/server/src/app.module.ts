@@ -14,11 +14,20 @@ import { autoPopulateAllFields } from 'mongoose-autopopulator';
 import { formatError } from 'utils';
 import { ChatsModule } from './chats/chats.module';
 import { PaymentModule } from './payment/payment.module';
+import { PubSub } from 'apollo-server-express';
 const db = process.env.DB ? process.env.DB : 'localhost';
+const pubSub = new PubSub();
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      context: ({ req }) => ({ req }),
+      context: ({ req, connection }) => {
+        if (connection?.context) {
+          return { req: { headers: connection.context }, pubSub };
+        }
+        return { req, pubSub };
+      },
+      installSubscriptionHandlers: true,
+
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       formatError: formatError,
       include: [
