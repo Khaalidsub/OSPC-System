@@ -10,3 +10,5 @@ export * from './ISubjectDescription';
 export * from './ISubjectSpecialization';
 export * from './IMessage';
 export * from './IChat';
+export * from './ITransactionHistory';
+export * from './IUserWallet';

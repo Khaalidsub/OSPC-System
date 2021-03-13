@@ -241,14 +241,24 @@
         "signature": "4f1e6cacb8f68db006693cf235be9a827ea0a1242b079192ba02c6f59331bbcc",
         "affectsGlobalScope": false
       },
+      "./src/interfaces/itransactionhistory.ts": {
+        "version": "89a4e39430ce5bc2843fe1d2a52ad7c5d02edd3e39903c6d6442219b4f7c8987",
+        "signature": "e44f827cea60b142ab4b50c200bf123c3d0897c5d1aa7a7bed1e811b6c6883c1",
+        "affectsGlobalScope": false
+      },
+      "./src/interfaces/iuserwallet.ts": {
+        "version": "f88eb7277f4d45133e7b6be4329fe749e407691ee42e33d6400b24b2eea5350d",
+        "signature": "968c5014373a1eb951fed056e10f3fb6f2bebb117250c9236dbebb016fc00643",
+        "affectsGlobalScope": false
+      },
       "./src/interfaces/iweeklyschedule.ts": {
         "version": "c7a972b67fcba55b02bc08df28af1f945fa6e719b75515b9f0c20cdd4ce836cf",
         "signature": "c31d264349991732d5bfaf5ce1a48783e2e802098e792aa05edbbb4231ab71df",
         "affectsGlobalScope": false
       },
       "./src/interfaces/index.ts": {
-        "version": "9c8c3e55a48fc68120b5e26a7bcbbd60a07c5b09d2ef8279f40d31fed3c79986",
-        "signature": "9c8c3e55a48fc68120b5e26a7bcbbd60a07c5b09d2ef8279f40d31fed3c79986",
+        "version": "464fc857ebdc919f0721ac2ffa0a30ce178404922d2775ec3e53ea5477dffccb",
+        "signature": "464fc857ebdc919f0721ac2ffa0a30ce178404922d2775ec3e53ea5477dffccb",
         "affectsGlobalScope": false
       },
       "./src/utils/checkers.ts": {
@@ -624,6 +634,16 @@
       "../../node_modules/@types/cors/index.d.ts": {
         "version": "7ba5854095e85c14e153f087b1232e19ed2fee62a7fefd8bf57e0956edab4ae2",
         "signature": "7ba5854095e85c14e153f087b1232e19ed2fee62a7fefd8bf57e0956edab4ae2",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/moment/ts3.1-typings/moment.d.ts": {
+        "version": "f97edc4d3b4dd0b32766e9633086497565c37657fb591cc84a35864db4bc2fc5",
+        "signature": "f97edc4d3b4dd0b32766e9633086497565c37657fb591cc84a35864db4bc2fc5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/cron/index.d.ts": {
+        "version": "a88aa41ef28a1c632437f648c7f432da9e075567f4cbe35dbf6611bc76b86093",
+        "signature": "a88aa41ef28a1c632437f648c7f432da9e075567f4cbe35dbf6611bc76b86093",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/eslint/helpers.d.ts": {
@@ -1560,6 +1580,11 @@
       ],
       "../../node_modules/@types/cors/index.d.ts": [
         "../../node_modules/@types/express/index.d.ts"
+      ],
+      "../../node_modules/@types/cron/index.d.ts": [
+        "../../node_modules/@types/node/child_process.d.ts",
+        "../../node_modules/@types/node/index.d.ts",
+        "../../node_modules/moment/ts3.1-typings/moment.d.ts"
       ],
       "../../node_modules/@types/eslint-scope/index.d.ts": [
         "../../node_modules/@types/eslint/index.d.ts",
@@ -2561,7 +2586,9 @@
         "./src/interfaces/isubject.ts",
         "./src/interfaces/isubjectdescription.ts",
         "./src/interfaces/isubjectspecialization.ts",
+        "./src/interfaces/itransactionhistory.ts",
         "./src/interfaces/iuser.ts",
+        "./src/interfaces/iuserwallet.ts",
         "./src/interfaces/iweeklyschedule.ts"
       ],
       "./src/interfaces/ischedule.ts": [
@@ -2638,6 +2665,11 @@
       ],
       "../../node_modules/@types/cors/index.d.ts": [
         "../../node_modules/@types/express/index.d.ts"
+      ],
+      "../../node_modules/@types/cron/index.d.ts": [
+        "../../node_modules/@types/node/child_process.d.ts",
+        "../../node_modules/@types/node/index.d.ts",
+        "../../node_modules/moment/ts3.1-typings/moment.d.ts"
       ],
       "../../node_modules/@types/eslint-scope/index.d.ts": [
         "../../node_modules/@types/eslint/index.d.ts",
@@ -3634,7 +3666,9 @@
         "./src/interfaces/isubject.ts",
         "./src/interfaces/isubjectdescription.ts",
         "./src/interfaces/isubjectspecialization.ts",
+        "./src/interfaces/itransactionhistory.ts",
         "./src/interfaces/iuser.ts",
+        "./src/interfaces/iuserwallet.ts",
         "./src/interfaces/iweeklyschedule.ts"
       ],
       "./src/interfaces/ischedule.ts": [
@@ -3671,6 +3705,7 @@
       "../../node_modules/@types/cookiejar/index.d.ts",
       "../../node_modules/@types/cookies/index.d.ts",
       "../../node_modules/@types/cors/index.d.ts",
+      "../../node_modules/@types/cron/index.d.ts",
       "../../node_modules/@types/eslint-scope/index.d.ts",
       "../../node_modules/@types/eslint/helpers.d.ts",
       "../../node_modules/@types/eslint/index.d.ts",
@@ -3894,6 +3929,7 @@
       "../../node_modules/jest-diff/build/index.d.ts",
       "../../node_modules/jest-diff/build/printdiffs.d.ts",
       "../../node_modules/jest-diff/build/types.d.ts",
+      "../../node_modules/moment/ts3.1-typings/moment.d.ts",
       "../../node_modules/pretty-format/build/index.d.ts",
       "../../node_modules/pretty-format/build/types.d.ts",
       "../../node_modules/source-map/source-map.d.ts",
@@ -3945,7 +3981,9 @@
       "./src/interfaces/isubject.ts",
       "./src/interfaces/isubjectdescription.ts",
       "./src/interfaces/isubjectspecialization.ts",
+      "./src/interfaces/itransactionhistory.ts",
       "./src/interfaces/iuser.ts",
+      "./src/interfaces/iuserwallet.ts",
       "./src/interfaces/iweeklyschedule.ts",
       "./src/utils/checkers.ts",
       "./src/utils/exceptions.ts",
