@@ -12,15 +12,15 @@ export class PaymentService {
     return `This action returns all payment`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} payment`;
   }
 
-  update(id: number, updatePaymentInput: UpdatePaymentInput) {
+  update(id: string, updatePaymentInput: UpdatePaymentInput) {
     return `This action updates a #${id} payment`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} payment`;
   }
 }

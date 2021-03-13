@@ -133,6 +133,24 @@ type Answer {
   user: User!
 }
 
+type Payment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type TransactionHistory {
+  id: String!
+  user: User!
+  date: Int!
+  amount: Float!
+}
+
+type UserWallet {
+  id: String!
+  balance: Float!
+  user: User!
+}
+
 input UserInputType {
   id: ID
   name: String!
@@ -211,6 +229,19 @@ input AnswerInputType {
   user: UserInputType!
 }
 
+input TransactionHistoryInputType {
+  id: String!
+  user: UserInputType!
+  date: Int!
+  amount: Float!
+}
+
+input UserWalletInputType {
+  id: String!
+  balance: Float!
+  user: UserInputType!
+}
+
 type Query {
   users: [User!]!
   user(id: String!): User!
@@ -228,6 +259,10 @@ type Query {
   chat(id: String!): Chat!
   messages: [Message!]!
   message(id: String!): Message!
+  wallets: [UserWallet!]!
+  wallet(id: String!): UserWallet!
+  transactions: [TransactionHistory!]!
+  transaction(id: String!): UserWallet!
 }
 
 type Mutation {
@@ -261,6 +296,13 @@ type Mutation {
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!, id: String!): Message!
   removeMessage(id: String!): Message!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
+  removePayment(id: String!): Payment!
+  topUpUser(token: String!): TransactionHistory!
+  createTransactionHistory(createTransactionHistoryInput: CreateTransactionInput!): TransactionHistory!
+  removeTransactionHistory(id: String!): TransactionHistory!
+  createUserWallet(createUserWalletInput: CreateUserWalletInput!): UserWallet!
 }
 
 input CreateUserInput {
@@ -436,6 +478,27 @@ input UpdateMessageInput {
   sender: UserInputType
   chat: ChatInputType
   input: String
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserWalletInput {
+  id: String
+  balance: Float
+  user: UserInputType
+}
+
+input CreateTransactionInput {
+  user: String!
+  date: Int!
+  amount: Float!
+}
+
+input CreateUserWalletInput {
+  user: String!
 }
 
 type Subscription {

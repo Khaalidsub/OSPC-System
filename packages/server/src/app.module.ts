@@ -41,6 +41,7 @@ const pubSub = new PubSub();
         SubjectsModule,
         ForumModule,
         CoachModule,
+        PaymentModule,
         ChatsModule,
       ],
     }),
