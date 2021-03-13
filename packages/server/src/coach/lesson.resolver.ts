@@ -25,6 +25,7 @@ import {
 } from '@common/utils';
 import { UsersService } from 'users/users.service';
 import { SubjectsService } from 'subjects/subjects.service';
+import { EventEmitter2 } from 'eventemitter2';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)
 export class LessonResolver {
@@ -33,6 +34,7 @@ export class LessonResolver {
     private readonly scheduleService: ScheduleService,
     private readonly usersService: UsersService,
     private readonly subjectsService: SubjectsService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @Mutation(() => Lesson)
@@ -45,10 +47,13 @@ export class LessonResolver {
       await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
 
-      return this.lessonsService.create({
+      const lesson = this.lessonsService.create({
         ...createLessonInput,
         student: user.id,
       } as any);
+
+      this.eventEmitter.emit('lesson.booked', lesson);
+      return lesson;
     } catch (error) {
       throw new Error(error.message);
     }

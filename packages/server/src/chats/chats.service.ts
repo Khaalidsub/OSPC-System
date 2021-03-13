@@ -32,4 +32,8 @@ export class ChatsService {
   remove(id: string) {
     return this.chatModel.findByIdAndDelete(id).exec();
   }
+
+  findChatByUsers(users: string[]) {
+    return this.chatModel.find({ users: users });
+  }
 }

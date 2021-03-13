@@ -15,10 +15,14 @@ import { formatError } from 'utils';
 import { ChatsModule } from './chats/chats.module';
 import { PaymentModule } from './payment/payment.module';
 import { PubSub } from 'apollo-server-express';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ScheduleModule } from '@nestjs/schedule';
 const db = process.env.DB ? process.env.DB : 'localhost';
 const pubSub = new PubSub();
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
+    EventEmitterModule.forRoot(),
     GraphQLModule.forRoot({
       context: ({ req, connection }) => {
         if (connection?.context) {

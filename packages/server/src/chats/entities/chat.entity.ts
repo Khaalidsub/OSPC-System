@@ -12,7 +12,7 @@ export class Chat implements IChat {
   @Field(() => String)
   id: string;
   @Field(() => Boolean)
-  @Prop({ default: false })
+  @Prop({ default: true })
   isOpen: boolean;
   @Field(() => [User])
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
