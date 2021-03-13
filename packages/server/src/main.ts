@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
+import { config } from 'dotenv';
 // import * as Tracing from '@sentry/tracing';
 import * as helmet from 'helmet';
+
 import { ValidationPipe } from '@nestjs/common';
 declare const module: any;
 
 async function bootstrap() {
+  config();
   const app = await NestFactory.create(AppModule);
 
   Sentry.init({
