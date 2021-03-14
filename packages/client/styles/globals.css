@@ -1,6 +1,26 @@
+
 @tailwindcss base;
 @tailwindcss components;
 @tailwindcss utilities;
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'),
+    url(../public/fonts/poppins/Poppins-Black.ttf) format('ttf');
+}
+@font-face {
+  font-family: 'Raleway';
+  src: local('Raleway'),
+    url(../public/fonts/raleway/Raleway-Italic-VariableFont_wght.ttf)
+      format('ttf');
+}
+
+h1,h2{
+  font-family: Poppins, sans-serif;
+}
+
+h3,h4{
+  font-family:Raleway, sans-serif;
+}
 html,
 body {
   margin: 0;

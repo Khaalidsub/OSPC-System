@@ -83,12 +83,12 @@ export const Dashboard = () => {
 
 
     const Banner = () => <div className=" bg-yellow-100 grid grid-cols-1 items-center text-center w-2/3 m-4 rounded-3xl shadow-md ">
-        <h3 className="text-4xl font-bold text-blue-900">
+        <h1 className="text-4xl font-bold text-blue-900">
             Hello world!
-        </h3>
+        </h1>
     </div>
     return (
-        <div className="md:m-6 lg:m-24 flex flex-col space-y-6">
+        <div className=" md:m-6 lg:m-24 flex flex-col space-y-6">
             <div className="flex flex-col md:flex-row md:justify-between">
                 <Banner />
                 <UpComingLessons />
