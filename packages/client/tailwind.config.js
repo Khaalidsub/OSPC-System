@@ -15,7 +15,14 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-
+      primary: '#1F2932',
+      secondary: '#017A9B',
+      tertiary: '#427E92',
+      information: '#FD5300',
+      danger: '',
+      warning: '',
+      success: '',
+      background: 'FAFBFC',
       black: colors.black,
       white: colors.white,
       gray: colors.coolGray,
