@@ -3,3 +3,4 @@ export * from './TertiaryCard';
 export * from './MetricCard';
 export * from './PrimaryCard';
 export * from './BadgeCard';
+export * from './CoachCard';

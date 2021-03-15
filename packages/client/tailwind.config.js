@@ -18,6 +18,7 @@ module.exports = {
       primary: '#1F2932',
       secondary: '#017A9B',
       tertiary: '#427E92',
+      badgs: '#F5FCFE',
       information: '#FD5300',
       danger: '',
       warning: '',
@@ -930,5 +931,10 @@ module.exports = {
   //     sans: ['Poppins', 'Raleway', 'sans-serif'],
   //   },
   // },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('tailwindcss-elevation')(['responsive']),
+  ],
 };

@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
+    "@tailwindcss/forms": "^0.2.1",
+    "@tailwindcss/line-clamp": "^0.2.0",
+    "@tailwindcss/typography": "^0.4.0",
     "next": "10.0.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "tailwindcss-elevation": "^1.0.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.2",
