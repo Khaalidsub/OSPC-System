@@ -1,98 +1,60 @@
-import { BadgeCard, BadgeColor, PrimaryCard, PrimaryButton, SelectField, TertiaryCard } from 'components'
+import { BadgeCard, BadgeColor, PrimaryCard, PrimaryButton, SelectField, TertiaryCard, SearchField } from 'components'
 
 
 export const Forum = () => {
-    const Questions = () => {
-        return (<div className="mx-5 md:col-span-2 justify-self-stretch flex flex-col space-y-12">
-            <div className="flex flex-row justify-between">
-                <h3 className="text-center md:text-left text-4xl font-bold ">Forum</h3>
-
-                <PrimaryButton label="Ask Question" />
-            </div>
-            <div className="">
-                <div className="grid grid-cols-1 md:grid-cols-3  md:gap-2">
-                    <SelectField label="blue" options={['chocolate', 'value']} />
-                    <div className="hidden md:grid grid-cols-3 col-start-3 place-content-end">
-                        <h3 className="text-xs">Replies</h3>
-                        <h3 className="text-xs">Views</h3>
-                        <h3 className="text-xs">Answered</h3>
-                    </div>
-
-                </div>
-                <PrimaryCard >
-                    <QuestionContent />
-                </PrimaryCard>
-                <PrimaryCard >
-                    <QuestionContent />
-                </PrimaryCard>
-                <PrimaryCard >
-                    <QuestionContent />
-                </PrimaryCard>
-                <PrimaryCard >
-                    <QuestionContent />
-                </PrimaryCard>
-            </div>
-        </div>
-        )
-    }
-    const QuestionContent = () => {
+    const Metadata = () => {
         return (
-
-            <div className="justify-self-stretch   grid grid-cols-6 gap-3">
-                <h3 className="font-bold text-xl  bg-blue-400 p-4 rounded-3xl text-white text-center">S</h3>
-                <div className="col-start-2 col-end-4 flex flex-col space-y-4">
-                    <h3 className="text-lg font-semibold">Question</h3>
-                    <div className="flex flex-row space-x-4">
-                        <p className="text-base font-normal">Subject</p>
-                        <p>Date</p>
-                    </div>
-
-                </div>
-                <div className="col-start-5 col-span-2 hidden  md:grid grid-cols-3 place-content-center">
-                    <h3 className="text-md text-blue-900 col-start-1 text-center">1</h3>
-                    <h3 className="text-md text-blue-900 col-start-2 text-center">54</h3>
-                    <h3 className="text-md text-blue-900 col-start-3 text-center">30</h3>
-
-                </div>
+            <div className="flex flex-row space-x-4 text-xs">
+                <p className="text-secondary ">0 Answer</p>
+                <p>10 days ago</p>
+                <p>Sasha Liskov</p>
+                <p className="text-information">Programming</p>
             </div>
         )
     }
-    const SidePanel = () => {
+    const Question = () => {
         return (
-            <div className="hidden md:flex flex-col justify-self-stretch  space-y-6 ">
-
-                <h3 className="text-2xl font-semibold  text-center">Top Students</h3>
-
-                <div className=" p-3 px-6 rounded-lg space-y-4">
-
-                    <TertiaryCard title="Student" subtitle="">
-                        <img src="https://images.unsplash.com/photo-1506085452766-c330853bea50?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=3e378252a934e660f231666b51bd269a" className="rounded-full h-12 w-12ml-2 mr-3" />
-                    </TertiaryCard>
-                    <TertiaryCard title="Student" subtitle="">
-                        <img src="https://images.unsplash.com/photo-1506085452766-c330853bea50?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=3e378252a934e660f231666b51bd269a" className="rounded-full h-12 w-12ml-2 mr-3" />
-                    </TertiaryCard>
-                    <TertiaryCard title="Student" subtitle="">
-                        <img src="https://images.unsplash.com/photo-1506085452766-c330853bea50?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=3e378252a934e660f231666b51bd269a" className="rounded-full h-12 w-12ml-2 mr-3" />
-                    </TertiaryCard>
-                    <TertiaryCard title="Student" subtitle="">
-                        <img src="https://images.unsplash.com/photo-1506085452766-c330853bea50?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=3e378252a934e660f231666b51bd269a" className="rounded-full h-12 w-12ml-2 mr-3" />
-                    </TertiaryCard>
-
-
-                </div>
+            <div className="self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
+                <h2 className="font-raleway text-2xl" >What is Programming?</h2>
+                <p className="font-raleway line-clamp-2 pr-28 font-normal">Est laborum eiusmod quis anim incididunt amet officia eiusmod in adipisicing. Veniam anim exercitation incididunt laboris qui deserunt. Laboris laborum aute ut nostrud excepteur dolor ipsum minim aute amet.</p>
+                <Metadata />
             </div>
+        )
+    }
+
+    const SelectField = () => {
+        return (
+
+            <select className="border-none outline-none focus:outline-none bg-transparent">
+                <option value="Most Recent">Most Recent</option>
+            </select>
         )
     }
     return (
-        <div className="md:m-6 lg:m-24 space-y-5 mt-6">
+        <div className=" mx-8 lg:mx-44 my-4">
+            <div className="flex flex-col space-y-4 ">
+                <SearchField />
+                <div className=" flex flex-row justify-between px-4 pt-12">
+                    <div className="space-x-4 flex flex-row items-center self-end">
+                        <h3>36 Question</h3>
+                        <button className="px-5 py-2 font-semibold rounded-md shadow-md font-raleway bg-tertiary text-white">Ask Question</button>
+                    </div>
+                    <div className="space-x-4">
+                        <SelectField />
+                        <SelectField />
+                    </div>
 
 
-            <div className="grid grid-cols-1 md:grid-cols-3">
-                <Questions />
-                <SidePanel />
+                </div>
+                <Question />
+                <Question />
+                <Question />
+                <Question />
+                <Question />
             </div>
 
         </div>
+
     )
 }
 
