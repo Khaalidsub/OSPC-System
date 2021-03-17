@@ -25,7 +25,10 @@
       "lib/*":["./lib/*"],
       "util/*":["./util/*"],
       "styles/*":["./styles/*"],
-      "public/*":["./public/*"],
+      "public/*":["./public/*"],  
+      "@common/*":[
+        "./node_modules/@ospc/common/src/*"
+       ]
     }
   },
   "include": [

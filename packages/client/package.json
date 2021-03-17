@@ -9,6 +9,7 @@
     "codegen": "apollo client:codegen --target typescript --watch"
   },
   "dependencies": {
+    "@ospc/common": "file:../common",
     "@apollo/client": "^3.3.11",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/line-clamp": "^0.2.0",
