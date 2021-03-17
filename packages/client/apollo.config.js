@@ -1,9 +1,9 @@
 module.exports = {
   client: {
-    includes: ["./utilities/**/*.ts"],
+    includes: ['./utilities/**/*.ts'],
     service: {
-      name: "OSPC",
-      url: `https://www.ospc-staging.xyz/graphql`,
+      name: 'OSPC',
+      url: `http://localhost:3000/graphql`,
     },
   },
 };
