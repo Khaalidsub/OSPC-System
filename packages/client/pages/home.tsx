@@ -1,5 +1,6 @@
 
 import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectField, TertiaryCard } from "components"
+import { getUser } from "lib/utils"
 
 
 
@@ -70,5 +71,9 @@ export const Home = () => {
     )
 }
 
+export const getServerSideProps = async ({ req, res }) => {
+
+    return getUser({ req })
+}
 
 export default Home

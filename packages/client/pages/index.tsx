@@ -3,7 +3,7 @@
 import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectField, TertiaryCard } from "components"
 import { useState } from "react";
 import { useRouter } from 'next/router';
-import { getUserFromCookie } from "lib/utils";
+import { getUserFromCookie, guestUser } from "lib/utils";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { CURRENT_USER } from "utilities/schema";
 import Cookies from "universal-cookie";
@@ -95,26 +95,7 @@ export const Home = () => {
 
 export const getServerSideProps = async ({ req, res }) => {
 
-  const cookie = new Cookies(req.cookies)
-  const user = cookie.get('user') as currentUser_currentUser
-  console.log('hello therr', cookie.get('user'));
-
-  if (user === undefined || !user) {
-    return {
-      redirect: {
-
-        destination: '/login',
-        permanent: false
-      }
-    }
-
-  }
-  return {
-    redirect: {
-      destination: '/dashboard',
-      permanent: false
-    }
-  }
+  return guestUser({ req })
 }
 
 export default Home
