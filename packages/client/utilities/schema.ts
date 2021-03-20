@@ -10,6 +10,12 @@ export const USER_FRAGMENT = gql`
     coachingStatus
   }
 `;
+
+export const IS_AUTHORIZED = gql`
+  mutation isAuthorized {
+    isAuthorized
+  }
+`;
 //Mutation
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {

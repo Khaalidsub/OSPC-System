@@ -1,23 +1,35 @@
+import { useAuth } from 'lib/auth'
 import React from 'react'
-import { NavigationIcon } from './NavigationIcon'
+import { Role } from '__generated__/globalTypes'
+import dynamic from 'next/dynamic'
 
+const StudentNavigation = dynamic(() =>
+    import('./Navigations').then((mod) => mod.StudentNavigation)
+)
+const ModeratorNavigation = dynamic(() =>
+    import('./Navigations').then((mod) => mod.ModeratorNavigation)
+)
+const AdminNavigation = dynamic(() =>
+    import('./Navigations').then((mod) => mod.AdminNavigation)
+)
+const CoachNavigation = dynamic(() =>
+    import('./Navigations').then((mod) => mod.CoachNavigation)
+)
 export const Navigation = () => {
+    const { isSignedIn, isAuthorized } = useAuth()
+    if (!isSignedIn()) {
+        return <></>
+    }
+    if (isAuthorized(Role.admin)) {
+        return (<AdminNavigation />)
+    }
+    if (isAuthorized(Role.coach)) {
+        return (<CoachNavigation />)
+    }
+    if (isAuthorized(Role.moderator)) {
+        return (<ModeratorNavigation />)
+    }
     return (
-        <div className="bg-primary    text-center p-3 md:w-16 lg:w-64 flex flex-row md:flex-col md:space-y-11 items-center justify-center md:justify-start sticky inset-x-0 bottom-0  md:inset-x-auto md:bottom-auto md:static">
-            <h1 className="hidden md:block md:text-md text-white lg:text-xl font-semibold ">OSPC</h1>
-            <ul className="hidden   md:flex flex-col justify-between text-base text-white h-full">
-                <div className="md:space-y-16">
-
-                    <NavigationIcon label="DashBoard" icon="/assets/dashboard.svg" />
-                    <NavigationIcon label="lessons" icon="/assets/lessons.svg" />
-                    <NavigationIcon label="coaches" icon="/assets/coach.svg" />
-                    <NavigationIcon label="forum" icon="/assets/forum.svg" />
-                    <NavigationIcon label="chat" icon="/assets/chat.svg" />
-                </div>
-
-                <NavigationIcon label="logout" icon="/assets/logout.svg" />
-
-            </ul>
-        </div>
+        <StudentNavigation />
     )
 }

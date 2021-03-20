@@ -29,6 +29,7 @@ function deleteUserFromCookie() {
         cookies.remove('user');
     }
 } import { setContext } from "@apollo/client/link/context";
+import { currentUser_currentUser } from 'utilities/__generated__/currentUser';
 
 export const AUTH_TOKEN = "auth_token";
 export const authHttpLink = setContext((_, { headers }) => {
@@ -54,3 +55,27 @@ export {
     deleteUserFromCookie,
     // checkUser
 };
+
+
+const guestUser = ({ req, resolveUrl }) => {
+
+    const cookie = new Cookies(req.cookies)
+    const user = cookie.get('user') as currentUser_currentUser
+
+    if (!user) {
+        return {
+            redirect: {
+
+                destination: '/login',
+                permanent: false
+            }
+        }
+
+    }
+    return {
+        redirect: {
+            destination: '/dashboard',
+            permanent: true
+        }
+    }
+}

@@ -13,7 +13,7 @@ const defaultContext = {
   login: async ({ email, password }) => { },
   isSignedIn: () => false,
   logout: () => { },
-  isAuthorized: (role: Role) => { }
+  isAuthorized: (role: Role) => false
 };
 
 export const AuthContext = createContext(defaultContext);
@@ -57,11 +57,19 @@ export function useProviderAuth() {
 
   const isAuthorized = (role: Role) => {
     console.log('auth', cookie.get('user') as currentUser_currentUser);
-
-    if (cookie.get('user') as currentUser_currentUser) {
-
+    const user = cookie.get('user') as currentUser_currentUser
+    if (user) {
+      if (user.role === Role.admin) {
+        return true;
+      }
+      if (user.role !== role) {
+        return false;
+      }
+      return true;
     }
+    return false;
   }
+
   return {
     login,
     logout,

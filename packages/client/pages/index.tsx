@@ -4,10 +4,16 @@ import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectFi
 import { useState } from "react";
 import { useRouter } from 'next/router';
 import { getUserFromCookie } from "lib/utils";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { CURRENT_USER } from "utilities/schema";
+import Cookies from "universal-cookie";
+import { currentUser_currentUser } from "utilities/__generated__/currentUser";
 
 export const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  console.log('hello world');
+
   const open = () => {
     if (auth) {
       setIsOpen(true);
@@ -86,5 +92,29 @@ export const Home = () => {
   )
 }
 
+
+export const getServerSideProps = async ({ req, res }) => {
+
+  const cookie = new Cookies(req.cookies)
+  const user = cookie.get('user') as currentUser_currentUser
+  console.log('hello therr', cookie.get('user'));
+
+  if (user === undefined || !user) {
+    return {
+      redirect: {
+
+        destination: '/login',
+        permanent: false
+      }
+    }
+
+  }
+  return {
+    redirect: {
+      destination: '/dashboard',
+      permanent: false
+    }
+  }
+}
 
 export default Home

@@ -32,7 +32,6 @@ export default withApollo(({ initialState }) => {
   })
 })(MyApp);
 MyApp.getInitialProps = async appContext => {
-  console.log('what is this', appContext);
 
   const appProps = await App.getInitialProps(appContext)
   return { ...appProps }

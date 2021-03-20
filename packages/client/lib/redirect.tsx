@@ -11,3 +11,6 @@ export default (context: any, target: string) => {
     Router.replace(target);
   }
 };
+
+
+// function Redirect({to})
