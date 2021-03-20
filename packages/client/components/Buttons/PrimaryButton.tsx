@@ -1,7 +1,7 @@
 
 export const PrimaryButton = ({ label, onClick }: PrimaryButtonProps) => {
     return (
-        <button onClick={onClick} className="rounded-lg py-2 w-3/12 text-white bg-blue-300 ">
+        <button type="submit" onClick={onClick} className="w-1/2 rounded-lg py-3 font-poppins text-white bg-primary shadow-lg">
             {label}
         </button>
     )

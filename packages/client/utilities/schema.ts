@@ -19,11 +19,20 @@ export const IS_AUTHORIZED = gql`
 //Mutation
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
+    loginUser(credentials: { email: $email, password: $password }) {
       token
       user {
         ...UserParts
       }
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const REGISTER_USER = gql`
+  mutation registerUser($createUserInput: CreateUserInput!) {
+    registerStudent(createUserInput: $createUserInput) {
+      ...UserParts
     }
   }
   ${USER_FRAGMENT}

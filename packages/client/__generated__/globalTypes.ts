@@ -20,6 +20,13 @@ export enum Role {
   student = "student",
 }
 
+export interface CreateUserInput {
+  name: string;
+  university: string;
+  password: string;
+  email: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

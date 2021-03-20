@@ -34,16 +34,14 @@ export function useProviderAuth() {
 
     const [signIn, { error }] = useMutation<LoginTypes.login, LoginTypes.loginVariables>(LOGIN_USER)
 
-    try {
-      const result = await signIn({ variables: { email, password } })
-      console.log(result);
-      if (result.data) {
-        cookie.set('auth_token', result.data.loginUser.token)
-        cookie.set('user', result.data.loginUser.user)
-      }
-    } catch (error) {
-      return error.message
+
+    const result = await signIn({ variables: { email, password } })
+    console.log(result);
+    if (result.data) {
+      cookie.set('auth_token', result.data.loginUser.token)
+      cookie.set('user', result.data.loginUser.user)
     }
+
 
   };
 

@@ -10,7 +10,7 @@ function getTokenFromCookie() {
     }
 }
 
-function getUserFromCookie() {
+function getUserFromCookie(): currentUser_currentUser {
     if (cookies.get('user')) {
         return cookies.get('user');
     } else {
