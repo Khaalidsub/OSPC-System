@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+    "users/*":["./src/users/*"], 
+    "auth/*":["./src/auth/*"],
+    "subjects/*":["./src/subjects/*"],
+    "utils":["src/utils"],
+    "forum/*":["./src/forum/*"], 
+    "departments/*":["./src/departments/*"],
+    "coach/*":["./src/coach/*"],
+    "chats/*":["./src/chats/*"],
+      "@common/*":[
+     "./node_modules/@ospc/common/src/*"
+    ]
+    }
+  },
+  "include": ["./src"]
+}

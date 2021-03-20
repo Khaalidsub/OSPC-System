@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  server:
+    build:
+      context: ./packages/server
+      dockerfile: ./Dockerfile.dev
+    image: 'khaalid-subaan/ospc-dev:latest'
+    container_name: ospc-dev
+
+    ports:
+      - '3000:3000'
+    volumes:
+      - /usr/src/app/node_modules
+      - .:/usr/src/app
+    depends_on:
+      - mongodb
+    stdin_open: true
+    tty: true
+  mongodb:
+    image: 'mongo:4.4'
+    container_name: mongodb
+    restart: always
+    volumes:
+      - /data/db:/data/db
+    ports:
+      - '27017:27017'

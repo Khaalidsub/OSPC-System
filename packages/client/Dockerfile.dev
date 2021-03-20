@@ -1,0 +1,16 @@
+FROM node:alpine
+
+WORKDIR /usr/app
+
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/client/package.json ./packages/client/package.json
+COPY  packages/common ./packages/common
+
+RUN yarn install
+COPY packages/client/ ./packages/client/
+RUN yarn build:client
+
+
+EXPOSE 3000
+
+CMD ["yarn", "run:client" ]

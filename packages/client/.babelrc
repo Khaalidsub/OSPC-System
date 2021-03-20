@@ -1,0 +1,21 @@
+{ "presets": [
+    "next/babel"
+   
+  ],
+    "plugins": [
+      ["module-resolver", {
+        "root": ["./"],
+        "alias": {
+          "test": "./test",
+          "components": "./components",
+          "layouts":"./Layouts",
+          "types":"./types",
+          "lib":"./lib",
+          "util":"./utilities",
+          "styles":"./styles",
+          "public":"./public",
+          "@common": "./node_modules/@ospc/common/src"
+        }
+      }]
+    ]
+  }

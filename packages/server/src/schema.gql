@@ -1,0 +1,514 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID
+  name: String!
+  email: String!
+  phoneNumber: String
+  universityId: String
+  university: String!
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
+  moderatorStatus: CoachingStatus!
+}
+
+enum Role {
+  student
+  coach
+  admin
+  moderator
+}
+
+enum CoachingStatus {
+  active
+  pending
+  inactive
+}
+
+type AuthResult {
+  token: String!
+  user: User!
+}
+
+type Department {
+  """Example field (placeholder)"""
+  id: String!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  moderator: User!
+}
+
+type Subject {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  department: Department!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+type Schedule {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
+enum Day {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+  type
+}
+
+type WeeklySchedule {
+  id: ID!
+
+  """Example field (placeholder)"""
+  coach: User!
+
+  """Example field (placeholder)"""
+  schedule: [Schedule!]!
+}
+
+type SubjectDescription {
+  title: String!
+  description: String!
+}
+
+type Lesson {
+  id: ID!
+  day: Day!
+
+  """Example field (placeholder)"""
+  student: User!
+  date: Int!
+  time_start: Int!
+  subject: Subject!
+  coach: User!
+  duration: Int!
+}
+
+type Question {
+  id: ID!
+  question: String!
+  subject: Subject!
+  user: User!
+}
+
+type Answer {
+  id: ID!
+  question: Question!
+  input: String!
+  votes: Int!
+  isApproved: Boolean!
+  user: User!
+}
+
+type Chat {
+  id: String!
+  isOpen: Boolean!
+  users: [User!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+type Message {
+  id: ID!
+  sender: User!
+  chat: Chat!
+  input: String!
+}
+
+type Payment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type TransactionHistory {
+  id: String!
+  user: User!
+  date: Int!
+  amount: Float!
+}
+
+type UserWallet {
+  id: String!
+  balance: Float!
+  user: User!
+}
+
+input UserInputType {
+  id: ID
+  name: String!
+  email: String!
+  phoneNumber: String
+  universityId: String
+  university: String!
+  role: Role = student
+  accountStatus: CoachingStatus = pending
+  coachingStatus: CoachingStatus = inactive
+  moderatorStatus: CoachingStatus!
+}
+
+input DepartmentInputType {
+  """Example field (placeholder)"""
+  id: String!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  moderator: UserInputType!
+}
+
+input SubjectInputType {
+  """Example field (placeholder)"""
+  id: ID!
+
+  """Example field (placeholder)"""
+  department: DepartmentInputType!
+
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+}
+
+input ScheduleInputType {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
+input QuestionInputType {
+  id: ID!
+  question: String!
+  subject: SubjectInputType!
+  user: UserInputType!
+}
+
+input AnswerInputType {
+  id: ID!
+  question: QuestionInputType!
+  input: String!
+  votes: Int!
+  isApproved: Boolean!
+  user: UserInputType!
+}
+
+input ChatInputType {
+  id: String!
+  isOpen: Boolean!
+  users: [UserInputType!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+input MessageInputType {
+  id: ID!
+  sender: UserInputType!
+  chat: ChatInputType!
+  input: String!
+}
+
+input TransactionHistoryInputType {
+  id: String!
+  user: UserInputType!
+  date: Int!
+  amount: Float!
+}
+
+input UserWalletInputType {
+  id: String!
+  balance: Float!
+  user: UserInputType!
+}
+
+type Query {
+  users: [User!]!
+  user(id: String!): User!
+  currentUser: User!
+  departments: [Department!]!
+  department(id: String!): Department!
+  subjects: [Subject!]!
+  subject(id: String!): Subject!
+  getLessons: [Lesson!]!
+  questions: [Question!]!
+  question(id: String!): Question!
+  answers: [Answer!]!
+  answer(id: String!): Answer!
+  chats: [Chat!]!
+  chat(id: String!): Chat!
+  messages: [Message!]!
+  message(id: String!): Message!
+  wallets: [UserWallet!]!
+  wallet(id: String!): UserWallet!
+  transactions: [TransactionHistory!]!
+  transaction(id: String!): UserWallet!
+}
+
+type Mutation {
+  registerStudent(createUserInput: CreateUserInput!): User!
+  approveStudent(id: String!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  loginUser(credentials: Credential!): AuthResult!
+  isAuthorized: Boolean!
+  createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
+  applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
+  addModerator(createDepartmentModerator: CreateUserInput!): User!
+  approveDepartmentModerator(id: String!): User!
+  assignDepartMentModerator(userId: String!, id: String!): Department!
+  updateDepartment(updateDepartmentInput: UpdateDepartmentInput!, id: String!): Department!
+  createSubject(createSubjectInput: CreateSubjectInput!): Subject!
+  updateSubject(updateSubjectInput: UpdateSubjectInput!, id: String!): Subject!
+  removeSubject(id: String!): Subject!
+  applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
+  approveCoach(id: String!): User!
+  updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!, id: String!): WeeklySchedule!
+  bookLesson(createLessonInput: CreateLessonInput!): Lesson!
+  makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!, id: String!): Question!
+  removeQuestion(id: String!): Question!
+  answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
+  voteAnswer(answer: String!, vote: Boolean!): Answer!
+  approveAnswer(id: String!): Answer!
+  updateAnswer(updateAnswerInput: UpdateAnswerInput!, id: String!): Answer!
+  createChat(createChatInput: CreateChatInput!): Chat!
+  updateChat(updateChatInput: UpdateChatInput!): Chat!
+  removeChat(id: String!): Chat!
+  createMessage(createMessageInput: CreateMessageInput!): Message!
+  updateMessage(updateMessageInput: UpdateMessageInput!, id: String!): Message!
+  removeMessage(id: String!): Message!
+  createPayment(createPaymentInput: CreatePaymentInput!): Payment!
+  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
+  removePayment(id: String!): Payment!
+  topUpUser(token: String!): TransactionHistory!
+  createTransactionHistory(createTransactionHistoryInput: CreateTransactionInput!): TransactionHistory!
+  removeTransactionHistory(id: String!): TransactionHistory!
+  createUserWallet(createUserWalletInput: CreateUserWalletInput!): UserWallet!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  university: String!
+
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
+}
+
+input UpdateUserInput {
+  name: String
+  phoneNumber: String
+  universityId: String
+  university: String
+  role: Role = student
+  accountStatus: CoachingStatus = pending
+  coachingStatus: CoachingStatus = inactive
+  moderatorStatus: CoachingStatus
+}
+
+input Credential {
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
+}
+
+input CreateDepartmentInput {
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  moderator: String!
+}
+
+input CreateDepartmentModeratorApplication {
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  department: String!
+
+  """Example field (placeholder)"""
+  resumeLinks: [String!]!
+
+  """Example field (placeholder)"""
+  user: String!
+}
+
+input UpdateDepartmentInput {
+  """Example field (placeholder)"""
+  id: String
+
+  """Example field (placeholder)"""
+  name: String
+
+  """Example field (placeholder)"""
+  description: String
+
+  """Example field (placeholder)"""
+  moderator: UserInputType
+}
+
+input CreateSubjectInput {
+  """Example field (placeholder)"""
+  name: String!
+
+  """Example field (placeholder)"""
+  description: String!
+
+  """Example field (placeholder)"""
+  department: String!
+}
+
+input UpdateSubjectInput {
+  """Example field (placeholder)"""
+  id: ID
+
+  """Example field (placeholder)"""
+  name: String
+
+  """Example field (placeholder)"""
+  description: String
+}
+
+input CreateWeeklyScheduleInput {
+  schedule: [ScheduleInputType!]!
+}
+
+input CreateSubjecSpecialization {
+  specialization: [CreateSubjectDescription!]!
+  subject: String!
+}
+
+input CreateSubjectDescription {
+  title: String!
+  description: String!
+}
+
+input UpdateWeeklySchedule {
+  id: ID
+
+  """Example field (placeholder)"""
+  coach: UserInputType
+
+  """Example field (placeholder)"""
+  schedule: [ScheduleInputType!]
+}
+
+input CreateLessonInput {
+  subject: String!
+  coach: String!
+  date: Int!
+  time_start: Int!
+  duration: Int = 1
+  day: Day!
+}
+
+input CreateQuestionInput {
+  """"""
+  question: String!
+  subject: String!
+}
+
+input UpdateQuestionInput {
+  id: ID
+  question: String
+}
+
+input CreateAnswerInput {
+  input: String!
+  question: String!
+}
+
+input UpdateAnswerInput {
+  id: ID
+  question: QuestionInputType
+  input: String
+  votes: Int
+  isApproved: Boolean
+}
+
+input CreateChatInput {
+  users: [String!]!
+  chat_time: Int!
+}
+
+input UpdateChatInput {
+  id: String
+  isOpen: Boolean
+  users: [UserInputType!]
+  chat_time: Int
+  duration: Int
+}
+
+input CreateMessageInput {
+  input: String!
+  sender: String!
+  chat: String!
+}
+
+input UpdateMessageInput {
+  id: ID
+  sender: UserInputType
+  chat: ChatInputType
+  input: String
+}
+
+input CreatePaymentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserWalletInput {
+  id: String
+  balance: Float
+  user: UserInputType
+}
+
+input CreateTransactionInput {
+  user: String!
+  date: Int!
+  amount: Float!
+}
+
+input CreateUserWalletInput {
+  user: String!
+}
+
+type Subscription {
+  onChatCreate: Chat!
+  onMessageSent: Message!
+}
