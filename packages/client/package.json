@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "codegen": "apollo client:codegen --target typescript --watch"
@@ -15,11 +15,14 @@
     "@tailwindcss/line-clamp": "^0.2.0",
     "@tailwindcss/typography": "^0.4.0",
     "apollo": "^2.32.5",
+    "cross-env": "^7.0.3",
     "graphql": "^15.5.0",
     "next": "10.0.7",
+    "next-with-apollo": "^5.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "tailwindcss-elevation": "^1.0.1"
+    "tailwindcss-elevation": "^1.0.1",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/react": "^17.0.2",

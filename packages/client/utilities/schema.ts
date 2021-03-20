@@ -13,25 +13,31 @@ export const USER_FRAGMENT = gql`
 //Mutation
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password)
+    loginUser(email: $email, password: $password) {
+      token
+      user {
+        ...UserParts
+      }
+    }
   }
+  ${USER_FRAGMENT}
 `;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
     currentUser {
-    ...UserParts
+      ...UserParts
     }
-    ${USER_FRAGMENT}
   }
+  ${USER_FRAGMENT}
 `;
 
 export const USERS = gql`
   query users {
-  users{
+    users {
       ...UserParts
+    }
   }
-    ${USER_FRAGMENT}
-  }
+  ${USER_FRAGMENT}
 `;
 // Subscription

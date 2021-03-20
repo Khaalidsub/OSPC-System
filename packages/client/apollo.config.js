@@ -3,7 +3,7 @@ module.exports = {
     includes: ['./utilities/**/*.ts'],
     service: {
       name: 'OSPC',
-      url: `http://localhost:3000/graphql`,
+      url: `http://localhost:3001/graphql`,
     },
   },
 };

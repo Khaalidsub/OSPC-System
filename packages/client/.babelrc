@@ -10,7 +10,7 @@
           "components": "./components",
           "layouts":"./Layouts",
           "types":"./types",
-          "lib":"./libraries",
+          "lib":"./lib",
           "util":"./utilities",
           "styles":"./styles",
           "public":"./public",

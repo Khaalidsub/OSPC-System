@@ -2,16 +2,15 @@ FROM node:alpine
 
 WORKDIR /usr/app
 
-COPY ./package.json ./
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/client/package.json ./packages/client/package.json
+COPY  packages/common ./packages/common
 
-RUN npm install --production
+RUN yarn install
+COPY packages/client/ ./packages/client/
+RUN yarn build:client
 
-COPY ./ ./
-
-RUN npm build
 
 EXPOSE 3000
 
-USER node
-
-CMD ["yarn","start"]
+CMD ["yarn", "run:client" ]
