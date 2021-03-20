@@ -12,12 +12,12 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(credential: ICredential): Promise<UserDocument | any> {
+  async validateUser(credential: ICredential): Promise<UserDocument> {
     const user = await this.usersService.findOne({ email: credential.email });
     if (user && user.password === credential.password) {
       const { password, ...result } = user;
       result.id = user._id;
-      return result;
+      return user;
     }
     throw new HttpException('Wrong Email/Password !', HttpStatus.UNAUTHORIZED);
   }

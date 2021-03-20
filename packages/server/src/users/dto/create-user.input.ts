@@ -13,9 +13,9 @@ export class CreateUserInput {
   @Field(() => String, { description: 'Example field (placeholder)' })
   @IsEmail({}, { message: invalidEmailError })
   email: string;
-  @Field(() => String, { description: 'Example field (placeholder)' })
-  @IsPhoneNumber()
-  phoneNumber: string;
-  @Field(() => String, { description: 'Example field (placeholder)' })
-  universityId: string;
+  // @Field(() => String, { description: 'Example field (placeholder)' })
+  // @IsPhoneNumber()
+  // phoneNumber: string;
+  // @Field(() => String, { description: 'Example field (placeholder)' })
+  // universityId: string;
 }

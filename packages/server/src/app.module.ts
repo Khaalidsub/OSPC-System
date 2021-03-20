@@ -22,6 +22,8 @@ const pubSub = new PubSub();
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
     GraphQLModule.forRoot({
+      cors: false,
+
       context: ({ req, connection }) => {
         if (connection?.context) {
           return { req: { headers: connection.context }, pubSub };

@@ -49,7 +49,7 @@ export class UsersResolver {
       return this.authService.register(
         createUserInput,
         Role.student,
-        Status.active,
+        Status.pending,
       );
     } catch (error) {
       this.logger.error(error);
@@ -96,10 +96,5 @@ export class UsersResolver {
     } catch (error) {
       this.logger.error(error);
     }
-  }
-
-  @ResolveField('sender', () => User)
-  async getUser(@Root() message: Message) {
-    return this.usersService.findById(message.sender as string);
   }
 }

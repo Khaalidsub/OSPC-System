@@ -25,10 +25,10 @@ export class User implements IUser {
   @Field(() => String)
   @Prop({ unique: true })
   email: string;
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Prop()
   phoneNumber: string;
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Prop()
   universityId: string;
   @Field(() => String)

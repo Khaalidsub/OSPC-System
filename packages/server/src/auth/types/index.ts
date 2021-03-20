@@ -1,4 +1,5 @@
-import { Field, InterfaceType } from '@nestjs/graphql';
+import { Field, InterfaceType, ObjectType } from '@nestjs/graphql';
+import { User } from 'users/entities/user.entity';
 
 @InterfaceType()
 export abstract class ICredential {
@@ -6,4 +7,12 @@ export abstract class ICredential {
   email: string;
   @Field(() => String)
   password: string;
+}
+
+@ObjectType()
+export class AuthResult {
+  @Field(() => String)
+  token: string;
+  @Field(() => User)
+  user: User;
 }

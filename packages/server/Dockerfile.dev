@@ -4,13 +4,17 @@ RUN apk update && apk add build-base git python
 
 WORKDIR /usr/src/app
 
-COPY package.json .
-COPY yarn.lock .
+# COPY package.json .
+# COPY yarn.lock .
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/server/package.json ./packages/server/package.json
+COPY  packages/common ./packages/common
 
 RUN yarn install
 
-COPY . .
+COPY packages/server/ ./packages/server/
+
 
 EXPOSE 3000
 
-CMD ["yarn", "start:dev" ]
+CMD ["yarn", "run:server" ]

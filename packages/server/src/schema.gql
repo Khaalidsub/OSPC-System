@@ -6,14 +6,13 @@ type User {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String!
-  universityId: String!
+  phoneNumber: String
+  universityId: String
   university: String!
   role: Role
   accountStatus: CoachingStatus
   coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
-  sender: User!
 }
 
 enum Role {
@@ -29,19 +28,9 @@ enum CoachingStatus {
   inactive
 }
 
-type Chat {
-  id: String!
-  isOpen: Boolean!
-  users: [User!]!
-  chat_time: Int!
-  duration: Int!
-}
-
-type Message {
-  id: ID!
-  sender: User!
-  chat: Chat!
-  input: String!
+type AuthResult {
+  token: String!
+  user: User!
 }
 
 type Department {
@@ -133,6 +122,21 @@ type Answer {
   user: User!
 }
 
+type Chat {
+  id: String!
+  isOpen: Boolean!
+  users: [User!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+type Message {
+  id: ID!
+  sender: User!
+  chat: Chat!
+  input: String!
+}
+
 type Payment {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -155,28 +159,13 @@ input UserInputType {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String!
-  universityId: String!
+  phoneNumber: String
+  universityId: String
   university: String!
   role: Role = student
   accountStatus: CoachingStatus = pending
   coachingStatus: CoachingStatus = inactive
   moderatorStatus: CoachingStatus!
-}
-
-input ChatInputType {
-  id: String!
-  isOpen: Boolean!
-  users: [UserInputType!]!
-  chat_time: Int!
-  duration: Int!
-}
-
-input MessageInputType {
-  id: ID!
-  sender: UserInputType!
-  chat: ChatInputType!
-  input: String!
 }
 
 input DepartmentInputType {
@@ -229,6 +218,21 @@ input AnswerInputType {
   user: UserInputType!
 }
 
+input ChatInputType {
+  id: String!
+  isOpen: Boolean!
+  users: [UserInputType!]!
+  chat_time: Int!
+  duration: Int!
+}
+
+input MessageInputType {
+  id: ID!
+  sender: UserInputType!
+  chat: ChatInputType!
+  input: String!
+}
+
 input TransactionHistoryInputType {
   id: String!
   user: UserInputType!
@@ -269,7 +273,8 @@ type Mutation {
   registerStudent(createUserInput: CreateUserInput!): User!
   approveStudent(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  loginUser(password: String!, email: String!): String!
+  loginUser(credentials: Credential!): AuthResult!
+  isAuthorized: Boolean!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
   addModerator(createDepartmentModerator: CreateUserInput!): User!
@@ -317,12 +322,6 @@ input CreateUserInput {
 
   """Example field (placeholder)"""
   email: String!
-
-  """Example field (placeholder)"""
-  phoneNumber: String!
-
-  """Example field (placeholder)"""
-  universityId: String!
 }
 
 input UpdateUserInput {
@@ -334,6 +333,14 @@ input UpdateUserInput {
   accountStatus: CoachingStatus = pending
   coachingStatus: CoachingStatus = inactive
   moderatorStatus: CoachingStatus
+}
+
+input Credential {
+  """Example field (placeholder)"""
+  password: String!
+
+  """Example field (placeholder)"""
+  email: String!
 }
 
 input CreateDepartmentInput {

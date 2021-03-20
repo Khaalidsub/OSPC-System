@@ -32,7 +32,11 @@ async function bootstrap() {
   // app.use(helmet());
   app.use(Sentry.Handlers.errorHandler());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  app.enableCors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  });
+  await app.listen(3001);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
