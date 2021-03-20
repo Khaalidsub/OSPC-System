@@ -1,10 +1,11 @@
 import { getUserFromCookie } from 'lib/utils'
 import React from 'react'
+import { CoachingStatus } from '__generated__/globalTypes'
 
 export const ProfileInfoCard = () => {
 
     const user = getUserFromCookie()
-    if (!user) {
+    if (!user || user.accountStatus === CoachingStatus.pending) {
         return <></>
     }
     return (
