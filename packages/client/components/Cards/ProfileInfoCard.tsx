@@ -6,15 +6,14 @@ import { CoachingStatus } from '__generated__/globalTypes'
 export const ProfileInfoCard = () => {
     const router = useRouter()
     const user = getUserFromCookie()
-    if (!user || user.accountStatus === CoachingStatus.pending) {
-        return <></>
-    }
+    // if (!user || user.accountStatus === CoachingStatus.pending) {
+    //     return <></>
+    // }
     return (
         <div className="h-16 w-full flex flex-row justify-end space-x-6 p-4 items-center bg-white shadow-md">
-            {/* <h3>Dashboard</h3> */}
             <a href="/settings" onClick={() => router.push('/settings')}><img className="h-5 w-5" src="/assets/settings.svg" alt="" /></a>
             <img className="h-5 w-5" src="/assets/notification.svg" alt="" />
-            <img src="/fake_images/Rectangle 794.png" className="h-9 w-9 rounded-full" alt="" />
+            <img src="/fake_images/Rectangle 824.jpg" className="h-9 w-9 rounded-full" alt="" />
         </div>
 
     )

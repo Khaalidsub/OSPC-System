@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigation } from 'components'
-import { ProfileInfoCard } from 'components/Cards/ProfileInfoCard'
+import { ProfileInfoCard } from 'components'
 export default function MainLayout(props: MainLayoutProps) {
 
     return (
