@@ -13,13 +13,16 @@ function MyApp({ Component, pageProps, apollo }) {
 
   const auth = useProviderAuth();
   return (
+
     <ApolloProvider client={apollo}>
       <AuthContext.Provider value={auth}>
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
+        {/* <div id="modal" className='' ></div> */}
       </AuthContext.Provider>
     </ApolloProvider>
+
   )
 }
 
