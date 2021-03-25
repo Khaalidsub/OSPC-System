@@ -6,8 +6,9 @@ import { CoachingStatus } from '__generated__/globalTypes'
 export const ProfileInfoCard = () => {
     const router = useRouter()
     const user = getUserFromCookie()
-    if (!user || user.accountStatus === CoachingStatus.pending) {
-        return <></>
+
+    if (!user) {
+        return <div></div>
     }
     return (
         <div className="h-16 w-full flex flex-row justify-end space-x-6 p-4 items-center bg-white shadow-md">
