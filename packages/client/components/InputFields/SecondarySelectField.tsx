@@ -1,13 +1,14 @@
+import { ISelectFieldValue } from "utilities/util"
 
 
 
-export const SecondarySelectField = ({ label, options, onClick }: SecondarySelectFieldProps) => {
+export const SecondarySelectField = ({ label, data, onClick }: SecondarySelectFieldProps) => {
     const OptionFields = () => {
         return (
             <>
-                {options.map(option => {
+                {data?.map(option => {
                     return (
-                        <option key={option} className="font-raleway rounded-lg" value={option} >{option}</option>
+                        <option key={option.value} className="font-raleway rounded-lg" value={option.value} >{option.label}</option>
                     )
                 })}
             </>
@@ -24,7 +25,7 @@ export const SecondarySelectField = ({ label, options, onClick }: SecondarySelec
 
 export interface SecondarySelectFieldProps {
     label: string
-    options: string[]
+    data: ISelectFieldValue[]
     onClick?: Function
 
 }

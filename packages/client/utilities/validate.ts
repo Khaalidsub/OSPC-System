@@ -39,3 +39,15 @@ export const valdiateRegister = (values) => {
   //   else if (!values.name.length > 6)
   return errors;
 };
+
+export const validateSubjectSepc = (values) => {
+  const errors: any = {};
+  if (!values.title) {
+    errors.title = 'title is required';
+  }
+
+  if (!values.description) {
+    errors.description = 'description is required';
+  }
+  return errors;
+};

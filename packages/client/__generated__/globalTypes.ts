@@ -13,6 +13,17 @@ export enum CoachingStatus {
   pending = "pending",
 }
 
+export enum Day {
+  friday = "friday",
+  monday = "monday",
+  saturday = "saturday",
+  sunday = "sunday",
+  thursday = "thursday",
+  tuesday = "tuesday",
+  type = "type",
+  wednesday = "wednesday",
+}
+
 export enum Role {
   admin = "admin",
   coach = "coach",
@@ -20,11 +31,31 @@ export enum Role {
   student = "student",
 }
 
+export interface CreateSubjecSpecialization {
+  specialization: CreateSubjectDescription[];
+  subject: string;
+}
+
+export interface CreateSubjectDescription {
+  title: string;
+  description: string;
+}
+
 export interface CreateUserInput {
   name: string;
   university: string;
   password: string;
   email: string;
+}
+
+export interface CreateWeeklyScheduleInput {
+  schedule: ScheduleInputType[];
+}
+
+export interface ScheduleInputType {
+  day: Day;
+  time_start: number;
+  time_end: number;
 }
 
 //==============================================================

@@ -37,6 +37,22 @@ export const REGISTER_USER = gql`
   }
   ${USER_FRAGMENT}
 `;
+
+export const APPLY_AS_COACH = gql`
+  mutation applyAsCoach(
+    $createWeeklySchedule: CreateWeeklyScheduleInput!
+    $createSubjectSpecialization: CreateSubjecSpecialization!
+  ) {
+    applyCoach(
+      createWeeklySchedule: $createWeeklySchedule
+      createSubjectSpecialization: $createSubjectSpecialization
+    ) {
+      ...UserParts
+    }
+  }
+
+  ${USER_FRAGMENT}
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -54,5 +70,14 @@ export const USERS = gql`
     }
   }
   ${USER_FRAGMENT}
+`;
+
+export const APPLY_COACH_SUBJECTS = gql`
+  query subjects {
+    subjects {
+      name
+      id
+    }
+  }
 `;
 // Subscription
