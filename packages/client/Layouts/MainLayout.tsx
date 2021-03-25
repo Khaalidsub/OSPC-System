@@ -7,7 +7,7 @@ export default function MainLayout(props: MainLayoutProps) {
         <div id='modal' className="min-h-screen   bg-gray-50 ">
             <div className="min-h-screen relative md:static flex flex-col-reverse md:justify-items-stretch md:flex-row">
                 <Navigation />
-                <div className="container space-y-10">
+                <div className="w-full space-y-10">
                     <ProfileInfoCard />
                     {props.children}
 

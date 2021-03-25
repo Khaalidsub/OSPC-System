@@ -21,14 +21,16 @@ export default function Register() {
         onCompleted(data?) {
 
 
-            cookie.set('user', data.registerStudent)
-            console.log('here in the login', data);
+            // cookie.set('user', data.registerStudent)
+            // console.log('here in the login', data);
 
             router.push('/pending')
         },
     })
-    const onSubmit = async ({ email, password, university, name }) => {
+    const onSubmit = async ({ email, password, university, name, ...values }) => {
         try {
+            console.log(email, password, university, name, values);
+
             await signUp({ variables: { createUserInput: { email, password, university, name } } })
             // await signIn({ variables: { email, password } })
         } catch (error) {
@@ -107,7 +109,7 @@ export default function Register() {
                         </div>
                         <div className="self-center text-center w-full">
 
-                            <PrimaryButton onClick={onSubmit} label="Create an Account" />
+                            <PrimaryButton label="Create an Account" />
                         </div>
                     </form>
 
