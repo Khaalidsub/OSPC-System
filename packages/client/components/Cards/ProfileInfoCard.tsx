@@ -8,7 +8,7 @@ export const ProfileInfoCard = () => {
     const user = getUserFromCookie()
 
     if (!user) {
-        return <div></div>
+        return <></>
     }
     return (
         <div className="h-16 w-full flex flex-row justify-end space-x-6 p-4 items-center bg-white shadow-md">

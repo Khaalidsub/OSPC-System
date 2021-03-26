@@ -1,5 +1,5 @@
 import { CoachCard, InformationButton, SearchField, SelectField } from "components"
-import { getUser } from "lib/utils"
+import { withAuth } from "components/withAuth"
 import React from "react"
 
 export const Coaches = () => {
@@ -24,8 +24,4 @@ export const Coaches = () => {
         </div>
     )
 }
-export const getServerSideProps = async ({ req, res }) => {
-
-    return getUser({ req })
-}
-export default Coaches
+export default withAuth(Coaches)

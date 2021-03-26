@@ -3,7 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/c
 import Cookies from 'universal-cookie';
 import cookie from "cookie";
 import { authHttpLink } from './utils';
-const httpLink = new HttpLink({
+export const httpLink = new HttpLink({
     uri: 'http://localhost:3001/graphql',
     credentials: 'include'
 })

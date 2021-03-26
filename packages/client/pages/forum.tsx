@@ -1,5 +1,5 @@
 import { BadgeCard, BadgeColor, PrimaryCard, PrimaryButton, SelectField, TertiaryCard, SearchField } from 'components'
-import { getUser } from 'lib/utils'
+import { withAuth } from 'components/withAuth'
 
 
 export const Forum = () => {
@@ -59,8 +59,4 @@ export const Forum = () => {
     )
 }
 
-export const getServerSideProps = async ({ req, res }) => {
-
-    return getUser({ req })
-}
-export default Forum
+export default withAuth(Forum)

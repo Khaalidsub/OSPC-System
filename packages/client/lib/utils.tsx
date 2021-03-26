@@ -33,14 +33,16 @@ import { currentUser_currentUser } from 'utilities/__generated__/currentUser';
 import { CoachingStatus, Role } from '__generated__/globalTypes';
 
 export const AUTH_TOKEN = "auth_token";
-export const authHttpLink = setContext((_, { headers }) => {
-    const cookie = new Cookies()
+export const authHttpLink = setContext((_, context) => {
+    console.log(context, context.req);
+    const token = context.token || getTokenFromCookie();
+
 
     return {
         headers: {
-            ...headers,
+            ...context.headers,
             // "Access-Control-Allow-Origin": "*",
-            authorization: cookie.get(AUTH_TOKEN) ? `Bearer ${cookie.get(AUTH_TOKEN)}` : '',
+            authorization: token ? `Bearer ${token}` : '',
 
         },
     };

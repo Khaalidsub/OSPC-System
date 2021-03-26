@@ -1,5 +1,5 @@
 import { MetricCard } from 'components/Cards'
-import { getUser } from 'lib/utils'
+import { withAuth } from 'components/withAuth'
 import React from 'react'
 
 export const Dashboard = () => {
@@ -44,9 +44,5 @@ export const Dashboard = () => {
     )
 }
 
-export const getServerSideProps = async ({ req, res }) => {
 
-    return getUser({ req })
-}
-
-export default Dashboard
+export default withAuth(Dashboard)

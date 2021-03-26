@@ -1,5 +1,5 @@
 import { SelectField, TertiaryCard } from 'components'
-import { getUser } from 'lib/utils'
+import { withAuth } from 'components/withAuth'
 export const Lessons = () => {
     const LessonList = () => {
         return (
@@ -56,8 +56,4 @@ export const Lessons = () => {
     )
 }
 
-export const getServerSideProps = async ({ req, res }) => {
-
-    return getUser({ req })
-}
-export default Lessons
+export default withAuth(Lessons)

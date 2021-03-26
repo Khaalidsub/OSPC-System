@@ -1,10 +1,10 @@
 
 import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectField, TertiaryCard } from "components"
-import { withAuth } from "components/withAuth"
+import { withAdminAuth, withAuth } from "components/withAuth"
 
 
 
-export const Home = () => {
+export const Admin = () => {
 
     const PopularCoaches = () => {
         return (<div className="justify-self-end flex flex-col lg:w-96  space-y-6">
@@ -73,4 +73,4 @@ export const Home = () => {
 
 
 
-export default withAuth(Home)
+export default withAdminAuth(Admin)
