@@ -34,7 +34,7 @@ import { CoachingStatus, Role } from '__generated__/globalTypes';
 
 export const AUTH_TOKEN = "auth_token";
 export const authHttpLink = setContext((_, context) => {
-    console.log(context, context.req);
+    // console.log(context, context.req);
     const token = context.token || getTokenFromCookie();
 
 
