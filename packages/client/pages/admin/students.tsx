@@ -123,7 +123,7 @@ export const Students = () => {
             <div className="flex flex-col space-y-8 w-3/5 place-self-center ">
                 <h2 className="text-4xl">List of Students Registration Status</h2>
                 <div className="grid grid-cols-2">
-                    <SearchField setSearch={setSearch} search={search} />
+                    <SearchField placeholder="Search Student name" setSearch={setSearch} search={search} />
                     <div className='justify-self-end self-center'>
 
                         <SelectField label='Status' value={status} onClick={(e) => {

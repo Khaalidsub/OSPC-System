@@ -54,6 +54,23 @@ export const APPLY_AS_COACH = gql`
   ${USER_FRAGMENT}
 `;
 
+export const REJECT_COACH = gql`
+  mutation rejectCoach($id: String!) {
+    rejectCoach(id: $id) {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const ACCEPT_COACH = gql`
+  mutation approveCoach($id: String!) {
+    approveCoach(id: $id) {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
 export const REJECT_STUDENT = gql`
   mutation rejectStudent($id: String!) {
     rejectStudent(id: $id) {
@@ -102,6 +119,38 @@ export const STUDENTS = gql`
   ${USER_FRAGMENT}
 `;
 
+export const COACHES = gql`
+  query coaches {
+    pendingCoaches {
+      university
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const COACH_SCHEDULE = gql`
+  query coachSchedule($id: String!) {
+    getUserSpecialization(id: $id) {
+      id
+      specialization {
+        title
+      }
+      subject {
+        id
+        name
+      }
+    }
+    getCoachSchedule(id: $id) {
+      id
+      schedule {
+        day
+        time_start
+        time_end
+      }
+    }
+  }
+`;
 export const APPLY_COACH_SUBJECTS = gql`
   query subjects {
     subjects {
