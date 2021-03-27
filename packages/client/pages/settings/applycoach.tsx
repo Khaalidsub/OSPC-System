@@ -22,14 +22,27 @@ export const ApplyAsCoach = () => {
     const [subjectSepcialization, setsubjectSepcialization] = useState({} as CreateSubjecSpecialization)
     const [subject, setsubject] = useState({} as SubjectsTypes.subjects_subjects)
     const [weeklySchedule, setweeklySchedule] = useState({} as CreateWeeklyScheduleInput)
-
+    const [message, setError] = useState('')
+    const DisplayError = () => {
+        return (
+            <div className="bg-red-100 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
+                <span className="">
+                    <svg className="h-6 w-6 text-red-800 " onClick={() => {
+                        setError('')
+                    }} role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                </span>
+                {/* <strong className="font-bold">Error</strong> */}
+                <span className="">{message}</span>
+            </div>
+        )
+    }
     const onApplySubmit = async (e) => {
         e.preventDefault()
         try {
             const coach = await applyAsCoach({ variables: { createSubjectSpecialization: subjectSepcialization, createWeeklySchedule: weeklySchedule } })
         } catch (error) {
-            console.log(error);
-
+            // console.log(error);
+            setError(error.message)
         }
     }
     const RenderSlide = () => {
@@ -54,7 +67,7 @@ export const ApplyAsCoach = () => {
 
     if (slide === FormSlide.confirmation) {
         return (
-            <ConfirmationDetails weeklySchedule={weeklySchedule} subject={subject} subjectSpec={subjectSepcialization} onSubmit={onApplySubmit} />
+            <ConfirmationDetails setError={setError} message={message} weeklySchedule={weeklySchedule} subject={subject} subjectSpec={subjectSepcialization} onSubmit={onApplySubmit} />
         )
     }
 
@@ -63,6 +76,7 @@ export const ApplyAsCoach = () => {
         <div className="mx-20 my-2  ">
             <div className="bg-white shadow-lg rounded-lg px-6 py-12 space-y-12 justify-center ">
                 <h2 className=" text-3xl font-poppins text-center">Apply as a Coach</h2>
+                {message && <DisplayError />}
                 <div className="flex row justify-center space-x-24">
                     <div className="flex flex-col items-center space-y-12">
                         <div onClick={() => setSlide(FormSlide.subject)} className="cursor-pointer h-20 w-20 bg-gray-100 rounded-full flex justify-center items-center">
@@ -89,13 +103,25 @@ export const ApplyAsCoach = () => {
         </div>
     )
 }
-const ConfirmationDetails = ({ onSubmit, weeklySchedule, subjectSpec, subject }) => {
-    const [schedule] = useReducer(ScheduleReducer, initialSchedule)
+const ConfirmationDetails = ({ setError, message, onSubmit, weeklySchedule, subjectSpec, subject }) => {
+    const DisplayError = () => {
+        return (
+            <div className="bg-red-100 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
+                <span className="">
+                    <svg className="h-6 w-6 text-red-800 " onClick={() => {
+                        setError('')
+                    }} role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                </span>
+                {/* <strong className="font-bold">Error</strong> */}
+                <span className="">{message}</span>
+            </div>
+        )
+    }
     const RenderTableBody = () => {
 
         return (
             <>
-                {schedule.map((scheduleValue: ScheduleInputType) => {
+                {weeklySchedule.schedule.map((scheduleValue: ScheduleInputType) => {
                     return (
                         <tr className='font-raleway' key={scheduleValue.day} >
                             <td className='text-center capitalize'>{scheduleValue.day}</td>
@@ -144,6 +170,7 @@ const ConfirmationDetails = ({ onSubmit, weeklySchedule, subjectSpec, subject })
         <div className='mx-20 my-2 flex flex-col space-y-12'>
             <div className="bg-white shadow-lg rounded-lg px-6 py-6 space-y-12 justify-center">
                 <h2 className=" text-3xl font-poppins text-center">Apply as a Coach</h2>
+                {message && <DisplayError />}
                 <div className="flex row justify-center space-x-24">
                     <div className="flex flex-col items-center space-y-12">
                         <div className="h-20 w-20 bg-gray-100 rounded-full flex justify-center items-center">
@@ -216,7 +243,7 @@ const Schedule = ({ onSubmit }) => {
             <>
                 {schedule.map((scheduleValue: ScheduleInputType) => {
                     return (
-                        <tr>
+                        <tr key={scheduleValue.day} >
                             <td className='text-center capitalize'>{scheduleValue.day}</td>
                             <td>
                                 <div className='p-3  flex flex-row items-center space-x-2 justify-center'>
@@ -316,7 +343,7 @@ const SubjectChosen = ({ onSubmit }: any) => {
             <>
                 {subjectDescriptions.map((subjectDesc) => {
                     return (
-                        <div className='flex flex-row items-center space-x-8'>
+                        <div key={subjectDesc.title} className='flex flex-row items-center space-x-8'>
 
                             <img onClick={() => {
                                 setSubjectDescriptions([...subjectDescriptions.filter((desc) => desc.title !== subjectDesc.title)])

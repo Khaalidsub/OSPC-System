@@ -7,7 +7,7 @@ export const SubjectSpecModal = ({ onSubmit, closeModal }) => {
     const formik = useFormik<any>({
         initialValues: {
             title: "",
-            password: "",
+            description: "",
         },
         validate: validateSubjectSepc,
         onSubmit: onSubmit

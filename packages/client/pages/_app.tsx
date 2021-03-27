@@ -34,7 +34,7 @@ MyApp.getInitialProps = async (appContext) => {
 }
 
 const AppApollo = withApollo(({ initialState }) => {
-  console.log(initialState);
+  // console.log(initialState);
 
   // let apolloClient: ApolloClient<NormalizedCacheObject>;
   return new ApolloClient({
