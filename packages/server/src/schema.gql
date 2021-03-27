@@ -93,6 +93,13 @@ type SubjectDescription {
   description: String!
 }
 
+type SubjectSpecialization {
+  id: ID!
+  specialization: [SubjectDescription!]!
+  subject: Subject!
+  coach: User!
+}
+
 type Lesson {
   id: ID!
   day: Day!
@@ -254,7 +261,13 @@ type Query {
   department(id: String!): Department!
   subjects: [Subject!]!
   subject(id: String!): Subject!
+  getCoachSchedule(id: String!): WeeklySchedule!
+  getSchedules: [WeeklySchedule!]!
   getLessons: [Lesson!]!
+  specializations: [SubjectSpecialization!]!
+  getSpecialization(id: String!): SubjectSpecialization!
+  getUserSpecialization(id: String!): SubjectSpecialization!
+  getSubjectsSpecialization(id: String!): SubjectSpecialization!
   questions: [Question!]!
   question(id: String!): Question!
   answers: [Answer!]!

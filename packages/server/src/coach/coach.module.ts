@@ -16,6 +16,7 @@ import {
   SubjectSpecializationSchema,
 } from './entities/coach.entity';
 import { SubjectsModule } from 'subjects/subjects.module';
+import { SpecializationResolver } from './specialization.resolver';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SubjectsModule } from 'subjects/subjects.module';
     CoachResolver,
     LessonResolver,
     LessonsService,
+    SpecializationResolver,
     ScheduleService,
     SubjectSpecializationService,
   ],

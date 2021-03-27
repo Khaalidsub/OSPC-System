@@ -2,6 +2,9 @@ FROM node:12 as base
 
 WORKDIR /app
 COPY package.json \
+    lerna.json \
+    packages/server/package.json \
+    packages/common \
     ./
 RUN yarn --production
 RUN curl -sf https://gobinaries.com/tj/node-prune | sh
@@ -14,7 +17,7 @@ COPY nest-cli.json \
     #  .prettierrc \
     ./
 # bring in src from context
-COPY ./src/ ./src/
+# COPY packages/server/src .
 RUN yarn
 # RUN yarn lint
 RUN yarn build

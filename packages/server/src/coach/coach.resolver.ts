@@ -98,6 +98,26 @@ export class CoachResolver {
     }
   }
 
+  @Query(() => WeeklySchedule)
+  // @UseGuards(GqlAuthGuard)
+  getCoachSchedule(@Args('id') id: string) {
+    try {
+      return this.scheduleService.findOne({ coach: id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  @Query(() => [WeeklySchedule])
+  // @UseGuards(GqlAuthGuard)
+  getSchedules() {
+    try {
+      return this.scheduleService.findAll();
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   @Mutation(() => WeeklySchedule)
   async updateWeeklySchedule(
     @Args('id') id: string,
