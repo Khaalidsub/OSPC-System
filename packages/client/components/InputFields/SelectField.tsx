@@ -1,6 +1,6 @@
 
 
-export const SelectField = ({ label, options, onClick }: SelectFieldProps) => {
+export const SelectField = ({ label, options, onClick, value }: SelectFieldProps) => {
     const OptionFields = () => {
         return (
             <>
@@ -14,7 +14,7 @@ export const SelectField = ({ label, options, onClick }: SelectFieldProps) => {
     }
     return (
         <>
-            <select className="focus:outline-none font-raleway  w-44 font-normal shadow-lg bg-white justify-self-stretch p-1 px-4  border-none rounded-lg pr-6">
+            <select value={value} onChange={onClick} className="focus:outline-none font-raleway  w-44 font-normal shadow-lg bg-white justify-self-stretch p-1 px-4  border-none rounded-lg pr-6">
                 <OptionFields />
             </select>
         </>
@@ -24,6 +24,6 @@ export const SelectField = ({ label, options, onClick }: SelectFieldProps) => {
 export interface SelectFieldProps {
     label: string
     options: string[]
-    onClick?: Function
-
+    onClick?: any
+    value?: any
 }

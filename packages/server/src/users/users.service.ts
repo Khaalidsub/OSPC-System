@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Role } from '@common/enums';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
 
@@ -14,6 +15,9 @@ export class UsersService {
 
   findAll() {
     return this.userModel.find().exec();
+  }
+  findByQuery(query: any) {
+    return this.userModel.find(query);
   }
 
   findOne(query) {

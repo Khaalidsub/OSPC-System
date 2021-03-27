@@ -1,37 +1,14 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveProperty,
-  Root,
-  ResolveField,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import {
-  HttpException,
-  HttpStatus,
-  Logger,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Logger, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
-import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
 import { AuthService } from 'auth/auth.service';
-import {
-  emailError,
-  invalidEmailError,
-  invalidPasswordError,
-  REG_EMAIL,
-} from '@common/utils';
 import { User } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
-import { Chat } from 'chats/entities/chat.entity';
-import { Message } from 'chats/entities/message.entity';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -76,6 +53,11 @@ export class UsersResolver {
   // @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Query(() => [User], { name: 'students' })
+  findStudents() {
+    return this.usersService.findByQuery({ role: Role.student });
   }
 
   @Query(() => User, { name: 'user' })

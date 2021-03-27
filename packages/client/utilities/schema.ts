@@ -53,6 +53,26 @@ export const APPLY_AS_COACH = gql`
 
   ${USER_FRAGMENT}
 `;
+
+export const REJECT_STUDENT = gql`
+  mutation rejectStudent($id: String!) {
+    rejectStudent(id: $id) {
+      university
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const ACCEPT_STUDENT = gql`
+  mutation approveStudent($id: String!) {
+    approveStudent(id: $id) {
+      university
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -66,6 +86,16 @@ export const CURRENT_USER = gql`
 export const USERS = gql`
   query users {
     users {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const STUDENTS = gql`
+  query students {
+    students {
+      university
       ...UserParts
     }
   }

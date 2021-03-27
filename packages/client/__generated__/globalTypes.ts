@@ -11,6 +11,7 @@ export enum CoachingStatus {
   active = "active",
   inactive = "inactive",
   pending = "pending",
+  rejected = "rejected",
 }
 
 export enum Day {
