@@ -9,6 +9,7 @@ import * as ApplyAsCoachTypes from 'utilities/__generated__/applyAsCoach'
 import { CreateSubjecSpecialization, CreateSubjectDescription, CreateWeeklyScheduleInput, Day, ScheduleInputType } from '__generated__/globalTypes'
 import { SubjectSpecModal } from 'components/apply'
 import { ActionType, initialSchedule, ScheduleReducer } from 'reducer/schedule'
+import { useRouter } from 'next/router'
 
 enum FormSlide {
     subject,
@@ -23,6 +24,7 @@ export const ApplyAsCoach = () => {
     const [subject, setsubject] = useState({} as SubjectsTypes.subjects_subjects)
     const [weeklySchedule, setweeklySchedule] = useState({} as CreateWeeklyScheduleInput)
     const [message, setError] = useState('')
+    const router = useRouter()
     const DisplayError = () => {
         return (
             <div className="bg-red-100 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
@@ -39,7 +41,8 @@ export const ApplyAsCoach = () => {
     const onApplySubmit = async (e) => {
         e.preventDefault()
         try {
-            const coach = await applyAsCoach({ variables: { createSubjectSpecialization: subjectSepcialization, createWeeklySchedule: weeklySchedule } })
+            await applyAsCoach({ variables: { createSubjectSpecialization: subjectSepcialization, createWeeklySchedule: weeklySchedule } })
+            router.push('/dashboard')
         } catch (error) {
             // console.log(error);
             setError(error.message)

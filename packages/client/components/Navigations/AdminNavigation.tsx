@@ -24,12 +24,15 @@ export const AdminNavigation = () => {
 
                     <NavigationIcon href='/dashboard' onClick={handleClick} label="DashBoard" icon="/assets/dashboard.svg" />
                     <NavigationIcon href='/lessons' onClick={handleClick} label="lessons" icon="/assets/lessons.svg" />
-                    <NavigationIcon href='/coaches' onClick={handleClick} label="coaches" icon="/assets/coach.svg" />
+                    {/* <NavigationIcon href='/coaches' onClick={handleClick} label="coaches" icon="/assets/coach.svg" /> */}
                     <NavigationIcon href='/forum' onClick={handleClick} label="forum" icon="/assets/forum.svg" />
                     <NavigationIcon href='/chat' onClick={handleClick} label="chat" icon="/assets/chat.svg" />
-                </div>
+                    <NavigationIcon href='/admin/students' onClick={handleClick} label="students" icon="/assets/chat.svg" />
+                    <NavigationIcon href='/admin/coaches' onClick={handleClick} label="coaches" icon="/assets/chat.svg" />
+                    <NavigationIcon href='/admin/subject_areas' onClick={handleClick} label="areas" icon="/assets/chat.svg" />
 
-                <NavigationIcon href='/' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
+                    <NavigationIcon href='/' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
+                </div>
 
             </ul>
         </div>
