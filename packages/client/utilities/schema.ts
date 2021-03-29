@@ -159,4 +159,29 @@ export const APPLY_COACH_SUBJECTS = gql`
     }
   }
 `;
+
+export const SUBJECT_AREAS = gql`
+  query subjectAreas {
+    departments {
+      id
+      name
+      description
+      subjects
+      moderator {
+        name
+      }
+    }
+  }
+`;
+
+export const SUBJECTS = gql`
+  query getSubjects {
+    subjects {
+      id
+      name
+      description
+      coaches
+    }
+  }
+`;
 // Subscription
