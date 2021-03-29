@@ -90,6 +90,16 @@ export const ACCEPT_STUDENT = gql`
   }
   ${USER_FRAGMENT}
 `;
+
+export const ADD_MODERATOR = gql`
+  mutation addModerator($createUserInput: CreateUserInput!) {
+    addModerator(createDepartmentModerator: $createUserInput) {
+      ...UserParts
+    }
+  }
+
+  ${USER_FRAGMENT}
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -183,5 +193,14 @@ export const SUBJECTS = gql`
       coaches
     }
   }
+`;
+
+export const MODERATORS = gql`
+  query moderators {
+    moderators {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
 `;
 // Subscription
