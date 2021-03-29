@@ -26,7 +26,7 @@ import { SpecializationResolver } from './specialization.resolver';
       { name: SubjectSpecialization.name, schema: SubjectSpecializationSchema },
     ]),
     UsersModule,
-    SubjectsModule,
+    forwardRef(() => SubjectsModule),
   ],
   providers: [
     CoachResolver,
@@ -36,5 +36,6 @@ import { SpecializationResolver } from './specialization.resolver';
     ScheduleService,
     SubjectSpecializationService,
   ],
+  exports: [SubjectSpecializationService],
 })
 export class CoachModule {}

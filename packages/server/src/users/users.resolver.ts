@@ -49,6 +49,31 @@ export class UsersResolver {
     }
   }
 
+  @Mutation(() => User)
+  async rejectStudent(@Args('id') id: string) {
+    try {
+      const result = await this.usersService.update(id, {
+        accountStatus: Status.rejected,
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Mutation(() => User)
+  async rejectCoach(@Args('id') id: string) {
+    try {
+      const result = await this.usersService.update(id, {
+        coachingStatus: Status.rejected,
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   @Query(() => [User], { name: 'users' })
   // @UseGuards(GqlAuthGuard)
   findAll() {
@@ -58,6 +83,12 @@ export class UsersResolver {
   @Query(() => [User], { name: 'students' })
   findStudents() {
     return this.usersService.findByQuery({ role: Role.student });
+  }
+  @Query(() => [User], { name: 'pendingCoaches' })
+  findPendingCoaches() {
+    return this.usersService.findByQuery({
+      coachingStatus: { $in: [Status.active, Status.pending, Status.rejected] },
+    });
   }
 
   @Query(() => User, { name: 'user' })

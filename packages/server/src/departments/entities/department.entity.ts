@@ -23,6 +23,8 @@ export class Department implements IDepartment {
   })
   @Field(() => User, { description: 'Example field (placeholder)' })
   moderator: string;
+  @Field(() => Number)
+  subjects: number;
 }
 
 export const DepartmentSchema = SchemaFactory.createForClass(Department);

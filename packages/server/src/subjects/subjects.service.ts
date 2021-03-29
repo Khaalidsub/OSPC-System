@@ -34,4 +34,7 @@ export class SubjectsService {
   remove(id: string) {
     return this.subjectModel.findByIdAndDelete(id).exec();
   }
+  subjectCount(departmentId: string) {
+    return this.subjectModel.count({ department: departmentId });
+  }
 }

@@ -33,6 +33,7 @@ import {
   invalidPasswordError,
   REG_EMAIL,
 } from '@common/utils';
+import { SubjectsService } from 'subjects/subjects.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -40,6 +41,7 @@ export class DepartmentsResolver {
   constructor(
     private readonly departmentsService: DepartmentsService,
     private readonly usersService: UsersService,
+    private readonly subjectsService: SubjectsService,
   ) {}
 
   @Mutation(() => Department)
@@ -117,7 +119,7 @@ export class DepartmentsResolver {
   }
 
   @Query(() => [Department], { name: 'departments' })
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  // @UseGuards(GqlAuthGuard, AdminGuard)
   findAll() {
     try {
       return this.departmentsService.findAll();
@@ -182,5 +184,10 @@ export class DepartmentsResolver {
   @ResolveField()
   moderator(@Parent() department: Department) {
     return this.usersService.findById(department.moderator);
+  }
+
+  @ResolveField()
+  subjects(@Parent() department: Department) {
+    return this.subjectsService.subjectCount(department.id);
   }
 }

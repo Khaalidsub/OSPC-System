@@ -22,6 +22,7 @@ import { GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import { invalid, subjectNameError } from '@common/utils';
 import { SentryInterceptor } from '../Sentry';
 import { DepartmentsService } from 'departments/departments.service';
+import { SubjectSpecializationService } from 'coach/specialization.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)
 export class SubjectsResolver {
@@ -29,6 +30,7 @@ export class SubjectsResolver {
   constructor(
     private readonly subjectsService: SubjectsService,
     private readonly departmentsService: DepartmentsService,
+    private readonly subjectSpecializationService: SubjectSpecializationService,
   ) {}
 
   @Mutation(() => Subject)
@@ -86,5 +88,9 @@ export class SubjectsResolver {
   @ResolveField()
   department(@Parent() subject: Subject) {
     return this.departmentsService.findById(subject.department);
+  }
+  @ResolveField()
+  coaches(@Parent() subject: Subject) {
+    return this.subjectSpecializationService.specializationCount(subject.id);
   }
 }

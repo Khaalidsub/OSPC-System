@@ -20,6 +20,8 @@ export class Subject implements ISubject {
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()
   description: string;
+  @Field(() => Number)
+  coaches: number;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);

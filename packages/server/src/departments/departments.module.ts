@@ -4,6 +4,7 @@ import { DepartmentsResolver } from './departments.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Department, DepartmentSchema } from './entities/department.entity';
 import { UsersModule } from 'users/users.module';
+import { SubjectsModule } from 'subjects/subjects.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { UsersModule } from 'users/users.module';
       { name: Department.name, schema: DepartmentSchema },
     ]),
     UsersModule,
+    SubjectsModule,
   ],
   providers: [DepartmentsResolver, DepartmentsService],
   exports: [DepartmentsService],
