@@ -22,7 +22,7 @@ export const ModeratorNavigation = () => {
             <ul className="hidden   md:flex flex-col justify-between text-base text-white h-full">
                 <div className="md:space-y-16">
 
-                    <NavigationIcon href='/dashboard' onClick={handleClick} label="DashBoard" icon="/assets/dashboard.svg" />
+                    <NavigationIcon href='/moderator' onClick={handleClick} label="DashBoard" icon="/assets/dashboard.svg" />
                     <NavigationIcon href='/lessons' onClick={handleClick} label="lessons" icon="/assets/lessons.svg" />
                     <NavigationIcon href='/coaches' onClick={handleClick} label="coaches" icon="/assets/coach.svg" />
                     <NavigationIcon href='/forum' onClick={handleClick} label="forum" icon="/assets/forum.svg" />

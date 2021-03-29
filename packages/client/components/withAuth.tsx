@@ -5,9 +5,10 @@ import redirect from "../lib/redirect";
 import { CURRENT_USER } from "utilities/schema";
 import * as CurrentTypes from 'utilities/__generated__/currentUser'
 import { CoachingStatus, Role } from "__generated__/globalTypes";
-import { isBrowser } from "lib/isBrowser";
 import Cookies from "universal-cookie";
 import { AUTH_TOKEN } from "lib/utils";
+
+
 export const withAuth = <T extends object>(C: any) => {
     const AuthComponent = ({ props }) => {
 
@@ -21,11 +22,11 @@ export const withAuth = <T extends object>(C: any) => {
         ...ctx
     }: NextContextWithApollo) => {
         // console.log('hello world', a);
-
+        const cookies = new Cookies(ctx.req?.headers.cookie)
         try {
-            const cookies = new Cookies(ctx.req?.headers.cookie)
+
             const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });
-            console.log('so liek', response?.data);
+            // console.log('so liek', response?.data);
 
             if (response.data.currentUser.accountStatus === CoachingStatus.pending) {
 
@@ -47,6 +48,14 @@ export const withAuth = <T extends object>(C: any) => {
             };
         } catch (error) {
             console.log(error);
+            if (cookies.get('user')) {
+                cookies.remove('user')
+            }
+            if (cookies.get('auth_token')) {
+                cookies.remove('auth_token')
+            }
+
+
 
             redirect(ctx, "/login");
             return {
@@ -87,11 +96,22 @@ export const withAdminAuth = <T extends object>(C: any) => {
                     currentUser: response.data.currentUser
                 }
             }
+            if (response.data.currentUser.role === Role.moderator) {
+                redirect(ctx, "/moderator");
+                return {
+                    currentUser: response.data.currentUser
+                }
+            }
             return {
                 currentUser: response.data.currentUser
             }
         } catch (error) {
-
+            if (cookies.get('user')) {
+                cookies.remove('user')
+            }
+            if (cookies.get('auth_token')) {
+                cookies.remove('auth_token')
+            }
             redirect(ctx, "/login");
             return {
                 currentUser: null,
@@ -100,4 +120,101 @@ export const withAdminAuth = <T extends object>(C: any) => {
 
     }
     return AdminAuthComponent
+}
+export const withModeratorAuth = <T extends object>(C: any) => {
+    const ModeratorComponent = ({ props }) => {
+
+
+        return (
+            <C {...props} />
+        )
+    };
+
+    ModeratorComponent.getInitialProps = async ({
+        apolloClient,
+        ...ctx
+    }: NextContextWithApollo) => {
+        const cookies = new Cookies(ctx?.req.headers.cookie)
+        try {
+
+            const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });
+            if (response.data.currentUser.role === Role.student) {
+                redirect(ctx, "/dashboard");
+                return {
+                    currentUser: response.data.currentUser
+                }
+            }
+            if (response.data.currentUser.role === Role.coach) {
+                redirect(ctx, "/coach");
+                return {
+                    currentUser: response.data.currentUser
+                }
+            }
+            return {
+                currentUser: response.data.currentUser
+            }
+        } catch (error) {
+            if (cookies.get('user')) {
+                cookies.remove('user')
+            }
+            if (cookies.get('auth_token')) {
+                cookies.remove('auth_token')
+            }
+            redirect(ctx, "/login");
+            return {
+                currentUser: null,
+            };
+        }
+
+    }
+    return ModeratorComponent
+}
+export const withCoachAuth = <T extends object>(C: any) => {
+    const CoachAuthComponent = ({ props }) => {
+
+
+        return (
+            <C {...props} />
+        )
+    };
+
+    CoachAuthComponent.getInitialProps = async ({
+        apolloClient,
+        ...ctx
+    }: NextContextWithApollo) => {
+        const cookies = new Cookies(ctx?.req.headers.cookie)
+        try {
+
+            const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });
+
+            if (response.data.currentUser.role === Role.student) {
+                redirect(ctx, "/dashboard");
+                return {
+                    currentUser: response.data.currentUser
+                }
+            }
+            if (response.data.currentUser.role === Role.moderator) {
+                redirect(ctx, "/moderator");
+                return {
+                    currentUser: response.data.currentUser
+                }
+            }
+            return {
+                currentUser: response.data.currentUser
+            }
+        } catch (error) {
+            if (cookies.get('user')) {
+                cookies.remove('user')
+            }
+            if (cookies.get('auth_token')) {
+                cookies.remove('auth_token')
+            }
+            redirect(ctx, "/login");
+            return {
+                currentUser: null,
+            };
+        }
+
+    }
+    return CoachAuthComponent
 }
