@@ -11,15 +11,23 @@ interface SubjectProps {
 }
 function Subjects() {
     const [search, setSearch] = useState('')
+    const [subjects, setAreas] = useState([] as SubjectsTypes.subjectsByDepartment_subjectsByDepartment[])
+
     const router = useRouter()
     const { id, name } = router.query
     const departmentId = (id as string).trim()
 
     const { data } = useQuery<SubjectsTypes.subjectsByDepartment, SubjectsTypes.subjectsByDepartmentVariables>(SUBJECTS_BY_DEPARTMENT, { variables: { id: departmentId } })
     useEffect(() => {
-        // console.log(id, data?.subjectsByDepartment);
 
+        setAreas(data?.subjectsByDepartment)
     }, [data])
+    useEffect(() => {
+        const result = data?.subjectsByDepartment.filter(student => {
+            return student.name.toLowerCase().includes(search)
+        })
+        setAreas(result)
+    }, [search])
     const Subject = (props: SubjectProps) => {
         return (
             <div className="flex flex-row bg-white justify-between rounded-lg shadow-md  p-4 space-y-4">
@@ -27,8 +35,11 @@ function Subjects() {
                     <img className="h-28 w-28 rounded-full" src="/fake_images/CS.jpg" alt="" />
                     <div className="flex flex-col space-y-3">
 
+                        <div className="flex flex-row justify-between">
+                            <h2 className="font-raleway text-2xl" >{props.subject.name}</h2>
 
-                        <h2 className="font-raleway text-2xl" >{props.subject.name}</h2>
+                            <span className="text-poppins text-information" >Edit</span>
+                        </div>
                         {/* <h4 className="uppercase">{student.student.university}</h4> */}
                         <p className="font-raleway line-clamp-3">Cillum veniam et pariatur ea proident deserunt quis commodo aliquip amet. Dolor aliqua esse velit quis. Cillum magna cillum sit velit irure ullamco amet Lorem cillum adipisicing. Lorem elit labore ad in.
 
@@ -49,7 +60,7 @@ Aliquip consectetur velit consectetur esse. Irure in et incididunt est eiusmod o
     const RenderSubjects = () => {
         return (
             <>
-                {data?.subjectsByDepartment?.map((subject) => {
+                {subjects?.map((subject) => {
                     return <Subject key={subject.id} subject={subject} />
                 })}
             </>

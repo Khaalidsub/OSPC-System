@@ -32,6 +32,12 @@ export enum Role {
   student = "student",
 }
 
+export interface CreateDepartmentInput {
+  name: string;
+  description: string;
+  moderator: string;
+}
+
 export interface CreateSubjecSpecialization {
   specialization: CreateSubjectDescription[];
   subject: string;

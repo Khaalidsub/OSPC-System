@@ -100,6 +100,20 @@ export const ADD_MODERATOR = gql`
 
   ${USER_FRAGMENT}
 `;
+
+export const ADD_SUBJECT_AREA = gql`
+  mutation addSubjectArea($createSubjectArea: CreateDepartmentInput!) {
+    createDepartment(createDepartmentInput: $createSubjectArea) {
+      id
+      name
+      description
+      subjects
+      moderator {
+        name
+      }
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -205,6 +219,15 @@ export const SUBJECTS_BY_DEPARTMENT = gql`
         id
         name
       }
+    }
+  }
+`;
+
+export const MODERATORS_OPTIONS = gql`
+  query availableModerators {
+    availableModerators {
+      id
+      name
     }
   }
 `;

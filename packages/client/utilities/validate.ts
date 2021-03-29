@@ -51,3 +51,16 @@ export const validateSubjectSepc = (values) => {
   }
   return errors;
 };
+export const validateSubjectArea = (values) => {
+  const errors: any = {};
+  if (!values.name) {
+    errors.name = 'name is required';
+  }
+
+  if (!values.description) {
+    errors.description = 'description is required';
+  }
+  console.log(errors);
+
+  return errors;
+};
