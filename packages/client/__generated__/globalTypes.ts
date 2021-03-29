@@ -48,6 +48,12 @@ export interface CreateSubjectDescription {
   description: string;
 }
 
+export interface CreateSubjectInput {
+  name: string;
+  description: string;
+  department: string;
+}
+
 export interface CreateUserInput {
   name: string;
   university: string;

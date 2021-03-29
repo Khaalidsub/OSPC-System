@@ -114,6 +114,19 @@ export const ADD_SUBJECT_AREA = gql`
     }
   }
 `;
+export const ADD_SUBJECT = gql`
+  mutation addSubject($createSubject: CreateSubjectInput!) {
+    createSubject(createSubjectInput: $createSubject) {
+      id
+      name
+      description
+      department {
+        id
+        name
+      }
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -211,6 +224,28 @@ export const SUBJECTS = gql`
 export const SUBJECTS_BY_DEPARTMENT = gql`
   query subjectsByDepartment($id: String!) {
     subjectsByDepartment(id: $id) {
+      id
+      name
+      description
+      coaches
+      department {
+        id
+        name
+      }
+    }
+  }
+`;
+export const DEPARTMENT = gql`
+  query department {
+    departmentByModerator {
+      id
+      name
+    }
+  }
+`;
+export const SUBJECTS_BY_MODERATOR = gql`
+  query subjectsByModerator {
+    subjectsByModerator {
       id
       name
       description

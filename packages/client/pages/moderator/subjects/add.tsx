@@ -1,35 +1,27 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { FormSelectField, SecondarySelectField } from "components";
+import { SecondarySelectField } from "components";
 import { SecondaryButton } from "components/Buttons"
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react"
-import { ADD_SUBJECT_AREA, MODERATORS_OPTIONS } from "utilities/schema";
-import { validateSubjectArea } from "utilities/validate";
-
-import * as AvailableModeratorTypes from 'utilities/__generated__/availableModerators'
-import * as AddDepartment from 'utilities/__generated__/addSubjectArea'
-function CreateSubjectArea() {
-    const [moderators, setModerators] = useState([] as AvailableModeratorTypes.availableModerators_availableModerators[])
-    const [moderator, setModerator] = useState({} as AvailableModeratorTypes.availableModerators_availableModerators)
-    const { data } = useQuery<AvailableModeratorTypes.availableModerators>(MODERATORS_OPTIONS)
-    const router = useRouter()
-    const [addDepartment, { error }] = useMutation<AddDepartment.addSubjectArea, AddDepartment.addSubjectAreaVariables>(ADD_SUBJECT_AREA)
-
+import React, { useState } from "react"
+import { ADD_SUBJECT, DEPARTMENT } from "utilities/schema";
+import { validateSubject } from "utilities/validate";
+import * as AddSubject from 'utilities/__generated__/addSubject'
+import * as Department from "utilities/__generated__/department"
+function CreateSubject() {
     const [message, setError] = useState('')
-    useEffect(() => {
-        setModerators(data?.availableModerators)
-        setModerator(data?.availableModerators[0])
-    }, [data])
+    const router = useRouter()
+    const [addSubject, { error }] = useMutation<AddSubject.addSubject, AddSubject.addSubjectVariables>(ADD_SUBJECT)
+    const { data } = useQuery<Department.department>(DEPARTMENT)
     const onSubmit = async ({ name, description, ...values }) => {
-        if (!moderator) {
-            setError('Moderator not defined')
-        }
+
         try {
+            const department = data?.departmentByModerator
             console.log(name, description, values);
-            await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
+            // await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
             // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            router.back()
+            await addSubject({ variables: { createSubject: { name, description, department: department.id } } })
+            router.replace('/moderator/subjects')
         } catch (error) {
 
             setError(error.message)
@@ -41,7 +33,7 @@ function CreateSubjectArea() {
             name: "",
             description: ""
         },
-        validate: validateSubjectArea,
+        validate: validateSubject,
         onSubmit: onSubmit
     })
     const DisplayError = () => {
@@ -57,9 +49,6 @@ function CreateSubjectArea() {
             </div>
         )
     }
-
-
-
     return (
         <div className="grid grid-cols-1">
             <div className="flex flex-col space-y-8 w-3/6 place-self-center">
@@ -70,7 +59,7 @@ function CreateSubjectArea() {
 
                         <div className="">
 
-                            <label className="text-sm font-poppins pb-2">Subject Area Name</label>
+                            <label className="text-sm font-poppins pb-2">Subject Name</label>
                             {formik.touched.name && formik.errors.name ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.name}</h4>
                             ) : null}
@@ -84,25 +73,13 @@ function CreateSubjectArea() {
                             ) : null}
                             <textarea {...formik.getFieldProps('description')} name='description' placeholder='subject area description' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
-                        <div className="flex flex-col">
-                            <label className="text-sm font-poppins pb-2">Moderator</label>
-                            <FormSelectField label='Subject' data={moderators?.map(moderator => { return { label: moderator.name, value: moderator.id } })} onClick={(e) => {
-                                e.preventDefault();
-                                // console.log(e.target.value);
-                                const selectedModerator = moderators.find(s => s.id === e.target.value);
-                                setModerator(selectedModerator)
 
-                            }} />
-                        </div>
                         <div className="w-3/5 pt-12 mx-auto">
 
-                            <SecondaryButton label='Add Subject Area' />
+                            <SecondaryButton label='Add Subject' />
 
                         </div>
                     </form>
-
-
-
                 </div>
 
             </div>
@@ -110,4 +87,4 @@ function CreateSubjectArea() {
     )
 }
 
-export default CreateSubjectArea
+export default CreateSubject
