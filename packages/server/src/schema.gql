@@ -262,11 +262,16 @@ type Query {
   users: [User!]!
   students: [User!]!
   pendingCoaches: [User!]!
+  moderators: [User!]!
   user(id: String!): User!
   currentUser: User!
+  availableModerators: [User!]!
+  subjectsByModerator: [Subject!]!
+  departmentByModerator: Department!
   departments: [Department!]!
   department(id: String!): Department!
   subjects: [Subject!]!
+  subjectsByDepartment(id: String!): [Subject!]!
   subject(id: String!): Subject!
   getCoachSchedule(id: String!): WeeklySchedule!
   getSchedules: [WeeklySchedule!]!

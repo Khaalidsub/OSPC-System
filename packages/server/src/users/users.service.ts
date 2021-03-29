@@ -42,4 +42,13 @@ export class UsersService {
       },
     });
   }
+
+  findAvailableModerators(users: string[]) {
+    return this.userModel.find({
+      _id: {
+        $nin: users,
+      },
+      role: Role.moderator,
+    });
+  }
 }

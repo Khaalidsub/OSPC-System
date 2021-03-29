@@ -34,6 +34,8 @@ import {
   REG_EMAIL,
 } from '@common/utils';
 import { SubjectsService } from 'subjects/subjects.service';
+import { Subject } from 'subjects/entities/subject.entity';
+import { ModeratorGuard } from 'auth/guards/graph-moderator.auth.guard';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -86,6 +88,44 @@ export class DepartmentsResolver {
         role: Role.moderator,
         accountStatus: Status.active,
       } as User);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  @Query(() => [User], { name: 'availableModerators' })
+  async getAvailableModerators() {
+    try {
+      // get all moderator ids from departments
+      const users = (await this.departmentsService.findModerators()).map(
+        (dep) => dep.moderator,
+      );
+      // filter the user place with those ids
+      // console.log(users);
+
+      return this.usersService.findAvailableModerators(users);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  @Query(() => [Subject], { name: 'subjectsByModerator' })
+  @UseGuards(GqlAuthGuard, ModeratorGuard)
+  async getSubjectsByDepartment(@CurrentUser() user: User) {
+    try {
+      const department = await this.departmentsService.findOne({
+        moderator: user.id,
+      });
+      return this.subjectsService.findByQuery({ department: department.id });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  @Query(() => Department, { name: 'departmentByModerator' })
+  @UseGuards(GqlAuthGuard, ModeratorGuard)
+  async getDepartmentByModerator(@CurrentUser() user: User) {
+    try {
+      return this.departmentsService.findOne({
+        moderator: user.id,
+      });
     } catch (error) {
       throw new Error(error);
     }

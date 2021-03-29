@@ -36,4 +36,10 @@ export class DepartmentsService {
   remove(id: string) {
     return this.departmentModel.findByIdAndDelete(id).exec();
   }
+  findModerators() {
+    return this.departmentModel
+      .find({})
+      .select('-_id -name -description')
+      .exec();
+  }
 }

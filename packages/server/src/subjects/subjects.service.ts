@@ -23,6 +23,9 @@ export class SubjectsService {
   findOne(query) {
     return this.subjectModel.findOne(query).exec();
   }
+  findByQuery(query) {
+    return this.subjectModel.find(query);
+  }
   findById(id: string) {
     return this.subjectModel.findById(id).exec();
   }

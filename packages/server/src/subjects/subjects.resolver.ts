@@ -23,6 +23,7 @@ import { invalid, subjectNameError } from '@common/utils';
 import { SentryInterceptor } from '../Sentry';
 import { DepartmentsService } from 'departments/departments.service';
 import { SubjectSpecializationService } from 'coach/specialization.service';
+import * as mongoose from 'mongoose';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)
 export class SubjectsResolver {
@@ -49,6 +50,17 @@ export class SubjectsResolver {
   findAll() {
     try {
       return this.subjectsService.findAll();
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Query(() => [Subject], { name: 'subjectsByDepartment' })
+  findSubjectsByDepartment(@Args('id', { type: () => String }) id: string) {
+    try {
+      return this.subjectsService.findByQuery({
+        department: mongoose.Types.ObjectId(id),
+      });
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
