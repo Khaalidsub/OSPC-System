@@ -28,7 +28,9 @@ function deleteUserFromCookie() {
     if (cookies.get('user')) {
         cookies.remove('user');
     }
-} import { setContext } from "@apollo/client/link/context";
+}
+
+import { setContext } from "@apollo/client/link/context";
 import { currentUser_currentUser } from 'utilities/__generated__/currentUser';
 // import { CoachingStatus, Role } from '__generated__/globalTypes';
 

@@ -1,4 +1,4 @@
-import { BadgeCard, BadgeColor, PrimaryCard, PrimaryButton, SelectField, TertiaryCard, SearchField } from 'components'
+import { BadgeCard, BadgeColor, PrimaryCard, PrimaryButton, SelectField, TertiaryCard, } from 'components'
 import { withAuth } from 'components/withAuth'
 
 
@@ -34,7 +34,7 @@ export const Forum = () => {
     return (
         <div className=" mx-8 lg:mx-44 my-4">
             <div className="flex flex-col space-y-4 ">
-                <SearchField />
+                {/* <SearchField /> */}
                 <div className=" flex flex-row justify-between px-4 pt-12">
                     <div className="space-x-4 flex flex-row items-center self-end">
                         <h3>36 Question</h3>

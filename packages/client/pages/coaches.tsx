@@ -1,4 +1,4 @@
-import { CoachCard, InformationButton, SearchField, SelectField } from "components"
+import { CoachCard, InformationButton, SelectField } from "components"
 import { withAuth } from "components/withAuth"
 import React from "react"
 
@@ -7,7 +7,7 @@ export const Coaches = () => {
         <div className="mx-8 lg:mx-16 my-4">
 
             <div className="flex flex-col space-y-12 items-center">
-                <SearchField />
+                {/* <SearchField  /> */}
                 <div className="space-x-12">
                     <SelectField label="flueman" options={['choc', 'flue']} />
                     <SelectField label="flueman" options={['choc', 'flue']} />
