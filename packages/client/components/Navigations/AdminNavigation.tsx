@@ -30,6 +30,7 @@ export const AdminNavigation = () => {
                     <NavigationIcon href='/admin/students' onClick={handleClick} label="students" icon="/assets/chat.svg" />
                     <NavigationIcon href='/admin/coaches' onClick={handleClick} label="coaches" icon="/assets/chat.svg" />
                     <NavigationIcon href='/admin/areas' onClick={handleClick} label="areas" icon="/assets/chat.svg" />
+                    <NavigationIcon href='/admin/subjects' onClick={handleClick} label="subjects" icon="/assets/chat.svg" />
 
                     <NavigationIcon href='/' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
                 </div>
