@@ -27,6 +27,7 @@ export const ModeratorNavigation = () => {
                     <NavigationIcon href='/coaches' onClick={handleClick} label="coaches" icon="/assets/coach.svg" />
                     <NavigationIcon href='/forum' onClick={handleClick} label="forum" icon="/assets/forum.svg" />
                     <NavigationIcon href='/chat' onClick={handleClick} label="chat" icon="/assets/chat.svg" />
+                    <NavigationIcon href='/moderator/subjects' onClick={handleClick} label="subjects" icon="/assets/school.svg" />
                 </div>
 
                 <NavigationIcon href='/' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
