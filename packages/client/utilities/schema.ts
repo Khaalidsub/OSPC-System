@@ -194,6 +194,20 @@ export const SUBJECTS = gql`
     }
   }
 `;
+export const SUBJECTS_BY_DEPARTMENT = gql`
+  query subjectsByDepartment($id: String!) {
+    subjectsByDepartment(id: $id) {
+      id
+      name
+      description
+      coaches
+      department {
+        id
+        name
+      }
+    }
+  }
+`;
 
 export const MODERATORS = gql`
   query moderators {

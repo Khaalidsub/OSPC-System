@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client"
 import { SecondaryButton } from "components/Buttons"
 import SearchField from "components/InputFields/SearchField"
+import { useRouter } from "next/router"
 import React, { useState } from "react"
 import { SUBJECT_AREAS } from "utilities/schema"
 import * as SubjectAreaTypes from "utilities/__generated__/subjectAreas"
@@ -10,7 +11,7 @@ interface SubjectAreaProps {
 function SubjectAreas() {
     const [search, setSearch] = useState('')
     const { data, fetchMore } = useQuery<SubjectAreaTypes.subjectAreas>(SUBJECT_AREAS)
-
+    const router = useRouter()
     const SubjectArea = (props: SubjectAreaProps) => {
         return (
             <div className="flex flex-row bg-white justify-between rounded-lg shadow-md  p-4 space-y-4">
@@ -19,7 +20,7 @@ function SubjectAreas() {
                     <div className="flex flex-col space-y-3">
 
 
-                        <h2 className="font-raleway text-2xl" >{props.subjectArea.name}</h2>
+                        <h2 onClick={() => router.push(`/admin/areas/subjects/${props.subjectArea.id}?name=${props.subjectArea.name}`)} className="font-raleway text-2xl cursor-pointer hover:underline" >{props.subjectArea.name}</h2>
                         {/* <h4 className="uppercase">{student.student.university}</h4> */}
                         <p className="font-raleway line-clamp-3 ">Cillum veniam et pariatur ea proident deserunt quis commodo aliquip amet. Dolor aliqua esse velit quis. Cillum magna cillum sit velit irure ullamco amet Lorem cillum adipisicing. Lorem elit labore ad in.
 
@@ -54,8 +55,8 @@ Aliquip consectetur velit consectetur esse. Irure in et incididunt est eiusmod o
                 <div className="grid grid-cols-2">
                     <SearchField placeholder="Search Subject Area" setSearch={setSearch} search={search} />
                     <div className='justify-self-end self-center flex space-x-5'>
-                        <SecondaryButton label='Add Moderator' />
-                        <SecondaryButton color={'bg-secondary'} label='Add Subject Area' />
+                        {/* <SecondaryButton label='Add Moderator' /> */}
+                        <SecondaryButton onClick={() => { router.push('/admin/areas/add') }} color={'bg-secondary'} label='Add Subject Area' />
                     </div>
                 </div>
                 <RenderSubjectAreas />
