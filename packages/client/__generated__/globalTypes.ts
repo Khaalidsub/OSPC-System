@@ -71,6 +71,27 @@ export interface ScheduleInputType {
   time_end: number;
 }
 
+export interface UpdateDepartmentInput {
+  id?: string | null;
+  name?: string | null;
+  description?: string | null;
+  moderator?: UserInputType | null;
+  subjects?: number | null;
+}
+
+export interface UserInputType {
+  id?: string | null;
+  name: string;
+  email: string;
+  phoneNumber?: string | null;
+  universityId?: string | null;
+  university: string;
+  role?: Role | null;
+  accountStatus?: CoachingStatus | null;
+  coachingStatus?: CoachingStatus | null;
+  moderatorStatus: CoachingStatus;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

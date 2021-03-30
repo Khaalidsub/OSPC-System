@@ -114,6 +114,22 @@ export const ADD_SUBJECT_AREA = gql`
     }
   }
 `;
+export const UPDATE_SUBJECT_AREA = gql`
+  mutation updateSubjectArea(
+    $id: String!
+    $updateSubjectArea: UpdateDepartmentInput!
+  ) {
+    updateDepartment(id: $id, updateDepartmentInput: $updateSubjectArea) {
+      id
+      name
+      description
+      subjects
+      moderator {
+        name
+      }
+    }
+  }
+`;
 export const ADD_SUBJECT = gql`
   mutation addSubject($createSubject: CreateSubjectInput!) {
     createSubject(createSubjectInput: $createSubject) {
@@ -240,6 +256,15 @@ export const DEPARTMENT = gql`
     departmentByModerator {
       id
       name
+    }
+  }
+`;
+export const DEPARTMENT_BY_ID = gql`
+  query getDepartment($id: String!) {
+    department(id: $id) {
+      id
+      name
+      description
     }
   }
 `;

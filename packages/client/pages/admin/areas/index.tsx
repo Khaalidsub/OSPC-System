@@ -34,7 +34,7 @@ function SubjectAreas() {
 
                         <div className="flex flex-row justify-between">
                             <h2 onClick={() => router.push(`/admin/areas/subjects/${props.subjectArea.id}?name=${props.subjectArea.name}`)} className="font-raleway text-2xl cursor-pointer hover:underline" >{props.subjectArea.name}</h2>
-                            <span className="text-poppins text-information" >Edit</span>
+                            <span onClick={() => router.push(`/admin/areas/update/${props.subjectArea.id}`)} className="cursor-pointer hover:underline text-poppins text-information" >Edit</span>
                         </div>
                         {/* <h4 className="uppercase">{student.student.university}</h4> */}
                         <p className="font-raleway line-clamp-3 ">Cillum veniam et pariatur ea proident deserunt quis commodo aliquip amet. Dolor aliqua esse velit quis. Cillum magna cillum sit velit irure ullamco amet Lorem cillum adipisicing. Lorem elit labore ad in.
