@@ -80,7 +80,7 @@ export const withAdminAuth = <T extends object>(C: any) => {
         apolloClient,
         ...ctx
     }: NextContextWithApollo) => {
-        const cookies = new Cookies(ctx?.req.headers.cookie)
+        const cookies = new Cookies(ctx?.req?.headers.cookie)
         try {
 
             const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });

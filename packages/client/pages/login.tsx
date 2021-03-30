@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import { LOGIN_USER } from 'utilities/schema';
 import * as LoginTypes from "../utilities/__generated__/login";
 import { validateLogin } from 'utilities/validate'
+import { Role } from '__generated__/globalTypes';
 export const Login = () => {
     const cookie = new Cookies();
     const [email, setEmail] = useState('')
@@ -18,7 +19,18 @@ export const Login = () => {
             cookie.set('auth_token', data.loginUser.token)
             cookie.set('user', data.loginUser.user)
             console.log('here in the login', data);
+            if (data.loginUser.user.role === Role.admin) {
 
+                router.push('/admin')
+            }
+            if (data.loginUser.user.role === Role.moderator) {
+
+                router.push('/moderator')
+            }
+            if (data.loginUser.user.role === Role.coach) {
+
+                router.push('/coach')
+            }
             router.push('/dashboard')
         },
     })

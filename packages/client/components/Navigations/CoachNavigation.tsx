@@ -17,7 +17,7 @@ export const CoachNavigation = () => {
         router.push(href)
     }
     return (
-        <div className="bg-primary    text-center p-3 md:w-16 lg:w-64 flex flex-row md:flex-col md:space-y-11 items-center justify-center md:justify-start sticky inset-x-0 bottom-0  md:inset-x-auto md:bottom-auto md:static">
+        <div className="bg-primary    text-center p-3 md:w-16 lg:w-64 flex flex-row md:flex-col md:space-y-11 items-center justify-center md:justify-start sticky inset-x-0 bottom-0  md:top-0 md:bottom-0  max-h-screen">
             <h1 className="hidden md:block md:text-md text-white lg:text-xl font-semibold ">OSPC</h1>
             <ul className="hidden   md:flex flex-col justify-between text-base text-white h-full">
                 <div className="md:space-y-16">
