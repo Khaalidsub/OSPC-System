@@ -86,10 +86,16 @@ export const Login = () => {
                         {message && <DisplayError />}
                         {/* <InputField {...formik.getFieldProps("email")} name='email' type="text" onChange={setEmail} placeholder="Email" label="Email" /> */}
                         <div className="">
+                            {formik.touched.email && formik.errors.email ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.email}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Email</label>
                             <input {...formik.getFieldProps('email')} name='email' type='email' placeholder='email' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            {formik.touched.password && formik.errors.password ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.password}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Password</label>
                             <input {...formik.getFieldProps('password')} name='password' type='password' placeholder='password' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>

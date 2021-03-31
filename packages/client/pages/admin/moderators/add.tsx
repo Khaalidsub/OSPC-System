@@ -62,22 +62,37 @@ function AddModerator() {
 
                         {message && <DisplayError />}
                         <div className="">
+                            {formik.touched.name && formik.errors.name ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.name}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Name</label>
                             <input {...formik.getFieldProps('name')} name='name' type='text' placeholder='name' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            {formik.touched.email && formik.errors.email ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.email}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Email</label>
                             <input {...formik.getFieldProps('email')} name='email' type='email' placeholder='email' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            {formik.touched.university && formik.errors.university ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.university}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">University</label>
                             <input {...formik.getFieldProps('university')} name='university' type='text' placeholder='university' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            {formik.touched.password && formik.errors.password ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.password}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Password</label>
                             <input {...formik.getFieldProps('password')} name='password' type='password' placeholder='password' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            {formik.touched.Cpassword && formik.errors.Cpassword ? (
+                                <h4 className="text-red-500 text-xs " >{formik.errors.Cpassword}</h4>
+                            ) : null}
                             <label className="text-sm font-poppins pb-2">Confirm Password</label>
                             <input {...formik.getFieldProps('Cpassword')} name='Cpassword' type='password' placeholder='password' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>

@@ -31,21 +31,17 @@ function Subjects() {
     const Subject = (props: SubjectProps) => {
         return (
             <div className="flex flex-row bg-white justify-between rounded-lg shadow-md  p-4 space-y-4">
-                <div className="flex flex-row space-x-4 items-center">
+                <div className="flex flex-row w-full space-x-4 items-center">
                     <img className="h-28 w-28 rounded-full" src="/fake_images/CS.jpg" alt="" />
-                    <div className="flex flex-col space-y-3">
+                    <div className=" flex flex-col w-full space-y-3">
 
                         <div className="flex flex-row justify-between">
                             <h2 className="font-raleway text-2xl" >{props.subject.name}</h2>
 
-                            <span className="text-poppins text-information" >Edit</span>
+                            <span onClick={() => router.push(`/admin/areas/subjects/subject/${props.subject.id}/update`)} className=" cursor-pointer focus:underline text-poppins text-information" >Edit</span>
                         </div>
                         {/* <h4 className="uppercase">{student.student.university}</h4> */}
-                        <p className="font-raleway line-clamp-3">Cillum veniam et pariatur ea proident deserunt quis commodo aliquip amet. Dolor aliqua esse velit quis. Cillum magna cillum sit velit irure ullamco amet Lorem cillum adipisicing. Lorem elit labore ad in.
-
-                        Et duis aliquip pariatur laborum reprehenderit ea eu nisi nulla laborum. Mollit nostrud cillum fugiat reprehenderit sint deserunt magna incididunt ut ad aliquip. Consequat occaecat officia laboris pariatur est laborum tempor irure pariatur id ut laboris. Aliquip qui veniam dolor sint. Pariatur Lorem amet Lorem elit nisi labore et consequat ad deserunt consequat nulla.
-
-Aliquip consectetur velit consectetur esse. Irure in et incididunt est eiusmod occaecat deserunt. Enim occaecat aliqua labore exercitation ea minim. Labore tempor fugiat commodo Lorem amet labore proident elit aliqua qui aliqua amet consectetur nisi. Aute fugiat nisi excepteur nisi anim dolor ea incididunt culpa incididunt deserunt elit in.</p>
+                        <p className="font-raleway line-clamp-3">{props.subject.description}</p>
                         <div className='space-x-4'>
                             <span className="italic font-raleway text-sm">{props.subject.coaches} Coaches</span>
                             {/* <span className='italic font-raleway text-sm'> Moderator : {props.subjectArea.moderator.name}</span> */}
@@ -75,7 +71,7 @@ Aliquip consectetur velit consectetur esse. Irure in et incididunt est eiusmod o
                     <SearchField placeholder="Search Subject" setSearch={setSearch} search={search} />
                     <div className='justify-self-end self-center flex space-x-5'>
                         {/* <SecondaryButton label='Add Moderator' /> */}
-                        <SecondaryButton color={'bg-secondary'} label='Add Subject' />
+                        <SecondaryButton onClick={() => router.push(`/admin/areas/subjects/${id}/add`)} color={'bg-secondary'} label='Add Subject' />
                     </div>
                 </div>
                 <RenderSubjects />

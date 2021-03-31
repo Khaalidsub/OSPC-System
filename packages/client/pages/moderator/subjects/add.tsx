@@ -42,7 +42,7 @@ function CreateSubject() {
         <div className="grid grid-cols-1">
             <div className="flex flex-col space-y-8 w-3/6 place-self-center">
                 <div className="grid grid-cols-1 bg-white py-12 rounded-xl shadow-md space-y-4">
-                    <h4 className="text-4xl text-center">Create Subject Area</h4>
+                    <h4 className="text-4xl text-center">Create Subject </h4>
                     {message && <DisplayError message={message} setError={setError} />}
                     <form onSubmit={formik.handleSubmit} className="w-3/5 justify-self-center space-y-6">
 

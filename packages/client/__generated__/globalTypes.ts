@@ -79,6 +79,13 @@ export interface UpdateDepartmentInput {
   subjects?: number | null;
 }
 
+export interface UpdateSubjectInput {
+  id?: string | null;
+  name?: string | null;
+  description?: string | null;
+  coaches?: number | null;
+}
+
 export interface UserInputType {
   id?: string | null;
   name: string;

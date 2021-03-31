@@ -39,7 +39,7 @@ export const Moderators = () => {
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row space-x-4 items-center">
 
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/Rectangle 798.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src="/fake_images/fake_user.png" alt="" />
                     <div className="flex flex-col space-y-4">
 
 

@@ -5,21 +5,23 @@ import DisplayError from "components/Cards/ErrorCard";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useState } from "react"
-import { ADD_SUBJECT, DEPARTMENT } from "utilities/schema";
+import { SUBJECT, UPDATE_SUBJECT, } from "utilities/schema";
 import { validateSubject } from "utilities/validate";
-import * as AddSubject from 'utilities/__generated__/addSubject'
-function CreateSubject() {
+import { updateSubject, updateSubjectVariables } from 'utilities/__generated__/updateSubject'
+import { subject, subjectVariables } from 'utilities/__generated__/subject'
+function UpdateSubject() {
     const [message, setError] = useState('')
     const router = useRouter()
     const { id } = router.query
-    const [addSubject, { error }] = useMutation<AddSubject.addSubject, AddSubject.addSubjectVariables>(ADD_SUBJECT)
+    console.log(id);
+
+    const { data } = useQuery<subject, subjectVariables>(SUBJECT, { variables: { id: id as string } })
+    const [updateSubject] = useMutation<updateSubject, updateSubjectVariables>(UPDATE_SUBJECT)
     const onSubmit = async ({ name, description, ...values }) => {
 
         try {
             console.log(name, description, values);
-            // await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
-            // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            await addSubject({ variables: { createSubject: { name, description, department: id as string } } })
+            await updateSubject({ variables: { updateSubject: { name, description }, id: id as string } })
             router.back()
         } catch (error) {
 
@@ -29,18 +31,18 @@ function CreateSubject() {
     }
     const formik = useFormik<any>({
         initialValues: {
-            name: "",
-            description: ""
+            name: data?.subject.name,
+            description: data?.subject.description
         },
         validate: validateSubject,
         onSubmit: onSubmit
     })
 
     return (
-        <div className="grid grid-cols-1 justify-center">
-            <div className="flex flex-col space-y-8 w-3/6 place-self-center">
+        <div className="grid grid-cols-1">
+            <div className="flex flex-col space-y-8 w-3/6 place-self-center self-center">
                 <div className="grid grid-cols-1 bg-white py-12 rounded-xl shadow-md space-y-4">
-                    <h4 className="text-4xl text-center">Create Subject</h4>
+                    <h4 className="text-4xl text-center">Update Subject</h4>
                     {message && <DisplayError message={message} setError={setError} />}
                     <form onSubmit={formik.handleSubmit} className="w-3/5 justify-self-center space-y-6">
 
@@ -63,7 +65,7 @@ function CreateSubject() {
 
                         <div className="w-3/5 pt-12 mx-auto">
 
-                            <SecondaryButton label='Add Subject' />
+                            <SecondaryButton color="bg-yellow-500" label='Update Subject' />
 
                         </div>
                     </form>
@@ -74,6 +76,4 @@ function CreateSubject() {
     )
 }
 
-export default CreateSubject
-
-
+export default UpdateSubject

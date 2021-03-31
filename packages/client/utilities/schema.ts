@@ -143,6 +143,19 @@ export const ADD_SUBJECT = gql`
     }
   }
 `;
+export const UPDATE_SUBJECT = gql`
+  mutation updateSubject($updateSubject: UpdateSubjectInput!, $id: String!) {
+    updateSubject(updateSubjectInput: $updateSubject, id: $id) {
+      id
+      name
+      description
+      department {
+        id
+        name
+      }
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -230,6 +243,16 @@ export const SUBJECT_AREAS = gql`
 export const SUBJECTS = gql`
   query getSubjects {
     subjects {
+      id
+      name
+      description
+      coaches
+    }
+  }
+`;
+export const SUBJECT = gql`
+  query subject($id: String!) {
+    subject(id: $id) {
       id
       name
       description
