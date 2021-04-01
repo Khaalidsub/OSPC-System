@@ -1,0 +1,34 @@
+FROM node:alpine As development
+
+RUN apk update && apk add build-base git python
+
+# WORKDIR /usr/src/app
+
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/server/package.json ./packages/server/package.json
+COPY  packages/common ./packages/common
+
+RUN yarn install
+
+COPY packages/server/ ./packages/server/
+
+RUN yarn build:server
+
+FROM node:alpine As production
+
+RUN apk update && apk add build-base git python
+
+# WORKDIR /usr/src/app
+
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/server/package.json ./packages/server/package.json
+
+COPY --from=development ./packages/common .
+
+RUN yarn install --production
+
+COPY --from=development . .
+
+EXPOSE 3000
+ENV NODE_ENV production
+CMD ["yarn", "run:prod:server" ]

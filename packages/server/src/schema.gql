@@ -47,6 +47,7 @@ type Department {
   """Example field (placeholder)"""
   moderator: User!
   subjects: Float!
+  subjectFields: [Subject!]!
 }
 
 type Subject {
@@ -191,6 +192,7 @@ input DepartmentInputType {
   """Example field (placeholder)"""
   moderator: UserInputType!
   subjects: Float!
+  subjectFields: [SubjectInputType!]!
 }
 
 input SubjectInputType {
@@ -262,6 +264,7 @@ type Query {
   users: [User!]!
   students: [User!]!
   pendingCoaches: [User!]!
+  activeCoaches: [User!]!
   moderators: [User!]!
   user(id: String!): User!
   currentUser: User!
@@ -408,6 +411,7 @@ input UpdateDepartmentInput {
   """Example field (placeholder)"""
   moderator: UserInputType
   subjects: Float
+  subjectFields: [SubjectInputType!]
 }
 
 input CreateSubjectInput {

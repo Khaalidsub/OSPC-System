@@ -1,4 +1,11 @@
-import { Resolver, Query, Mutation, Args, ResolveField } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -6,7 +13,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { Logger, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import { AuthService } from 'auth/auth.service';
-import { User } from './entities/user.entity';
+import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
 @UseInterceptors(SentryInterceptor)
@@ -90,6 +97,12 @@ export class UsersResolver {
       coachingStatus: { $in: [Status.active, Status.pending, Status.rejected] },
     });
   }
+  @Query(() => [User], { name: 'activeCoaches' })
+  findActiveCoaches() {
+    return this.usersService.findByQuery({
+      coachingStatus: Status.active,
+    });
+  }
   @Query(() => [User], { name: 'moderators' })
   findModerators() {
     return this.usersService.findByQuery({
@@ -115,5 +128,11 @@ export class UsersResolver {
     } catch (error) {
       this.logger.error(error);
     }
+  }
+  @Resolver()
+  async subject(@Parent() user: UserDocument) {
+    const result = await this.usersService.subjectSpecialization(user.id);
+    console.log(result);
+    return result.subject;
   }
 }

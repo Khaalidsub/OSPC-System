@@ -69,7 +69,7 @@ export class SubjectsResolver {
   @Query(() => Subject, { name: 'subject' })
   findOne(@Args('id', { type: () => String }) id: string) {
     try {
-      return this.subjectsService.findOne(id);
+      return this.subjectsService.findById(id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }

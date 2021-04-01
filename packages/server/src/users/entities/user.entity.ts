@@ -9,6 +9,8 @@ import {
 import { Document } from 'mongoose';
 import { Role, Status } from '@common/enums';
 import { IUser } from '@common/interfaces';
+import { SubjectSpecialization } from 'coach/entities/coach.entity';
+import { Subject } from 'subjects/entities/subject.entity';
 export type UserDocument = User & Document;
 
 @Schema()
@@ -46,6 +48,8 @@ export class User implements IUser {
   @Field(() => Status)
   @Prop({ default: Status.inactive })
   moderatorStatus?: Status;
+  // @Field(() => Subject, {})
+  // subject?: string;
 }
 registerEnumType(Role, { name: 'Role' });
 registerEnumType(Status, { name: 'Status' });

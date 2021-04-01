@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { DepartmentsService } from './departments.service';
 import { DepartmentsResolver } from './departments.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -12,7 +12,7 @@ import { SubjectsModule } from 'subjects/subjects.module';
       { name: Department.name, schema: DepartmentSchema },
     ]),
     UsersModule,
-    SubjectsModule,
+    forwardRef(() => SubjectsModule),
   ],
   providers: [DepartmentsResolver, DepartmentsService],
   exports: [DepartmentsService],

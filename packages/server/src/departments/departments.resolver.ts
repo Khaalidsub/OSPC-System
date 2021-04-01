@@ -172,7 +172,7 @@ export class DepartmentsResolver {
   @UseGuards(GqlAuthGuard)
   findOne(@Args('id', { type: () => String }) id: string) {
     try {
-      return this.departmentsService.findOne(id);
+      return this.departmentsService.findById(id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
@@ -229,5 +229,13 @@ export class DepartmentsResolver {
   @ResolveField()
   subjects(@Parent() department: Department) {
     return this.subjectsService.subjectCount(department.id);
+  }
+
+  @ResolveField(() => [Subject], { defaultValue: [] })
+  async subjectFields(@Parent() department: Department) {
+    const result = await this.departmentsService.subjects(department.id);
+    console.log(result[0], result[0].subjects);
+
+    return result[0].subjects;
   }
 }
