@@ -61,12 +61,24 @@ export interface coach_getCoachSchedule {
   schedule: coach_getCoachSchedule_schedule[];
 }
 
+export interface coach_getBookedLessonsOfTheWeek {
+  __typename: "Lesson";
+  id: string;
+  day: Day;
+  date: number;
+  time_start: number;
+  duration: number;
+}
+
 export interface coach {
   user: coach_user;
   getUserSpecialization: coach_getUserSpecialization;
   getCoachSchedule: coach_getCoachSchedule;
+  getBookedLessonsOfTheWeek: coach_getBookedLessonsOfTheWeek[];
 }
 
 export interface coachVariables {
   id: string;
+  dateTo: number;
+  dateFrom: number;
 }

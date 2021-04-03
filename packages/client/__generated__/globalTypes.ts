@@ -38,6 +38,15 @@ export interface CreateDepartmentInput {
   moderator: string;
 }
 
+export interface CreateLessonInput {
+  subject: string;
+  coach: string;
+  date: number;
+  time_start: number;
+  duration?: number | null;
+  day: Day;
+}
+
 export interface CreateSubjecSpecialization {
   specialization: CreateSubjectDescription[];
   subject: string;

@@ -156,6 +156,15 @@ export const UPDATE_SUBJECT = gql`
     }
   }
 `;
+
+export const BOOK_LESSON = gql`
+  mutation bookLesson($createLesson: CreateLessonInput!) {
+    bookLesson(createLessonInput: $createLesson) {
+      id
+      day
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -195,7 +204,7 @@ export const COACHES = gql`
   ${USER_FRAGMENT}
 `;
 export const COACH = gql`
-  query coach($id: String!) {
+  query coach($id: String!, $dateTo: Float!, $dateFrom: Float!) {
     user(id: $id) {
       university
       ...UserParts
@@ -218,6 +227,17 @@ export const COACH = gql`
         time_start
         time_end
       }
+    }
+    getBookedLessonsOfTheWeek(
+      coach: $id
+      dateTo: $dateTo
+      dateFrom: $dateFrom
+    ) {
+      id
+      day
+      date
+      time_start
+      duration
     }
   }
   ${USER_FRAGMENT}

@@ -1,22 +1,39 @@
-import { useQuery } from "@apollo/client"
+import { useMutation, useQuery } from "@apollo/client"
 import { InformationButton } from "components"
 import { useRouter } from "next/router"
 import React from "react"
-import { COACH } from "utilities/schema"
-import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule } from 'utilities/__generated__/coach'
+import { BOOK_LESSON, COACH } from "utilities/schema"
+import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
 import { Day, ScheduleInputType } from "__generated__/globalTypes"
+import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
 interface CoachProps {
     coach: coach_user
 }
-interface IDaySchedule extends coach_getCoachSchedule_schedule {
-    difference: number
+interface IDaySchedule {
+    schedule: coach_getCoachSchedule_schedule
+    lessons: coach_getBookedLessonsOfTheWeek[]
+
 
 }
 export const Coach = () => {
     const router = useRouter()
     const { id } = router.query
-    const { data } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string } })
+    const { data, fetchMore } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: 1617577200, dateTo: 1618181938 } })
+    const [bookLesson] = useMutation<bookLesson, bookLessonVariables>(BOOK_LESSON)
     console.log(data);
+
+    const onBookLesson = async ({ time_start, date, day }) => {
+        try {
+            console.log(time_start, date, day);
+
+            await bookLesson({ variables: { createLesson: { coach: id as string, date: date, day: day, time_start, subject: data?.getUserSpecialization.subject.id } } })
+        } catch (error) {
+            console.log(error.message);
+
+            throw new Error(error.message)
+
+        }
+    }
 
     const CoachProfileCard = ({ coach }: CoachProps) => {
         return (
@@ -54,17 +71,27 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
                 <h4 className='text-3xl'> Schedule</h4>
                 <div className='grid grid-cols-7 gap-2'>
                     {data?.getCoachSchedule.schedule.map((scheduleValue) => {
+                        let lessonDay = data?.getBookedLessonsOfTheWeek.filter((lessonDay) => lessonDay.day === scheduleValue.day)
 
-                        return <DaySchedule key={scheduleValue.day} {...scheduleValue} />
+
+                        return <DaySchedule key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
                     })}
                 </div>
             </div>
         )
     }
-    const DaySchedule = ({ day, time_end, time_start }: coach_getCoachSchedule_schedule) => {//the booked lessons of the day too
+    const DaySchedule = ({ lessons, schedule }: IDaySchedule) => {//the booked lessons of the day too
+        const { time_end, time_start, day } = schedule
+
         let elements: JSX.Element[] = []
         for (let i = time_start; i <= time_end; i++) {
-            elements.push(<h4 key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
+            if (lessons.find((lesson) => lesson.time_start === i)) {
+
+                elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
+            } else {
+
+                elements.push(<h4 onClick={() => { onBookLesson({ time_start: i, day, date: 1617577200 }) }} key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
+            }
 
         }
         return (
