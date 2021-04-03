@@ -172,8 +172,8 @@
         "affectsGlobalScope": false
       },
       "./src/enums/status.ts": {
-        "version": "4d39cf57ec246bc62252ce7f331e956ae11d70d873fe72de92aa02d5a1a1d1cb",
-        "signature": "8760cd360bdc0a94bb4ee2c2a0d7305d1478e5c82a0cd4ae97fd6d7747a7ee60",
+        "version": "7ee350e285046b32bb3c904d09400263ffc911e9bc5d19f65ba0af8a953fe70f",
+        "signature": "2860288dd6c5c4fed4c1826db0eb66f485145077a3f578dcb1cc04f168ac0539",
         "affectsGlobalScope": false
       },
       "./src/enums/index.ts": {
@@ -242,8 +242,8 @@
         "affectsGlobalScope": false
       },
       "./src/interfaces/itransactionhistory.ts": {
-        "version": "89a4e39430ce5bc2843fe1d2a52ad7c5d02edd3e39903c6d6442219b4f7c8987",
-        "signature": "e44f827cea60b142ab4b50c200bf123c3d0897c5d1aa7a7bed1e811b6c6883c1",
+        "version": "9f8ce096b894a802151b0ba7a5fd02eba3460d17a17100a54df87cef40aac299",
+        "signature": "c64bde84d8c2af51ac54fef0594dda365807659ba203707276c629de492947e3",
         "affectsGlobalScope": false
       },
       "./src/interfaces/iuserwallet.ts": {
@@ -262,12 +262,12 @@
         "affectsGlobalScope": false
       },
       "./src/utils/checkers.ts": {
-        "version": "886941fd48e61d77ec12565dd03dcd729a65ec19d98aaa35c7c668b29a6da564",
+        "version": "b2b48addc6df68776f7c23775b492400fb1c4e2042c2f83558e62a6b95537aa6",
         "signature": "bd77abe3169d836c8dfece358ad9153fad5c8b3898ef6b834cbaf3e762e41af8",
         "affectsGlobalScope": false
       },
       "./src/utils/exceptions.ts": {
-        "version": "399e50898580fe535aaa4098577f8e12226b53de7b42d8b4b6f92ff22f5d8a19",
+        "version": "02acbef3c2ee6915bc74eafed20cc4a9b7d88188813bed60e7660b43f346d9d3",
         "signature": "5ea516305c3b348048f4fa351a3fac9589c40688a460ed7d946497c3d037a074",
         "affectsGlobalScope": false
       },
@@ -581,9 +581,19 @@
         "signature": "73c05cca1bb5aa8e93efd089af51643b7ff005e47064a0e624a74ee20480a2eb",
         "affectsGlobalScope": false
       },
+      "../../node_modules/@types/cldrjs/index.d.ts": {
+        "version": "20d337e13e2e760627e3f1517ff76e1e0d39bf6ce43533882d850191c86ec998",
+        "signature": "20d337e13e2e760627e3f1517ff76e1e0d39bf6ce43533882d850191c86ec998",
+        "affectsGlobalScope": false
+      },
       "../../node_modules/@types/content-disposition/index.d.ts": {
         "version": "e51de415deb172e3595b5194113cb82c416822bcce55d9a8ca0d8fac57510546",
         "signature": "e51de415deb172e3595b5194113cb82c416822bcce55d9a8ca0d8fac57510546",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/cookie/index.d.ts": {
+        "version": "90643a7d80d87f379ec4c6448a4b5e473b7fb64062ac649a61d93b3a1a8b2180",
+        "signature": "90643a7d80d87f379ec4c6448a4b5e473b7fb64062ac649a61d93b3a1a8b2180",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/cookiejar/index.d.ts": {
@@ -684,6 +694,51 @@
       "../../node_modules/@types/glob/index.d.ts": {
         "version": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
         "signature": "393137c76bd922ba70a2f8bf1ade4f59a16171a02fb25918c168d48875b0cfb0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize.d.ts": {
+        "version": "d70b8db731262440440ada8c68cb3872bdf2b43dd6ffa958d55d8669db8be88b",
+        "signature": "d70b8db731262440440ada8c68cb3872bdf2b43dd6ffa958d55d8669db8be88b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/message.d.ts": {
+        "version": "07fdc2e81e3dc9baae8e09f39cd17bcdbe87f9d8a163e395132a0fbe4a502e76",
+        "signature": "07fdc2e81e3dc9baae8e09f39cd17bcdbe87f9d8a163e395132a0fbe4a502e76",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/number.d.ts": {
+        "version": "9b5063a97615e3158feab6d1509cdaac76aa355ab86f10dd34ed06f7981d0cd8",
+        "signature": "9b5063a97615e3158feab6d1509cdaac76aa355ab86f10dd34ed06f7981d0cd8",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/plural.d.ts": {
+        "version": "c97dcadbc0a72769a9b55dc783faef28e955af9029c71cb7f36b5ff4075336f2",
+        "signature": "c97dcadbc0a72769a9b55dc783faef28e955af9029c71cb7f36b5ff4075336f2",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/currency.d.ts": {
+        "version": "ec0acb265ef44ecf6ba2b83b944d92ecafe5547195bb99998abe541a42549938",
+        "signature": "ec0acb265ef44ecf6ba2b83b944d92ecafe5547195bb99998abe541a42549938",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/date.d.ts": {
+        "version": "2052c82d579c03b66f91cf221999706a2a228c6ef3e0fd87f8afbe8170a90317",
+        "signature": "2052c82d579c03b66f91cf221999706a2a228c6ef3e0fd87f8afbe8170a90317",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts": {
+        "version": "8396bc2f066638c97d325b676cfd9a66f4f414d8c65519bc6be0fd843b356d4a",
+        "signature": "8396bc2f066638c97d325b676cfd9a66f4f414d8c65519bc6be0fd843b356d4a",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/dist/globalize/unit.d.ts": {
+        "version": "8e35c716eb144e6343c7c6a923e92c65a1229acdc37d0822c7928439dbab525d",
+        "signature": "8e35c716eb144e6343c7c6a923e92c65a1229acdc37d0822c7928439dbab525d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/globalize/index.d.ts": {
+        "version": "b835c96069fcba47345918db1accca32830099f908a83c36a9d50de2e793e7ee",
+        "signature": "b835c96069fcba47345918db1accca32830099f908a83c36a9d50de2e793e7ee",
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/graceful-fs/index.d.ts": {
@@ -1616,6 +1671,83 @@
         "../../node_modules/@types/minimatch/index.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize.d.ts": [
+        "../../node_modules/@types/cldrjs/index.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/currency.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/date.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/message.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/number.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/plural.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/unit.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts"
+      ],
+      "../../node_modules/@types/globalize/index.d.ts": [
+        "../../node_modules/@types/cldrjs/index.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
       ],
       "../../node_modules/@types/graceful-fs/index.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
@@ -2702,6 +2834,83 @@
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/index.d.ts"
       ],
+      "../../node_modules/@types/globalize/dist/globalize.d.ts": [
+        "../../node_modules/@types/cldrjs/index.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/currency.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/date.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/message.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/number.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/plural.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
+      "../../node_modules/@types/globalize/dist/globalize/unit.d.ts": [
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts"
+      ],
+      "../../node_modules/@types/globalize/index.d.ts": [
+        "../../node_modules/@types/cldrjs/index.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+        "../../node_modules/@types/globalize/dist/globalize/unit.d.ts"
+      ],
       "../../node_modules/@types/graceful-fs/index.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/index.d.ts"
@@ -3700,8 +3909,10 @@
       "../../node_modules/@types/body-parser/index.d.ts",
       "../../node_modules/@types/bson/index.d.ts",
       "../../node_modules/@types/cacheable-request/index.d.ts",
+      "../../node_modules/@types/cldrjs/index.d.ts",
       "../../node_modules/@types/connect/index.d.ts",
       "../../node_modules/@types/content-disposition/index.d.ts",
+      "../../node_modules/@types/cookie/index.d.ts",
       "../../node_modules/@types/cookiejar/index.d.ts",
       "../../node_modules/@types/cookies/index.d.ts",
       "../../node_modules/@types/cors/index.d.ts",
@@ -3714,6 +3925,15 @@
       "../../node_modules/@types/express/index.d.ts",
       "../../node_modules/@types/fs-capacitor/index.d.ts",
       "../../node_modules/@types/glob/index.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/currency.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/date.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/message.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/number.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/plural.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/relative-time.d.ts",
+      "../../node_modules/@types/globalize/dist/globalize/unit.d.ts",
+      "../../node_modules/@types/globalize/index.d.ts",
       "../../node_modules/@types/graceful-fs/index.d.ts",
       "../../node_modules/@types/graphql-upload/index.d.ts",
       "../../node_modules/@types/http-assert/index.d.ts",

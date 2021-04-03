@@ -1,0 +1,99 @@
+version: '3.3'
+services:
+  nginx:
+    image: 'nginx'
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    container_name: nginx
+    volumes:
+      # - ./nginx/production.conf:/etc/nginx/nginx.conf
+      - ~/etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - '80:80'
+      - 443:443
+    depends_on:
+      - cat1
+      - frontend
+      - cat2
+      - cat3
+  frontend:
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+    image: 'sleepinglotus/ospc-client'
+    container_name: frontend
+    ports:
+      - '3060:3000'
+    environment:
+      - NEXT_PUBLIC_backend=cat1
+      - NEXT_PUBLIC_URL=localhost/backend/graphql
+    depends_on:
+      - cat1
+  cat1:
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile.prod
+    image: 'sleepinglotus/ospc-api'
+    container_name: cat1
+    ports:
+      - '3050:3000'
+    environment:
+      - DB_HOST=mongodb
+      - CLIENT=frontend
+      - PORT=3000
+      - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+      - APOLLO_GRAPH_VARIANT=current
+      - APOLLO_SCHEMA_REPORTING=true
+    depends_on:
+      - mongodb
+    stdin_open: true
+    tty: true
+  cat2:
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile
+    image: 'sleepinglotus/ospc-api'
+    container_name: cat2
+    ports:
+      - '3051:3000'
+    environment:
+      - DB_HOST=mongodb
+      - PORT=3000
+      - CLIENT=frontend
+      - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+      - APOLLO_GRAPH_VARIANT=current
+      - APOLLO_SCHEMA_REPORTING=true
+    depends_on:
+      - mongodb
+      - cat1
+    stdin_open: true
+    tty: true
+  cat3:
+    # build:
+    #   context: .
+    #   dockerfile: ./Dockerfile
+    image: 'sleepinglotus/ospc-api'
+    container_name: cat3
+    ports:
+      - '3052:3000'
+    environment:
+      - DB_HOST=mongodb
+      - PORT=3000
+      - CLIENT=frontend
+      - APOLLO_KEY=service:OSPC-8e0g2l:Z4ZupChsUSpD5XEQSLJV5Q
+      - APOLLO_GRAPH_VARIANT=current
+      - APOLLO_SCHEMA_REPORTING=true
+    depends_on:
+      - mongodb
+      - cat1
+    stdin_open: true
+    tty: true
+  mongodb:
+    image: 'mongo:4.4'
+    container_name: mongodb
+    restart: always
+    volumes:
+      - ~/etc/data/db:/data/db
+    ports:
+      - '27017:27017'
