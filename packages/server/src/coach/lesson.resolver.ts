@@ -47,7 +47,7 @@ export class LessonResolver {
       await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
 
-      const lesson = this.lessonsService.create({
+      const lesson = await this.lessonsService.create({
         ...createLessonInput,
         student: user.id,
       } as any);
