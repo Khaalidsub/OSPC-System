@@ -4,33 +4,46 @@ import { useRouter } from "next/router"
 import React from "react"
 import { BOOK_LESSON, COACH } from "utilities/schema"
 import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
-import { Day, ScheduleInputType } from "__generated__/globalTypes"
 import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
+import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format } from 'date-fns'
 interface CoachProps {
     coach: coach_user
+
 }
 interface IDaySchedule {
     schedule: coach_getCoachSchedule_schedule
     lessons: coach_getBookedLessonsOfTheWeek[]
-
+    dayTime: Date
 
 }
 export const Coach = () => {
     const router = useRouter()
     const { id } = router.query
-    const { data, fetchMore } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: 1617577200, dateTo: 1618181938 } })
     const [bookLesson] = useMutation<bookLesson, bookLessonVariables>(BOOK_LESSON)
-    console.log(data);
+
+    const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
+    const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
+    const epochStart = format(startDay, 'T')
+    const epochEnd = format(endDay, 'T')
+
+    const { data, fetchMore } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
+    // console.log(data);
+    // console.log(startDay, endDay, epochStart, epochEnd);
+    // console.log(format(startDay, 'T'));
 
     const onBookLesson = async ({ time_start, date, day }) => {
         try {
             console.log(time_start, date, day);
 
-            await bookLesson({ variables: { createLesson: { coach: id as string, date: date, day: day, time_start, subject: data?.getUserSpecialization.subject.id } } })
+            const lesson = await bookLesson({ variables: { createLesson: { coach: id as string, date: date, day: day, time_start, subject: data?.getUserSpecialization.subject.id } } })
+            // fetchMore({ query: COACH, variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
+            // console.log(lesson);
+
+            // data?.getBookedLessonsOfTheWeek.push({ ...lesson.data.bookLesson })
         } catch (error) {
             console.log(error.message);
 
-            throw new Error(error.message)
+            // throw new Error(error.message)
 
         }
     }
@@ -68,36 +81,50 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
         return (
 
             <div className='bg-white p-4 rounded-lg shadow-md space-y-8'>
-                <h4 className='text-3xl'> Schedule</h4>
+                <div className='flex flex-row space-x-12 items-center'>
+
+                    <h4 className='text-3xl'> Schedule</h4>
+                    <h3>{format(startDay, 'zzz')}{ }</h3>
+                </div>
+
                 <div className='grid grid-cols-7 gap-2'>
-                    {data?.getCoachSchedule.schedule.map((scheduleValue) => {
+                    {data?.getCoachSchedule.schedule.map((scheduleValue, i) => {
                         let lessonDay = data?.getBookedLessonsOfTheWeek.filter((lessonDay) => lessonDay.day === scheduleValue.day)
+                        const day = add(startDay, { days: i })
 
-
-                        return <DaySchedule key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
+                        return <DaySchedule dayTime={day} key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
                     })}
                 </div>
             </div>
         )
     }
-    const DaySchedule = ({ lessons, schedule }: IDaySchedule) => {//the booked lessons of the day too
+    const DaySchedule = ({ lessons, schedule, dayTime }: IDaySchedule) => {//the booked lessons of the day too
         const { time_end, time_start, day } = schedule
 
         let elements: JSX.Element[] = []
-        for (let i = time_start; i <= time_end; i++) {
+        for (let i = time_start; i <= time_end - 1; i++) {
+
+            // console.log('hello', i, lessons);
             if (lessons.find((lesson) => lesson.time_start === i)) {
 
                 elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
             } else {
 
-                elements.push(<h4 onClick={() => { onBookLesson({ time_start: i, day, date: 1617577200 }) }} key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
+                elements.push(<h4 onClick={() => { onBookLesson({ time_start: i, day, date: Number.parseInt(format(startOfDay(dayTime), 'T')) }) }} key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
             }
 
         }
         return (
             <>
                 <div className="text-center space-y-4">
-                    <h4 className="capitalize text-tertiary  border-2">{day}</h4>
+                    <div>
+
+                        <h4 className="capitalize text-tertiary  border-2">{day} {format(dayTime, 'MM/dd')}</h4>
+                        <h3>{ }</h3>
+                        {/* <select name={`Time Zone`} id="">
+                            <option value={`${DateTime.local().zoneName}`}>{DateTime.local().zoneName}</option>
+                        </select> */}
+                    </div>
                     {elements}
                 </div>
             </>

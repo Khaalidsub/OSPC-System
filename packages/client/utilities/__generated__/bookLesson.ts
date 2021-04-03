@@ -13,6 +13,9 @@ export interface bookLesson_bookLesson {
   __typename: "Lesson";
   id: string;
   day: Day;
+  date: number;
+  time_start: number;
+  duration: number;
 }
 
 export interface bookLesson {

@@ -162,6 +162,9 @@ export const BOOK_LESSON = gql`
     bookLesson(createLessonInput: $createLesson) {
       id
       day
+      date
+      time_start
+      duration
     }
   }
 `;
