@@ -58,6 +58,30 @@ export class LessonResolver {
       throw new Error(error.message);
     }
   }
+  @Query(() => [Lesson])
+  getBookedLessonsOfTheWeek(
+    @Args('dateFrom') dateFrom: number,
+    @Args('dateTo') dateTo: number,
+    @Args('coach') id: string,
+  ) {
+    try {
+      //get the day
+      console.log(
+        this.convertEpochTime(dateFrom),
+        this.convertEpochTime(dateTo),
+      );
+
+      //create a range from that day to 7 days later
+      //get the lessons of those days with the coach id
+      return this.lessonsService.getBookedLessonsOfTheWeek(
+        dateFrom,
+        dateTo,
+        id,
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
   async validateLesson(createLessonInput: CreateLessonInput) {
     const lessons = await this.lessonsService.findByQuery({

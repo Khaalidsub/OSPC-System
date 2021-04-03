@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateLessonInput } from './dto/create-lesson.input';
 import { Lesson, LessonDocument } from './entities/lesson.entity';
-
+import * as mongoose from 'mongoose';
 @Injectable()
 export class LessonsService {
   constructor(
@@ -18,6 +18,13 @@ export class LessonsService {
 
   findAll() {
     return this.lessonModel.find().exec();
+  }
+
+  getBookedLessonsOfTheWeek(dateStart: number, dateEnd: number, coach: string) {
+    return this.lessonModel.find({
+      coach: coach,
+      $and: [{ date: { $gt: dateStart } }, { date: { $lte: dateEnd } }],
+    });
   }
 
   findOne(query) {

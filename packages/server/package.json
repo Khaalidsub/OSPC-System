@@ -41,6 +41,7 @@
     "dotenv": "^8.2.0",
     "graphql-tools": "^7.0.1",
     "helmet": "^4.4.1",
+    "moment": "^2.29.1",
     "mongo-seeding": "^3.5.0",
     "mongoose": "^5.10.15",
     "mongoose-autopopulator": "^1.1.0",

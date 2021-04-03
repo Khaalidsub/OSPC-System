@@ -9,12 +9,8 @@ export class CreateScheduleInput implements ISchedule {
   @Field(() => Days)
   day: Days;
   @Field(() => Int)
-  @MinLength(0)
-  @MaxLength(23)
   time_start: number;
   @Field(() => Int)
-  @MinLength(1)
-  @MaxLength(24)
   time_end: number;
 }
 @InputType()
