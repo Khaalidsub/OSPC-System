@@ -65,10 +65,27 @@ export interface CreateWeeklyScheduleInput {
   schedule: ScheduleInputType[];
 }
 
+export interface DepartmentInputType {
+  id: string;
+  name: string;
+  description: string;
+  moderator: UserInputType;
+  subjects: number;
+  subjectFields: SubjectInputType[];
+}
+
 export interface ScheduleInputType {
   day: Day;
   time_start: number;
   time_end: number;
+}
+
+export interface SubjectInputType {
+  id: string;
+  department: DepartmentInputType;
+  name: string;
+  description: string;
+  coaches: number;
 }
 
 export interface UpdateDepartmentInput {
@@ -77,6 +94,7 @@ export interface UpdateDepartmentInput {
   description?: string | null;
   moderator?: UserInputType | null;
   subjects?: number | null;
+  subjectFields?: SubjectInputType[] | null;
 }
 
 export interface UpdateSubjectInput {

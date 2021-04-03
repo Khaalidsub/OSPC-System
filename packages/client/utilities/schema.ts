@@ -194,6 +194,43 @@ export const COACHES = gql`
   }
   ${USER_FRAGMENT}
 `;
+export const COACH = gql`
+  query coach($id: String!) {
+    user(id: $id) {
+      university
+      ...UserParts
+    }
+    getUserSpecialization(id: $id) {
+      id
+      specialization {
+        title
+        description
+      }
+      subject {
+        id
+        name
+      }
+    }
+    getCoachSchedule(id: $id) {
+      id
+      schedule {
+        day
+        time_start
+        time_end
+      }
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+
+export const ACTIVE_COACHES = gql`
+  query activeCoaches {
+    activeCoaches {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
 
 export const COACH_SCHEDULE = gql`
   query coachSchedule($id: String!) {
@@ -239,6 +276,14 @@ export const SUBJECT_AREAS = gql`
     }
   }
 `;
+export const SELECT_SUBJECT_AREAS = gql`
+  query selectSubjectAreas {
+    departments {
+      id
+      name
+    }
+  }
+`;
 
 export const SUBJECTS = gql`
   query getSubjects {
@@ -271,6 +316,14 @@ export const SUBJECTS_BY_DEPARTMENT = gql`
         id
         name
       }
+    }
+  }
+`;
+export const SELECT_SUBJECTS_BY_DEPARTMENT = gql`
+  query selectSubjectsByDepartment($id: String!) {
+    subjectsByDepartment(id: $id) {
+      id
+      name
     }
   }
 `;
