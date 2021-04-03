@@ -90,7 +90,7 @@ export class LessonResolver {
       subject: createLessonInput.subject,
     });
 
-    if (lessons.length > 1) {
+    if (lessons.length >= 1) {
       this.compareLessonDates(
         this.convertEpochTime(createLessonInput.date),
         lessons,

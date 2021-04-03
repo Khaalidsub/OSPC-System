@@ -23,7 +23,7 @@ export class LessonsService {
   getBookedLessonsOfTheWeek(dateStart: number, dateEnd: number, coach: string) {
     return this.lessonModel.find({
       coach: coach,
-      $and: [{ date: { $gt: dateStart } }, { date: { $lte: dateEnd } }],
+      $and: [{ date: { $gte: dateStart } }, { date: { $lte: dateEnd } }],
     });
   }
 
