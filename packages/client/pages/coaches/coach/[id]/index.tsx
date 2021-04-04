@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { InformationButton } from "components"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect } from "react"
 import { BOOK_LESSON, COACH } from "utilities/schema"
 import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
 import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
 import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format } from 'date-fns'
+import { withAuth } from "components/withAuth"
 interface CoachProps {
     coach: coach_user
 
@@ -18,35 +19,22 @@ interface IDaySchedule {
 }
 export const Coach = () => {
     const router = useRouter()
-    const { id } = router.query
-    const [bookLesson] = useMutation<bookLesson, bookLessonVariables>(BOOK_LESSON)
+    const { id, isRefetch } = router.query
 
     const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
     const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
     const epochStart = format(startDay, 'T')
     const epochEnd = format(endDay, 'T')
 
-    const { data, fetchMore } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
-    // console.log(data);
-    // console.log(startDay, endDay, epochStart, epochEnd);
-    // console.log(format(startDay, 'T'));
 
-    const onBookLesson = async ({ time_start, date, day }) => {
-        try {
-            console.log(time_start, date, day);
 
-            const lesson = await bookLesson({ variables: { createLesson: { coach: id as string, date: date, day: day, time_start, subject: data?.getUserSpecialization.subject.id } } })
-            // fetchMore({ query: COACH, variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
-            // console.log(lesson);
+    const { data, refetch } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
 
-            // data?.getBookedLessonsOfTheWeek.push({ ...lesson.data.bookLesson })
-        } catch (error) {
-            console.log(error.message);
-
-            // throw new Error(error.message)
-
+    useEffect(() => {
+        if (isRefetch) {
+            refetch()
         }
-    }
+    }, [isRefetch])
 
     const CoachProfileCard = ({ coach }: CoachProps) => {
         return (
@@ -110,7 +98,13 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
                 elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
             } else {
 
-                elements.push(<h4 onClick={() => { onBookLesson({ time_start: i, day, date: Number.parseInt(format(startOfDay(dayTime), 'T')) }) }} key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
+                elements.push(<h4 onClick={() => {
+
+
+                    router.push(`/booking/${id}?day=${day}&time=${i}&dayTime=${format(startOfDay(dayTime), 'T')}`)
+                }
+
+                } key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
             }
 
         }
@@ -121,9 +115,6 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
 
                         <h4 className="capitalize text-tertiary  border-2">{day} {format(dayTime, 'MM/dd')}</h4>
                         <h3>{ }</h3>
-                        {/* <select name={`Time Zone`} id="">
-                            <option value={`${DateTime.local().zoneName}`}>{DateTime.local().zoneName}</option>
-                        </select> */}
                     </div>
                     {elements}
                 </div>
@@ -158,4 +149,4 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
         </div>
     )
 }
-export default Coach
+export default withAuth(Coach)
