@@ -24,5 +24,5 @@ export interface selectSubjectsByDepartment {
 }
 
 export interface selectSubjectsByDepartmentVariables {
-  id: string;
+  id?: string | null;
 }

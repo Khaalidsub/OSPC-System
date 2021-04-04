@@ -22,3 +22,7 @@ export interface activeCoaches_activeCoaches {
 export interface activeCoaches {
   activeCoaches: activeCoaches_activeCoaches[];
 }
+
+export interface activeCoachesVariables {
+  id?: string | null;
+}

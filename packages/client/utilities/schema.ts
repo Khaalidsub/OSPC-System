@@ -247,8 +247,8 @@ export const COACH = gql`
 `;
 
 export const ACTIVE_COACHES = gql`
-  query activeCoaches {
-    activeCoaches {
+  query activeCoaches($id: String) {
+    activeCoaches(subject: $id) {
       ...UserParts
     }
   }
@@ -343,7 +343,7 @@ export const SUBJECTS_BY_DEPARTMENT = gql`
   }
 `;
 export const SELECT_SUBJECTS_BY_DEPARTMENT = gql`
-  query selectSubjectsByDepartment($id: String!) {
+  query selectSubjectsByDepartment($id: String) {
     subjectsByDepartment(id: $id) {
       id
       name
