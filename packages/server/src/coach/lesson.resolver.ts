@@ -144,6 +144,7 @@ export class LessonResolver {
       throw new Error(error.message);
     }
   }
+
   @ResolveField()
   student(@Parent() lesson: Lesson) {
     return this.usersService.findById(lesson.student);

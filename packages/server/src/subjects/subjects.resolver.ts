@@ -56,7 +56,9 @@ export class SubjectsResolver {
   }
 
   @Query(() => [Subject], { name: 'subjectsByDepartment' })
-  findSubjectsByDepartment(@Args('id', { type: () => String }) id: string) {
+  findSubjectsByDepartment(
+    @Args('id', { type: () => String, nullable: true }) id: string,
+  ) {
     try {
       return this.subjectsService.findByQuery({
         department: mongoose.Types.ObjectId(id),

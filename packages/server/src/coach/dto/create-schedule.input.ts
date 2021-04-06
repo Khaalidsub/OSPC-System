@@ -17,4 +17,6 @@ export class CreateScheduleInput implements ISchedule {
 export class CreateWeeklyScheduleInput {
   @Field(() => [Schedule])
   schedule: Schedule[];
+  @Field(() => String, { nullable: true })
+  timeZone: string;
 }

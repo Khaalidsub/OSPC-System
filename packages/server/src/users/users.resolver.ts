@@ -16,6 +16,7 @@ import { AuthService } from 'auth/auth.service';
 import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
+import { CoachLessons } from '../types';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -98,10 +99,25 @@ export class UsersResolver {
     });
   }
   @Query(() => [User], { name: 'activeCoaches' })
-  findActiveCoaches() {
+  findActiveCoaches(@Args('subject', { nullable: true }) subjectId: string) {
+    //get the coaches based on the given subject
+    console.log('i am fetching', subjectId);
+
+    if (subjectId) {
+      return this.usersService.findCoachBySubject(subjectId);
+    }
     return this.usersService.findByQuery({
       coachingStatus: Status.active,
     });
+  }
+  @Query(() => [CoachLessons], { name: 'coachLessons' })
+  @UseGuards(GqlAuthGuard)
+  findCoachesAndLessons(@CurrentUser() user: User) {
+    try {
+      return this.usersService.findCoachesAndStudentLessons(user.id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
   @Query(() => [User], { name: 'moderators' })
   findModerators() {

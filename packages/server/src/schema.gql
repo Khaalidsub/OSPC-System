@@ -29,11 +29,6 @@ enum CoachingStatus {
   rejected
 }
 
-type AuthResult {
-  token: String!
-  user: User!
-}
-
 type Department {
   """Example field (placeholder)"""
   id: String!
@@ -77,33 +72,6 @@ type SubjectSpecialization {
   coach: User!
 }
 
-type Schedule {
-  day: Day!
-  time_start: Float!
-  time_end: Float!
-}
-
-enum Day {
-  monday
-  tuesday
-  wednesday
-  thursday
-  friday
-  saturday
-  sunday
-  type
-}
-
-type WeeklySchedule {
-  id: ID!
-
-  """Example field (placeholder)"""
-  coach: User!
-
-  """Example field (placeholder)"""
-  schedule: [Schedule!]!
-}
-
 type Lesson {
   id: ID!
   day: Day!
@@ -119,10 +87,52 @@ type Lesson {
   updatedAt: DateTime!
 }
 
+enum Day {
+  monday
+  tuesday
+  wednesday
+  thursday
+  friday
+  saturday
+  sunday
+  type
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type CoachLessons {
+  id: String!
+  name: String!
+  email: String!
+  lessons: [Lesson!]!
+  lessons_taken: Float!
+  subjectSpecialization: SubjectSpecialization!
+}
+
+type AuthResult {
+  token: String!
+  user: User!
+}
+
+type Schedule {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
+type WeeklySchedule {
+  id: ID!
+
+  """Example field (placeholder)"""
+  coach: User!
+
+  """Example field (placeholder)"""
+  schedule: [Schedule!]!
+  timeZone: String
+}
 
 type Question {
   id: ID!
@@ -271,7 +281,8 @@ type Query {
   users: [User!]!
   students: [User!]!
   pendingCoaches: [User!]!
-  activeCoaches: [User!]!
+  activeCoaches(subject: String): [User!]!
+  coachLessons: [CoachLessons!]!
   moderators: [User!]!
   user(id: String!): User!
   currentUser: User!
@@ -281,7 +292,7 @@ type Query {
   departments: [Department!]!
   department(id: String!): Department!
   subjects: [Subject!]!
-  subjectsByDepartment(id: String!): [Subject!]!
+  subjectsByDepartment(id: String): [Subject!]!
   subject(id: String!): Subject!
   getCoachSchedule(id: String!): WeeklySchedule!
   getSchedules: [WeeklySchedule!]!
@@ -447,6 +458,7 @@ input UpdateSubjectInput {
 
 input CreateWeeklyScheduleInput {
   schedule: [ScheduleInputType!]!
+  timeZone: String
 }
 
 input CreateSubjecSpecialization {
@@ -467,6 +479,7 @@ input UpdateWeeklySchedule {
 
   """Example field (placeholder)"""
   schedule: [ScheduleInputType!]
+  timeZone: String
 }
 
 input CreateLessonInput {

@@ -33,6 +33,9 @@ export class WeeklySchedule implements IWeeklySchedule {
   @Field(() => [Schedule], { description: 'Example field (placeholder)' })
   @Prop({ childSchemas: [Schedule] })
   schedule: Schedule[];
+  @Field(() => String, { nullable: true })
+  @Prop({ nullable: true })
+  timeZone: string;
 }
 export const WeeklyScheduleSchema = SchemaFactory.createForClass(
   WeeklySchedule,

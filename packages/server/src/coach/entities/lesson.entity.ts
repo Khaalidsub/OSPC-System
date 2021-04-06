@@ -12,8 +12,8 @@ registerEnumType(Days, { name: 'Day' });
 @ObjectType()
 @Schema({ timestamps: true })
 export class Lesson implements ILesson {
-  @Field(() => ID)
-  id: string;
+  @Field(() => ID, { name: 'id' })
+  _id: string;
   @Field(() => Days)
   @Prop(Days)
   day: Days;

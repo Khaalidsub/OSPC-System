@@ -4,7 +4,7 @@
   gather_facts: no
   vars_files:
     - repo.yml
-    
+
   tasks:
     - name: install aptitude using apt
       apt:
@@ -15,7 +15,16 @@
     - name: Install required system packages
       tags: init
       apt: name={{ item }} state=latest update_cache=yes
-      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+      loop:
+        [
+          'apt-transport-https',
+          'ca-certificates',
+          'curl',
+          'software-properties-common',
+          'python3-pip',
+          'virtualenv',
+          'python3-setuptools',
+        ]
 
     - name: Add Docker GPG apt Key
       tags: init
@@ -31,8 +40,8 @@
 
     - name: Update apt and install docker-ce
       tags: init
-      apt: 
-        update_cache: yes 
+      apt:
+        update_cache: yes
         name: docker-ce
         state: latest
 
@@ -52,22 +61,22 @@
       tags: init
       pip:
         name: docker-compose
-        
+
     - name: Copy git repo and change branch
       tags: init, project
-      git: 
-        repo: "{{git_repo}}"
+      git:
+        repo: '{{git_repo}}'
         dest: ./ospc
         update: yes
-        version: developing_branch  
+        version: developing_branch
 
     - name: compose the backend api
       tags: init,project
       docker_compose:
-        project_src: "{{project_api_src}}"
+        project_src: '{{project_api_src}}'
         build: yes
 
-    - name: enable https 
+    - name: enable https
       tags: init,renew
       shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-staging.xyz  -d www.ospc-staging.xyz  -m  khaalidsubaan@gmail.com  --redirect"
       args:
@@ -75,8 +84,8 @@
 
     - name: push the latest nginx.conf
       tags: init
-      command: 
-        cmd: git add . && git commit -m "Update nginx.con" && git push  
+      command:
+        cmd: git add . && git commit -m "Update nginx.con" && git push
         chdir: ./ospc
       args:
         warn: no
@@ -87,7 +96,3 @@
         images: yes
         images_filters:
           dangling: true
-    
-
-
-    

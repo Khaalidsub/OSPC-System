@@ -4,6 +4,7 @@ import { Role } from '@common/enums';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
 import * as mongoose from 'mongoose';
+import { CoachLessons } from '../types/User';
 
 @Injectable()
 export class UsersService {
@@ -52,7 +53,93 @@ export class UsersService {
       role: Role.moderator,
     });
   }
-
+  findCoachesAndStudentLessons(id: string): Promise<CoachLessons[]> {
+    return this.userModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'lessons',
+            localField: '_id',
+            foreignField: 'coach',
+            as: 'lessons',
+          },
+        },
+        {
+          $match: {
+            role: 'COACH',
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: {
+              $filter: {
+                input: '$lessons',
+                as: 'lesson',
+                cond: {
+                  $eq: ['$$lesson.student', mongoose.Types.ObjectId(id)],
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: 1,
+            lessons_taken: {
+              $size: '$lessons',
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'subjectspecializations',
+            localField: '_id',
+            foreignField: 'coach',
+            as: 'subjectspecializations',
+          },
+        },
+        {
+          $unwind: {
+            path: '$subjectspecializations',
+          },
+        },
+      ])
+      .exec();
+  }
+  findCoachBySubject(subject: string) {
+    return this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'subjectspecializations',
+          localField: '_id',
+          foreignField: 'coach',
+          as: 'subjectspecializations',
+        },
+      },
+      {
+        $match: {
+          role: 'COACH',
+          coachingStatus: 'ACTIVE',
+        },
+      },
+      {
+        $unwind: {
+          path: '$subjectspecializations',
+        },
+      },
+      {
+        $match: {
+          'subjectspecializations.subject': mongoose.Types.ObjectId(subject),
+        },
+      },
+    ]);
+  }
   async subjectSpecialization(id: string) {
     //  const user = await this.userModel.findById(id);
 
