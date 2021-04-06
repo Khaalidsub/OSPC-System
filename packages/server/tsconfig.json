@@ -16,6 +16,7 @@
     "auth/*":["./src/auth/*"],
     "subjects/*":["./src/subjects/*"],
     "utils":["src/utils"],
+    "types":["./src/types"],
     "forum/*":["./src/forum/*"], 
     "departments/*":["./src/departments/*"],
     "coach/*":["./src/coach/*"],

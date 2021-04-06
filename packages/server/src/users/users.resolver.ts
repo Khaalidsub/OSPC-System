@@ -16,7 +16,7 @@ import { AuthService } from 'auth/auth.service';
 import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
-import { CoachLessons } from '../types';
+import { CoachLessons } from 'types';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {

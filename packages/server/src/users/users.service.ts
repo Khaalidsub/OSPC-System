@@ -4,7 +4,7 @@ import { Role } from '@common/enums';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
 import * as mongoose from 'mongoose';
-import { CoachLessons } from '../types/User';
+import { CoachLessons } from 'types';
 
 @Injectable()
 export class UsersService {
