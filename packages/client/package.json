@@ -18,6 +18,7 @@
     "apollo": "^2.32.5",
     "cross-env": "^7.0.3",
     "date-fns": "^2.19.0",
+    "date-fns-timezone": "^0.1.4",
     "formik": "^2.2.6",
     "globalize": "^1.6.0",
     "graphql": "^15.5.0",

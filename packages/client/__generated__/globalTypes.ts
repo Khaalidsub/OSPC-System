@@ -72,6 +72,7 @@ export interface CreateUserInput {
 
 export interface CreateWeeklyScheduleInput {
   schedule: ScheduleInputType[];
+  timeZone?: string | null;
 }
 
 export interface DepartmentInputType {

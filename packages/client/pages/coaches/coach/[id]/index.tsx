@@ -5,7 +5,7 @@ import React, { useEffect } from "react"
 import { BOOK_LESSON, COACH } from "utilities/schema"
 import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
 import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
-import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format } from 'date-fns'
+import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format, addHours } from 'date-fns'
 import { withAuth } from "components/withAuth"
 interface CoachProps {
     coach: coach_user
@@ -79,6 +79,7 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
                     {data?.getCoachSchedule.schedule.map((scheduleValue, i) => {
                         let lessonDay = data?.getBookedLessonsOfTheWeek.filter((lessonDay) => lessonDay.day === scheduleValue.day)
                         const day = add(startDay, { days: i })
+                        // console.log(day, Date.now(), day.getTime());
 
                         return <DaySchedule dayTime={day} key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
                     })}
@@ -92,8 +93,10 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
         let elements: JSX.Element[] = []
         for (let i = time_start; i <= time_end - 1; i++) {
 
-            // console.log('hello', i, lessons);
-            if (lessons.find((lesson) => lesson.time_start === i)) {
+            // console.log('hello'  , i, lessons);
+            // console.log(addHours(startOfDay(dayTime), i), Date.now());
+
+            if (lessons.find((lesson) => lesson.time_start === i) || addHours(startOfDay(dayTime), i).getTime() < Date.now()) {
 
                 elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
             } else {

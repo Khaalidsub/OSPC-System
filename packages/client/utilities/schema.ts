@@ -399,4 +399,21 @@ export const MODERATORS = gql`
   }
   ${USER_FRAGMENT}
 `;
+
+export const COACH_LESSONS = gql`
+  query coachLessons {
+    coachLessons {
+      id
+      name
+      email
+      lessons_taken
+      subjectSpecialization {
+        specialization {
+          title
+          description
+        }
+      }
+    }
+  }
+`;
 // Subscription
