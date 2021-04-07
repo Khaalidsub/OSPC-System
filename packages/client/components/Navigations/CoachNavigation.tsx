@@ -28,6 +28,7 @@ export const CoachNavigation = () => {
                     <NavigationIcon href='/forum' onClick={handleClick} label="forum" icon="/assets/forum.svg" />
                     <NavigationIcon href='/chat' onClick={handleClick} label="chat" icon="/assets/chat.svg" />
                     <NavigationIcon href='/coach/students' onClick={handleClick} label="students" icon="/assets/student.svg" />
+                    <NavigationIcon href='/coach/schedule' onClick={handleClick} label="schedule" icon="/assets/student.svg" />
                 </div>
 
                 <NavigationIcon href='/logout' onClick={handleClick} label="logout" icon="/assets/logout.svg" />

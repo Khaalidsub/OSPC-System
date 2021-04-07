@@ -114,6 +114,11 @@ export interface UpdateSubjectInput {
   coaches?: number | null;
 }
 
+export interface UpdateWeeklySchedule {
+  schedule?: ScheduleInputType[] | null;
+  timeZone?: string | null;
+}
+
 export interface UserInputType {
   id?: string | null;
   name: string;

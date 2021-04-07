@@ -18,10 +18,11 @@ export enum ActionType {
   AddEnd,
   RemoveStart,
   RemoveEnd,
+  AddBulk,
 }
 export interface ScheduleAction {
   day: Day;
-  payload: number;
+  payload: number | number[];
   type: ActionType;
 }
 export function ScheduleReducer(
@@ -66,6 +67,19 @@ export function ScheduleReducer(
             action.payload >= oneState.time_start
           )
             return { ...oneState, time_end: action.payload };
+
+          return oneState;
+        }),
+      ];
+    case ActionType.AddBulk:
+      return [
+        ...state.map((oneState) => {
+          if (oneState.day === action.day)
+            return {
+              ...oneState,
+              time_start: action.payload[0],
+              time_end: action.payload[1],
+            };
 
           return oneState;
         }),

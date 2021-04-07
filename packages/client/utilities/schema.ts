@@ -168,6 +168,17 @@ export const BOOK_LESSON = gql`
     }
   }
 `;
+
+export const UPDATE_SCHEDULE = gql`
+  mutation updateSchedule(
+    $updateSchedule: UpdateWeeklySchedule!
+    $id: String!
+  ) {
+    updateWeeklySchedule(id: $id, updateWeeklySchedule: $updateSchedule) {
+      id
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -412,6 +423,19 @@ export const COACH_LESSONS = gql`
           title
           description
         }
+      }
+    }
+  }
+`;
+export const SCHEDULE = gql`
+  query schedule {
+    getSchedule {
+      id
+      timeZone
+      schedule {
+        day
+        time_start
+        time_end
       }
     }
   }
