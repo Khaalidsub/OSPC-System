@@ -3,8 +3,8 @@ import { SecondarySelectField, SelectField, TertiaryCard } from 'components'
 import SearchField from 'components/InputFields/SearchField'
 import { withAuth } from 'components/withAuth'
 import React from 'react'
-import { COACH_LESSONS } from 'utilities/schema'
-import { coachLessons, coachLessons_coachLessons } from 'utilities/__generated__/coachLessons'
+import { COACH_LESSONS, STUDENT_LESSONS } from 'utilities/schema'
+import { studentLessons, studentLessons_studentLessons } from 'utilities/__generated__/studentLessons'
 // import { } fr
 const MetricCard = () => {
     return (
@@ -16,8 +16,8 @@ const MetricCard = () => {
 }
 export const Lessons = () => {
     console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
-    const { data: coachLessons } = useQuery<coachLessons>(COACH_LESSONS)
-    const Lesson = ({ email, id, name, lessons_taken, subjectSpecialization }: coachLessons_coachLessons) => {
+    const { data: coachLessons } = useQuery<studentLessons>(STUDENT_LESSONS)
+    const Lesson = ({ email, id, name, lessons_given, }: studentLessons_studentLessons) => {
         return (
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row w-full space-x-4 items-center">
@@ -30,14 +30,14 @@ export const Lessons = () => {
                             <h2 className="font-poppins text-2xl" >{name}</h2>
                         </div>
 
-                        <h4>{subjectSpecialization.specialization.map(special => { return special.title })}</h4>
+                        {/* <h4>{subjectSpecialization.specialization.map(special => { return special.title })}</h4> */}
 
                     </div>
                 </div>
 
                 <div className="flex flex-col w-1/2  justify-between items-center space-y-3 ">
 
-                    <h2 className="font-poppins text-xl" >{lessons_taken} Lessons</h2>
+                    <h2 className="font-poppins text-xl" >{lessons_given} Lessons</h2>
 
 
                 </div>
@@ -48,7 +48,7 @@ export const Lessons = () => {
     const LessonList = () => {
         return (
             <div className="flex flex-col space-y-6">
-                {coachLessons?.coachLessons.map((coachLesson) => {
+                {coachLessons?.studentLessons.map((coachLesson) => {
 
                     return <Lesson {...coachLesson} key={coachLesson.id} />
                 })}
@@ -78,6 +78,8 @@ export const Lessons = () => {
         )
     }
     return (
+        // list all students taught
+        // how many lessons given
         <div className="grid grid-cols-1 gap-2">
             <div className="w-3/4 place-self-center space-y-4">
                 <LessonResults />

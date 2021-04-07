@@ -427,6 +427,16 @@ export const COACH_LESSONS = gql`
     }
   }
 `;
+export const STUDENT_LESSONS = gql`
+  query studentLessons {
+    studentLessons {
+      id
+      name
+      email
+      lessons_given
+    }
+  }
+`;
 export const SCHEDULE = gql`
   query schedule {
     getSchedule {
