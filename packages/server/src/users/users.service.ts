@@ -112,6 +112,52 @@ export class UsersService {
       ])
       .exec();
   }
+  findStudentLessons(id: string): Promise<CoachLessons[]> {
+    return this.userModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'lessons',
+            localField: '_id',
+            foreignField: 'student',
+            as: 'lessons',
+          },
+        },
+        {
+          $match: {
+            role: 'STUDENT',
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: {
+              $filter: {
+                input: '$lessons',
+                as: 'lesson',
+                cond: {
+                  $eq: ['$$lesson.coach', mongoose.Types.ObjectId(id)],
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: 1,
+            lessons_given: {
+              $size: '$lessons',
+            },
+          },
+        },
+      ])
+      .exec();
+  }
   findCoachBySubject(subject: string) {
     return this.userModel.aggregate([
       {

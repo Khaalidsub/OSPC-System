@@ -17,3 +17,16 @@ export class CoachLessons {
   @Field(() => SubjectSpecialization, { name: 'subjectSpecialization' })
   subjectspecializations: SubjectSpecialization;
 }
+@ObjectType()
+export class StudentLessons {
+  @Field(() => String, { name: 'id' })
+  _id: string;
+  @Field()
+  name: string;
+  @Field()
+  email: string;
+  @Field(() => [Lesson])
+  lessons: Lesson[];
+  @Field()
+  lessons_given: number;
+}

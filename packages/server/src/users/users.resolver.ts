@@ -16,7 +16,7 @@ import { AuthService } from 'auth/auth.service';
 import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
-import { CoachLessons } from 'types';
+import { CoachLessons, StudentLessons } from 'types';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -115,6 +115,15 @@ export class UsersResolver {
   findCoachesAndLessons(@CurrentUser() user: User) {
     try {
       return this.usersService.findCoachesAndStudentLessons(user.id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Query(() => [StudentLessons], { name: 'studentLessons' })
+  @UseGuards(GqlAuthGuard)
+  findStudentLessons(@CurrentUser() user: User) {
+    try {
+      return this.usersService.findStudentLessons(user.id);
     } catch (error) {
       throw new Error(error.message);
     }

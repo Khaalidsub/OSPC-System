@@ -112,6 +112,14 @@ type CoachLessons {
   subjectSpecialization: SubjectSpecialization!
 }
 
+type StudentLessons {
+  id: String!
+  name: String!
+  email: String!
+  lessons: [Lesson!]!
+  lessons_given: Float!
+}
+
 type AuthResult {
   token: String!
   user: User!
@@ -283,6 +291,7 @@ type Query {
   pendingCoaches: [User!]!
   activeCoaches(subject: String): [User!]!
   coachLessons: [CoachLessons!]!
+  studentLessons: [StudentLessons!]!
   moderators: [User!]!
   user(id: String!): User!
   currentUser: User!
@@ -295,6 +304,7 @@ type Query {
   subjectsByDepartment(id: String): [Subject!]!
   subject(id: String!): Subject!
   getCoachSchedule(id: String!): WeeklySchedule!
+  getSchedule: WeeklySchedule!
   getSchedules: [WeeklySchedule!]!
   getBookedLessonsOfTheWeek(coach: String!, dateTo: Float!, dateFrom: Float!): [Lesson!]!
   getLessons: [Lesson!]!
@@ -472,11 +482,6 @@ input CreateSubjectDescription {
 }
 
 input UpdateWeeklySchedule {
-  id: ID
-
-  """Example field (placeholder)"""
-  coach: UserInputType
-
   """Example field (placeholder)"""
   schedule: [ScheduleInputType!]
   timeZone: String

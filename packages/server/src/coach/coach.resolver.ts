@@ -107,6 +107,15 @@ export class CoachResolver {
       throw new Error(error.message);
     }
   }
+  @Query(() => WeeklySchedule)
+  @UseGuards(GqlAuthGuard)
+  getSchedule(@CurrentUser() user: User) {
+    try {
+      return this.scheduleService.findOne({ coach: user.id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
   @Query(() => [WeeklySchedule])
   // @UseGuards(GqlAuthGuard)
