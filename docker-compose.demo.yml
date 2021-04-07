@@ -27,7 +27,7 @@ services:
       - '3060:3000'
     environment:
       - NEXT_PUBLIC_backend=cat1
-      - NEXT_PUBLIC_URL=localhost/backend/graphql
+      - NEXT_PUBLIC_URL=nginx:80/backend/graphql
     depends_on:
       - cat1
   cat1:
