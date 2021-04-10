@@ -494,6 +494,7 @@ export const QUESTIONS = gql`
       id
       title
       body
+      answers
       subject {
         id
         name
@@ -513,6 +514,7 @@ export const QUESTION = gql`
       id
       title
       body
+      # answers
       subject {
         id
         name

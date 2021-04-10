@@ -30,6 +30,7 @@ export interface questions_questions {
   id: string;
   title: string;
   body: string;
+  answers: number;
   subject: questions_questions_subject;
   createdAt: any;
   updatedAt: any;

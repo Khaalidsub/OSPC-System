@@ -28,22 +28,22 @@ export const Forum = () => {
         })
         setQuestions(result)
     }, [search])
-    const Metadata = ({ name, createdAt, subject }) => {
+    const Metadata = ({ name, createdAt, subject, answers }) => {
         return (
             <div className="flex flex-row space-x-4 text-xs">
-                <p className="text-secondary ">0 Answer</p>
+                <p className="text-secondary ">{answers} Answer(s)</p>
                 <p>{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</p>
                 <p>by {name}</p>
                 <p className="text-information">{subject}</p>
             </div>
         )
     }
-    const Question = ({ id, title, subject, createdAt, user, body }: questions_questions) => {
+    const Question = ({ id, title, subject, createdAt, user, body, answers }: questions_questions) => {
         return (
             <div className="w-full self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
                 <h2 onClick={() => router.push(`/forum/${id}`)} className="font-raleway text-2xl capitalize cursor-pointer hover:underline" >{title}</h2>
                 <p className="font-raleway line-clamp-2 pr-28 font-normal">{htmlToText(body)}</p>
-                <Metadata name={user.name} createdAt={createdAt} subject={subject.name} />
+                <Metadata name={user.name} createdAt={createdAt} subject={subject.name} answers={answers} />
             </div>
         )
     }
@@ -77,7 +77,7 @@ export const Forum = () => {
                     </div>
                     <div className="space-x-4">
                         <SelectField />
-                        <SelectField />
+                        {/* <SelectField /> */}
                     </div>
 
 

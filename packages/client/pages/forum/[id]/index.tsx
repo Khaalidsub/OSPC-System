@@ -115,33 +115,39 @@ export const Question = (): JSX.Element => {
                 <QuestionBody body={data?.question.body} />
                 <h3 className='font-semibold'>{data?.question.user.name}</h3>
                 <hr />
-                {!showAnswer && (
-                    <div onClick={() => { fetchAnswers(); setShowAnswer(true) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
+                <div className='flex flex-col space-y-2'>
 
-                        <h3 className='font-normal text-2xl text-secondary '>Answers</h3>
+                    {!showAnswer && (
+                        <div onClick={() => { fetchAnswers(); setShowAnswer(true) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
 
-                        <img className='cursor-pointer h-6 w-6' src="/assets/down-arrow.svg" alt="" />
-                    </div>)}
-                {showAnswer && <Answers />}
-                {showAnswer && (
-                    <div onClick={() => { setShowAnswer(false) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
+                            <h3 className='font-normal text-2xl text-secondary '>Answers</h3>
 
-                        <h3 className='font-normal text-2xl text-secondary '>Less</h3>
+                            <img className='cursor-pointer h-6 w-6' src="/assets/down-arrow.svg" alt="" />
+                        </div>)}
+                    {showAnswer && <Answers />}
+                    {showAnswer && (
+                        <div onClick={() => { setShowAnswer(false) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
 
-                        <img className='cursor-pointer h-6 w-6' src="/assets/up-arrow.svg" alt="" />
-                    </div>)}
-                <div>
+                            <h3 className='font-normal text-2xl text-secondary '>Less</h3>
 
-                    {message && <DisplayError message={message} setError={setError} />}
-                    {isAnswerMode && <AnswerTextEditor onInput={setAnswer} />}
+                            <img className='cursor-pointer h-6 w-6' src="/assets/up-arrow.svg" alt="" />
+                        </div>)}
+                    <div>
+
+                        {message && <DisplayError message={message} setError={setError} />}
+                        {isAnswerMode && <AnswerTextEditor onInput={setAnswer} />}
+                    </div>
+                    <div className='w-3/4 mx-auto'>
+
+                        <SecondaryButton onClick={() => {
+                            if (!isAnswerMode) {
+                                setIsAnswerMode(true)
+                            } else {
+                                onSubmit()
+                            }
+                        }} color="bg-secondary" label="Submit an Answer" />
+                    </div>
                 </div>
-                <SecondaryButton onClick={() => {
-                    if (!isAnswerMode) {
-                        setIsAnswerMode(true)
-                    } else {
-                        onSubmit()
-                    }
-                }} color="bg-secondary" label="Submit an Answer" />
             </div>
         </div>
 
