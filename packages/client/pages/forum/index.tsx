@@ -41,7 +41,7 @@ export const Forum = () => {
     const Question = ({ id, title, subject, createdAt, user, body }: questions_questions) => {
         return (
             <div className="w-full self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
-                <h2 className="font-raleway text-2xl capitalize" >{title}</h2>
+                <h2 onClick={() => router.push(`/forum/${id}`)} className="font-raleway text-2xl capitalize cursor-pointer hover:underline" >{title}</h2>
                 <p className="font-raleway line-clamp-2 pr-28 font-normal">{htmlToText(body)}</p>
                 <Metadata name={user.name} createdAt={createdAt} subject={subject.name} />
             </div>
