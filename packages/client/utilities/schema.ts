@@ -10,6 +10,19 @@ export const USER_FRAGMENT = gql`
     coachingStatus
   }
 `;
+export const ANSWER_FRAGMENT = gql`
+  fragment AnswerParts on Answer {
+    id
+    input
+    votes
+    user {
+      id
+      name
+    }
+    isApproved
+    createdAt
+  }
+`;
 
 export const IS_AUTHORIZED = gql`
   mutation isAuthorized {
@@ -184,6 +197,22 @@ export const CREATE_QUESTION = gql`
     makeQuestion(createQuestionInput: $createQuestionInput) {
       id
       body
+    }
+  }
+`;
+export const ANSWER_QUESTION = gql`
+  mutation answerQuestion($answerQuestionInput: CreateAnswerInput!) {
+    answerQuestion(createAnswerInput: $answerQuestionInput) {
+      ...AnswerParts
+    }
+  }
+  ${ANSWER_FRAGMENT}
+`;
+
+export const VOTE_ANSWER = gql`
+  mutation voteAnswer($id: String!, $vote: Boolean!) {
+    voteAnswer(answer: $id, vote: $vote) {
+      id
     }
   }
 `;
@@ -478,4 +507,32 @@ export const QUESTIONS = gql`
     }
   }
 `;
+export const QUESTION = gql`
+  query question($id: String!) {
+    question(id: $id) {
+      id
+      title
+      body
+      subject {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      user {
+        id
+        name
+      }
+    }
+  }
+`;
+export const ANSWERS = gql`
+  query answers($id: String!) {
+    answers(id: $id) {
+      ...AnswerParts
+    }
+  }
+  ${ANSWER_FRAGMENT}
+`;
+
 // Subscription

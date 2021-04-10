@@ -1,73 +1,147 @@
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import { SecondaryButton } from "components/Buttons"
+import { formatDistance } from "date-fns"
 import { useRouter } from "next/router"
-import React from "react"
-
+import React, { useState } from "react"
+import { ANSWERS, ANSWER_QUESTION, QUESTION, VOTE_ANSWER } from "utilities/schema"
+import { question, questionVariables } from 'utilities/__generated__/question'
+import { answers, answersVariables, answers_answers } from 'utilities/__generated__/answers'
+import { answerQuestion, answerQuestionVariables } from 'utilities/__generated__/answerQuestion'
+import { voteAnswer, voteAnswerVariables } from 'utilities/__generated__/voteAnswer'
+import { htmlToText } from 'html-to-text'
+import dynamic from "next/dynamic"
+import DisplayError from "components/Cards/ErrorCard"
+const ViewTextEditor = dynamic(() => import("components/TextEditor/ViewEditor"), {
+    ssr: false,
+})
+const AnswerTextEditor = dynamic(() => import("components/TextEditor/AnswerEditor"), {
+    ssr: false,
+})
 export const Question = (): JSX.Element => {
     const router = useRouter()
     const { id } = router.query
-    const QuestionTitle = () => {
+    const { data } = useQuery<question, questionVariables>(QUESTION, { variables: { id: id as string } })
+    const [fetchAnswers, { called, data: answerData, refetch }] = useLazyQuery<answers, answersVariables>(ANSWERS, { variables: { id: id as string } })
+    const [answerQuestion] = useMutation<answerQuestion, answerQuestionVariables>(ANSWER_QUESTION)
+    const [voteAnswer] = useMutation<voteAnswer, voteAnswerVariables>(VOTE_ANSWER)
+    const [isAnswerMode, setIsAnswerMode] = useState(false)
+    const [answer, setAnswer] = useState('')
+    const [message, setError] = useState('')
+    const [showAnswer, setShowAnswer] = useState(called)
+    //fetch answer two's only when the arrao is clicked
+    // update the area or add when there is a new answer
+    // vote answers
+
+
+    const onSubmit = async () => {
+        try {
+            console.log('hello');
+            if (htmlToText(answer) && htmlToText(answer).trim()) {
+                // await askQuestion({ variables: { createQuestionInput: { title: title, body: body, subject: subject.id } } })
+                // router.replace()
+                //update the answer
+                await answerQuestion({ variables: { answerQuestionInput: { input: answer, question: id as string } } })
+                refetch()
+                setIsAnswerMode(false)
+                setError('')
+            } else
+                setError('Answer must not be empty')
+        } catch (error) {
+            console.log(error);
+            setError(error.message)
+        }
+    }
+    const onVoteAnswer = async ({ vote, id }) => {
+        try {
+            await voteAnswer({ variables: { id, vote } })
+            refetch()
+            setError('')
+        } catch (error) {
+            setError(error.message)
+        }
+    }
+    const QuestionTitle = ({ title, createdAt = Date(), subject }) => {
         return (
             <div className="flex flex-col">
                 <h4 className="text-sm text-secondary">Question</h4>
-                <h2 className="text-3xl text-primary">What is Programming</h2>
+                <h2 className="text-3xl text-primary capitalize">{title}</h2>
                 <div className="flex flex-row justify-between items-center font-raleway">
-                    <span className="text-xs">10 days ago</span>
-                    <span className="text-information">programming</span>
+                    <span className="text-xs">{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</span>
+                    <span className="text-information">{subject}</span>
 
                 </div>
             </div>
         )
     }
-    const QuestionBody = (): JSX.Element => {
+    const QuestionBody = ({ body }): JSX.Element => {
         return (
-            <div>
-                <p>Fugiat pariatur voluptate adipisicing officia consequat nostrud reprehenderit velit non. Commodo consectetur esse exercitation fugiat officia aute sint. Occaecat minim deserunt non eiusmod. Laborum ad do cillum mollit. Elit nostrud ut anim cupidatat deserunt velit nisi est et excepteur.
-
-                Consectetur enim culpa qui consequat magna est commodo. Eu proident consectetur sint commodo reprehenderit cupidatat laborum labore amet sunt nulla consectetur cupidatat. Laboris eu ad aute sunt fugiat non proident. Fugiat sint Lorem mollit labore ullamco consectetur occaecat sint laborum laborum aliquip sunt cupidatat mollit. Lorem anim voluptate nulla culpa pariatur in anim incididunt consectetur consequat consequat laboris do laboris. Excepteur incididunt fugiat proident magna tempor labore. Ad culpa quis ex nisi et amet mollit.
-
-                Ad ad id do anim magna est nostrud culpa enim esse in sint ipsum ullamco. Qui pariatur laboris proident magna cillum incididunt cupidatat eiusmod. Lorem occaecat nostrud et quis qui aliqua magna cupidatat do laboris pariatur.
-
-Do quis minim excepteur aliquip ullamco sunt duis laborum. Consequat sit sint ut cupidatat. Officia est ullamco adipisicing aliqua non ad deserunt nisi.</p>
+            <div className='font-raleway'>
+                <ViewTextEditor content={body} />
             </div>
         )
     }
-    const Answer = () => {
-        return (<div className='flex flex-row'>
-            <div className=''>
+    const Answer = ({ createdAt, id, input, isApproved, user, votes }: answers_answers) => {
+        const color = isApproved ? 'text-green-300' : 'text-secondary'
+        return (<div className='flex flex-row space-x-3 '>
+            <div className='flex flex-col items-center'>
+                <img onClick={() => { onVoteAnswer({ vote: true, id }) }} className='cursor-pointer h-12 w-12' src="/assets/up-arrow.svg" alt="" />
+                <h3 className={`text-xl font-semibold  ${color}`}>{votes}</h3>
 
+                <img onClick={() => { onVoteAnswer({ vote: false, id }) }} className='cursor-pointer h-12 w-12' src="/assets/down-arrow.svg" alt="" />
             </div>
-            <div className='flex flex-col space-y-2 prose prose-sm'>
-                <h3 className='font-semibold'>Abdi Caano</h3>
-                <p className='line-clamp-3'>Aute sunt consequat minim deserunt. Culpa cillum officia velit consectetur quis quis pariatur officia sint occaecat. Ex duis enim pariatur excepteur eiusmod irure dolor incididunt culpa eu velit consectetur. Laboris aliqua et amet exercitation exercitation pariatur fugiat incididunt nostrud ut officia nulla voluptate adipisicing. Proident laboris deserunt exercitation duis.
-
-                In ea ex excepteur aute occaecat quis do irure ex voluptate veniam. Commodo ullamco tempor sunt dolore officia cupidatat. Id minim aliqua voluptate fugiat occaecat sit duis do esse. Officia irure laborum nulla ipsum eiusmod aute culpa laborum consectetur sunt cupidatat dolor nostrud. Non esse commodo exercitation officia magna ex voluptate consequat ut eu.
-
-Id duis culpa in consequat labore ullamco nulla duis sunt in in dolore ea aliquip. Exercitation mollit nulla amet minim est sunt eiusmod eiusmod eu est elit esse ad. Laborum incididunt anim adipisicing fugiat dolore duis minim minim occaecat irure. Officia occaecat eiusmod voluptate ipsum pariatur minim id enim do voluptate.</p>
-
+            <div className='flex flex-col space-y-2 w-full prose'>
+                <h3 className='font-semibold'>{user.name}</h3>
+                <p className='line-clamp-3'>{htmlToText(input)}</p>
+                <span className='italic'>{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</span>
             </div>
 
 
         </div>)
     }
     const Answers = () => {
-        return (<>
-            <Answer />
-            <Answer />
-            <Answer />
-        </>)
+        return (<div className="mx-auto w-1/2 space-y-16">
+            <span className='text-sm font-semibold font-raleway text-secondary'>{answerData?.answers.length} Answer</span>
+            {answerData?.answers.map((answer) => {
+                return <Answer key={answer.id} {...answer} />
+            })}
+        </div>)
     }
     return (<div className="grid grid-cols-1">
 
         <div className="flex flex-col space-y-8 w-3/6 place-self-center">
 
-            <div className="grid grid-cols-1 gap-y-12 bg-white py-12 px-12 rounded-xl shadow-md space-y-4">
-                <QuestionTitle />
-                <QuestionBody />
-                <h3 className='font-semibold'>Sasha liskov</h3>
+            <div className="grid grid-cols-1 gap-y-8 bg-white py-12 px-12 rounded-xl shadow-md space-y-4">
+                <QuestionTitle title={data?.question.title} subject={data?.question.subject.name} createdAt={data?.question.createdAt} />
+                <QuestionBody body={data?.question.body} />
+                <h3 className='font-semibold'>{data?.question.user.name}</h3>
                 <hr />
-                <span className='text-sm font-semibold font-raleway text-secondary'>1 Answer</span>
-                <Answers />
-                <SecondaryButton color="bg-secondary" label="Submit an Answer" />
+                {!showAnswer && (
+                    <div onClick={() => { fetchAnswers(); setShowAnswer(true) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
+
+                        <h3 className='font-normal text-2xl text-secondary '>Answers</h3>
+
+                        <img className='cursor-pointer h-6 w-6' src="/assets/down-arrow.svg" alt="" />
+                    </div>)}
+                {showAnswer && <Answers />}
+                {showAnswer && (
+                    <div onClick={() => { setShowAnswer(false) }} className='flex flex-row items-center space-x-3 mx-auto hover:underline cursor-pointer'>
+
+                        <h3 className='font-normal text-2xl text-secondary '>Less</h3>
+
+                        <img className='cursor-pointer h-6 w-6' src="/assets/up-arrow.svg" alt="" />
+                    </div>)}
+                <div>
+
+                    {message && <DisplayError message={message} setError={setError} />}
+                    {isAnswerMode && <AnswerTextEditor onInput={setAnswer} />}
+                </div>
+                <SecondaryButton onClick={() => {
+                    if (!isAnswerMode) {
+                        setIsAnswerMode(true)
+                    } else {
+                        onSubmit()
+                    }
+                }} color="bg-secondary" label="Submit an Answer" />
             </div>
         </div>
 

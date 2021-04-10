@@ -11,7 +11,7 @@
           "layouts":"./Layouts",
           "types":"./types",
           "lib":"./lib",
-          "util":"./utilities",
+          "utilities":"./utilities",
           "styles":"./styles",
           "public":"./public",
           "@common": "./node_modules/@ospc/common/src"

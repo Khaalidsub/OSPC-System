@@ -32,6 +32,11 @@ export enum Role {
   student = "student",
 }
 
+export interface CreateAnswerInput {
+  input: string;
+  question: string;
+}
+
 export interface CreateDepartmentInput {
   name: string;
   description: string;
