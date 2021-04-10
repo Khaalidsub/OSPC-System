@@ -17,7 +17,7 @@ import {
 import { AnswerService } from './answer.service';
 import { UpdateAnswerInput } from './dto/update-answer.input';
 import { CreateAnswerInput } from './dto/create-answer.input';
-import { Answer } from './entities/answer.entity';
+import { Answer, AnswerDocument } from './entities/answer.entity';
 import { SentryInterceptor } from '../Sentry';
 import { QuestionService } from './forum.service';
 import { UsersService } from 'users/users.service';
@@ -34,7 +34,7 @@ export class AnswersResolver {
   @UseGuards(GqlAuthGuard)
   async answerQuestion(
     @CurrentUser() user: User,
-    @Args('updateAnswerInput') createAnswerInput: CreateAnswerInput,
+    @Args('createAnswerInput') createAnswerInput: CreateAnswerInput,
   ) {
     try {
       const createAnswer = await this.answerService.create({
@@ -85,9 +85,14 @@ export class AnswersResolver {
   }
 
   @Query(() => [Answer], { name: 'answers' })
-  findAll() {
-    return this.answerService.findAll();
+  findByQuestion(@Args('id', { type: () => String }) id: string) {
+    return this.answerService.findByQuery({ question: id });
   }
+
+  // @Query(() => [Answer], { name: 'answers' })
+  // findAll() {
+  //   return this.answerService.findAll();
+  // }
 
   @Query(() => Answer, { name: 'answer' })
   findOne(@Args('id', { type: () => String }) id: string) {
@@ -112,12 +117,14 @@ export class AnswersResolver {
   }
 
   @ResolveField()
-  question(@Parent() answer: Answer) {
-    return this.questionService.findById(answer.id);
+  async question(@Parent() answer: AnswerDocument): Promise<any> {
+    const result = await answer.populate('question').execPopulate();
+    return result.question;
   }
 
   @ResolveField()
-  user(@Parent() answer: Answer) {
-    return this.usersService.findById(answer.user);
+  async user(@Parent() answer: AnswerDocument) {
+    const result = await answer.populate('user').execPopulate();
+    return result.user;
   }
 }

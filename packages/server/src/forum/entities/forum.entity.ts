@@ -28,6 +28,8 @@ export class Question implements IQuestion {
   createdAt: Date;
   @Field()
   updatedAt: Date;
+  @Field()
+  answers: number;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

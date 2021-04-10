@@ -20,11 +20,13 @@ import {
 import { Question, QuestionDocument } from './entities/forum.entity';
 import { SentryInterceptor } from '../Sentry';
 import { UsersService } from 'users/users.service';
+import { AnswerService } from './answer.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Question)
 export class QuestionsResolver {
   constructor(
     private readonly questionService: QuestionService,
+    private readonly answerService: AnswerService,
     private readonly usersService: UsersService,
   ) {}
 
@@ -92,5 +94,13 @@ export class QuestionsResolver {
   async subject(@Parent() question: QuestionDocument) {
     const result = await question.populate('subject').execPopulate();
     return result.subject;
+  }
+
+  @ResolveField(() => Number, { defaultValue: 0, nullable: true })
+  async answers(@Parent() question: QuestionDocument) {
+    const [result] = await this.answerService.countAnswers(question.id);
+    // console.log(result);
+
+    return result?.answers || 0;
   }
 }
