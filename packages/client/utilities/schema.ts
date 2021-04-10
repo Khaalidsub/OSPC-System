@@ -474,6 +474,20 @@ export const STUDENT_LESSONS = gql`
     }
   }
 `;
+export const MY_LESSONS = gql`
+  query myLessons($limit: Float) {
+    myLessons(limit: $limit) {
+      subject {
+        name
+      }
+      coach {
+        name
+      }
+      date
+      id
+    }
+  }
+`;
 export const SCHEDULE = gql`
   query schedule {
     getSchedule {
