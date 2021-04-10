@@ -33,7 +33,7 @@ export const Forum = () => {
             <div className="flex flex-row space-x-4 text-xs">
                 <p className="text-secondary ">0 Answer</p>
                 <p>{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</p>
-                <p>{name}</p>
+                <p>by {name}</p>
                 <p className="text-information">{subject}</p>
             </div>
         )
