@@ -17,7 +17,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { Question } from './entities/forum.entity';
+import { Question, QuestionDocument } from './entities/forum.entity';
 import { SentryInterceptor } from '../Sentry';
 import { UsersService } from 'users/users.service';
 @UseInterceptors(SentryInterceptor)
@@ -84,7 +84,13 @@ export class QuestionsResolver {
     return this.questionService.remove(id);
   }
   @ResolveField()
-  user(@Parent() question: Question) {
-    return this.usersService.findById(question.id);
+  async user(@Parent() question: QuestionDocument) {
+    const result = await question.populate('user').execPopulate();
+    return result.user;
+  }
+  @ResolveField()
+  async subject(@Parent() question: QuestionDocument) {
+    const result = await question.populate('subject').execPopulate();
+    return result.subject;
   }
 }

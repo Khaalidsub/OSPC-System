@@ -7,20 +7,27 @@ import { IQuestion } from '@common/interfaces';
 import { Document } from 'mongoose';
 export type QuestionDocument = Question & Document;
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true })
 @InputType('QuestionInputType')
 export class Question implements IQuestion {
   @Field(() => ID)
   id: string;
   @Prop()
   @Field(() => String)
-  question: string;
+  title: string;
+  @Prop()
+  @Field(() => String)
+  body: string;
   @Field(() => Subject)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Subject.name })
   subject: string;
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: string;
+  @Field()
+  createdAt: Date;
+  @Field()
+  updatedAt: Date;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

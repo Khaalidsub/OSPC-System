@@ -144,9 +144,12 @@ type WeeklySchedule {
 
 type Question {
   id: ID!
-  question: String!
+  title: String!
+  body: String!
   subject: Subject!
   user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Answer {
@@ -243,9 +246,12 @@ input ScheduleInputType {
 
 input QuestionInputType {
   id: ID!
-  question: String!
+  title: String!
+  body: String!
   subject: SubjectInputType!
   user: UserInputType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input AnswerInputType {
@@ -498,13 +504,19 @@ input CreateLessonInput {
 
 input CreateQuestionInput {
   """"""
-  question: String!
+  title: String!
+
+  """"""
+  body: String!
   subject: String!
 }
 
 input UpdateQuestionInput {
   id: ID
-  question: String
+  title: String
+  body: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input CreateAnswerInput {
