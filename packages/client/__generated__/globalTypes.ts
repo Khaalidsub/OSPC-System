@@ -47,6 +47,12 @@ export interface CreateLessonInput {
   day: Day;
 }
 
+export interface CreateQuestionInput {
+  title: string;
+  body: string;
+  subject: string;
+}
+
 export interface CreateSubjecSpecialization {
   specialization: CreateSubjectDescription[];
   subject: string;

@@ -77,3 +77,12 @@ export const validateSubject = (values) => {
 
   return errors;
 };
+export const validateQuestion = (values) => {
+  const errors: any = {};
+  if (!values.title || !values.title.trim()) {
+    errors.title = 'title is required';
+  }
+  // console.log(errors);
+
+  return errors;
+};

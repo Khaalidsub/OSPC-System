@@ -39,13 +39,13 @@ export const Coaches = () => {
             <div className="flex flex-col space-y-12 items-center">
                 {/* <SearchField  /> */}
                 <div className="space-x-12">
-                    <SecondarySelectField label="departments" onClick={(e) => {
+                    <SecondarySelectField value={department?.id} label="departments" onClick={(e) => {
 
                         const selectedDepartment = subjectAreas.departments.find(s => s.id === e.target.value);
                         setDepartment(selectedDepartment)
 
                     }} data={[{ label: 'All', value: 'All' }].concat(subjectAreas ? subjectAreas?.departments.map(department => { return { value: department.id, label: department.name } }) : [])} />
-                    <SecondarySelectField label="subjects" onClick={(e) => {
+                    <SecondarySelectField value={subject?.id} label="subjects" onClick={(e) => {
                         const selectedSubject = subjects.subjectsByDepartment.find(s => s.id === e.target.value);
                         setSubject(selectedSubject)
                     }} data={[{ label: "All", value: 'All' }].concat(subjects ? subjects?.subjectsByDepartment.map(subject => { return { value: subject.id, label: subject.name } }) : [])} />

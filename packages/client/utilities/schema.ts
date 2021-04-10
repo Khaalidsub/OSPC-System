@@ -179,6 +179,14 @@ export const UPDATE_SCHEDULE = gql`
     }
   }
 `;
+export const CREATE_QUESTION = gql`
+  mutation makeQuestion($createQuestionInput: CreateQuestionInput!) {
+    makeQuestion(createQuestionInput: $createQuestionInput) {
+      id
+      body
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -446,6 +454,26 @@ export const SCHEDULE = gql`
         day
         time_start
         time_end
+      }
+    }
+  }
+`;
+
+export const QUESTIONS = gql`
+  query questions {
+    questions {
+      id
+      title
+      body
+      subject {
+        id
+        name
+      }
+      createdAt
+      updatedAt
+      user {
+        id
+        name
       }
     }
   }
