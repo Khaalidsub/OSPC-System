@@ -1,5 +1,5 @@
 // import { Editor, EditorState } from "draft-js"
-import { useMutation, useQuery } from "@apollo/client"
+import { useMutation, useLazyQuery } from "@apollo/client"
 import { SecondaryButton, SecondarySelectField } from "components"
 import { useFormik } from "formik"
 import dynamic from "next/dynamic"
@@ -15,15 +15,13 @@ const TextEditor = dynamic(() => import("components/TextEditor"), {
     ssr: false,
 })
 export const AskQuestion = () => {
-    const { data: subjects } = useQuery<subjects>(SUBJECTS)
+    const [fetchSubjects, { data: subjects }] = useLazyQuery<subjects>(SUBJECTS)
     const router = useRouter()
     const [askQuestion] = useMutation<makeQuestion, makeQuestionVariables>(CREATE_QUESTION)
     const [body, setBody] = useState('')
     const [subject, setSubject] = useState({} as subjects_subjects)
     const [message, setError] = useState('')
-    useEffect(() => {
-        setSubject(subjects?.subjects[0])
-    }, [subjects])
+
 
 
 
@@ -74,7 +72,7 @@ export const AskQuestion = () => {
                     <div className='flex flex-col space-y-2'>
 
                         <label className="text-sm font-poppins font-semibold">Subject</label>
-                        <SecondarySelectField value={subject?.id || ''} label="subject" onClick={(e) => {
+                        <SecondarySelectField onChange={fetchSubjects} value={subject?.id || ''} label="subject" onClick={(e) => {
 
                             const selectedSubject = subjects.subjects.find(s => s.id === e.target.value);
                             setSubject(selectedSubject)
@@ -91,3 +89,5 @@ export const AskQuestion = () => {
 }
 
 export default AskQuestion
+
+
