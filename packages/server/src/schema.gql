@@ -302,7 +302,7 @@ type Query {
   students: [User!]!
   pendingCoaches: [User!]!
   activeCoaches(subject: String): [User!]!
-  coachLessons: [CoachLessons!]!
+  coachLessons(subject: String): [CoachLessons!]!
   studentLessons: [StudentLessons!]!
   moderators: [User!]!
   user(id: String!): User!
@@ -319,7 +319,7 @@ type Query {
   getSchedule: WeeklySchedule!
   getSchedules: [WeeklySchedule!]!
   getBookedLessonsOfTheWeek(coach: String!, dateTo: Float!, dateFrom: Float!): [Lesson!]!
-  getLessons: [Lesson!]!
+  myLessons(limit: Float): [Lesson!]!
   specializations: [SubjectSpecialization!]!
   getSpecialization(id: String!): SubjectSpecialization!
   getUserSpecialization(id: String!): SubjectSpecialization!

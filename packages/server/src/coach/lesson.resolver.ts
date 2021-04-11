@@ -135,11 +135,14 @@ export class LessonResolver {
     }
   }
 
-  @Query(() => [Lesson])
+  @Query(() => [Lesson], { name: 'myLessons' })
   @UseGuards(GqlAuthGuard)
-  getLessons(@CurrentUser() user: User) {
+  getLessons(
+    @CurrentUser() user: User,
+    @Args('limit', { defaultValue: undefined, nullable: true }) limit: number,
+  ) {
     try {
-      return this.lessonsService.findByQuery({ student: user.id });
+      return this.lessonsService.findStudentLessons(user.id, { limit });
     } catch (error) {
       throw new Error(error.message);
     }

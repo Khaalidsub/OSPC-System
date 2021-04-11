@@ -112,9 +112,12 @@ export class UsersResolver {
   }
   @Query(() => [CoachLessons], { name: 'coachLessons' })
   @UseGuards(GqlAuthGuard)
-  findCoachesAndLessons(@CurrentUser() user: User) {
+  findCoachesAndLessons(
+    @CurrentUser() user: User,
+    @Args('subject', { nullable: true }) subjectId: string,
+  ) {
     try {
-      return this.usersService.findCoachesAndStudentLessons(user.id);
+      return this.usersService.findCoachesAndStudentLessons(user.id, subjectId);
     } catch (error) {
       throw new Error(error.message);
     }

@@ -33,6 +33,18 @@ export class LessonsService {
   findByQuery(query) {
     return this.lessonModel.find(query).exec();
   }
+  findStudentLessons(user: string, arg: { limit: number }) {
+    return this.lessonModel
+      .aggregate([
+        {
+          $match: {
+            student: mongoose.Types.ObjectId(user),
+          },
+        },
+      ])
+      .limit(arg.limit)
+      .exec();
+  }
   findById(id: string) {
     return this.lessonModel.findById(id).exec();
   }

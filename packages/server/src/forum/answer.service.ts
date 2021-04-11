@@ -35,7 +35,7 @@ export class AnswerService {
       })
       .exec();
   }
-  countAnswers(question: string): Promise<{ answers: number }> {
+  countAnswers(question: string): Promise<{ answers: number }[]> {
     return this.answerModel
       .aggregate([
         {

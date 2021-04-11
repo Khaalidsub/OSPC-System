@@ -102,6 +102,8 @@ export class CoachResolver {
   // @UseGuards(GqlAuthGuard)
   getCoachSchedule(@Args('id') id: string) {
     try {
+      console.log('so you are what', id);
+
       return this.scheduleService.findOne({ coach: id });
     } catch (error) {
       throw new Error(error.message);
