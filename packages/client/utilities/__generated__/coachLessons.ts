@@ -30,3 +30,7 @@ export interface coachLessons_coachLessons {
 export interface coachLessons {
   coachLessons: coachLessons_coachLessons[];
 }
+
+export interface coachLessonsVariables {
+  subject?: string | null;
+}

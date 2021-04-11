@@ -55,6 +55,7 @@ export interface coach_getCoachSchedule_schedule {
 export interface coach_getCoachSchedule {
   __typename: "WeeklySchedule";
   id: string;
+  timeZone: string | null;
   /**
    * Example field (placeholder)
    */

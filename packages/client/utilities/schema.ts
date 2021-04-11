@@ -273,6 +273,7 @@ export const COACH = gql`
     }
     getCoachSchedule(id: $id) {
       id
+      timeZone
       schedule {
         day
         time_start
@@ -449,8 +450,8 @@ export const MODERATORS = gql`
 `;
 
 export const COACH_LESSONS = gql`
-  query coachLessons {
-    coachLessons {
+  query coachLessons($subject: String) {
+    coachLessons(subject: $subject) {
       id
       name
       email

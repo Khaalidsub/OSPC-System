@@ -7,6 +7,7 @@ import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoa
 import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
 import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format, addHours } from 'date-fns'
 import { withAuth } from "components/withAuth"
+import { formatToTimeZone, parseFromTimeZone } from 'date-fns-timezone'
 interface CoachProps {
     coach: coach_user
 
@@ -21,6 +22,7 @@ export const Coach = () => {
     const router = useRouter()
     const { id, isRefetch } = router.query
 
+    console.log('your country is', Intl.DateTimeFormat().resolvedOptions().timeZone);
     const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
     const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
     const epochStart = format(startDay, 'T')
@@ -31,10 +33,17 @@ export const Coach = () => {
     const { data, refetch } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
 
     useEffect(() => {
+
         if (isRefetch) {
             refetch()
         }
     }, [isRefetch])
+
+    useEffect(() => {
+        console.log('wassup');
+
+        //convert the date to the timezone of the schedule based
+    }, [data])
 
     const CoachProfileCard = ({ coach }: CoachProps) => {
         return (
@@ -72,15 +81,23 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
                 <div className='flex flex-row space-x-12 items-center'>
 
                     <h4 className='text-3xl'> Schedule</h4>
-                    <h3>{format(startDay, 'zzz')}{ }</h3>
+                    <h3>{format(startDay, 'zzz')} {Intl.DateTimeFormat().resolvedOptions().timeZone}</h3>
                 </div>
 
                 <div className='grid grid-cols-7 gap-2'>
                     {data?.getCoachSchedule.schedule.map((scheduleValue, i) => {
                         let lessonDay = data?.getBookedLessonsOfTheWeek.filter((lessonDay) => lessonDay.day === scheduleValue.day)
+
+                        const output = formatToTimeZone(add(startDay, { days: i, hours: scheduleValue.time_start }), 'D.M.YY HH:mm:ss.SSS', { timeZone: 'Europe/Berlin' })
+                        //now causally it will 0:00 and that is the time start
+                        // get the day in the schedule add it with date and format it to local
+                        // for example date is given Mon time_start 0,
+                        // different time would become Sunday
+                        console.log('date formated', output);
+
                         const day = add(startDay, { days: i })
                         // console.log(day, Date.now(), day.getTime());
-
+                        //compare the formatted day with the start, and return only the proper one
                         return <DaySchedule dayTime={day} key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
                     })}
                 </div>
@@ -89,6 +106,8 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
     }
     const DaySchedule = ({ lessons, schedule, dayTime }: IDaySchedule) => {//the booked lessons of the day too
         const { time_end, time_start, day } = schedule
+        console.log('formated', time_start);
+        //probably get the day and see if the day is same as the day the schedule is timezone formatted
 
         let elements: JSX.Element[] = []
         for (let i = time_start; i <= time_end - 1; i++) {
@@ -98,15 +117,15 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
 
             if (lessons.find((lesson) => lesson.time_start === i) || addHours(startOfDay(dayTime), i).getTime() < Date.now()) {
 
+                // elements.push(<h4 key={i} className="text-gray-400 text-lg">{formatToTimeZone(add(dayTime, { hours: i }), 'HH:mm', { timeZone: 'Europe/Paris' })}</h4>)
                 elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
             } else {
 
-                elements.push(<h4 onClick={() => {
-
-
+                // elements.push(<h4 onClick={() =>
+                //     router.push(`/booking/${id}?day=${day}&time=${i}&dayTime=${format(startOfDay(dayTime), 'T')}`)
+                // } key={i} className="hover:underline cursor-pointer text-lg">{formatToTimeZone(add(dayTime, { hours: i }), 'HH:mm', { timeZone: 'Europe/Paris' })}</h4>)
+                elements.push(<h4 onClick={() =>
                     router.push(`/booking/${id}?day=${day}&time=${i}&dayTime=${format(startOfDay(dayTime), 'T')}`)
-                }
-
                 } key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
             }
 
