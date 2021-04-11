@@ -17,11 +17,18 @@ import {
 } from './entities/coach.entity';
 import { SubjectsModule } from 'subjects/subjects.module';
 import { SpecializationResolver } from './specialization.resolver';
+import {
+  CoachApplication,
+  CoachApplicationSchema,
+} from './entities/coach-application.entity';
+import { CoachApplicationResolver } from './coach-application.resolver';
+import { CoachApplicationService } from './coach-application.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Lesson.name, schema: LessonSchema },
+      { name: CoachApplication.name, schema: CoachApplicationSchema },
       { name: WeeklySchedule.name, schema: WeeklyScheduleSchema },
       { name: SubjectSpecialization.name, schema: SubjectSpecializationSchema },
     ]),
@@ -32,6 +39,8 @@ import { SpecializationResolver } from './specialization.resolver';
     CoachResolver,
     LessonResolver,
     LessonsService,
+    CoachApplicationResolver,
+    CoachApplicationService,
     SpecializationResolver,
     ScheduleService,
     SubjectSpecializationService,

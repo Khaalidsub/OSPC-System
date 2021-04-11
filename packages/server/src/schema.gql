@@ -142,6 +142,15 @@ type WeeklySchedule {
   timeZone: String
 }
 
+type CoachApplication {
+  id: String!
+  description: String!
+  urls: [String!]
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Question {
   id: ID!
   title: String!
@@ -320,6 +329,7 @@ type Query {
   getSchedules: [WeeklySchedule!]!
   getBookedLessonsOfTheWeek(coach: String!, dateTo: Float!, dateFrom: Float!): [Lesson!]!
   myLessons(limit: Float): [Lesson!]!
+  coachApplication: CoachApplication!
   specializations: [SubjectSpecialization!]!
   getSpecialization(id: String!): SubjectSpecialization!
   getUserSpecialization(id: String!): SubjectSpecialization!
@@ -355,7 +365,7 @@ type Mutation {
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!, id: String!): Subject!
   removeSubject(id: String!): Subject!
-  applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
+  applyCoach(createCoachApplication: CreateCoachApplicationInput!, createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!, id: String!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
@@ -476,6 +486,11 @@ input UpdateSubjectInput {
   """Example field (placeholder)"""
   description: String
   coaches: Float
+}
+
+input CreateCoachApplicationInput {
+  description: String!
+  urls: [String!]
 }
 
 input CreateWeeklyScheduleInput {
