@@ -1,15 +1,22 @@
 import { useReducer, useState } from "react"
 import { ScheduleReducer, initialSchedule, ActionType } from "reducer/schedule"
 import { CreateWeeklyScheduleInput, ScheduleInputType } from "__generated__/globalTypes"
-
+import {
+    listTimeZones, findTimeZone, getZonedTime
+} from 'timezone-support'
+import { SecondarySelectField } from "components/InputFields"
 export const Schedule = ({ onSubmit }) => {
     const [schedule, dispatch] = useReducer(ScheduleReducer, initialSchedule)
     const [weeklySchedule, setweeklySchedule] = useState({} as CreateWeeklyScheduleInput)
+    const [chosenTimeZone, setChosenTimeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
     const onSubmitWeeklySchedule = (e: any) => {
+
         e.preventDefault()
         setweeklySchedule({ schedule: schedule })
         onSubmit({ schedule: schedule })
     }
+    // console.log('time', listTimeZones(), findTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone));
+
 
 
     const RenderTableBody = () => {
@@ -57,6 +64,17 @@ export const Schedule = ({ onSubmit }) => {
             <div className=' flex flex-col items-center space-y-8'>
 
                 <h3 className="text-center text-3xl font-semibold">Setup your Schedule</h3>
+                <div>
+                    <SecondarySelectField value={chosenTimeZone} onClick={(e) => {
+                        const zone = e.target.value
+                        console.log(findTimeZone(zone));
+
+                        setChosenTimeZone(zone)
+                    }}
+                        onChange={() => { }} label={''} data={listTimeZones().map((timeZone => {
+                            return { label: timeZone, value: timeZone }
+                        }))} />
+                </div>
                 <table className="w-full table-fixed">
                     <thead className='font-poppins'>
                         <tr>

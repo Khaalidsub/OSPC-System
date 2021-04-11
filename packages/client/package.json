@@ -35,6 +35,7 @@
     "react-widgets-globalize": "^6.0.0-beta.9",
     "react-widgets-simple-number": "^4.1.26",
     "tailwindcss-elevation": "^1.0.1",
+    "timezone-support": "^2.0.2",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
