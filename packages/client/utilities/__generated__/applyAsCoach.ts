@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { CreateWeeklyScheduleInput, CreateSubjecSpecialization, Role, CoachingStatus } from "./../../__generated__/globalTypes";
+import { CreateWeeklyScheduleInput, CreateSubjecSpecialization, CreateCoachApplicationInput, Role, CoachingStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: applyAsCoach
@@ -26,4 +26,5 @@ export interface applyAsCoach {
 export interface applyAsCoachVariables {
   createWeeklySchedule: CreateWeeklyScheduleInput;
   createSubjectSpecialization: CreateSubjecSpecialization;
+  createCoachApplication: CreateCoachApplicationInput;
 }

@@ -55,10 +55,12 @@ export const APPLY_AS_COACH = gql`
   mutation applyAsCoach(
     $createWeeklySchedule: CreateWeeklyScheduleInput!
     $createSubjectSpecialization: CreateSubjecSpecialization!
+    $createCoachApplication: CreateCoachApplicationInput!
   ) {
     applyCoach(
       createWeeklySchedule: $createWeeklySchedule
       createSubjectSpecialization: $createSubjectSpecialization
+      createCoachApplication: $createCoachApplication
     ) {
       ...UserParts
     }

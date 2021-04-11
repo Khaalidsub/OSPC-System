@@ -51,6 +51,12 @@ export const validateSubjectSepc = (values) => {
   }
   return errors;
 };
+export const validateCoachDescription = (values) => {
+  const errors: any = {};
+  if (!values.description) errors.description = 'description is required';
+
+  return errors;
+};
 export const validateSubjectArea = (values) => {
   const errors: any = {};
   if (!values.name) {

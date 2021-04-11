@@ -2,7 +2,7 @@ import { useLazyQuery } from "@apollo/client"
 import { SubjectSpecModal } from "components/apply"
 import { SecondarySelectField } from "components/InputFields"
 import { useModal } from "hooks/useModal"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { APPLY_COACH_SUBJECTS } from "utililites/schema"
 import { subjects_subjects, subjects } from "utililites/__generated__/subjects"
 import { CreateSubjectDescription } from "__generated__/globalTypes"
@@ -12,18 +12,28 @@ export const SubjectChosen = ({ setError, onSubmit }) => {
     const [fetchSubjects, { data }] = useLazyQuery<subjects>(APPLY_COACH_SUBJECTS)
     const [subjectDescriptions, setSubjectDescriptions] = useState([] as CreateSubjectDescription[])
     const [subject, setsubject] = useState({} as subjects_subjects)
+    const [description, setDescription] = useState('')
+    const [descriptionErr, setDescriptionErr] = useState('')
     const onSubjectSpecificationSubmit = (e: any) => {
         // e.preventDefault()
-        if (subjectDescriptions.length === 0 || !subject) {
+        if (subjectDescriptions.length === 0 || !subject || descriptionErr) {
             setError('Subject application incomplete')
         } else
             onSubmit({
                 specialization: subjectDescriptions,
                 subject: subject.id
-            }, subject)
+            }, subject, description)
 
 
     }
+    useEffect(() => {
+        if (!description || !description.trim()) {
+            setDescriptionErr('Description required')
+        } else {
+            setDescriptionErr('')
+        }
+    }, [description])
+
     const SecondaryButton = ({ label, }: any) => {
 
         return (
@@ -71,8 +81,7 @@ export const SubjectChosen = ({ setError, onSubmit }) => {
     }
     return (
         <>
-            <div className='flex flex-col items-center space-y-12'>
-
+            <div className='flex flex-col items-center space-y-12 w-3/4 mx-auto'>
                 <h3 className="text-center text-xl font-semibold">Choose Subject</h3>
 
                 <SecondarySelectField onChange={() => { fetchSubjects() }} value={subject?.id || 'Undefined'} label='Subject' data={data?.subjects.map((subject) => { return { value: subject.id, label: subject.name } })} onClick={(e) => {
@@ -81,7 +90,7 @@ export const SubjectChosen = ({ setError, onSubmit }) => {
 
                 }} />
                 <h3 className='text-xl italic'>Subject Specialization</h3>
-                <div className='pointer-events-auto w-60 flex flex-col   font-raleway space-y-6'>
+                <div className='pointer-events-auto flex flex-col   font-raleway space-y-6'>
                     <RenderSubjectDescriptions />
                     <div className='flex flex-row items-center space-x-8'>
 
@@ -92,6 +101,13 @@ export const SubjectChosen = ({ setError, onSubmit }) => {
                 </div>    {isOpen &&
                     <AddSubjectSpec />
                 }
+                <h3 className="text-center text-xl font-semibold">Coach Description</h3>
+                <div className="text-xl w-1/2">
+                    <label className="text-sm font-poppins pb-2">Description</label>
+
+                    {descriptionErr && <h4 className="text-red-500 text-xs" >{descriptionErr}</h4>}
+                    <textarea value={description} onChange={(e) => { setDescription(e.target.value) }} name='description' placeholder='describe yourself' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
+                </div>
 
                 <SecondaryButton label='next' />
             </div>

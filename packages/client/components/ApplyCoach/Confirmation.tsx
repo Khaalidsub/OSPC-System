@@ -2,7 +2,7 @@ import { SecondaryButton } from "components/Buttons"
 import React from "react"
 import { ScheduleInputType } from "__generated__/globalTypes"
 
-export const ConfirmationDetails = ({ onSubmit, weeklySchedule, subjectSpec, subject }) => {
+export const ConfirmationDetails = ({ description, onSubmit, weeklySchedule, subjectSpec, subject }) => {
     const RenderTableBody = () => {
         return (
             <>
@@ -50,6 +50,10 @@ export const ConfirmationDetails = ({ onSubmit, weeklySchedule, subjectSpec, sub
                     <div className='bg-white shadow-lg rounded-md p-4'>
                         <h2 className='text-2xl'>Subject Chosen</h2>
                         <h3>{subject.name}</h3>
+                    </div>
+                    <div className='bg-white shadow-lg rounded-md p-4'>
+                        <h2 className='text-2xl'>Coach Profile Description</h2>
+                        <h3>{description}</h3>
                     </div>
                     <div className='bg-white shadow-lg rounded-md p-4'>
                         <h2 className='text-2xl mb-4'>Specification</h2>

@@ -6,11 +6,12 @@ import * as ApplyAsCoachTypes from 'utilities/__generated__/applyAsCoach'
 import { CreateSubjecSpecialization, CreateSubjectDescription, CreateWeeklyScheduleInput, Day, ScheduleInputType } from '__generated__/globalTypes'
 import { useRouter } from 'next/router'
 import DisplayError from 'components/Cards/ErrorCard'
-import { ConfirmationDetails, Schedule, SubjectChosen } from 'components/ApplyCoach'
+import { CoachApplication, ConfirmationDetails, Schedule, SubjectChosen } from 'components/ApplyCoach'
 
 enum FormSlide {
     subject,
     schedule,
+    coachApplication,
     confirmation,
     complete,
 }
@@ -28,6 +29,7 @@ export const ApplyAsCoach = () => {
     const [subjectSepcialization, setsubjectSepcialization] = useState({} as CreateSubjecSpecialization)
     const [subject, setsubject] = useState({} as SubjectsTypes.subjects_subjects)
     const [weeklySchedule, setweeklySchedule] = useState({} as CreateWeeklyScheduleInput)
+    const [description, setDescription] = useState('')
     const [message, setError] = useState('')
     const router = useRouter()
     useEffect(() => {
@@ -55,7 +57,7 @@ export const ApplyAsCoach = () => {
     const onApplySubmit = async (e) => {
         e.preventDefault()
         try {
-            await applyAsCoach({ variables: { createSubjectSpecialization: subjectSepcialization, createWeeklySchedule: weeklySchedule } })
+            await applyAsCoach({ variables: { createSubjectSpecialization: subjectSepcialization, createWeeklySchedule: weeklySchedule, createCoachApplication: { description } } })
             router.push('/dashboard')
         } catch (error) {
             // console.log(error);
@@ -72,12 +74,18 @@ export const ApplyAsCoach = () => {
                 }} />
             )
         }
+        // if (slide === FormSlide.coachApplication) {
+        //     return (
+        //         <CoachApplication onCoachApplcationSubmit={() => { }} />
+        //     )
+        // }
 
         return (
-            <SubjectChosen setError={setError} onSubmit={(subjectSpec: CreateSubjecSpecialization, subject: SubjectsTypes.subjects_subjects) => {
+            <SubjectChosen setError={setError} onSubmit={(subjectSpec: CreateSubjecSpecialization, subject: SubjectsTypes.subjects_subjects, description) => {
                 setsubjectSepcialization(subjectSpec)
                 setsubject(subject)
                 setSlide(FormSlide.schedule)
+                setDescription(description)
             }} />
         )
 
@@ -97,6 +105,12 @@ export const ApplyAsCoach = () => {
                         </div>
                         <h4>Choose Subject</h4>
                     </div>
+                    {/* <div className="flex flex-col items-center space-y-12">
+                        <div onClick={() => setSlide(FormSlide.coachApplication)} className={`cursor-pointer h-20 w-20 ${subjectColor} rounded-full flex justify-center items-center`}>
+                            <div className="h-3 w-3 bg-primary rounded-full" ></div>
+                        </div>
+                        <h4>Coach Application</h4>
+                    </div> */}
                     <div className="flex flex-col items-center space-y-12">
                         <div onClick={() => setSlide(FormSlide.schedule)} className={` cursor-pointer h-20 w-20 ${scheduleColor} rounded-full flex justify-center items-center`}>
                             <div className="h-3 w-3 bg-primary rounded-full" ></div>
@@ -113,8 +127,8 @@ export const ApplyAsCoach = () => {
                 </div>
                 {(slide === 0 || slide === 1) && <RenderSlide />}
             </div>
-            {(slide === 2) &&
-                <ConfirmationDetails weeklySchedule={weeklySchedule} subject={subject} subjectSpec={subjectSepcialization} onSubmit={onApplySubmit} />
+            {(slide === 3) &&
+                <ConfirmationDetails description={description} weeklySchedule={weeklySchedule} subject={subject} subjectSpec={subjectSepcialization} onSubmit={onApplySubmit} />
             }
         </div>
     )

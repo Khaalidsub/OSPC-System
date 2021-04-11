@@ -37,6 +37,11 @@ export interface CreateAnswerInput {
   question: string;
 }
 
+export interface CreateCoachApplicationInput {
+  description: string;
+  urls?: string[] | null;
+}
+
 export interface CreateDepartmentInput {
   name: string;
   description: string;

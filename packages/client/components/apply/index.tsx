@@ -15,7 +15,7 @@ export const SubjectSpecModal = ({ onSubmit, closeModal }) => {
     return (
 
         <div className='h-full grid grid-cols-1' style={{ backgroundColor: 'rgba(31, 41, 50, 0.6)' }}>
-            <form onSubmit={formik.handleSubmit} className='h-1/2 w-2/5  px-20 md:space-y-8 p-6 py-2 bg-white self-center place-self-center rounded-lg flex flex-col relative'>
+            <form onSubmit={formik.handleSubmit} className='h-2/5 w-2/5   md:space-y-8 p-6 py-2 bg-white m-auto rounded-lg flex flex-col relative'>
                 < button onClick={closeModal} className='text-right absolute right-12 top-6 text-raleway text-red-400 p-2  rounded-full'>X</button>
                 <h4 className='text-3xl font-poppins text-center'>Add Subject Specialization</h4>
                 <div className="">

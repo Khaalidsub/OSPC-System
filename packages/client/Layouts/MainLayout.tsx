@@ -19,7 +19,7 @@ export default function MainLayout(props: MainLayoutProps) {
         )
     }
     return (
-        <div id='modal' className="min-h-screen   bg-gray-50 ">
+        <div id='modal' className="min-h-screen relative   bg-gray-50 ">
             <div className=" relative min-h-screen flex flex-col-reverse md:justify-items-stretch md:flex-row">
                 <Navigation />
                 <div className="w-full space-y-8">
