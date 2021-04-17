@@ -20,4 +20,4 @@ export const CoachCard = ({ name, rated = 'Top Rated', specialization, onClick }
         </div>
     )
 }
-export default CoachCard
+// export default CoachCard

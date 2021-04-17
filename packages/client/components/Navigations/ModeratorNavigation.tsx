@@ -30,7 +30,7 @@ export const ModeratorNavigation = () => {
                     <NavigationIcon href='/moderator/subjects' onClick={handleClick} label="subjects" icon="/assets/school.svg" />
                 </div>
 
-                <NavigationIcon href='/logout' onClick={handleClick} label="logout" icon="/assets/logout.svg" />
+                <NavigationIcon href='/logout' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
 
             </ul>
         </div>

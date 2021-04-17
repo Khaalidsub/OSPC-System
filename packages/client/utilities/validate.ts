@@ -1,4 +1,6 @@
-import { REG_EMAIL, REG_PASSWORD } from '@common/utils';
+export const REG_EMAIL = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+export const REG_PASSWORD = /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+
 export const validateLogin = (values) => {
   const errors: any = {};
   if (!values.email) {

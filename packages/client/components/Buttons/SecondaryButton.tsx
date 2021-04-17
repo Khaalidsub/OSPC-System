@@ -13,4 +13,4 @@ export interface SecondaryButtonProps {
     color?: string
     onClick?: any
 }
-export default SecondaryButton
+// export default SecondaryButton

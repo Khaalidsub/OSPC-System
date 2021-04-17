@@ -1,6 +1,5 @@
 import { useLazyQuery, useQuery } from '@apollo/client'
-import { SecondarySelectField, SelectField, TertiaryCard } from 'components'
-import SearchField from 'components/InputFields/SearchField'
+import { SearchField, SecondarySelectField, SelectField, TertiaryCard } from 'components'
 import { withAuth } from 'components/withAuth'
 import React, { useEffect, useState } from 'react'
 import { selectSubjectAreas, selectSubjectAreas_departments } from 'utililites/__generated__/selectSubjectAreas'

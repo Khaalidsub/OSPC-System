@@ -8,9 +8,9 @@ import { CREATE_QUESTION, SUBJECTS } from "utilities/schema"
 import { validateQuestion } from "utilities/validate"
 import { subjects, subjects_subjects } from 'utilities/__generated__/subjects'
 import { makeQuestion, makeQuestionVariables } from "utilities/__generated__/makeQuestion"
-import DisplayError from "components/Cards/ErrorCard"
 import { useRouter } from "next/router"
 import { htmlToText } from 'html-to-text'
+import { DisplayError } from "components/Cards/ErrorCard"
 const TextEditor = dynamic(() => import("components/TextEditor"), {
     ssr: false,
 })

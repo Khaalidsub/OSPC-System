@@ -1,4 +1,4 @@
 export default function DashBoard() {
-    return <></>
+    return <div></div>
 }
 

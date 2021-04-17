@@ -1,10 +1,9 @@
 
 import { useMutation, useQuery } from '@apollo/client'
 import { SecondaryButton } from 'components'
-import DisplayError from 'components/Cards/ErrorCard'
+import { DisplayError } from 'components/Cards/ErrorCard'
 import { endOfDay, endOfWeek, format, startOfDay, startOfWeek } from 'date-fns'
 import { useRouter } from 'next/router'
-
 import React, { useEffect, useState } from 'react'
 import { BOOK_LESSON, COACH } from 'utilities/schema'
 import { bookLessonVariables, bookLesson } from 'utilities/__generated__/bookLesson'

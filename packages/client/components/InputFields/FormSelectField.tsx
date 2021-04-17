@@ -22,7 +22,7 @@ export const FormSelectField = ({ label, data, onClick }: SecondarySelectFieldPr
         </>
     )
 }
-export default FormSelectField
+// export default FormSelectField
 interface SecondarySelectFieldProps {
     label: string
     data: ISelectFieldValue[]

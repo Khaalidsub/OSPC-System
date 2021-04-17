@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { SecondarySelectField } from "components";
 import { SecondaryButton } from "components/Buttons"
-import DisplayError from "components/Cards/ErrorCard";
+import { DisplayError } from "components/Cards/ErrorCard";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useState } from "react"

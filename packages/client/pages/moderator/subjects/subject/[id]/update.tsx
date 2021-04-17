@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { SecondarySelectField } from "components";
 import { SecondaryButton } from "components/Buttons"
-import DisplayError from "components/Cards/ErrorCard";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import React, { useState } from "react"
@@ -9,6 +8,7 @@ import { SUBJECT, UPDATE_SUBJECT, } from "utilities/schema";
 import { validateSubject } from "utilities/validate";
 import { updateSubject, updateSubjectVariables } from 'utilities/__generated__/updateSubject'
 import { subject, subjectVariables } from 'utilities/__generated__/subject'
+import { DisplayError } from "components/Cards/ErrorCard";
 function UpdateSubject() {
     const [message, setError] = useState('')
     const router = useRouter()

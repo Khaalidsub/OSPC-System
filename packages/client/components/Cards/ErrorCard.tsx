@@ -1,4 +1,4 @@
-const DisplayError = ({ setError, message }) => {
+export const DisplayError = ({ setError, message }) => {
     return (
         <div className="bg-red-100 mx-28 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
             <span className="">
@@ -12,4 +12,4 @@ const DisplayError = ({ setError, message }) => {
     )
 }
 
-export default DisplayError
+// export default DisplayError

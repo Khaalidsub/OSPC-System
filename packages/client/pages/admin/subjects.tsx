@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { SecondaryButton } from "components"
-import SearchField from "components/InputFields/SearchField"
+import { SearchField, SecondaryButton } from "components"
 import React, { useState } from "react"
 import { SUBJECTS } from "utilities/schema"
 import * as SubjectsTypes from 'utilities/__generated__/getSubjects'

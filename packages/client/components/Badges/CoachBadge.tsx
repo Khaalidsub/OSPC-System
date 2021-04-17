@@ -1,5 +1,5 @@
 
-export default function CoachBadge() {
+export function CoachBadge() {
     return (
         <div>
 

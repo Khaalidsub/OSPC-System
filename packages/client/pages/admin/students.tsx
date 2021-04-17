@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client"
-import { SecondaryButton, SelectField } from "components"
-import SearchField from "components/InputFields/SearchField"
+import { SearchField, SecondaryButton, SelectField } from "components"
 import React, { useEffect, useState } from "react"
 import { ACCEPT_STUDENT, REJECT_STUDENT, STUDENTS } from "utilities/schema"
 import * as StudentTypes from "utilities/__generated__/students"

@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { SecondarySelectField } from 'components/InputFields'
-import SearchField from 'components/InputFields/SearchField'
+import { SearchField, SecondarySelectField } from 'components/InputFields'
 import { withAuth } from 'components/withAuth'
 import React from 'react'
 import { COACH_LESSONS } from 'utilities/schema'

@@ -30,7 +30,7 @@ export const StudentNavigation = () => {
                     <NavigationIcon href='/chat' onClick={handleClick} label="chat" icon="/assets/chat.svg" />
                 </div>
 
-                <NavigationIcon href='/logout' onClick={handleClick} label="logout" icon="/assets/logout.svg" />
+                <NavigationIcon href='/logout' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
 
             </ul>
         </div>

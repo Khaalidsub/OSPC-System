@@ -9,4 +9,4 @@ export const InformationButton = ({ label }: InformationButtonProps) => {
         </div>
     )
 }
-export default InformationButton
+// export default InformationButton

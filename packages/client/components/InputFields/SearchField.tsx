@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-const SearchField = ({ setSearch, search, placeholder }) => {
+export const SearchField = ({ setSearch, search, placeholder }) => {
     return (
         <div className="bg-white rounded-md shadow-lg flex flex-row items-center space-x-2">
             <img className="h-4 w-4 ml-2" src="/assets/search.svg" alt="" />
@@ -11,4 +11,4 @@ const SearchField = ({ setSearch, search, placeholder }) => {
         </div>
     )
 }
-export default SearchField
+// export default SearchField

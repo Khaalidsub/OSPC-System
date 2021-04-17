@@ -11,4 +11,4 @@ export interface PrimaryButtonProps {
     label: string
     onClick?: any
 }
-export default PrimaryButton
+// export default PrimaryButton

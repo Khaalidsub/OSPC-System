@@ -7,7 +7,7 @@ import { ITransactionHistory } from '@common/interfaces';
 
 export type TransactionHistoryDocument = TransactionHistory & Document;
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true })
 @InputType('TransactionHistoryInputType')
 export class TransactionHistory implements ITransactionHistory {
   @Field(() => String)
@@ -15,11 +15,15 @@ export class TransactionHistory implements ITransactionHistory {
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   user: string;
-  @Field(() => Int)
+  @Field(() => Float)
   date: number;
   @Field(() => Float)
   @Prop()
   amount: number;
+  @Field(() => Date)
+  createdAt: Date;
+  @Field(() => Date)
+  updatedAt: Date;
 }
 
 export const TransactionHistorySchema = SchemaFactory.createForClass(

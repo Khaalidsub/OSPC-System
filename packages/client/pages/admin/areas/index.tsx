@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { SecondaryButton } from "components/Buttons"
-import SearchField from "components/InputFields/SearchField"
+import { SearchField } from "components/InputFields/SearchField"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { SUBJECT_AREAS } from "utilities/schema"

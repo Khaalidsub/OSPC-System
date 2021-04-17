@@ -1,6 +1,5 @@
 import { useLazyQuery, useQuery } from "@apollo/client"
-import { CoachCard, SecondarySelectField, SelectField } from "components"
-import SearchField from "components/InputFields/SearchField"
+import { CoachCard, SearchField, SecondarySelectField, SelectField } from "components"
 import { withAuth } from "components/withAuth"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"

@@ -4,7 +4,7 @@ import { ProfileInfoCard } from 'components'
 import { getUserFromCookie } from 'lib/utils'
 import { useRouter } from 'next/router'
 import { CoachingStatus } from '__generated__/globalTypes'
-export default function MainLayout(props: MainLayoutProps) {
+export function MainLayout(props: MainLayoutProps) {
 
     const router = useRouter()
     const user = getUserFromCookie()

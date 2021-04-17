@@ -5,8 +5,8 @@ import * as SubjectsTypes from 'utilities/__generated__/subjects'
 import * as ApplyAsCoachTypes from 'utilities/__generated__/applyAsCoach'
 import { CreateSubjecSpecialization, CreateSubjectDescription, CreateWeeklyScheduleInput, Day, ScheduleInputType } from '__generated__/globalTypes'
 import { useRouter } from 'next/router'
-import DisplayError from 'components/Cards/ErrorCard'
 import { CoachApplication, ConfirmationDetails, Schedule, SubjectChosen } from 'components/ApplyCoach'
+import { DisplayError } from 'components/Cards/ErrorCard'
 
 enum FormSlide {
     subject,

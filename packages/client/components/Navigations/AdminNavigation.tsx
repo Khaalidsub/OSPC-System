@@ -33,7 +33,7 @@ export const AdminNavigation = () => {
                     <NavigationIcon href='/admin/areas' onClick={handleClick} label="areas" icon="/assets/school.svg" />
                     {/* <NavigationIcon href='/admin/subjects' onClick={handleClick} label="subjects" icon="/assets/chat.svg" /> */}
 
-                    <NavigationIcon href='/logout' onClick={handleClick} label="logout" icon="/assets/logout.svg" />
+                    <NavigationIcon href='/logout' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
                 </div>
 
             </ul>

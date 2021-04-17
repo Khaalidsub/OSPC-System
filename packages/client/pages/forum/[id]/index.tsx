@@ -10,7 +10,7 @@ import { answerQuestion, answerQuestionVariables } from 'utilities/__generated__
 import { voteAnswer, voteAnswerVariables } from 'utilities/__generated__/voteAnswer'
 import { htmlToText } from 'html-to-text'
 import dynamic from "next/dynamic"
-import DisplayError from "components/Cards/ErrorCard"
+import { DisplayError } from "components/Cards/ErrorCard"
 const ViewTextEditor = dynamic(() => import("components/TextEditor/ViewEditor"), {
     ssr: false,
 })

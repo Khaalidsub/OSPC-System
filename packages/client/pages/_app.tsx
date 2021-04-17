@@ -2,7 +2,6 @@ import React from "react";
 import "tailwindcss/tailwind.css";
 // import MainLayout from "../Layouts/MainLayout";
 import 'styles/globals.css'
-import MainLayout from "Layouts/MainLayout";
 import App from "next/app";
 import withApollo from "next-with-apollo";
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
@@ -10,6 +9,7 @@ import { authHttpLink, AUTH_TOKEN } from "lib/utils";
 import { AuthContext, useProviderAuth } from "lib/auth";
 import { httpLink } from "lib/withApollo";
 import { isBrowser } from "lib/isBrowser";
+import { MainLayout } from "Layouts/MainLayout";
 function MyApp({ Component, pageProps, apollo }) {
   // console.log('what is this', Component());
 

@@ -31,7 +31,7 @@ export const CoachNavigation = () => {
                     <NavigationIcon href='/coach/schedule' onClick={handleClick} label="schedule" icon="/assets/schedule.svg" />
                 </div>
 
-                <NavigationIcon href='/logout' onClick={handleClick} label="logout" icon="/assets/logout.svg" />
+                <NavigationIcon href='/logout' onClick={handleLogout} label="logout" icon="/assets/logout.svg" />
 
             </ul>
         </div>

@@ -196,8 +196,10 @@ type Payment {
 type TransactionHistory {
   id: String!
   user: User!
-  date: Int!
+  date: Float!
   amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserWallet {
@@ -296,8 +298,10 @@ input MessageInputType {
 input TransactionHistoryInputType {
   id: String!
   user: UserInputType!
-  date: Int!
+  date: Float!
   amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input UserWalletInputType {

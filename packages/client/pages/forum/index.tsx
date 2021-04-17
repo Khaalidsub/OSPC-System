@@ -6,8 +6,7 @@ import { questions, questions_questions } from 'utilities/__generated__/question
 import { formatDistance } from 'date-fns'
 import { htmlToText } from 'html-to-text'
 import React, { useEffect, useState } from 'react'
-import SearchField from 'components/InputFields/SearchField'
-// import SearchField from 'components/InputFields/SearchField'
+import { SearchField } from 'components'
 export const Forum = () => {
     const { data, refetch } = useQuery<questions>(QUESTIONS)
     const [search, setSearch] = useState('')

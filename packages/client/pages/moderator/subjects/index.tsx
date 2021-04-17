@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/client"
 import { SecondaryButton } from "components/Buttons"
-// import { SecondaryButton } from "components"
-import SearchField from "components/InputFields/SearchField"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { DEPARTMENT, SUBJECTS, SUBJECTS_BY_DEPARTMENT, SUBJECTS_BY_MODERATOR } from "utilities/schema"
 import * as SubjectsTypes from 'utilities/__generated__/subjectsByModerator'
 import * as Department from "utilities/__generated__/department"
+import { SearchField } from "components/InputFields"
 
 interface SubjectProps {
     subject: SubjectsTypes.subjectsByModerator_subjectsByModerator

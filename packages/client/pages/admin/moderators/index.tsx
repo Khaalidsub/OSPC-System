@@ -1,5 +1,4 @@
-import { SecondaryButton, SelectField } from "components"
-import SearchField from "components/InputFields/SearchField"
+import { SearchField, SecondaryButton, SelectField } from "components"
 import React, { useEffect, useState } from "react"
 import * as ModeratorTypes from 'utilities/__generated__/moderators'
 import { useMutation, useQuery } from "@apollo/client"
