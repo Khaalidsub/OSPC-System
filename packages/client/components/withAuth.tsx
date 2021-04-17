@@ -32,7 +32,7 @@ export const withAuth = <T extends object>(C: any) => {
 
                 redirect(ctx, "/pending");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             if (response.data.currentUser.accountStatus === CoachingStatus.inactive) {
@@ -44,7 +44,8 @@ export const withAuth = <T extends object>(C: any) => {
             }
 
             return {
-                currentUser: response.data.currentUser,
+               
+               props:{ currentUser: response.data.currentUser},
             };
         } catch (error) {
             console.log(error);
@@ -87,23 +88,23 @@ export const withAdminAuth = <T extends object>(C: any) => {
             if (response.data.currentUser.role === Role.coach) {
                 redirect(ctx, "/coach");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             if (response.data.currentUser.role === Role.student) {
                 redirect(ctx, "/dashboard");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             if (response.data.currentUser.role === Role.moderator) {
                 redirect(ctx, "/moderator");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             return {
-                currentUser: response.data.currentUser
+                props:{ currentUser: response.data.currentUser},
             }
         } catch (error) {
             if (cookies.get('user')) {
@@ -141,17 +142,17 @@ export const withModeratorAuth = <T extends object>(C: any) => {
             if (response.data.currentUser.role === Role.student) {
                 redirect(ctx, "/dashboard");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             if (response.data.currentUser.role === Role.coach) {
                 redirect(ctx, "/coach");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             return {
-                currentUser: response.data.currentUser
+                props:{ currentUser: response.data.currentUser},
             }
         } catch (error) {
             if (cookies.get('user')) {
@@ -190,17 +191,17 @@ export const withCoachAuth = <T extends object>(C: any) => {
             if (response.data.currentUser.role === Role.student) {
                 redirect(ctx, "/dashboard");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             if (response.data.currentUser.role === Role.moderator) {
                 redirect(ctx, "/moderator");
                 return {
-                    currentUser: response.data.currentUser
+                    props:{ currentUser: response.data.currentUser},
                 }
             }
             return {
-                currentUser: response.data.currentUser
+                props:{ currentUser: response.data.currentUser},
             }
         } catch (error) {
             if (cookies.get('user')) {

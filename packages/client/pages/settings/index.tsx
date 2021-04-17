@@ -1,9 +1,14 @@
 
 import { PrimaryButton, SecondaryButton } from "components"
+import { withAuth } from "components/withAuth"
 import { useRouter } from "next/router"
 import React from "react"
-
-export const Settings = () => {
+import { currentUser_currentUser } from "utililites/__generated__/currentUser"
+import { CoachingStatus } from "__generated__/globalTypes"
+interface SettingsProps{
+currentUser:currentUser_currentUser
+}
+export const Settings = (props:SettingsProps) => {
     const router = useRouter()
     const PaymentHistory = () => {
         return (
@@ -25,9 +30,9 @@ export const Settings = () => {
                         <h2 className='text-3xl'>Sasha Liskov</h2>
                     </div>
                     <div className="flex flex-col space-y-4 self-center px-6 w-1/2 justify-self-center">
-                        <SecondaryButton onClick={() => {
+                    {(props.currentUser.coachingStatus === CoachingStatus.inactive) &&    <SecondaryButton onClick={() => {
                             router.push('/settings/applycoach')
-                        }} color='bg-secondary' label="Apply as Coach" />
+                        }} color='bg-secondary' label="Apply as Coach" />}
                         <SecondaryButton color="bg-information" label="Edit Profile" />
                     </div>
                 </div>
@@ -64,4 +69,4 @@ export const Settings = () => {
     )
 }
 
-export default Settings
+export default withAuth(Settings)
