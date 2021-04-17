@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-18.04
     
     steps:
-    - uses: dawidd6/action-ansible-playbook@v2
     - name: Use ansible 
+      uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: project_playbook.yml
         directory: ./
-        key: ${{secrets.SSH_PRIVATE_KEY}}
+        key: ${{secrets.digital}}
         inventory: |
           [all]
           ${{secrets.HOST}}@${{secrets.IP}}
