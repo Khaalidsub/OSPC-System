@@ -72,13 +72,19 @@
   
     - name: Create Frontend Env files
       tags: init, project
-      copy: src=./ospc/packages/client/.env.sample dest=./ospc/packages/client/.env.local
-      when: "{{inventory_hostname == 'root@206.189.47.229' }}"
+      copy: 
+        src: ./ospc/packages/client/.env.sample 
+        dest: ./ospc/packages/client/.env.local
+        remote_src: yes
+      
 
     - name: Create Server Env files
       tags: init, project
-      copy: src=./ospc/packages/server/.env.sample dest=./ospc/packages/server/.env
-      when: "{{inventory_hostname == 'root@206.189.47.229' }}"
+      copy: 
+        src: ./ospc/.env.sample 
+        dest: ./ospc/.env
+        remote_src: yes
+      
 
     - name: compose the project
       tags: init,project
