@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: nginx
     volumes:
-      # - ./nginx/production.conf:/etc/nginx/nginx.conf
+      - ./nginx/production.conf:/etc/nginx/nginx.conf
       - ~/etc/letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
