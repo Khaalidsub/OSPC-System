@@ -34,8 +34,10 @@ export default function Register() {
             await signUp({ variables: { createUserInput: { email, password, university, name } } })
             // await signIn({ variables: { email, password } })
         } catch (error) {
-
-            setError(error.message)
+            if(error.message.includes('E11000')){
+                setError('Email already exits')
+            }else
+                setError(error.message)
 
         }
     }
@@ -67,52 +69,52 @@ export default function Register() {
         )
     }
     return (
-        <div className="h-full bg-primary">
+        <div className="grid grid-cols-1 h-full bg-primary">
             <div className="h-full mx-56 flex flex-col justify-around items-center">
                 <div className="flex flex-row bg-white shadow-lg rounded-lg">
                     <img src="/assets/study.jpg" className="w-2/5 object-cover rounded-l-lg" alt="" />
-                    <form onSubmit={formik.handleSubmit} className="w-3/5 px-20 py-6 space-y-4 flex flex-col">
+                    <form onSubmit={formik.handleSubmit} className="w-3/5 px-20 py-6 space-y-8 flex flex-col">
                         <h3 className="font-bold text-2xl">Sign Up</h3>
                         {message && <DisplayError />}
                         <div className="">
+                            <label className="text-sm font-poppins pb-2">Name</label>
                             {formik.touched.name && formik.errors.name ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.name}</h4>
                             ) : null}
-                            <label className="text-sm font-poppins pb-2">Name</label>
                             <input {...formik.getFieldProps('name')} name='name' type='text' placeholder='name' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            <label className="text-sm font-poppins pb-2">Email</label>
                             {formik.touched.email && formik.errors.email ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.email}</h4>
                             ) : null}
-                            <label className="text-sm font-poppins pb-2">Email</label>
                             <input {...formik.getFieldProps('email')} name='email' type='email' placeholder='email' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            <label className="text-sm font-poppins pb-2">University</label>
                             {formik.touched.university && formik.errors.university ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.university}</h4>
                             ) : null}
-                            <label className="text-sm font-poppins pb-2">University</label>
                             <input {...formik.getFieldProps('university')} name='university' type='text' placeholder='university' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            <label className="text-sm font-poppins pb-2">Password</label>
                             {formik.touched.password && formik.errors.password ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.password}</h4>
                             ) : null}
-                            <label className="text-sm font-poppins pb-2">Password</label>
                             <input {...formik.getFieldProps('password')} name='password' type='password' placeholder='password' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="">
+                            <label className="text-sm font-poppins pb-2">Confirm Password</label>
                             {formik.touched.Cpassword && formik.errors.Cpassword ? (
                                 <h4 className="text-red-500 text-xs " >{formik.errors.Cpassword}</h4>
                             ) : null}
-                            <label className="text-sm font-poppins pb-2">Confirm Password</label>
                             <input {...formik.getFieldProps('Cpassword')} name='Cpassword' type='password' placeholder='password' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
                         <div className="w-full self-center text-center">
                             <hr className="border-t-1 w-full border-primary my-2" />
                             <h3 className="">Already Have an Account?</h3>
-                            <a className="italic font-raleway text-sm" href="/login" onClick={handleLogin}>Sign In</a>
+                            <a className="italic font-raleway text-sm hover:underline hover:text-blue-400" href="/login" onClick={handleLogin}>Sign In</a>
                         </div>
                         <div className="self-center text-center w-full">
 

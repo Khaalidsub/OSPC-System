@@ -133,13 +133,13 @@ export interface UpdateSubjectInput {
 export interface UpdateUserInput {
   name?: string | null;
   email?: string | null;
-  phoneNumber?: string | null;
   universityId?: string | null;
   university?: string | null;
   role?: Role | null;
   accountStatus?: CoachingStatus | null;
   coachingStatus?: CoachingStatus | null;
   moderatorStatus?: CoachingStatus | null;
+  phoneNumber: number;
 }
 
 export interface UpdateWeeklySchedule {
@@ -151,7 +151,7 @@ export interface UserInputType {
   id?: string | null;
   name: string;
   email: string;
-  phoneNumber?: string | null;
+  phoneNumber?: number | null;
   universityId?: string | null;
   university: string;
   role?: Role | null;

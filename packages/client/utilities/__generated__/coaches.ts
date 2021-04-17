@@ -15,7 +15,7 @@ export interface coaches_pendingCoaches {
   name: string;
   email: string;
   university: string;
-  phoneNumber: string | null;
+  phoneNumber: number | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

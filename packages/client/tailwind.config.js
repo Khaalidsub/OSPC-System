@@ -1,7 +1,13 @@
-const colors = require('tailwindcss/colors');
-const defaultTheme = require('tailwindcss/defaultTheme');
+console.log("\n")
+console.log(`   TailwindCSS \n`)
+console.log(`   ----------- \n`)
+// console.log(`   ✅ purgeEnabled=${purgeEnabled}\n`)
+const coloring = require('tailwindcss/colors');
+// const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
-  // purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  purge: {
+    enabled: true,
+    content: ["./**/*.html", "./**/*.tsx", "./**/*.jsx"]},
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -24,16 +30,16 @@ module.exports = {
       warning: '',
       success: '',
       background: 'FAFBFC',
-      black: colors.black,
-      white: colors.white,
-      gray: colors.coolGray,
-      red: colors.red,
-      yellow: colors.amber,
-      green: colors.emerald,
-      blue: colors.blue,
-      indigo: colors.indigo,
-      purple: colors.violet,
-      pink: colors.pink,
+      black: coloring.black,
+      white: coloring.white,
+      gray: coloring.coolGray,
+      red: coloring.red,
+      yellow: coloring.amber,
+      green: coloring.emerald,
+      blue: coloring.blue,
+      indigo: coloring.indigo,
+      purple: coloring.violet,
+      pink: coloring.pink,
     },
     spacing: {
       px: '1px',
@@ -931,10 +937,11 @@ module.exports = {
   //     sans: ['Poppins', 'Raleway', 'sans-serif'],
   //   },
   // },
+  
   plugins: [
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
-    require('tailwindcss-elevation')(['responsive']),
+
   ],
 };

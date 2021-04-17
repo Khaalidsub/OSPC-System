@@ -79,9 +79,7 @@ export const Login = () => {
 
 
                     <form className="w-3/5 px-20 md:space-y-8 flex flex-col justify-center" onSubmit={formik.handleSubmit}>
-                        {formik.touched.FIELD_NAME && formik.errors.FIELD_NAME ? (
-                            <div>{formik.errors.FIELD_NAME}</div>
-                        ) : null}
+                 
                         <h3 className="font-bold text-2xl">Sign in</h3>
                         {message && <DisplayError />}
                         {/* <InputField {...formik.getFieldProps("email")} name='email' type="text" onChange={setEmail} placeholder="Email" label="Email" /> */}
@@ -103,7 +101,7 @@ export const Login = () => {
                         <div className="w-full self-center text-center">
                             <hr className="border-t-1 w-full border-primary my-2" />
                             <h3 className="">Don't Have an Account?</h3>
-                            <a className="italic font-raleway text-sm" href="/register" onClick={handleLogin} >Create an Account</a>
+                            <a className="italic font-raleway text-sm hover:underline hover:text-blue-400" href="/register" onClick={handleLogin} >Create an Account</a>
                         </div>
                         <div className="self-center text-center w-full">
 

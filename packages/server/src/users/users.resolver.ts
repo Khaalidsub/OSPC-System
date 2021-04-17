@@ -38,9 +38,9 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
-      if (error?.codeName === 'DuplicateKey') {
-        throw new Error('Email Already Exists');
-      }
+    
+  
+      
       this.logger.error(error);
       throw new Error(error);
     }

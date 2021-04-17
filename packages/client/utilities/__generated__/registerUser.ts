@@ -15,7 +15,7 @@ export interface registerUser_registerStudent {
   name: string;
   email: string;
   university: string;
-  phoneNumber: string | null;
+  phoneNumber: number | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;
