@@ -3,13 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Role, CoachingStatus } from "./../../__generated__/globalTypes";
+import { UpdateUserInput, Role, CoachingStatus } from "./../../__generated__/globalTypes";
 
 // ====================================================
-// GraphQL mutation operation: rejectCoach
+// GraphQL mutation operation: updateUser
 // ====================================================
 
-export interface rejectCoach_rejectCoach {
+export interface updateUser_updateUser {
   __typename: "User";
   id: string | null;
   name: string;
@@ -21,10 +21,10 @@ export interface rejectCoach_rejectCoach {
   coachingStatus: CoachingStatus | null;
 }
 
-export interface rejectCoach {
-  rejectCoach: rejectCoach_rejectCoach;
+export interface updateUser {
+  updateUser: updateUser_updateUser;
 }
 
-export interface rejectCoachVariables {
-  id: string;
+export interface updateUserVariables {
+  updateUserInput: UpdateUserInput;
 }

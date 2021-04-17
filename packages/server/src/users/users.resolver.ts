@@ -17,6 +17,7 @@ import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
 import { CoachLessons, StudentLessons } from 'types';
+
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -37,6 +38,9 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
+      if (error?.codeName === 'DuplicateKey') {
+        throw new Error('Email Already Exists');
+      }
       this.logger.error(error);
       throw new Error(error);
     }
@@ -150,11 +154,19 @@ export class UsersResolver {
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
     try {
-      const result = await this.usersService.update(user.id, updateUserInput);
+      console.log(updateUserInput);
+      
+      const result = await this.usersService.update(user.id,updateUserInput);
 
       return result;
     } catch (error) {
+ 
+  if (error?.codeName === 'DuplicateKey') {
+    throw new Error('Email Already Exists');
+  }
+  
       this.logger.error(error);
+      throw new Error(error.message);
     }
   }
   @Resolver()

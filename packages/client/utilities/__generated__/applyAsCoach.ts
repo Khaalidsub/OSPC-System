@@ -14,6 +14,8 @@ export interface applyAsCoach_applyCoach {
   id: string | null;
   name: string;
   email: string;
+  university: string;
+  phoneNumber: string | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

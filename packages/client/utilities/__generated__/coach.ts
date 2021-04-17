@@ -11,10 +11,11 @@ import { Role, CoachingStatus, Day } from "./../../__generated__/globalTypes";
 
 export interface coach_user {
   __typename: "User";
-  university: string;
   id: string | null;
   name: string;
   email: string;
+  university: string;
+  phoneNumber: string | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

@@ -10,6 +10,7 @@ currentUser:currentUser_currentUser
 }
 export const Settings = (props:SettingsProps) => {
     const router = useRouter()
+    const {name} = props.currentUser
     const PaymentHistory = () => {
         return (
 
@@ -26,14 +27,14 @@ export const Settings = (props:SettingsProps) => {
                 <div className="grid grid-cols-3">
                     {/* <div></div> */}
                     <div className="col-start-2 flex flex-col space-y-7 items-center">
-                        <img src="/fake_images/Rectangle 824.jpg" className="h-44 w-44 rounded-full" alt="" />
-                        <h2 className='text-3xl'>Sasha Liskov</h2>
+                        <img src="/fake_images/fake_user.png" className="h-44 w-44 rounded-full" alt="" />
+                        <h2 className='text-3xl'>{name}</h2>
                     </div>
                     <div className="flex flex-col space-y-4 self-center px-6 w-1/2 justify-self-center">
                     {(props.currentUser.coachingStatus === CoachingStatus.inactive) &&    <SecondaryButton onClick={() => {
                             router.push('/settings/applycoach')
                         }} color='bg-secondary' label="Apply as Coach" />}
-                        <SecondaryButton color="bg-information" label="Edit Profile" />
+                        <SecondaryButton onClick={() => {router.push('/settings/editprofile')}}color="bg-information" label="Edit Profile" />
                     </div>
                 </div>
                 <div className="grid grid-cols-3">

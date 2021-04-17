@@ -15,6 +15,7 @@ export interface rejectStudent_rejectStudent {
   id: string | null;
   name: string;
   email: string;
+  phoneNumber: string | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

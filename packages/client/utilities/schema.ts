@@ -5,6 +5,8 @@ export const USER_FRAGMENT = gql`
     id
     name
     email
+    university
+    phoneNumber
     role
     accountStatus
     coachingStatus
@@ -45,6 +47,14 @@ export const LOGIN_USER = gql`
 export const REGISTER_USER = gql`
   mutation registerUser($createUserInput: CreateUserInput!) {
     registerStudent(createUserInput: $createUserInput) {
+      ...UserParts
+    }
+  }
+  ${USER_FRAGMENT}
+`;
+export const UPDATE_USER = gql`
+  mutation updateUser($updateUserInput: UpdateUserInput!) {
+    updateUser(updateUserInput: $updateUserInput)  {
       ...UserParts
     }
   }
@@ -99,7 +109,7 @@ export const REJECT_STUDENT = gql`
 export const ACCEPT_STUDENT = gql`
   mutation approveStudent($id: String!) {
     approveStudent(id: $id) {
-      university
+  
       ...UserParts
     }
   }
@@ -240,7 +250,7 @@ export const USERS = gql`
 export const STUDENTS = gql`
   query students {
     students {
-      university
+  
       ...UserParts
     }
   }
@@ -250,7 +260,7 @@ export const STUDENTS = gql`
 export const COACHES = gql`
   query coaches {
     pendingCoaches {
-      university
+
       ...UserParts
     }
   }
@@ -259,7 +269,7 @@ export const COACHES = gql`
 export const COACH = gql`
   query coach($id: String!, $dateTo: Float!, $dateFrom: Float!) {
     user(id: $id) {
-      university
+      
       ...UserParts
     }
     getUserSpecialization(id: $id) {

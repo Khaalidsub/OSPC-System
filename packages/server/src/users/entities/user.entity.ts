@@ -27,22 +27,22 @@ export class User implements IUser {
   @Field(() => String)
   @Prop({ unique: true })
   email: string;
-  @Field(() => String, { nullable: true })
+  @Field(() => Number, { nullable: true })
   @Prop()
-  phoneNumber: string;
+  phoneNumber: number;
   @Field(() => String, { nullable: true })
   @Prop()
   universityId: string;
   @Field(() => String)
   @Prop()
   university: string;
-  @Field(() => Role, { nullable: true, defaultValue: Role.student })
+  @Field(() => Role, { nullable: true })
   @Prop({ default: Role.student })
   role: Role;
-  @Field(() => Status, { nullable: true, defaultValue: Status.pending })
+  @Field(() => Status, { nullable: true })
   @Prop({ default: Status.inactive })
   accountStatus: Status;
-  @Field(() => Status, { nullable: true, defaultValue: Status.inactive })
+  @Field(() => Status, { nullable: true })
   @Prop({ default: Status.inactive })
   coachingStatus?: Status;
   @Field(() => Status)

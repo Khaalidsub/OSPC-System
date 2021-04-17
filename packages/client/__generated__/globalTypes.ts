@@ -130,6 +130,18 @@ export interface UpdateSubjectInput {
   coaches?: number | null;
 }
 
+export interface UpdateUserInput {
+  name?: string | null;
+  email?: string | null;
+  phoneNumber?: string | null;
+  universityId?: string | null;
+  university?: string | null;
+  role?: Role | null;
+  accountStatus?: CoachingStatus | null;
+  coachingStatus?: CoachingStatus | null;
+  moderatorStatus?: CoachingStatus | null;
+}
+
 export interface UpdateWeeklySchedule {
   schedule?: ScheduleInputType[] | null;
   timeZone?: string | null;

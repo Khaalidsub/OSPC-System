@@ -6,7 +6,7 @@ type User {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String
+  phoneNumber: Float
   universityId: String
   university: String!
   role: Role
@@ -212,12 +212,12 @@ input UserInputType {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String
+  phoneNumber: Float
   universityId: String
   university: String!
-  role: Role = student
-  accountStatus: CoachingStatus = pending
-  coachingStatus: CoachingStatus = inactive
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
 }
 
@@ -411,13 +411,14 @@ input CreateUserInput {
 
 input UpdateUserInput {
   name: String
-  phoneNumber: String
+  email: String
   universityId: String
   university: String
-  role: Role = student
-  accountStatus: CoachingStatus = pending
-  coachingStatus: CoachingStatus = inactive
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus
+  phoneNumber: Float!
 }
 
 input Credential {

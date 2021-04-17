@@ -41,6 +41,22 @@ export const valdiateRegister = (values) => {
   //   else if (!values.name.length > 6)
   return errors;
 };
+export const validateEditProfile = (values) => {
+  const errors: any = {};
+  if (!values.email || !values.email.trim()) {
+    errors.email = 'Email is required';
+  } else if (!REG_EMAIL.test(values.email)) {
+    errors.email = 'Invalid email';
+  }
+
+  if ((!values.phone as unknown as number))
+    errors.phone = 'Phone Number is required';
+  if (typeof(values.phone) !== 'number')
+    errors.phone = 'Phone Number must be a number';
+  if (!values.name || !values.name.trim()) errors.name = 'Name is required';
+  //   else if (!values.name.length > 6)
+  return errors;
+};
 
 export const validateSubjectSepc = (values) => {
   const errors: any = {};
