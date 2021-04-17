@@ -1,0 +1,116 @@
+---
+- hosts: all
+  # become : true
+  gather_facts: no
+  vars_files:
+    - repo.yml
+
+  tasks:
+    - name: install aptitude using apt
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: yes
+
+    - name: Install required system packages
+      tags: init
+      apt: name={{ item }} state=latest update_cache=yes
+      loop:
+        [
+          'apt-transport-https',
+          'ca-certificates',
+          'curl',
+          'software-properties-common',
+          'python3-pip',
+          'virtualenv',
+          'python3-setuptools',
+        ]
+
+    - name: Add Docker GPG apt Key
+      tags: init
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      tags: init
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      tags: init
+      apt:
+        update_cache: yes
+        name: docker-ce
+        state: latest
+
+    - name: Install Docker Compose
+      tags: init
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.28.3/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: 'u+x,g+x'
+
+    - name: Install Docker Module for Python
+      tags: init
+      pip:
+        name: docker
+
+    - name: Install Docker-Compose Module for Python
+      tags: init
+      pip:
+        name: docker-compose
+
+    - name: Copy git repo and change branch
+      tags: init, project
+      git:
+        repo: '{{git_repo}}'
+        dest: ./ospc
+        update: yes
+        version: developing_branch
+  
+    - name: Create Frontend Env files
+      tags: init, project
+      copy: 
+        src: ./ospc/packages/client/.env.sample 
+        dest: ./ospc/packages/client/.env.local
+        remote_src: yes
+      
+
+    - name: Create Server Env files
+      tags: init, project
+      copy: 
+        src: ./ospc/.env.sample 
+        dest: ./ospc/.env
+        remote_src: yes
+      
+
+    - name: compose the project
+      tags: init,project
+      docker_compose:
+        project_src: '{{project_src}}'
+        build: yes
+    
+
+
+    - name: enable https
+      tags: init,renew,restart
+      shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-test.club  -d www.ospc-test.club  -m  khaalidsubaan@gmail.com  --redirect"
+      args:
+        warn: no
+
+    - name: push the latest nginx.conf
+      tags: init,restart
+      command:
+        cmd: git add . && git commit -m "Update nginx.con" && git push
+        chdir: .
+      args:
+        warn: no
+
+    - name: remove previous image version
+      tags: project,dev
+      docker_prune:
+        images: yes
+        images_filters:
+          dangling: true

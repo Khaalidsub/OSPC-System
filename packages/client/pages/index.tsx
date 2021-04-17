@@ -3,11 +3,12 @@
 import { BadgeCard, BadgeColor, MetricCard, PrimaryCard, SecondaryCard, SelectField, TertiaryCard } from "components"
 import { useState } from "react";
 import { useRouter } from 'next/router';
-import { getUserFromCookie, guestUser } from "lib/utils";
+import { getUserFromCookie } from "lib/utils";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { CURRENT_USER } from "utilities/schema";
 import Cookies from "universal-cookie";
 import { currentUser_currentUser } from "utilities/__generated__/currentUser";
+import { withAuth } from "components/withAuth";
 
 export const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -93,9 +94,9 @@ export const Home = () => {
 }
 
 
-export const getServerSideProps = async ({ req, res }) => {
+// export const getServerSideProps = async ({ req, res }) => {
 
-  return guestUser({ req })
-}
+//   return guestUser({ req })
+// }
 
-export default Home
+export default withAuth(Home)

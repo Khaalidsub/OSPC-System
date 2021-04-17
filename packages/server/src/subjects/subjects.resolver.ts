@@ -22,6 +22,8 @@ import { GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import { invalid, subjectNameError } from '@common/utils';
 import { SentryInterceptor } from '../Sentry';
 import { DepartmentsService } from 'departments/departments.service';
+import { SubjectSpecializationService } from 'coach/specialization.service';
+import * as mongoose from 'mongoose';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Subject)
 export class SubjectsResolver {
@@ -29,6 +31,7 @@ export class SubjectsResolver {
   constructor(
     private readonly subjectsService: SubjectsService,
     private readonly departmentsService: DepartmentsService,
+    private readonly subjectSpecializationService: SubjectSpecializationService,
   ) {}
 
   @Mutation(() => Subject)
@@ -52,10 +55,23 @@ export class SubjectsResolver {
     }
   }
 
+  @Query(() => [Subject], { name: 'subjectsByDepartment' })
+  findSubjectsByDepartment(
+    @Args('id', { type: () => String, nullable: true }) id: string,
+  ) {
+    try {
+      return this.subjectsService.findByQuery({
+        department: mongoose.Types.ObjectId(id),
+      });
+    } catch (error) {
+      throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Query(() => Subject, { name: 'subject' })
   findOne(@Args('id', { type: () => String }) id: string) {
     try {
-      return this.subjectsService.findOne(id);
+      return this.subjectsService.findById(id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
@@ -86,5 +102,9 @@ export class SubjectsResolver {
   @ResolveField()
   department(@Parent() subject: Subject) {
     return this.departmentsService.findById(subject.department);
+  }
+  @ResolveField()
+  coaches(@Parent() subject: Subject) {
+    return this.subjectSpecializationService.specializationCount(subject.id);
   }
 }

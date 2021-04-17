@@ -1,6 +1,7 @@
 export class IQuestion {
   id: string;
-  question: string;
+  title: string;
+  body: string;
   subject: string;
   user: string;
 }

@@ -14,6 +14,8 @@ export interface login_loginUser_user {
   id: string | null;
   name: string;
   email: string;
+  university: string;
+  phoneNumber: number | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

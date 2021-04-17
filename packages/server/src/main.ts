@@ -9,7 +9,10 @@ import { ValidationPipe } from '@nestjs/common';
 declare const module: any;
 
 async function bootstrap() {
+  if (process.env.NODE_ENV !== 'production') {
   config();
+    
+  }
   const app = await NestFactory.create(AppModule);
 
   Sentry.init({
@@ -33,10 +36,10 @@ async function bootstrap() {
   app.use(Sentry.Handlers.errorHandler());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    credentials: true,
-    origin: 'http://localhost:3000',
+    // credentials: true,
+    // origin: `http://${process.env.CLIENT || 'localhost'}:3000`,
   });
-  await app.listen(3001);
+  await app.listen(process.env.PORT || 3001);
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());

@@ -1,4 +1,3 @@
-import CoachBadge from "components/Badges/CoachBadge";
 import React from "react";
 
 export const Users = () => {

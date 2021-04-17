@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Role } from '@common/enums';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
+import * as mongoose from 'mongoose';
+import { CoachLessons } from 'types';
 
 @Injectable()
 export class UsersService {
@@ -14,6 +17,9 @@ export class UsersService {
 
   findAll() {
     return this.userModel.find().exec();
+  }
+  findByQuery(query: any) {
+    return this.userModel.find(query);
   }
 
   findOne(query) {
@@ -37,5 +43,189 @@ export class UsersService {
         $in: users,
       },
     });
+  }
+
+  findAvailableModerators(users: string[]) {
+    return this.userModel.find({
+      _id: {
+        $nin: users,
+      },
+      role: Role.moderator,
+    });
+  }
+  findCoachesAndStudentLessons(
+    id: string,
+    subject?: string,
+  ): Promise<CoachLessons[]> {
+    const aggregate = this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'lessons',
+          localField: '_id',
+          foreignField: 'coach',
+          as: 'lessons',
+        },
+      },
+      {
+        $match: {
+          role: 'COACH',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          lessons: {
+            $filter: {
+              input: '$lessons',
+              as: 'lesson',
+              cond: {
+                $eq: ['$$lesson.student', mongoose.Types.ObjectId(id)],
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          lessons: 1,
+          lessons_taken: {
+            $size: '$lessons',
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'subjectspecializations',
+          localField: '_id',
+          foreignField: 'coach',
+          as: 'subjectspecializations',
+        },
+      },
+      {
+        $unwind: {
+          path: '$subjectspecializations',
+        },
+      },
+    ]);
+    if (subject) {
+      return aggregate
+        .match({
+          'subjectspecializations.subject': mongoose.Types.ObjectId(subject),
+        })
+        .exec();
+    }
+    return aggregate.exec();
+  }
+  findStudentLessons(id: string): Promise<CoachLessons[]> {
+    return this.userModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'lessons',
+            localField: '_id',
+            foreignField: 'student',
+            as: 'lessons',
+          },
+        },
+        {
+          $match: {
+            role: 'STUDENT',
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: {
+              $filter: {
+                input: '$lessons',
+                as: 'lesson',
+                cond: {
+                  $eq: ['$$lesson.coach', mongoose.Types.ObjectId(id)],
+                },
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            email: 1,
+            lessons: 1,
+            lessons_given: {
+              $size: '$lessons',
+            },
+          },
+        },
+      ])
+      .exec();
+  }
+  findCoachBySubject(subject: string) {
+    return this.userModel.aggregate([
+      {
+        $lookup: {
+          from: 'subjectspecializations',
+          localField: '_id',
+          foreignField: 'coach',
+          as: 'subjectspecializations',
+        },
+      },
+      {
+        $match: {
+          role: 'COACH',
+          coachingStatus: 'ACTIVE',
+        },
+      },
+      {
+        $unwind: {
+          path: '$subjectspecializations',
+        },
+      },
+      {
+        $match: {
+          'subjectspecializations.subject': mongoose.Types.ObjectId(subject),
+        },
+      },
+    ]);
+  }
+  async subjectSpecialization(id: string) {
+    //  const user = await this.userModel.findById(id);
+
+    return this.userModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'subjectspecializations',
+            localField: '_id',
+            foreignField: 'coach',
+            as: 'specialization',
+          },
+          $match: {
+            _id: mongoose.Types.ObjectId(id),
+          },
+          $unwind: {
+            path: '$specialization',
+          },
+          //@ts-ignore
+          $lookup: {
+            from: 'subjects',
+            localField: 'specialization.subject',
+            foreignField: '_id',
+            as: 'subject',
+          },
+          //@ts-ignore
+          $unwind: {
+            path: '$subject',
+          },
+        },
+      ])
+      .exec();
   }
 }

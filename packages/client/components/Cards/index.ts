@@ -4,3 +4,5 @@ export * from './MetricCard';
 export * from './PrimaryCard';
 export * from './BadgeCard';
 export * from './CoachCard';
+export * from './ProfileInfoCard';
+export * from './ErrorCard';

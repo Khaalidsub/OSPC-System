@@ -1,17 +1,32 @@
-FROM node:alpine
+FROM node:alpine As development
 
-WORKDIR /usr/app
+RUN apk update && apk add build-base git python
 
-COPY ./package.json ./
+# WORKDIR /usr/src/app
 
-RUN npm install --production
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/client/package.json ./packages/client/package.json
+COPY  packages/common ./packages/common
 
-COPY ./ ./
+RUN yarn install
 
-RUN npm build
+COPY packages/client/ ./packages/client/
+
+RUN yarn build:client
+
+FROM node:alpine As production
+
+# WORKDIR /usr/src/app
+
+COPY  package.json yarn.lock lerna.json ./
+COPY  packages/client/package.json ./packages/client/package.json
+
+COPY --from=development ./packages/common .
+
+RUN yarn install --production
+
+COPY --from=development . .
 
 EXPOSE 3000
-
-USER node
-
-CMD ["yarn","start"]
+ENV NODE_ENV production
+CMD ["yarn", "run:prod:client" ]

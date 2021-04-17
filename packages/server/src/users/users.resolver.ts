@@ -3,35 +3,21 @@ import {
   Query,
   Mutation,
   Args,
-  ResolveProperty,
-  Root,
   ResolveField,
+  Parent,
 } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 // import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import {
-  HttpException,
-  HttpStatus,
-  Logger,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Logger, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
-import { AdminGuard } from 'auth/guards/graph-admin.auth.guard';
 import { AuthService } from 'auth/auth.service';
-import {
-  emailError,
-  invalidEmailError,
-  invalidPasswordError,
-  REG_EMAIL,
-} from '@common/utils';
-import { User } from './entities/user.entity';
+import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
-import { Chat } from 'chats/entities/chat.entity';
-import { Message } from 'chats/entities/message.entity';
+import { CoachLessons, StudentLessons } from 'types';
+
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
 export class UsersResolver {
@@ -52,6 +38,9 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
+    
+  
+      
       this.logger.error(error);
       throw new Error(error);
     }
@@ -72,10 +61,85 @@ export class UsersResolver {
     }
   }
 
+  @Mutation(() => User)
+  async rejectStudent(@Args('id') id: string) {
+    try {
+      const result = await this.usersService.update(id, {
+        accountStatus: Status.rejected,
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Mutation(() => User)
+  async rejectCoach(@Args('id') id: string) {
+    try {
+      const result = await this.usersService.update(id, {
+        coachingStatus: Status.rejected,
+      });
+
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   @Query(() => [User], { name: 'users' })
   // @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Query(() => [User], { name: 'students' })
+  findStudents() {
+    return this.usersService.findByQuery({ role: Role.student });
+  }
+  @Query(() => [User], { name: 'pendingCoaches' })
+  findPendingCoaches() {
+    return this.usersService.findByQuery({
+      coachingStatus: { $in: [Status.active, Status.pending, Status.rejected] },
+    });
+  }
+  @Query(() => [User], { name: 'activeCoaches' })
+  findActiveCoaches(@Args('subject', { nullable: true }) subjectId: string) {
+    //get the coaches based on the given subject
+    console.log('i am fetching', subjectId);
+
+    if (subjectId) {
+      return this.usersService.findCoachBySubject(subjectId);
+    }
+    return this.usersService.findByQuery({
+      coachingStatus: Status.active,
+    });
+  }
+  @Query(() => [CoachLessons], { name: 'coachLessons' })
+  @UseGuards(GqlAuthGuard)
+  findCoachesAndLessons(
+    @CurrentUser() user: User,
+    @Args('subject', { nullable: true }) subjectId: string,
+  ) {
+    try {
+      return this.usersService.findCoachesAndStudentLessons(user.id, subjectId);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Query(() => [StudentLessons], { name: 'studentLessons' })
+  @UseGuards(GqlAuthGuard)
+  findStudentLessons(@CurrentUser() user: User) {
+    try {
+      return this.usersService.findStudentLessons(user.id);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Query(() => [User], { name: 'moderators' })
+  findModerators() {
+    return this.usersService.findByQuery({
+      role: Role.moderator,
+    });
   }
 
   @Query(() => User, { name: 'user' })
@@ -90,11 +154,25 @@ export class UsersResolver {
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
     try {
-      const result = await this.usersService.update(user.id, updateUserInput);
+      console.log(updateUserInput);
+      
+      const result = await this.usersService.update(user.id,updateUserInput);
 
       return result;
     } catch (error) {
+ 
+  if (error?.codeName === 'DuplicateKey') {
+    throw new Error('Email Already Exists');
+  }
+  
       this.logger.error(error);
+      throw new Error(error.message);
     }
+  }
+  @Resolver()
+  async subject(@Parent() user: UserDocument) {
+    const result = await this.usersService.subjectSpecialization(user.id);
+    console.log(result);
+    return result.subject;
   }
 }

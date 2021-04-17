@@ -1,8 +1,7 @@
-import { InputType, PartialType, Field, ID } from '@nestjs/graphql';
+import { InputType, PartialType, Field, ID, OmitType } from '@nestjs/graphql';
 import { WeeklySchedule } from '../entities/schedule.entity';
 
 @InputType()
 export class UpdateWeeklySchedule extends PartialType(
-  WeeklySchedule,
-  InputType,
+  OmitType(WeeklySchedule, ['coach', 'id'], InputType),
 ) {}

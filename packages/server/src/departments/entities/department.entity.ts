@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { IDepartment } from '@common/interfaces';
+// import { Subject } from 'subjects/entities/subject.entity';
 export type DepartmentDocument = Department & Document;
 @ObjectType()
 @Schema()
@@ -23,6 +24,11 @@ export class Department implements IDepartment {
   })
   @Field(() => User, { description: 'Example field (placeholder)' })
   moderator: string;
+  @Field(() => Number)
+  subjects: number;
+
+  @Field(() => [require('subjects/entities/subject.entity').Subject])
+  subjectFields: string[];
 }
 
 export const DepartmentSchema = SchemaFactory.createForClass(Department);

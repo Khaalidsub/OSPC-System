@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  nginx:
+    image: 'nginx'
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    container_name: nginx
+    volumes:
+      # - ./nginx/production.conf:/etc/nginx/nginx.conf
+      - ~/etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - cat
+      - frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+    image: 'sleepinglotus/ospc-client'
+    container_name: frontend
+    env_file: 
+      ./.env
+    depends_on:
+      - cat
+    deploy:
+      replicas: 2
+  cat:
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile.prod
+    image: 'sleepinglotus/ospc-api'
+    container_name: cat
+    depends_on:
+      - mongodb
+    env_file: 
+      ./.env
+    stdin_open: true
+    tty: true
+    deploy:
+      replicas: 4
+  mongodb:
+    image: 'mongo:4.4'
+    container_name: mongodb
+    restart: always
+    volumes:
+      - ~/etc/data/db:/data/db

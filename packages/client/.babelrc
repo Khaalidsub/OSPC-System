@@ -7,14 +7,14 @@
         "root": ["./"],
         "alias": {
           "test": "./test",
-          "components": "./components",
+          "components": "./components/",
           "layouts":"./Layouts",
           "types":"./types",
           "lib":"./lib",
-          "util":"./utilities",
+          "utilities":"./utilities",
           "styles":"./styles",
-          "public":"./public",
-          "@common": "./node_modules/@ospc/common/src"
+          // "public":"./public"
+          // "@common": "./node_modules/@ospc/common/src"
         }
       }]
     ]

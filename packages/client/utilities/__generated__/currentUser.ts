@@ -14,6 +14,8 @@ export interface currentUser_currentUser {
   id: string | null;
   name: string;
   email: string;
+  university: string;
+  phoneNumber: number | null;
   role: Role | null;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;

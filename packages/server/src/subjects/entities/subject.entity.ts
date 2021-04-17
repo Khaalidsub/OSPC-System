@@ -1,4 +1,10 @@
-import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
+import {
+  ObjectType,
+  Field,
+  ID,
+  InputType,
+  createUnionType,
+} from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
@@ -20,6 +26,13 @@ export class Subject implements ISubject {
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()
   description: string;
+  @Field(() => Number)
+  coaches: number;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);
+// @Field(() =>)
+// export class SubjectsByDepartment{
+//   @Field(() =>[Subject])
+//   subjects: Subject[]
+// }

@@ -6,7 +6,7 @@ type User {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String
+  phoneNumber: Float
   universityId: String
   university: String!
   role: Role
@@ -26,11 +26,7 @@ enum CoachingStatus {
   active
   pending
   inactive
-}
-
-type AuthResult {
-  token: String!
-  user: User!
+  rejected
 }
 
 type Department {
@@ -45,6 +41,8 @@ type Department {
 
   """Example field (placeholder)"""
   moderator: User!
+  subjects: Float!
+  subjectFields: [Subject!]!
 }
 
 type Subject {
@@ -59,12 +57,34 @@ type Subject {
 
   """Example field (placeholder)"""
   description: String!
+  coaches: Float!
 }
 
-type Schedule {
+type SubjectDescription {
+  title: String!
+  description: String!
+}
+
+type SubjectSpecialization {
+  id: ID!
+  specialization: [SubjectDescription!]!
+  subject: Subject!
+  coach: User!
+}
+
+type Lesson {
+  id: ID!
   day: Day!
+
+  """Example field (placeholder)"""
+  student: User!
+  date: Float!
   time_start: Float!
-  time_end: Float!
+  subject: Subject!
+  coach: User!
+  duration: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 enum Day {
@@ -78,6 +98,39 @@ enum Day {
   type
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CoachLessons {
+  id: String!
+  name: String!
+  email: String!
+  lessons: [Lesson!]!
+  lessons_taken: Float!
+  subjectSpecialization: SubjectSpecialization!
+}
+
+type StudentLessons {
+  id: String!
+  name: String!
+  email: String!
+  lessons: [Lesson!]!
+  lessons_given: Float!
+}
+
+type AuthResult {
+  token: String!
+  user: User!
+}
+
+type Schedule {
+  day: Day!
+  time_start: Float!
+  time_end: Float!
+}
+
 type WeeklySchedule {
   id: ID!
 
@@ -86,40 +139,38 @@ type WeeklySchedule {
 
   """Example field (placeholder)"""
   schedule: [Schedule!]!
+  timeZone: String
 }
 
-type SubjectDescription {
-  title: String!
+type CoachApplication {
+  id: String!
   description: String!
-}
-
-type Lesson {
-  id: ID!
-  day: Day!
-
-  """Example field (placeholder)"""
-  student: User!
-  date: Int!
-  time_start: Int!
-  subject: Subject!
-  coach: User!
-  duration: Int!
+  urls: [String!]
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Question {
   id: ID!
-  question: String!
+  title: String!
+  body: String!
   subject: Subject!
   user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  answers: Float!
 }
 
 type Answer {
   id: ID!
   question: Question!
   input: String!
-  votes: Int!
+  votes: Float!
   isApproved: Boolean!
   user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Chat {
@@ -145,8 +196,10 @@ type Payment {
 type TransactionHistory {
   id: String!
   user: User!
-  date: Int!
+  date: Float!
   amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type UserWallet {
@@ -159,12 +212,12 @@ input UserInputType {
   id: ID
   name: String!
   email: String!
-  phoneNumber: String
+  phoneNumber: Float
   universityId: String
   university: String!
-  role: Role = student
-  accountStatus: CoachingStatus = pending
-  coachingStatus: CoachingStatus = inactive
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
 }
 
@@ -180,6 +233,8 @@ input DepartmentInputType {
 
   """Example field (placeholder)"""
   moderator: UserInputType!
+  subjects: Float!
+  subjectFields: [SubjectInputType!]!
 }
 
 input SubjectInputType {
@@ -194,6 +249,7 @@ input SubjectInputType {
 
   """Example field (placeholder)"""
   description: String!
+  coaches: Float!
 }
 
 input ScheduleInputType {
@@ -204,18 +260,24 @@ input ScheduleInputType {
 
 input QuestionInputType {
   id: ID!
-  question: String!
+  title: String!
+  body: String!
   subject: SubjectInputType!
   user: UserInputType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  answers: Float!
 }
 
 input AnswerInputType {
   id: ID!
   question: QuestionInputType!
   input: String!
-  votes: Int!
+  votes: Float!
   isApproved: Boolean!
   user: UserInputType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input ChatInputType {
@@ -236,8 +298,10 @@ input MessageInputType {
 input TransactionHistoryInputType {
   id: String!
   user: UserInputType!
-  date: Int!
+  date: Float!
   amount: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input UserWalletInputType {
@@ -248,16 +312,35 @@ input UserWalletInputType {
 
 type Query {
   users: [User!]!
+  students: [User!]!
+  pendingCoaches: [User!]!
+  activeCoaches(subject: String): [User!]!
+  coachLessons(subject: String): [CoachLessons!]!
+  studentLessons: [StudentLessons!]!
+  moderators: [User!]!
   user(id: String!): User!
   currentUser: User!
+  availableModerators: [User!]!
+  subjectsByModerator: [Subject!]!
+  departmentByModerator: Department!
   departments: [Department!]!
   department(id: String!): Department!
   subjects: [Subject!]!
+  subjectsByDepartment(id: String): [Subject!]!
   subject(id: String!): Subject!
-  getLessons: [Lesson!]!
+  getCoachSchedule(id: String!): WeeklySchedule!
+  getSchedule: WeeklySchedule!
+  getSchedules: [WeeklySchedule!]!
+  getBookedLessonsOfTheWeek(coach: String!, dateTo: Float!, dateFrom: Float!): [Lesson!]!
+  myLessons(limit: Float): [Lesson!]!
+  coachApplication: CoachApplication!
+  specializations: [SubjectSpecialization!]!
+  getSpecialization(id: String!): SubjectSpecialization!
+  getUserSpecialization(id: String!): SubjectSpecialization!
+  getSubjectsSpecialization(id: String!): SubjectSpecialization!
   questions: [Question!]!
   question(id: String!): Question!
-  answers: [Answer!]!
+  answers(id: String!): [Answer!]!
   answer(id: String!): Answer!
   chats: [Chat!]!
   chat(id: String!): Chat!
@@ -272,6 +355,8 @@ type Query {
 type Mutation {
   registerStudent(createUserInput: CreateUserInput!): User!
   approveStudent(id: String!): User!
+  rejectStudent(id: String!): User!
+  rejectCoach(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   loginUser(credentials: Credential!): AuthResult!
   isAuthorized: Boolean!
@@ -284,14 +369,14 @@ type Mutation {
   createSubject(createSubjectInput: CreateSubjectInput!): Subject!
   updateSubject(updateSubjectInput: UpdateSubjectInput!, id: String!): Subject!
   removeSubject(id: String!): Subject!
-  applyCoach(createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
+  applyCoach(createCoachApplication: CreateCoachApplicationInput!, createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!, id: String!): WeeklySchedule!
   bookLesson(createLessonInput: CreateLessonInput!): Lesson!
   makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!, id: String!): Question!
   removeQuestion(id: String!): Question!
-  answerQuestion(updateAnswerInput: CreateAnswerInput!): Answer!
+  answerQuestion(createAnswerInput: CreateAnswerInput!): Answer!
   voteAnswer(answer: String!, vote: Boolean!): Answer!
   approveAnswer(id: String!): Answer!
   updateAnswer(updateAnswerInput: UpdateAnswerInput!, id: String!): Answer!
@@ -326,13 +411,14 @@ input CreateUserInput {
 
 input UpdateUserInput {
   name: String
-  phoneNumber: String
+  email: String
   universityId: String
   university: String
-  role: Role = student
-  accountStatus: CoachingStatus = pending
-  coachingStatus: CoachingStatus = inactive
+  role: Role
+  accountStatus: CoachingStatus
+  coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus
+  phoneNumber: Float!
 }
 
 input Credential {
@@ -380,6 +466,8 @@ input UpdateDepartmentInput {
 
   """Example field (placeholder)"""
   moderator: UserInputType
+  subjects: Float
+  subjectFields: [SubjectInputType!]
 }
 
 input CreateSubjectInput {
@@ -402,10 +490,17 @@ input UpdateSubjectInput {
 
   """Example field (placeholder)"""
   description: String
+  coaches: Float
+}
+
+input CreateCoachApplicationInput {
+  description: String!
+  urls: [String!]
 }
 
 input CreateWeeklyScheduleInput {
   schedule: [ScheduleInputType!]!
+  timeZone: String
 }
 
 input CreateSubjecSpecialization {
@@ -419,33 +514,36 @@ input CreateSubjectDescription {
 }
 
 input UpdateWeeklySchedule {
-  id: ID
-
-  """Example field (placeholder)"""
-  coach: UserInputType
-
   """Example field (placeholder)"""
   schedule: [ScheduleInputType!]
+  timeZone: String
 }
 
 input CreateLessonInput {
   subject: String!
   coach: String!
-  date: Int!
-  time_start: Int!
+  date: Float!
+  time_start: Float!
   duration: Int = 1
   day: Day!
 }
 
 input CreateQuestionInput {
   """"""
-  question: String!
+  title: String!
+
+  """"""
+  body: String!
   subject: String!
 }
 
 input UpdateQuestionInput {
   id: ID
-  question: String
+  title: String
+  body: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  answers: Float
 }
 
 input CreateAnswerInput {
@@ -457,8 +555,10 @@ input UpdateAnswerInput {
   id: ID
   question: QuestionInputType
   input: String
-  votes: Int
+  votes: Float
   isApproved: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input CreateChatInput {

@@ -38,6 +38,7 @@ module.exports = function (options) {
         forum: path.resolve('./src/forum/'),
         departments: path.resolve('./src/departments/'),
         chats: path.resolve('./src/chats/'),
+        types: path.resolve('./src/types/'),
         coach: path.resolve('./src/coach/'),
         '@common': path.resolve('./node_modules/@ospc/common/src'),
       },

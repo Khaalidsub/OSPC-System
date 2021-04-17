@@ -32,6 +32,8 @@ import {
   studentPendingError,
   coachActiveError,
 } from '@common/utils';
+import { CreateCoachApplicationInput } from './dto/create-coach-application.input';
+import { CoachApplicationService } from './coach-application.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => WeeklySchedule)
 export class CoachResolver {
@@ -40,6 +42,7 @@ export class CoachResolver {
     private readonly scheduleService: ScheduleService,
     private readonly usersService: UsersService,
     private readonly specializationService: SubjectSpecializationService,
+    private readonly coachApplicationService: CoachApplicationService,
   ) {}
 
   @Mutation(() => User)
@@ -50,6 +53,8 @@ export class CoachResolver {
     createSubjectSpecialization: CreateSubjecSpecialization,
     @Args('createWeeklySchedule')
     createWeeklySchedule: CreateWeeklyScheduleInput,
+    @Args('createCoachApplication')
+    createCoachApplication: CreateCoachApplicationInput,
   ) {
     try {
       this.validateApplication(user);
@@ -66,6 +71,11 @@ export class CoachResolver {
         ...createWeeklySchedule,
         coach: user.id,
       } as unknown) as WeeklySchedule);
+
+      await this.coachApplicationService.save({
+        ...createCoachApplication,
+        user: user.id,
+      });
 
       return user;
     } catch (error) {
@@ -93,6 +103,37 @@ export class CoachResolver {
         coachingStatus: Status.active,
         role: Role.coach,
       });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  @Query(() => WeeklySchedule)
+  // @UseGuards(GqlAuthGuard)
+  getCoachSchedule(@Args('id') id: string) {
+    try {
+      console.log('so you are what', id);
+
+      return this.scheduleService.findOne({ coach: id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Query(() => WeeklySchedule)
+  @UseGuards(GqlAuthGuard)
+  getSchedule(@CurrentUser() user: User) {
+    try {
+      return this.scheduleService.findOne({ coach: user.id });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  @Query(() => [WeeklySchedule])
+  // @UseGuards(GqlAuthGuard)
+  getSchedules() {
+    try {
+      return this.scheduleService.findAll();
     } catch (error) {
       throw new Error(error.message);
     }

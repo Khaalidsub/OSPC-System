@@ -33,6 +33,9 @@ import {
   invalidPasswordError,
   REG_EMAIL,
 } from '@common/utils';
+import { SubjectsService } from 'subjects/subjects.service';
+import { Subject } from 'subjects/entities/subject.entity';
+import { ModeratorGuard } from 'auth/guards/graph-moderator.auth.guard';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Department)
 export class DepartmentsResolver {
@@ -40,6 +43,7 @@ export class DepartmentsResolver {
   constructor(
     private readonly departmentsService: DepartmentsService,
     private readonly usersService: UsersService,
+    private readonly subjectsService: SubjectsService,
   ) {}
 
   @Mutation(() => Department)
@@ -88,6 +92,44 @@ export class DepartmentsResolver {
       throw new Error(error);
     }
   }
+  @Query(() => [User], { name: 'availableModerators' })
+  async getAvailableModerators() {
+    try {
+      // get all moderator ids from departments
+      const users = (await this.departmentsService.findModerators()).map(
+        (dep) => dep.moderator,
+      );
+      // filter the user place with those ids
+      // console.log(users);
+
+      return this.usersService.findAvailableModerators(users);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  @Query(() => [Subject], { name: 'subjectsByModerator' })
+  @UseGuards(GqlAuthGuard, ModeratorGuard)
+  async getSubjectsByDepartment(@CurrentUser() user: User) {
+    try {
+      const department = await this.departmentsService.findOne({
+        moderator: user.id,
+      });
+      return this.subjectsService.findByQuery({ department: department.id });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  @Query(() => Department, { name: 'departmentByModerator' })
+  @UseGuards(GqlAuthGuard, ModeratorGuard)
+  async getDepartmentByModerator(@CurrentUser() user: User) {
+    try {
+      return this.departmentsService.findOne({
+        moderator: user.id,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
   async validateUser(user: CreateUserInput) {
     const findUser = await this.usersService.findOne({ email: user.email });
@@ -117,7 +159,7 @@ export class DepartmentsResolver {
   }
 
   @Query(() => [Department], { name: 'departments' })
-  @UseGuards(GqlAuthGuard, AdminGuard)
+  // @UseGuards(GqlAuthGuard, AdminGuard)
   findAll() {
     try {
       return this.departmentsService.findAll();
@@ -130,7 +172,7 @@ export class DepartmentsResolver {
   @UseGuards(GqlAuthGuard)
   findOne(@Args('id', { type: () => String }) id: string) {
     try {
-      return this.departmentsService.findOne(id);
+      return this.departmentsService.findById(id);
     } catch (error) {
       throw new HttpException(invalid, HttpStatus.BAD_REQUEST);
     }
@@ -182,5 +224,18 @@ export class DepartmentsResolver {
   @ResolveField()
   moderator(@Parent() department: Department) {
     return this.usersService.findById(department.moderator);
+  }
+
+  @ResolveField()
+  subjects(@Parent() department: Department) {
+    return this.subjectsService.subjectCount(department.id);
+  }
+
+  @ResolveField(() => [Subject], { defaultValue: [] })
+  async subjectFields(@Parent() department: Department) {
+    const result = await this.departmentsService.subjects(department.id);
+    console.log(result[0], result[0].subjects);
+
+    return result[0].subjects;
   }
 }

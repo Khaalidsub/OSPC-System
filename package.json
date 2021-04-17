@@ -17,6 +17,8 @@
         ]
     },
     "scripts": {
+        "run:prod:server": "yarn --cwd ./packages/server start:prod",
+        "run:prod:client": "yarn --cwd ./packages/client start",
         "run:server:dev": "yarn --cwd ./packages/server start:dev",
         "run:server": "yarn --cwd ./packages/server start",
         "run:client:dev": "yarn --cwd ./packages/client dev",
@@ -25,7 +27,7 @@
         "build:common": "yarn --cwd ./packages/common build",
         "build:server": "yarn run build:common && yarn --cwd ./packages/server run build",
         "build:client": "yarn run build:common && yarn --cwd ./packages/client run build",
-        "build": "yarn run build:server"
+        "build": "yarn  build:server"
     },
     "dependencies": {
         "graphql": "^15.5.0"

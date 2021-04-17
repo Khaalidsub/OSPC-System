@@ -28,6 +28,10 @@ export class ScheduleService {
   findByQuery(query) {
     return this.weeklyScheduleModel.find(query).exec();
   }
+
+  findOneByQuery(query) {
+    return this.weeklyScheduleModel.findOne(query);
+  }
   findById(id: string) {
     return this.weeklyScheduleModel.findById(id).exec();
   }

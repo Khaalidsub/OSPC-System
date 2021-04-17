@@ -1,0 +1,53 @@
+[{
+  "_id": {
+    "$oid": "6068c5cbb8236062543d0592"
+  },
+  "moderatorStatus": "INACTIVE",
+  "coachingStatus": "ACTIVE",
+  "accountStatus": "ACTIVE",
+  "role": "COACH",
+  "name": "khaalid",
+  "university": "UTM",
+  "password": "123Zebra",
+  "email": "khaalidsubaan@gmail.com",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6068dc7715a850057c8053ec"
+  },
+  "moderatorStatus": "INACTIVE",
+  "coachingStatus": "INACTIVE",
+  "accountStatus": "ACTIVE",
+  "role": "STUDENT",
+  "name": "khaalid",
+  "university": "UTM",
+  "password": "123Zebra",
+  "email": "khaalid@gmail.com",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6068dc8d15a850057c8053ed"
+  },
+  "moderatorStatus": "INACTIVE",
+  "coachingStatus": "INACTIVE",
+  "accountStatus": "ACTIVE",
+  "role": "ADMIN",
+  "name": "khaalid",
+  "university": "UTM",
+  "password": "123Zebra",
+  "email": "abdi@gmail.com",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6068dd2c15a850057c8053ee"
+  },
+  "moderatorStatus": "ACTIVE",
+  "coachingStatus": "INACTIVE",
+  "accountStatus": "ACTIVE",
+  "role": "MODERATOR",
+  "name": "xavier",
+  "university": "UTM",
+  "password": "123Zebra",
+  "email": "xavier@gmail.com",
+  "__v": 0
+}]

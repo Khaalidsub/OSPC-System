@@ -47,13 +47,37 @@ export class LessonResolver {
       await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
 
-      const lesson = this.lessonsService.create({
+      const lesson = await this.lessonsService.create({
         ...createLessonInput,
         student: user.id,
       } as any);
 
       this.eventEmitter.emit('lesson.booked', lesson);
       return lesson;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  @Query(() => [Lesson])
+  getBookedLessonsOfTheWeek(
+    @Args('dateFrom') dateFrom: number,
+    @Args('dateTo') dateTo: number,
+    @Args('coach') id: string,
+  ) {
+    try {
+      //get the day
+      console.log(
+        this.convertEpochTime(dateFrom),
+        this.convertEpochTime(dateTo),
+      );
+
+      //create a range from that day to 7 days later
+      //get the lessons of those days with the coach id
+      return this.lessonsService.getBookedLessonsOfTheWeek(
+        dateFrom,
+        dateTo,
+        id,
+      );
     } catch (error) {
       throw new Error(error.message);
     }
@@ -66,7 +90,7 @@ export class LessonResolver {
       subject: createLessonInput.subject,
     });
 
-    if (lessons.length > 1) {
+    if (lessons.length >= 1) {
       this.compareLessonDates(
         this.convertEpochTime(createLessonInput.date),
         lessons,
@@ -111,15 +135,19 @@ export class LessonResolver {
     }
   }
 
-  @Query(() => [Lesson])
+  @Query(() => [Lesson], { name: 'myLessons' })
   @UseGuards(GqlAuthGuard)
-  getLessons(@CurrentUser() user: User) {
+  getLessons(
+    @CurrentUser() user: User,
+    @Args('limit', { defaultValue: undefined, nullable: true }) limit: number,
+  ) {
     try {
-      return this.lessonsService.findByQuery({ student: user.id });
+      return this.lessonsService.findStudentLessons(user.id, { limit });
     } catch (error) {
       throw new Error(error.message);
     }
   }
+
   @ResolveField()
   student(@Parent() lesson: Lesson) {
     return this.usersService.findById(lesson.student);

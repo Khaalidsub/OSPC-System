@@ -17,7 +17,7 @@ import { UpdateChatInput } from './dto/update-chat.input';
 import { User } from 'users/entities/user.entity';
 import { UsersService } from 'users/users.service';
 import { PubSub } from 'apollo-server-express';
-import { Lesson } from 'coach/entities/lesson.entity';
+import { Lesson, LessonDocument } from 'coach/entities/lesson.entity';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
@@ -84,26 +84,31 @@ export class ChatsResolver {
   }
 
   @OnEvent('lesson.booked')
-  async handleLessonBooked(payload: Lesson) {
+  async handleLessonBooked(payload: LessonDocument) {
     try {
+      console.log('lesson booked', payload);
+
       //check if there is a chat
-      const [result] = await this.chatsService.findChatByUsers([
+      let [result] = await this.chatsService.findChatByUsers([
         payload.coach,
         payload.student,
       ]);
+      console.log('result', result);
+
       //create if it does not
-      if (result) {
-        await this.chatsService.create({
+      if (!result) {
+        result = await this.chatsService.create({
           chat_time: payload.time_start,
           users: [payload.coach, payload.student],
         });
+      } else {
+        //update if does exist
+        await this.chatsService.update(result.id, {
+          ...result,
+          chat_time: payload.date,
+          duration: 1,
+        });
       }
-      //update if does exist
-      await this.chatsService.update(result.id, {
-        ...result,
-        chat_time: payload.date,
-        duration: 1,
-      });
       // cron job when to open and update chat
       //! Probably will not work
       //! code felt cute, might delete itself later
@@ -116,8 +121,8 @@ export class ChatsResolver {
         this.eventEmitter.emit('chat.opened', chat);
       };
 
-      const interval = setInterval(callback, payload.date);
-      this.scheduleRegistry.addInterval(payload.id, interval);
+      const interval = setTimeout(callback, payload.date);
+      this.scheduleRegistry.addTimeout(payload._id, interval);
       console.log('interval has been updated');
     } catch (error) {
       throw new Error(error.message);

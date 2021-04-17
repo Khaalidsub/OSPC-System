@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
@@ -10,20 +10,20 @@ export type LessonDocument = Lesson & Document;
 
 registerEnumType(Days, { name: 'Day' });
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true })
 export class Lesson implements ILesson {
-  @Field(() => ID)
-  id: string;
+  @Field(() => ID, { name: 'id' })
+  _id: string;
   @Field(() => Days)
   @Prop(Days)
   day: Days;
   @Field(() => User, { description: 'Example field (placeholder)' })
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   student: string;
-  @Field(() => Int)
+  @Field(() => Number)
   @Prop()
   date: number;
-  @Field(() => Int)
+  @Field(() => Number)
   @Prop()
   time_start: number; //hours and booking time is 45 minutes so start time 1->1:45
   @Field(() => Subject)
@@ -32,9 +32,14 @@ export class Lesson implements ILesson {
   @Field(() => User)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   coach: string;
-  @Field(() => Int)
+  @Field(() => Number)
   @Prop()
   duration: number;
+
+  @Field()
+  createdAt: Date;
+  @Field()
+  updatedAt: Date;
 }
 
 export const LessonSchema = SchemaFactory.createForClass(Lesson);

@@ -44,4 +44,9 @@ export class SubjectSpecializationService {
   remove(id: string) {
     return this.subjectSpecializationModel.findByIdAndDelete(id).exec();
   }
+  specializationCount(subjectId: string) {
+    return this.subjectSpecializationModel.countDocuments({
+      subject: subjectId,
+    });
+  }
 }

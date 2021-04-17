@@ -1,6 +1,6 @@
 import Router from 'next/router';
 
-export default (context: any, target: string) => {
+export default function redirect(context: any, target: string) {
   if (context.res) {
     // server
     // 303: "See other"
