@@ -26,10 +26,10 @@
       "lib/*":["./lib/*"],
       "utililites/*":["./utilities/*"],
       "styles/*":["./styles/*"],
-      "public/*":["./public/*"],  
-      "@common/*":[
-        "./node_modules/@ospc/common/src/*"
-       ]
+      // "public/*":["./public/*"],  
+      // "@common/*":[
+      //   "./node_modules/@ospc/common/src/*"
+      //  ]
     }
   },
   "include": [

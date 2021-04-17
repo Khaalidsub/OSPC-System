@@ -9,7 +9,7 @@ export function MainLayout(props: MainLayoutProps) {
     const router = useRouter()
     const user = getUserFromCookie()
     const RenderProfile = () => {
-        if (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register') {
+        if (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register' || router.pathname === '/pending') {
             return <></>
         }
         return (

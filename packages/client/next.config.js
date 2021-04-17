@@ -19,8 +19,12 @@ module.exports = {
       lib: './lib',
       util: './utilities',
       styles: './styles',
-      public: './public',
-      '@common': './node_modules/@ospc/common/src',
+      // public: './public',
+      // '@common': './node_modules/@ospc/common/src',
+    };
+    config.stats = {
+      ...config.stats,
+      all: false,
     };
 
     return config;
