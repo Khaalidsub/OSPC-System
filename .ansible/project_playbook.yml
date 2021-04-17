@@ -69,6 +69,18 @@
         dest: ./ospc
         update: yes
         version: developing_branch
+  
+    - name: Create Frontend Env files
+      tags: init, project
+      copy:
+        src: ./ospc/packages/client/.env.sample
+        dest: ./ospc/packages/client/.env.local
+
+    - name: Create Server Env files
+      tags: init, project
+      copy:
+        src: ./ospc/packages/server/.env.sample
+        dest: ./ospc/packages/server/.env
 
     - name: compose the project
       tags: init,project
@@ -76,24 +88,16 @@
         project_src: '{{project_src}}'
         build: yes
     
-    - name: Create Frontend Env files
-      copy:
-        src: ./ospc/packages/client/.env.sample
-        dest: ./ospc/packages/client/.env.local
 
-    - name: Create Server Env files
-      copy:
-        src: ./ospc/packages/server/.env.sample
-        dest: ./ospc/packages/server/.env
 
     - name: enable https
-      tags: init,renew
+      tags: init,renew,restart
       shell: docker exec -it nginx sh -c "certbot run -n --nginx --agree-tos -d ospc-test.club  -d www.ospc-test.club  -m  khaalidsubaan@gmail.com  --redirect"
       args:
         warn: no
 
     - name: push the latest nginx.conf
-      tags: init
+      tags: init,restart
       command:
         cmd: git add . && git commit -m "Update nginx.con" && git push
         chdir: .
