@@ -75,6 +75,16 @@
       docker_compose:
         project_src: '{{project_src}}'
         build: yes
+    
+    - name: Create Frontend Env files
+      copy:
+        src: ./ospc/packages/client/.env.sample
+        dest: ./ospc/packages/client/.env.local
+
+    - name: Create Server Env files
+      copy:
+        src: ./ospc/packages/server/.env.sample
+        dest: ./ospc/packages/server/.env
 
     - name: enable https
       tags: init,renew

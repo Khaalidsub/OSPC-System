@@ -1,4 +1,4 @@
 ---
 git_repo: https://github.com/Khaalidsub/OSPC-System.git
-project_api_src: .
-project_src: .
+project_api_src: ./ospc
+project_src: ./ospc
