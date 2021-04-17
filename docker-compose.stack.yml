@@ -21,8 +21,12 @@ services:
       dockerfile: ./packages/client/Dockerfile
     image: 'sleepinglotus/ospc-client'
     container_name: frontend
+    env_file: 
+      ./.env
     depends_on:
       - cat
+    deploy:
+      replicas: 2
   cat:
     build:
       context: .
@@ -35,6 +39,8 @@ services:
       ./.env
     stdin_open: true
     tty: true
+    deploy:
+      replicas: 4
   mongodb:
     image: 'mongo:4.4'
     container_name: mongodb
