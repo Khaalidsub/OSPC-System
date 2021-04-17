@@ -5,7 +5,7 @@ export interface IUser {
   name: string;
   password?: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber: number;
   universityId: string;
   university: string;
   role?: Role;
