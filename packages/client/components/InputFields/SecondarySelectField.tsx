@@ -28,7 +28,7 @@ export interface SecondarySelectFieldProps {
     label: string
     value?: string
     data: ISelectFieldValue[]
-    onClick: Function
+    onClick?: Function
     onChange?: Function
 
 }
