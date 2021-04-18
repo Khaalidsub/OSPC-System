@@ -5,7 +5,7 @@
 /packages/*/build
 /packages/*/.env
 /packages/*/.next
-
+.env
 /node_modules
 # Logs
 logs
@@ -37,5 +37,3 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-.env.local
