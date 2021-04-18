@@ -92,6 +92,7 @@ export class UsersService {
               },
             },
           },
+          
         },
       },
       {
@@ -113,11 +114,17 @@ export class UsersService {
           as: 'subjectspecializations',
         },
       },
+     
       {
         $unwind: {
           path: '$subjectspecializations',
         },
       },
+      { 
+        $match: {
+          lessons_taken:{$gt:0}
+        }
+      }
     ]);
     if (subject) {
       return aggregate
@@ -171,6 +178,11 @@ export class UsersService {
             },
           },
         },
+        {
+          $match: {
+            lessons_given:{$gt:0}
+          }
+        }
       ])
       .exec();
   }

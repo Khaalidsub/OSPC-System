@@ -319,6 +319,7 @@ type Query {
   studentLessons: [StudentLessons!]!
   moderators: [User!]!
   user(id: String!): User!
+  fakeData: String!
   currentUser: User!
   availableModerators: [User!]!
   subjectsByModerator: [Subject!]!
