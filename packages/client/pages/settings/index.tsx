@@ -8,9 +8,9 @@ import { CoachingStatus } from "__generated__/globalTypes"
 interface SettingsProps{
 currentUser:currentUser_currentUser
 }
-export const Settings = (props:SettingsProps) => {
+export const Settings = ({currentUser}:SettingsProps) => {
     const router = useRouter()
-    const {name} = props.currentUser
+    const {name} = currentUser
     const PaymentHistory = () => {
         return (
 
@@ -31,7 +31,7 @@ export const Settings = (props:SettingsProps) => {
                         <h2 className='text-3xl'>{name}</h2>
                     </div>
                     <div className="flex flex-col space-y-4 self-center px-6 w-1/2 justify-self-center">
-                    {(props.currentUser.coachingStatus === CoachingStatus.inactive) &&    <SecondaryButton onClick={() => {
+                    {(currentUser.coachingStatus === CoachingStatus.inactive) &&    <SecondaryButton onClick={() => {
                             router.push('/settings/applycoach')
                         }} color='bg-secondary' label="Apply as Coach" />}
                         <SecondaryButton onClick={() => {router.push('/settings/editprofile')}}color="bg-information" label="Edit Profile" />

@@ -39,10 +39,11 @@ export const withAuth = <T extends object>(C: any) => {
 
                 redirect(ctx, "/login");
                 return {
-                    currentUser: null
+                   props:{ currentUser: null}
                 }
             }
-
+            console.log(response.data.currentUser.id);
+            
             return {
                
                props:{ currentUser: response.data.currentUser},
