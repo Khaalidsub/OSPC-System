@@ -40,6 +40,7 @@ function UpdateSubject() {
             name: data?.subject.name,
             description: data?.subject.description
         },
+        enableReinitialize: true,
         validate: validateSubject,
         onSubmit: onSubmit
     })

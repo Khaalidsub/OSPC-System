@@ -16,6 +16,7 @@ function Subjects() {
     const { id, name } = router.query
     const departmentId = (id as string).trim()
 
+    // router.route
     const { data } = useQuery<SubjectsTypes.subjectsByDepartment, SubjectsTypes.subjectsByDepartmentVariables>(SUBJECTS_BY_DEPARTMENT, { variables: { id: departmentId } })
     useEffect(() => {
 

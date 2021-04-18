@@ -19,7 +19,7 @@ function AddModerator() {
         try {
             console.log(email, password, university, name, values);
             await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            router.back()
+            router.replace(`/admin/moderators?isRefetch=true`)
         } catch (error) {
 
             setError(error.message)

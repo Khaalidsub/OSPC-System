@@ -10,15 +10,21 @@ interface SubjectAreaProps {
 }
 function SubjectAreas() {
     const [search, setSearch] = useState('')
-    const { data, fetchMore } = useQuery<SubjectAreaTypes.subjectAreas>(SUBJECT_AREAS)
+    const { data, fetchMore,refetch } = useQuery<SubjectAreaTypes.subjectAreas>(SUBJECT_AREAS)
     const [areas, setAreas] = useState([] as SubjectAreaTypes.subjectAreas_departments[])
 
     const router = useRouter()
-
+    const {  isRefetch } = router.query
     useEffect(() => {
 
         setAreas(data?.departments)
     }, [data])
+   
+    useEffect(() => {
+        if (isRefetch) {
+            refetch()
+        }
+    }, [isRefetch])
     useEffect(() => {
         const result = data?.departments.filter(student => {
             return student.name.toLowerCase().includes(search)

@@ -8,16 +8,22 @@ interface ModeratorProps {
     moderator: ModeratorTypes.moderators_moderators
 }
 export const Moderators = () => {
-    const { data, fetchMore } = useQuery<ModeratorTypes.moderators>(MODERATORS)
+    const { data, fetchMore, refetch } = useQuery<ModeratorTypes.moderators>(MODERATORS)
+   
     // const [moderators, setCoaches] = useState([] as ModeratorTypes.coaches_pendingCoaches[])
     // const [approvecoach,] = useMutation(ACCEPT_COACH)
     // const [rejectCoach,] = useMutation(REJECT_COACH)
     // const [resultCoaches, setResultCoaches] = useState([] as ModeratorTypes.coaches_pendingCoaches[])
     // const [status, setStatus] = useState(undefined as CoachingStatus)
     const [moderators, setModerators] = useState([] as ModeratorTypes.moderators_moderators[])
-
     const [search, setSearch] = useState('')
     const router = useRouter()
+    const {  isRefetch } = router.query
+    useEffect(() => {
+        if (isRefetch) {
+            refetch()
+        }
+    }, [isRefetch])
     useEffect(() => {
 
         setModerators(data?.moderators)

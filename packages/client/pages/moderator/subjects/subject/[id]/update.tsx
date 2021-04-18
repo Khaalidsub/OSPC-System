@@ -3,7 +3,7 @@ import { SecondarySelectField } from "components";
 import { SecondaryButton } from "components/Buttons"
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { SUBJECT, UPDATE_SUBJECT, } from "utilities/schema";
 import { validateSubject } from "utilities/validate";
 import { updateSubject, updateSubjectVariables } from 'utilities/__generated__/updateSubject'
@@ -13,16 +13,16 @@ function UpdateSubject() {
     const [message, setError] = useState('')
     const router = useRouter()
     const { id } = router.query
-    console.log(id);
-
-    const { data } = useQuery<subject, subjectVariables>(SUBJECT, { variables: { id: id as string } })
+    const { data,loading } = useQuery<subject, subjectVariables>(SUBJECT, { variables: { id: id as string } })
     const [updateSubject] = useMutation<updateSubject, updateSubjectVariables>(UPDATE_SUBJECT)
+    
+
     const onSubmit = async ({ name, description, ...values }) => {
 
         try {
             console.log(name, description, values);
             await updateSubject({ variables: { updateSubject: { name, description }, id: id as string } })
-            router.back()
+            router.replace(`/moderator/subjects?isRefetch=true`)
         } catch (error) {
 
             setError(error.message)
@@ -30,6 +30,7 @@ function UpdateSubject() {
         }
     }
     const formik = useFormik<any>({
+        enableReinitialize:true,
         initialValues: {
             name: data?.subject.name,
             description: data?.subject.description

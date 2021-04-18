@@ -24,7 +24,7 @@ function UpdateSubjectArea() {
         try {
             console.log(name, description, values);
             await updateSubjectArea({ variables: { updateSubjectArea: { name, description }, id: id as string } })
-            router.back();
+            router.replace(`/admin/areas?isRefetch=true`)
         } catch (error) {
 
             setError(error.message)
@@ -33,7 +33,9 @@ function UpdateSubjectArea() {
     }
 
     const formik = useFormik<any>({
+        
         initialValues: {
+            
             name: data?.department.name,
             description: data?.department.description
         },

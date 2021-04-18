@@ -29,7 +29,7 @@ function CreateSubjectArea() {
             console.log(name, description, values);
             await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
             // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            router.back()
+            router.replace(`/admin/areas?isRefetch=true`)
         } catch (error) {
 
             setError(error.message)

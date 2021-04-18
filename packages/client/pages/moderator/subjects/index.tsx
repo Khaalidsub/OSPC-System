@@ -13,10 +13,10 @@ interface SubjectProps {
 function Subjects() {
     const [search, setSearch] = useState('')
     const [subjects, setAreas] = useState([] as SubjectsTypes.subjectsByModerator_subjectsByModerator[])
-    const { data: departmentData } = useQuery<Department.department>(DEPARTMENT)
+    const { data: departmentData,refetch } = useQuery<Department.department>(DEPARTMENT)
 
     const router = useRouter()
-
+    const {isRefetch} = router.query
 
 
     const { data } = useQuery<SubjectsTypes.subjectsByModerator>(SUBJECTS_BY_MODERATOR)
@@ -24,6 +24,11 @@ function Subjects() {
 
         setAreas(data?.subjectsByModerator)
     }, [data])
+    useEffect(() => {
+        if (isRefetch) {
+            refetch()
+        }
+    }, [isRefetch])
     useEffect(() => {
         const result = data?.subjectsByModerator.filter(student => {
             return student.name.toLowerCase().includes(search)
