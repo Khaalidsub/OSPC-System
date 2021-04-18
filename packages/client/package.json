@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
+    "@headlessui/react": "^1.0.0",
     "@ospc/common": "file:../common",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/line-clamp": "^0.2.0",
