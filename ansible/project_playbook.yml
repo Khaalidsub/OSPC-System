@@ -101,10 +101,10 @@
         warn: no
 
     - name: push the latest nginx.conf
-      tags: init,restart
+      tags: init,restart,update
       command:
         cmd: git add . && git commit -m "Update nginx.con" && git push
-        chdir: .
+        chdir: ./ospc
       args:
         warn: no
 
