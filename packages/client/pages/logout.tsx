@@ -8,8 +8,8 @@ export const Logout = () => {
     isBrowser && router.push('/login')
 
     return (
-        <div>
-        </div>
+        <>
+        </>
     )
 }
 
