@@ -1,18 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Role } from '@common/enums';
+import { Role, Status } from '@common/enums';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
 import * as mongoose from 'mongoose';
 import { CoachLessons } from 'types';
+import { CreateUserInput } from './dto/create-user.input';
+const users:any[] = [{email:'admin@gmail.com',name:"admin",password:'123Zebra',university:"UTM", role:Role.admin, accountStatus:Status.active}]
 
 @Injectable()
 export class UsersService {
+  
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   create(user: User) {
     const createdUser = new this.userModel(user);
     return createdUser.save();
+  }
+  populateData() {
+    return new this.userModel(users[0]).save()
+
   }
 
   findAll() {

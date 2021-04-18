@@ -147,6 +147,12 @@ export class UsersResolver {
     return this.usersService.findOne({ _id: id });
   }
 
+  @Query(() =>String, { name: 'fakeData'})
+  async populateData() {
+  await this.usersService.populateData();
+  return 'data populated'
+  }
+
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard)
   async updateUser(
