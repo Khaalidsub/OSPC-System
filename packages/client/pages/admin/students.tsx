@@ -90,17 +90,17 @@ export const Students = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col px-6 w-60  justify-between items-end">
+                <div className="flex flex-col px-6 w-60 space-y-3  justify-between items-end">
                     <div className={`${status} w-24 p-1 rounded-lg text-center`}>
                         <h3 className={`text-xs`} >{student.student.accountStatus}</h3>
                     </div>
 
-                    {student.student.accountStatus === CoachingStatus.pending ? (<><SecondaryButton onClick={() => {
+                    {student.student.accountStatus === CoachingStatus.pending ? (<div className='space-y-3 w-1/2'><SecondaryButton onClick={() => {
                         onApproveStudent(student.student.id)
                     }} color='bg-secondary' label="Approve" />
                         <SecondaryButton color="bg-red-800" label="Reject" onClick={() => {
                             onRejectStudent(student.student.id)
-                        }} /></>)
+                        }} /></div>)
                         : <></>}
                 </div>
 

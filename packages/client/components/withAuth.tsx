@@ -22,9 +22,9 @@ export const withAuth = <T extends object>(C: any) => {
         ...ctx
     }: NextContextWithApollo) => {
         // console.log('hello world', a);
-        const cookies = new Cookies(ctx.req?.headers.cookie)
+        
         try {
-
+            const cookies = new Cookies(ctx.req?.headers.cookie)
             const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });
             // console.log('so liek', response?.data);
 
@@ -49,6 +49,7 @@ export const withAuth = <T extends object>(C: any) => {
                props:{ currentUser: response.data.currentUser},
             };
         } catch (error) {
+            const cookies = new Cookies(ctx.req?.headers.cookie)
             console.log(error);
             if (cookies.get('user')) {
                 cookies.remove('user')
