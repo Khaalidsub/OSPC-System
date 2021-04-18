@@ -16,8 +16,8 @@ jobs:
     - name: Use ansible 
       uses: dawidd6/action-ansible-playbook@v2
       with:
-        playbook: project_playbook.yml
-        directory: ansible
+        playbook: ./ansible/project_playbook.yml
+        directory: ./
         key: ${{secrets.digital}}
         inventory: |
           [all]
