@@ -14,18 +14,11 @@ jobs:
     
     steps:
     - name: Use ansible 
-      uses: dawidd6/action-ansible-playbook@v2
+      uses: arillso/action.playbook@master
       with:
-        playbook: project_playbook.yml
-        directory: OSPC-System/ansible
-        key: ${{secrets.digital}}
-        inventory: |
-          [all]
-          ${{secrets.HOST}}@${{secrets.IP}}
-        
-        options: |
-          --tags project
-          --extra-vars project_src=./ospc
-          --extra-vars git_repo=https://github.com/Khaalidsub/OSPC-System.git
-          --verbose
+        playbook: ansible/project_playbook.yml
+        inventory: ansible/inentory
+        private_key: ${{secrets.digital}}
+        extra_vars: git_repo=https://github.com/Khaalidsub/OSPC-System.git project_src=./ospc
+        tags: project
     
