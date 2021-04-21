@@ -8,15 +8,21 @@ import { MessagesService } from './messages.service';
 import { MessagesResolver } from './messages.resolver';
 import { UsersModule } from 'users/users.module';
 import { UsersService } from 'users/users.service';
+import { BullModule } from '@nestjs/bull';
+import { ChatStatusConsumer } from './chat-status.consumer';
 
 @Module({
   imports: [
+    BullModule.registerQueue({
+      name:'chatStatus'
+      
+    }),
     MongooseModule.forFeature([
       { name: Chat.name, schema: ChatSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
     UsersModule,
   ],
-  providers: [ChatsResolver, ChatsService, MessagesResolver, MessagesService],
+  providers: [ChatsResolver, ChatsService, MessagesResolver, MessagesService,ChatStatusConsumer],
 })
 export class ChatsModule {}

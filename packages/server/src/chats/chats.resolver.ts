@@ -11,7 +11,7 @@ import {
   Subscription,
 } from '@nestjs/graphql';
 import { ChatsService } from './chats.service';
-import { Chat } from './entities/chat.entity';
+import { Chat, ChatDocument } from './entities/chat.entity';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { User } from 'users/entities/user.entity';
@@ -21,6 +21,8 @@ import { Lesson, LessonDocument } from 'coach/entities/lesson.entity';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
@@ -29,12 +31,14 @@ export class ChatsResolver {
     private readonly usersService: UsersService,
     private scheduleRegistry: SchedulerRegistry,
     private eventEmitter: EventEmitter2,
+    @InjectQueue('chatStatus') private chatStatusQueue: Queue
   ) {}
 
   @Mutation(() => Chat)
   async createChat(
     @Args('createChatInput') createChatInput: CreateChatInput,
     @Context('pubSub') pubSub: PubSub,
+    
   ) {
     try {
       const chat = await this.chatsService.create(createChatInput);
@@ -74,14 +78,6 @@ export class ChatsResolver {
   async getUsers(@Parent() chat: Chat) {
     return this.usersService.findByIds(chat.users as string[]);
   }
-  @OnEvent('chat.opened')
-  async handleChatOpened(payload: Chat) {
-    try {
-      // cron job to close the chat
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
 
   @OnEvent('lesson.booked')
   async handleLessonBooked(payload: LessonDocument) {
@@ -98,7 +94,7 @@ export class ChatsResolver {
       //create if it does not
       if (!result) {
         result = await this.chatsService.create({
-          chat_time: payload.time_start,
+          chat_time: payload.time_start, // not needed anymore
           users: [payload.coach, payload.student],
         });
       } else {
@@ -112,20 +108,42 @@ export class ChatsResolver {
       // cron job when to open and update chat
       //! Probably will not work
       //! code felt cute, might delete itself later
-      const callback = async () => {
-        console.log('this chat has been called', result.id);
+      // const callback = async () => {
+      //   console.log('this chat has been called', result.id);
 
-        const chat = await this.chatsService.update(result.id, {
-          isOpen: true,
-        });
-        this.eventEmitter.emit('chat.opened', chat);
-      };
+      //   const chat = await this.chatsService.update(result.id, {
+      //     isOpen: true,
+      //   });
+      //   this.eventEmitter.emit('chat.opened', chat);
+      // };
 
-      const interval = setTimeout(callback, payload.date);
-      this.scheduleRegistry.addTimeout(payload._id, interval);
+      // const interval = setTimeout(callback, payload.date);
+      // this.scheduleRegistry.addTimeout(payload._id, interval);
+      this.chatStatusQueue.add(
+      {
+      chatId: result.id,
+      status:true,
+
+      },{delay:payload.date})
       console.log('interval has been updated');
     } catch (error) {
       throw new Error(error.message);
+    }
+  }
+
+  @OnEvent('chat.isOpened')
+  async handleChatOpened(payload:ChatDocument){
+    try {
+      console.log('Chat is opened');
+      this.chatStatusQueue.add(
+        {
+        chatId: payload.id,
+        status:false,
+  
+        },{delay:60*60*1000})
+    } catch (error) {
+      console.log(error);
+      
     }
   }
 }

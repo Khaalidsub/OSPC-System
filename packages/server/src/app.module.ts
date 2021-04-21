@@ -15,11 +15,18 @@ import { PubSub } from 'apollo-server-express';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ApolloServerPluginUsageReporting } from 'apollo-server-core';
+import { BullModule } from '@nestjs/bull';
 const db = process.env.DB_HOST;
 const pubSub = new PubSub();
 @Module({
   imports: [
     ScheduleModule.forRoot(),
+    BullModule.forRoot({
+      redis:{
+        host:process.env.REDIS_HOST,
+        port:Number.parseInt(process.env.REDIS_PORT)
+      }
+    }),
     EventEmitterModule.forRoot(),
     GraphQLModule.forRoot({
       cors: false,

@@ -6,13 +6,13 @@ import { Document } from 'mongoose';
 import { User } from 'users/entities/user.entity';
 export type ChatDocument = Chat & Document;
 @ObjectType()
-@Schema()
+@Schema({ timestamps: true})
 @InputType('ChatInputType')
 export class Chat implements IChat {
   @Field(() => String)
   id: string;
   @Field(() => Boolean)
-  @Prop({ default: true })
+  @Prop({ default: false })
   isOpen: boolean;
   @Field(() => [User])
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
@@ -23,6 +23,8 @@ export class Chat implements IChat {
   @Field(() => Int)
   @Prop({ default: 1 })
   duration: number;
+  createdAt: Date
+  updatedAt:Date
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);
