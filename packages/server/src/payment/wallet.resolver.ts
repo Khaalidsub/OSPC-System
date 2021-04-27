@@ -13,19 +13,15 @@ import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 import { User } from 'users/entities/user.entity';
 import { TransactionHistory } from './entities/transaction-history';
 import { UserWallet, UserWalletDocument } from './entities/user-wallet.entity';
-import { UsersService } from 'users/users.service';
-import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { TopUp } from './entities/payment.entity';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { LessonDocument } from 'coach/entities/lesson.entity';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Resolver(() => UserWallet)
 export class UserWalletResolver {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly userWalletService: UserWalletService,
-    private eventEmitter: EventEmitter2,
-  ) {}
+  private readonly logger = new Logger(UserWalletResolver.name);
+  constructor(private readonly userWalletService: UserWalletService) {}
 
   @Mutation(() => UserWallet)
   createUserWallet(
@@ -43,20 +39,11 @@ export class UserWalletResolver {
   findOneWallet(@Args('id', { type: () => String }) id: string) {
     return this.userWalletService.findOne(id);
   }
-  @Query(() => UserWallet, { name: 'myWallet',nullable: true})
+  @Query(() => UserWallet, { name: 'myWallet', nullable: true })
   @UseGuards(GqlAuthGuard)
-  findUserWallet(
-    @CurrentUser() user: User) {
-    return this.userWalletService.findOneByQuery({user: user.id});
+  findUserWallet(@CurrentUser() user: User) {
+    return this.userWalletService.findOneByQuery({ user: user.id });
   }
-
-
-  // @Query(() => [TransactionHistory], { name: 'transactions' })
-  // findAllTransactions() {
-  //   return this.userWalletService.findAll();
-  // }
-
- 
 
   @Mutation(() => UserWallet)
   updateUserWallet(
@@ -67,36 +54,48 @@ export class UserWalletResolver {
   }
 
   @OnEvent('transaction.created')
-  async onTransactionCreated(payload:{topup:TopUp, user:string}){
-   try {
-     console.log('hello');
-     
-      let wallet = await this.userWalletService.findOneByQuery({user:payload.user})
+  async onTransactionCreated(payload: { topup: TopUp; user: string }) {
+    try {
+      this.logger.log(`Wallet of user ${payload.user} is being top upped...`)
+
+      let wallet = await this.userWalletService.findOneByQuery({
+        user: payload.user,
+      });
       if (wallet) {
-       await this.userWalletService.update(wallet.id,{balance: wallet.balance + payload.topup})
-      }else{
-        await this.userWalletService.create({user:payload.user, balance: payload.topup})
+        await this.userWalletService.update(wallet.id, {
+          balance: wallet.balance + payload.topup,
+        });
+      } else {
+        await this.userWalletService.create({
+          user: payload.user,
+          balance: payload.topup,
+        });
       }
     } catch (error) {
-      console.log(error);
-  
+      this.logger.error(error.message)
     }
   }
 
   @OnEvent('lesson.paid')
-  async onLessonPaid(payload:{lesson:LessonDocument,amount:number}){
+  async onLessonPaid(payload: { lesson: LessonDocument; amount: number }) {
     try {
-      let wallet = await this.userWalletService.findOneByQuery({user:payload.lesson.coach})
+      let wallet = await this.userWalletService.findOneByQuery({
+        user: payload.lesson.coach,
+      });
       if (wallet) {
-        await this.userWalletService.update(wallet.id,{balance: wallet.balance + payload.amount})
-       }else{
-         await this.userWalletService.create({user:payload.lesson.coach, balance: payload.amount})
-       }
-       
+        await this.userWalletService.update(wallet.id, {
+          balance: wallet.balance + payload.amount,
+        });
+      } else {
+        await this.userWalletService.create({
+          user: payload.lesson.coach,
+          balance: payload.amount,
+        });
+      }
     } catch (error) {
-      console.log(error);
-      
-      throw new Error(error.message)
+      this.logger.error(error.message)
+
+      throw new Error(error.message);
     }
   }
 
@@ -105,7 +104,7 @@ export class UserWalletResolver {
 
   @ResolveField()
   async user(@Parent() userWallet: UserWalletDocument) {
-    const wallet = await userWallet.populate('user').execPopulate()
-    return wallet.user
+    const wallet = await userWallet.populate('user').execPopulate();
+    return wallet.user;
   }
 }

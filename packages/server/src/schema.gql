@@ -175,11 +175,6 @@ type UserWallet {
   user: User!
 }
 
-type Payment {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Question {
   id: ID!
   title: String!
@@ -351,7 +346,6 @@ type Query {
   getUserSpecialization(id: String!): SubjectSpecialization!
   getSubjectsSpecialization(id: String!): SubjectSpecialization!
   transactions(type: TransactionType!): [TransactionHistory!]
-  transaction(id: String!): UserWallet!
   wallets: [UserWallet!]!
   wallet(id: String!): UserWallet!
   myWallet: UserWallet
@@ -388,12 +382,9 @@ type Mutation {
   bookLesson(createLessonInput: CreateLessonInput!, amount: Float!): Lesson!
   createPayment(createTransactionHistoryInput: CreateTransactionInput!, topup: TopUp!): TransactionHistory!
   createPaymentIntent(topup: TopUp!): String!
-  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
-  removePayment(id: String!): Payment!
-  topUpUser(token: String!): TransactionHistory!
-  createTransactionHistory(createTransactionHistoryInput: CreateTransactionInput!): TransactionHistory!
-  removeTransactionHistory(id: String!): TransactionHistory!
   createUserWallet(createUserWalletInput: CreateUserWalletInput!): UserWallet!
+  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
+  topUpUser(token: String!): TransactionHistory!
   makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!, id: String!): Question!
   removeQuestion(id: String!): Question!
@@ -557,15 +548,15 @@ enum TopUp {
   xxlarge
 }
 
+input CreateUserWalletInput {
+  user: String!
+  balance: Float!
+}
+
 input UpdateUserWalletInput {
   id: String
   balance: Float
   user: UserInputType
-}
-
-input CreateUserWalletInput {
-  user: String!
-  balance: Float!
 }
 
 input CreateQuestionInput {
