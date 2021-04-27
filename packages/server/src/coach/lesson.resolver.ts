@@ -26,6 +26,8 @@ import {
 import { UsersService } from 'users/users.service';
 import { SubjectsService } from 'subjects/subjects.service';
 import { EventEmitter2 } from 'eventemitter2';
+import { TransactionService } from '../payment/transaction.service';
+import { UserWalletService } from '../payment/wallet.service';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Lesson)
 export class LessonResolver {
@@ -34,6 +36,8 @@ export class LessonResolver {
     private readonly scheduleService: ScheduleService,
     private readonly usersService: UsersService,
     private readonly subjectsService: SubjectsService,
+    private readonly transactionService: TransactionService,
+    private readonly userWalletService: UserWalletService,
     private eventEmitter: EventEmitter2,
   ) {}
 
@@ -41,17 +45,27 @@ export class LessonResolver {
   @UseGuards(GqlAuthGuard)
   async bookLesson(
     @CurrentUser() user: User,
+    @Args('amount') amount:number,
     @Args('createLessonInput') createLessonInput: CreateLessonInput,
   ) {
     try {
       await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
+      //get the user wallet
+      const wallet = await this.userWalletService.findOneByQuery({user:user.id})
+      if (!wallet || wallet.balance < amount) 
+        throw new Error('Insufficient Funds')
+        
+  
 
+        
+      
       const lesson = await this.lessonsService.create({
         ...createLessonInput,
         student: user.id,
       } as any);
-
+      await this.userWalletService.update(wallet.id,{balance:wallet.balance - amount})
+      this.eventEmitter.emit('lesson.paid',{lesson,amount})
       this.eventEmitter.emit('lesson.booked', lesson);
       return lesson;
     } catch (error) {

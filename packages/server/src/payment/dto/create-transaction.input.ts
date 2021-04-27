@@ -13,6 +13,7 @@ export class CreateTransactionInput {
 
 export enum TransactionType {
   topup = 'topup',
+  // receive = 'receive',
   booking = 'booking',
   cashout = 'cashout',  
 }

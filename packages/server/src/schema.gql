@@ -151,6 +151,35 @@ type CoachApplication {
   updatedAt: DateTime!
 }
 
+type TransactionHistory {
+  id: String!
+  user: User!
+  date: Float!
+  amount: Float!
+  currency: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  transactionType: TransactionType!
+}
+
+enum TransactionType {
+  topup
+  booking
+  cashout
+  type
+}
+
+type UserWallet {
+  id: String!
+  balance: Float!
+  user: User!
+}
+
+type Payment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Question {
   id: ID!
   title: String!
@@ -186,35 +215,6 @@ type Message {
   sender: User!
   chat: Chat!
   input: String!
-}
-
-type Payment {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type TransactionHistory {
-  id: String!
-  user: User!
-  date: Float!
-  amount: Float!
-  currency: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  transactionType: TransactionType!
-}
-
-enum TransactionType {
-  topup
-  booking
-  cashout
-  type
-}
-
-type UserWallet {
-  id: String!
-  balance: Float!
-  user: User!
 }
 
 input UserInputType {
@@ -267,6 +267,23 @@ input ScheduleInputType {
   time_end: Float!
 }
 
+input TransactionHistoryInputType {
+  id: String!
+  user: UserInputType!
+  date: Float!
+  amount: Float!
+  currency: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  transactionType: TransactionType!
+}
+
+input UserWalletInputType {
+  id: String!
+  balance: Float!
+  user: UserInputType!
+}
+
 input QuestionInputType {
   id: ID!
   title: String!
@@ -304,23 +321,6 @@ input MessageInputType {
   input: String!
 }
 
-input TransactionHistoryInputType {
-  id: String!
-  user: UserInputType!
-  date: Float!
-  amount: Float!
-  currency: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  transactionType: TransactionType!
-}
-
-input UserWalletInputType {
-  id: String!
-  balance: Float!
-  user: UserInputType!
-}
-
 type Query {
   users: [User!]!
   students: [User!]!
@@ -350,6 +350,11 @@ type Query {
   getSpecialization(id: String!): SubjectSpecialization!
   getUserSpecialization(id: String!): SubjectSpecialization!
   getSubjectsSpecialization(id: String!): SubjectSpecialization!
+  transactions(type: TransactionType!): [TransactionHistory!]
+  transaction(id: String!): UserWallet!
+  wallets: [UserWallet!]!
+  wallet(id: String!): UserWallet!
+  myWallet: UserWallet
   questions: [Question!]!
   question(id: String!): Question!
   answers(id: String!): [Answer!]!
@@ -358,11 +363,6 @@ type Query {
   chat(id: String!): Chat!
   messages: [Message!]!
   message(id: String!): Message!
-  transactions(type: TransactionType!): [TransactionHistory!]
-  transaction(id: String!): UserWallet!
-  wallets: [UserWallet!]!
-  wallet(id: String!): UserWallet!
-  myWallet: UserWallet
 }
 
 type Mutation {
@@ -385,7 +385,15 @@ type Mutation {
   applyCoach(createCoachApplication: CreateCoachApplicationInput!, createWeeklySchedule: CreateWeeklyScheduleInput!, createSubjectSpecialization: CreateSubjecSpecialization!): User!
   approveCoach(id: String!): User!
   updateWeeklySchedule(updateWeeklySchedule: UpdateWeeklySchedule!, id: String!): WeeklySchedule!
-  bookLesson(createLessonInput: CreateLessonInput!): Lesson!
+  bookLesson(createLessonInput: CreateLessonInput!, amount: Float!): Lesson!
+  createPayment(createTransactionHistoryInput: CreateTransactionInput!, topup: TopUp!): TransactionHistory!
+  createPaymentIntent(topup: TopUp!): String!
+  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
+  removePayment(id: String!): Payment!
+  topUpUser(token: String!): TransactionHistory!
+  createTransactionHistory(createTransactionHistoryInput: CreateTransactionInput!): TransactionHistory!
+  removeTransactionHistory(id: String!): TransactionHistory!
+  createUserWallet(createUserWalletInput: CreateUserWalletInput!): UserWallet!
   makeQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!, id: String!): Question!
   removeQuestion(id: String!): Question!
@@ -399,14 +407,6 @@ type Mutation {
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!, id: String!): Message!
   removeMessage(id: String!): Message!
-  createPayment(createTransactionHistoryInput: CreateTransactionInput!, topup: TopUp!): TransactionHistory!
-  createPaymentIntent(topup: TopUp!): String!
-  updateUserWallet(updateUserWalletInput: UpdateUserWalletInput!): UserWallet!
-  removePayment(id: String!): Payment!
-  topUpUser(token: String!): TransactionHistory!
-  createTransactionHistory(createTransactionHistoryInput: CreateTransactionInput!): TransactionHistory!
-  removeTransactionHistory(id: String!): TransactionHistory!
-  createUserWallet(createUserWalletInput: CreateUserWalletInput!): UserWallet!
 }
 
 input CreateUserInput {
@@ -542,6 +542,32 @@ input CreateLessonInput {
   day: Day!
 }
 
+input CreateTransactionInput {
+  date: Float!
+  amount: Float!
+  currency: String!
+}
+
+enum TopUp {
+  xsmall
+  small
+  medium
+  large
+  xlarge
+  xxlarge
+}
+
+input UpdateUserWalletInput {
+  id: String
+  balance: Float
+  user: UserInputType
+}
+
+input CreateUserWalletInput {
+  user: String!
+  balance: Float!
+}
+
 input CreateQuestionInput {
   """"""
   title: String!
@@ -599,32 +625,6 @@ input UpdateMessageInput {
   sender: UserInputType
   chat: ChatInputType
   input: String
-}
-
-input CreateTransactionInput {
-  date: Float!
-  amount: Float!
-  currency: String!
-}
-
-enum TopUp {
-  xsmall
-  small
-  medium
-  large
-  xlarge
-  xxlarge
-}
-
-input UpdateUserWalletInput {
-  id: String
-  balance: Float
-  user: UserInputType
-}
-
-input CreateUserWalletInput {
-  user: String!
-  balance: Float!
 }
 
 type Subscription {

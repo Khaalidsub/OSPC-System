@@ -17,6 +17,7 @@ import { UsersService } from 'users/users.service';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { TopUp } from './entities/payment.entity';
 import { UseGuards } from '@nestjs/common';
+import { LessonDocument } from 'coach/entities/lesson.entity';
 
 @Resolver(() => UserWallet)
 export class UserWalletResolver {
@@ -79,6 +80,23 @@ export class UserWalletResolver {
     } catch (error) {
       console.log(error);
   
+    }
+  }
+
+  @OnEvent('lesson.paid')
+  async onLessonPaid(payload:{lesson:LessonDocument,amount:number}){
+    try {
+      let wallet = await this.userWalletService.findOneByQuery({user:payload.lesson.coach})
+      if (wallet) {
+        await this.userWalletService.update(wallet.id,{balance: wallet.balance + payload.amount})
+       }else{
+         await this.userWalletService.create({user:payload.lesson.coach, balance: payload.amount})
+       }
+       
+    } catch (error) {
+      console.log(error);
+      
+      throw new Error(error.message)
     }
   }
 

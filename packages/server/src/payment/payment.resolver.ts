@@ -12,7 +12,8 @@ import {Stripe} from 'stripe'
 import { Inject, UseGuards } from '@nestjs/common';
 import { CreateTransactionInput, TransactionType } from './dto/create-transaction.input';
 import { TransactionService } from './transaction.service';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { LessonDocument } from 'coach/entities/lesson.entity';
 @Resolver(() => TransactionHistory)
 export class PaymentResolver {
   constructor(private readonly paymentService: PaymentService,@Inject('Stripe')
@@ -44,7 +45,7 @@ export class PaymentResolver {
       
       const client_secret = await this.stripeClient.paymentIntents.create({
         amount:topup.valueOf()*100,
-        currency:'usd',
+        currency:'myr',
         
 
       })
@@ -88,5 +89,19 @@ export class PaymentResolver {
   async user(@Parent() transactionHistory:TransactionHistoryDocument){
     const transaction = await transactionHistory.populate('user').execPopulate()
     return transaction.user
+  }
+
+  @OnEvent('lesson.paid')
+  async onLessonBooked(payload:{lesson:LessonDocument,amount:number})
+
+  {
+    try {
+      await this.transactionHistoryService.create({amount:payload.amount,currency:'ST',user:payload.lesson.student,transactionType:TransactionType.booking}as any)
+      await this.transactionHistoryService.create({amount:payload.amount,currency:'ST',user:payload.lesson.coach,transactionType:TransactionType.booking}as any)
+    } catch (error) {
+      console.log(error);
+      
+      throw new Error(error.message)
+    }
   }
 }

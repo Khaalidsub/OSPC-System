@@ -23,9 +23,11 @@ import {
 } from './entities/coach-application.entity';
 import { CoachApplicationResolver } from './coach-application.resolver';
 import { CoachApplicationService } from './coach-application.service';
+import { PaymentModule } from '../payment/payment.module';
 
 @Module({
   imports: [
+    PaymentModule,
     MongooseModule.forFeature([
       { name: Lesson.name, schema: LessonSchema },
       { name: CoachApplication.name, schema: CoachApplicationSchema },

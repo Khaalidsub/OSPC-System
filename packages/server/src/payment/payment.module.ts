@@ -36,5 +36,9 @@ const stripe = new Stripe('sk_test_51HvvGmKkLdH6RPnGnZt9JrklqgmbI1EtzqBUTlG0yQz6
     useValue:stripe
     }
   ],
+  exports:[
+    UserWalletService,
+    TransactionService,
+  ]
 })
 export class PaymentModule {}
