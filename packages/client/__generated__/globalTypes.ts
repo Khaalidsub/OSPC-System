@@ -32,6 +32,15 @@ export enum Role {
   student = "student",
 }
 
+export enum TopUp {
+  large = "large",
+  medium = "medium",
+  small = "small",
+  xlarge = "xlarge",
+  xsmall = "xsmall",
+  xxlarge = "xxlarge",
+}
+
 export interface CreateAnswerInput {
   input: string;
   question: string;
@@ -77,6 +86,12 @@ export interface CreateSubjectInput {
   name: string;
   description: string;
   department: string;
+}
+
+export interface CreateTransactionInput {
+  date: number;
+  amount: number;
+  currency: string;
 }
 
 export interface CreateUserInput {

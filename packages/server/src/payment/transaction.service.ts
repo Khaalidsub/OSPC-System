@@ -14,11 +14,14 @@ export class TransactionService {
     private readonly transactionModel: Model<TransactionHistoryDocument>,
   ) {}
   create(createTransactionInput: CreateTransactionInput) {
-    return this.transactionModel.create(createTransactionInput);
+    return new this.transactionModel(createTransactionInput).save({});
   }
 
   findAll() {
     return this.transactionModel.find({});
+  }
+  findByQuery(query){
+    return this.transactionModel.find(query);
   }
 
   findOne(id: string) {

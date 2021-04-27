@@ -22,6 +22,14 @@ export class UserWalletService {
   findOne(id: string) {
     return this.userWalletModel.findById(id);
   }
+  findOneByQuery(query){
+    try {
+      return this.userWalletModel.findOne(query)
+    } catch (error) {
+      return null
+    }
+    
+  }
 
   update(id: string, updateUserWalletInput: UpdateUserWalletInput) {
     return this.userWalletModel.findByIdAndUpdate(id, updateUserWalletInput, {

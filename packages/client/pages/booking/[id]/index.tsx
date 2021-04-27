@@ -24,8 +24,8 @@ function BookingForm() {
     const date = format(new Date(Number.parseInt(dayTime as any)), 'MMMMPPP')
     const { data } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
     useEffect(() => {
-        console.log(data, day, time);
-
+        console.log('data', day, time,dayTime);
+        //!fix the dateTime to have the correct additional time
 
     }, [data])
     const onBookLesson = async () => {

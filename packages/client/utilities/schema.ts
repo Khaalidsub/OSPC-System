@@ -228,6 +228,19 @@ export const VOTE_ANSWER = gql`
     }
   }
 `;
+
+export const CREATE_PAYMENT_INTENT = gql`
+mutation createPaymentIntent($topup:TopUp!){
+  createPaymentIntent(topup: $topup)
+}
+`
+export const CREATE_TRANSACTION = gql`
+mutation createTransaction($topup:TopUp!,$transaction:CreateTransactionInput!){
+  createPayment(createTransactionHistoryInput: $transaction,topup:$topup){
+    id
+  }
+}
+`
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -564,4 +577,23 @@ export const ANSWERS = gql`
   ${ANSWER_FRAGMENT}
 `;
 
+export const TRANSACTIONS = gql`
+query transactions{
+  myWallet{
+    id
+    balance
+  }
+
+  TransactionHistory : transactions(type:topup){
+    id
+ createdAt
+    amount
+  }
+  BookedLessonHistory : transactions(type:booking){
+    id
+createdAt
+    amount
+  }
+}
+`
 // Subscription

@@ -19,6 +19,7 @@ export class PaymentService {
   update(id: string, updatePaymentInput: UpdatePaymentInput) {
     return `This action updates a #${id} payment`;
   }
+  
 
   remove(id: string) {
     return `This action removes a #${id} payment`;

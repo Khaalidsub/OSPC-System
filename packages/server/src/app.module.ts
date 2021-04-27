@@ -16,6 +16,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ApolloServerPluginUsageReporting } from 'apollo-server-core';
 import { BullModule } from '@nestjs/bull';
+// import { StripeModule,  } from '@golevelup/nestjs-stripe';
 const db = process.env.DB_HOST;
 const pubSub = new PubSub();
 @Module({
@@ -27,6 +28,12 @@ const pubSub = new PubSub();
         port:Number.parseInt(process.env.REDIS_PORT)
       }
     }),
+    // StripeModule.forRoot(StripeModule, {
+    //   apiKey: process.env.STRIPE_SECRET,
+    //   // webhookConfig: {
+    //   //   stripeWebhookSecret: 'abc',
+    //   // },
+    // }),
     EventEmitterModule.forRoot(),
     GraphQLModule.forRoot({
       cors: false,
@@ -80,5 +87,6 @@ const pubSub = new PubSub();
     ChatsModule,
     PaymentModule,
   ],
+  exports:[]
 })
 export class AppModule {}

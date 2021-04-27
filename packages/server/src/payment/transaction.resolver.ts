@@ -27,7 +27,7 @@ export class TransactionHistoryResolver {
     return this.transactionHistoryService.create(createTransactionHistoryInput);
   }
 
-  @Query(() => [TransactionHistory], { name: 'transactions' })
+  // @Query(() => [TransactionHistory], { name: 'transactions' })
   findAllTransactions() {
     return this.transactionHistoryService.findAll();
   }
