@@ -55,7 +55,7 @@ try {
     console.log('helo',payload);
     if (payload.paymentIntent.status === 'succeeded') {
       await createTransaction({variables:{topup: topup as TopUp,transaction:{amount: payload.paymentIntent.amount,currency:payload.paymentIntent.currency,date:payload.paymentIntent.created}}})
-      router.replace('/settings')
+      router.replace('/settings?isRefetch=true')
     }
     
 } catch (error) {
@@ -70,7 +70,7 @@ try {
           {message && <DisplayError message={message} setError={setMessage} />}
                 <div className=" justify-self-center font-raleway w-3/4 space-y-2">
                       <label>Topup Amount :</label>
-                      <p>{ getCoinValue(topup as TopUp,'USD')}</p>
+                      <p>{ getCoinValue(topup as TopUp,'RM')}</p>
                     </div>
                     <div className="justify-self-center font-raleway w-3/4 space-y-2">
         Card number

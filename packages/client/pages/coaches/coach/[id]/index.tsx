@@ -39,11 +39,11 @@ export const Coach = () => {
         }
     }, [isRefetch])
 
-    useEffect(() => {
-        console.log('wassup');
+    // useEffect(() => {
+    //     console.log('wassup');
 
-        //convert the date to the timezone of the schedule based
-    }, [data])
+    //     //convert the date to the timezone of the schedule based
+    // }, [data])
 
     const CoachProfileCard = ({ coach }: CoachProps) => {
         return (
@@ -59,8 +59,9 @@ export const Coach = () => {
                     </div>
                     <h3 className="text-md italic">{ }</h3>
                     <p className=" prose prose-sm line-clamp-1 lg:line-clamp-2 leading-relaxed font-raleway">loremId ad duis enim ad cillum dolor. Voluptate officia incididunt esse irure nulla in tempor officia sit officia. Laboris commodo velit ex esse laboris cupidatat labore voluptate quis commodo deserunt. Ad occaecat consectetur excepteur esse reprehenderit consequat. Mollit ex consectetur magna commodo dolor laborum ipsum esse voluptate nulla minim ullamco.</p>
-                    <div className="flex flex-row w-full">
-                        <InformationButton label="Book" />
+                    <div className="flex flex-row  space-x-5">
+                        {/* <InformationButton label="Book" /> */}
+                        <span className="  rounded-lg  p-2 font-raleway">10 ST per hour</span>
                     </div>
                 </div>
             </div>

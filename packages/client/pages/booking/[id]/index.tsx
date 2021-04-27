@@ -31,7 +31,7 @@ function BookingForm() {
     const onBookLesson = async () => {
         try {
 
-            await bookLesson({ variables: { createLesson: { coach: id as string, date: Number.parseInt(dayTime as any), day: day as Day, time_start: Number.parseInt(time as string), subject: data?.getUserSpecialization.subject.id } } })
+            await bookLesson({ variables: { amount:10,createLesson: { coach: id as string, date: Number.parseInt(dayTime as any), day: day as Day, time_start: Number.parseInt(time as string), subject: data?.getUserSpecialization.subject.id } } })
             router.replace(`/coaches/coach/${id}?isRefetch=true`)
         } catch (error) {
             setError(error.message);
@@ -57,6 +57,11 @@ function BookingForm() {
 
                         <label className="text-md font-poppins mb-4 text-center">Coach :</label>
                         <h4 className='text-lg'>{data?.user.name}</h4>
+                    </div>
+                    <div className="justify-self-center w-1/4 space-y-2">
+
+                        <label className="text-md font-poppins mb-4 text-center">Amount :</label>
+                        <h4 className='text-lg'>10 ST</h4>
                     </div>
                     <div className="justify-self-center w-1/4 space-y-2">
 

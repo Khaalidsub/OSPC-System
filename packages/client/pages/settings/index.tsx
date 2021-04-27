@@ -15,9 +15,16 @@ currentUser:currentUser_currentUser
 export const Settings = ({currentUser}:SettingsProps) => {
     const router = useRouter()
     const {name} = currentUser
-    const{data:transactionsData} = useQuery<transactions>(TRANSACTIONS)
+    const {isRefetch} = router.query
+    const{data:transactionsData,refetch} = useQuery<transactions>(TRANSACTIONS)
     // useEffect(() => {console.log('data:',transactionsData);
     // },[transactionsData])
+    useEffect(() => {
+
+        if (isRefetch) {
+            refetch()
+        }
+    }, [isRefetch])
     const BookHistory = ({id,createdAt,amount}) => {
         return (
 
@@ -46,7 +53,7 @@ export const Settings = ({currentUser}:SettingsProps) => {
         return (
 
             <div className="grid grid-cols-2 bg-white shadow-md rounded-lg px-5 py-7 items-center">
-                <h4 className="font-semibold justify-self-start text-xl">Amount: ${amount/100}.00</h4>
+                <h4 className="font-semibold justify-self-start text-xl">Amount: RM{amount/100}.00</h4>
                 <span className="justify-self-end  text-center font-raleway font-bold p-1  text-blue-300 rounded-lg px-2">{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</span>
             </div>
 

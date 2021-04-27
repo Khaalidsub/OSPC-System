@@ -183,8 +183,8 @@ export const UPDATE_SUBJECT = gql`
 `;
 
 export const BOOK_LESSON = gql`
-  mutation bookLesson($createLesson: CreateLessonInput!) {
-    bookLesson(createLessonInput: $createLesson) {
+  mutation bookLesson($createLesson: CreateLessonInput!, $amount:Float!) {
+    bookLesson(createLessonInput: $createLesson, amount:$amount) {
       id
       day
       date

@@ -24,4 +24,5 @@ export interface bookLesson {
 
 export interface bookLessonVariables {
   createLesson: CreateLessonInput;
+  amount: number;
 }
