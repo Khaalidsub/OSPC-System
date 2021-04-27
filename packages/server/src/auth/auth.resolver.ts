@@ -36,13 +36,4 @@ export class AuthResolver {
   async currentUser(@CurrentUser() user: User) {
     return user;
   }
-
-  @Mutation(() => Boolean)
-  @UseGuards(GqlAuthGuard)
-  async isAuthorized(@CurrentUser() user: User) {
-    if (user.role === Role.admin) return true; //can be accessed in everything so there no restrictions
-    // } else if (user.role === role) {
-    //   return false;
-    // }
-  }
 }

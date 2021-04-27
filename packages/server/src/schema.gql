@@ -366,7 +366,6 @@ type Mutation {
   rejectCoach(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   loginUser(credentials: Credential!): AuthResult!
-  isAuthorized: Boolean!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
   addModerator(createDepartmentModerator: CreateUserInput!): User!

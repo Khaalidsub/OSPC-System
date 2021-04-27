@@ -38,9 +38,6 @@ export class UsersResolver {
         Status.pending,
       );
     } catch (error) {
-    
-  
-      
       this.logger.error(error);
       throw new Error(error);
     }
@@ -104,8 +101,6 @@ export class UsersResolver {
   }
   @Query(() => [User], { name: 'activeCoaches' })
   findActiveCoaches(@Args('subject', { nullable: true }) subjectId: string) {
-    //get the coaches based on the given subject
-    console.log('i am fetching', subjectId);
 
     if (subjectId) {
       return this.usersService.findCoachBySubject(subjectId);
@@ -114,6 +109,7 @@ export class UsersResolver {
       coachingStatus: Status.active,
     });
   }
+
   @Query(() => [CoachLessons], { name: 'coachLessons' })
   @UseGuards(GqlAuthGuard)
   findCoachesAndLessons(
@@ -147,10 +143,10 @@ export class UsersResolver {
     return this.usersService.findOne({ _id: id });
   }
 
-  @Query(() =>String, { name: 'fakeData'})
+  @Query(() => String, { name: 'fakeData' })
   async populateData() {
-  await this.usersService.populateData();
-  return 'data populated'
+    await this.usersService.populateData();
+    return 'data populated';
   }
 
   @Mutation(() => User)
@@ -160,17 +156,16 @@ export class UsersResolver {
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
     try {
-      console.log(updateUserInput);
-      
-      const result = await this.usersService.update(user.id,updateUserInput);
+     
+
+      const result = await this.usersService.update(user.id, updateUserInput);
 
       return result;
     } catch (error) {
- 
-  if (error?.codeName === 'DuplicateKey') {
-    throw new Error('Email Already Exists');
-  }
-  
+      if (error?.codeName === 'DuplicateKey') {
+        throw new Error('Email Already Exists');
+      }
+
       this.logger.error(error);
       throw new Error(error.message);
     }
@@ -178,7 +173,7 @@ export class UsersResolver {
   @Resolver()
   async subject(@Parent() user: UserDocument) {
     const result = await this.usersService.subjectSpecialization(user.id);
-    console.log(result);
+
     return result.subject;
   }
 }
