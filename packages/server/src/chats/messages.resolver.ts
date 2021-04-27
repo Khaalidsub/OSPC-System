@@ -9,19 +9,17 @@ import {
   Context,
 } from '@nestjs/graphql';
 import { MessagesService } from './messages.service';
-import { Message } from './entities/message.entity';
+import { Message, MessageDocument } from './entities/message.entity';
 import { CreateMessageInput } from './dto/create-message.input';
 import { UpdateMessageInput } from './dto/update-message.input';
-import { UsersService } from 'users/users.service';
-import { ChatsService } from './chats.service';
 import { PubSub } from 'apollo-server-express';
 
 @Resolver(() => Message)
 export class MessagesResolver {
   constructor(
     private readonly MessagesService: MessagesService,
-    private readonly usersService: UsersService,
-    private readonly chatService: ChatsService,
+
+
   ) {}
 
   @Mutation(() => Message)
@@ -66,12 +64,14 @@ export class MessagesResolver {
   }
 
   @ResolveField()
-  chat(@Parent() message: Message) {
-    return this.chatService.findById(message.chat as string);
+  async chat(@Parent() messageDocument: MessageDocument) {
+    const message = await messageDocument.populate('chat').execPopulate()
+    return message.chat
   }
 
   @ResolveField()
-  sender(@Parent() message: Message) {
-    return this.usersService.findById(message.sender as string);
+  async sender(@Parent() messageDocument: MessageDocument) {
+    const message = await messageDocument.populate('sender').execPopulate()
+    return message.sender
   }
 }

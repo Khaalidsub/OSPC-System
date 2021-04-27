@@ -21,7 +21,7 @@ import { ChatStatusConsumer } from './chat-status.consumer';
       { name: Chat.name, schema: ChatSchema },
       { name: Message.name, schema: MessageSchema },
     ]),
-    UsersModule,
+ 
   ],
   providers: [ChatsResolver, ChatsService, MessagesResolver, MessagesService,ChatStatusConsumer],
 })

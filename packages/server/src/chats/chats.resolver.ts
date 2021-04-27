@@ -17,28 +17,26 @@ import { UpdateChatInput } from './dto/update-chat.input';
 import { User } from 'users/entities/user.entity';
 import { UsersService } from 'users/users.service';
 import { PubSub } from 'apollo-server-express';
-import { Lesson, LessonDocument } from 'coach/entities/lesson.entity';
-import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { SchedulerRegistry } from '@nestjs/schedule';
-import { CronJob } from 'cron';
+import { LessonDocument } from 'coach/entities/lesson.entity';
+import { OnEvent } from '@nestjs/event-emitter';
+
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
+import { Logger } from '@nestjs/common';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
+  private readonly logger = new Logger(ChatsResolver.name);
   constructor(
     private readonly chatsService: ChatsService,
-    private readonly usersService: UsersService,
-    private scheduleRegistry: SchedulerRegistry,
-    private eventEmitter: EventEmitter2,
-    @InjectQueue('chatStatus') private chatStatusQueue: Queue
+
+    @InjectQueue('chatStatus') private chatStatusQueue: Queue,
   ) {}
 
   @Mutation(() => Chat)
   async createChat(
     @Args('createChatInput') createChatInput: CreateChatInput,
     @Context('pubSub') pubSub: PubSub,
-    
   ) {
     try {
       const chat = await this.chatsService.create(createChatInput);
@@ -75,23 +73,21 @@ export class ChatsResolver {
     return this.chatsService.remove(id);
   }
   @ResolveField('users', () => [User])
-  async getUsers(@Parent() chat: Chat) {
-    return this.usersService.findByIds(chat.users as string[]);
+  async getUsers(@Parent() chatDocument: ChatDocument) {
+    const chat = await chatDocument.populate('users').execPopulate();
+    return chat.users;
   }
 
   @OnEvent('lesson.booked')
   async handleLessonBooked(payload: LessonDocument) {
     try {
-      console.log('lesson booked', payload);
+      this.logger.log(`Chat is being Updated on lesson ${payload.id}....`);
 
-      //check if there is a chat
       let [result] = await this.chatsService.findChatByUsers([
         payload.coach,
         payload.student,
       ]);
-      console.log('result', result);
 
-      //create if it does not
       if (!result) {
         result = await this.chatsService.create({
           chat_time: payload.time_start, // not needed anymore
@@ -105,45 +101,34 @@ export class ChatsResolver {
           duration: 1,
         });
       }
-      // cron job when to open and update chat
-      //! Probably will not work
-      //! code felt cute, might delete itself later
-      // const callback = async () => {
-      //   console.log('this chat has been called', result.id);
-
-      //   const chat = await this.chatsService.update(result.id, {
-      //     isOpen: true,
-      //   });
-      //   this.eventEmitter.emit('chat.opened', chat);
-      // };
-
-      // const interval = setTimeout(callback, payload.date);
-      // this.scheduleRegistry.addTimeout(payload._id, interval);
       this.chatStatusQueue.add(
-      {
-      chatId: result.id,
-      status:true,
-
-      },{delay:payload.date})
-      console.log('interval has been updated');
+        {
+          chatId: result.id,
+          status: true,
+        },
+        { delay: payload.date },
+      );
     } catch (error) {
+      this.logger.error(error.message);
+
       throw new Error(error.message);
     }
   }
 
   @OnEvent('chat.isOpened')
-  async handleChatOpened(payload:ChatDocument){
+  async handleChatOpened(payload: ChatDocument) {
     try {
-      console.log('Chat is opened');
+      this.logger.log(`Chat with the id ${payload.id} has been opened`);
       this.chatStatusQueue.add(
         {
-        chatId: payload.id,
-        status:false,
-  
-        },{delay:60*60*1000})
+          chatId: payload.id,
+          status: false,
+        },
+        { delay: 60 * 60 * 1000 },
+      );
     } catch (error) {
-      console.log(error);
-      
+      this.logger.error(error.message);
+      throw new Error(error.message);
     }
   }
 }
