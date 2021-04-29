@@ -40,6 +40,10 @@ export class Lesson implements ILesson {
   createdAt: Date;
   @Field()
   updatedAt: Date;
+
+  @Field()
+  @Prop()
+  timeZone: string;
 }
 
 export const LessonSchema = SchemaFactory.createForClass(Lesson);

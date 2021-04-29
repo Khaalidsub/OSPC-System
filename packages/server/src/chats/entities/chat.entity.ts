@@ -17,13 +17,15 @@ export class Chat implements IChat {
   @Field(() => [User])
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: User.name }] })
   users: string[];
-  @Field(() => Int)
-  @Prop()
+  // @Field(() => Int)
+  // @Prop()
   chat_time: number;
   @Field(() => Int)
   @Prop({ default: 1 })
   duration: number;
+  @Field(() =>Date)
   createdAt: Date
+  @Field(() =>Date)
   updatedAt:Date
 }
 

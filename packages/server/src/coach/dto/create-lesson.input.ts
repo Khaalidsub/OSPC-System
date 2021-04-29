@@ -16,4 +16,6 @@ export class CreateLessonInput {
   duration: number = 1;
   @Field(() => Days)
   day: Days;
+  @Field()
+  timeZone: string
 }

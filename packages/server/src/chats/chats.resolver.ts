@@ -90,15 +90,12 @@ export class ChatsResolver {
 
       if (!result) {
         result = await this.chatsService.create({
-          chat_time: payload.time_start, // not needed anymore
           users: [payload.coach, payload.student],
         });
       } else {
         //update if does exist
         await this.chatsService.update(result.id, {
           ...result,
-          chat_time: payload.date,
-          duration: 1,
         });
       }
       this.chatStatusQueue.add(

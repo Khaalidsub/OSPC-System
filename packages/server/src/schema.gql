@@ -85,6 +85,7 @@ type Lesson {
   duration: Float!
   createdAt: DateTime!
   updatedAt: DateTime!
+  timeZone: String!
 }
 
 enum Day {
@@ -201,8 +202,9 @@ type Chat {
   id: String!
   isOpen: Boolean!
   users: [User!]!
-  chat_time: Int!
   duration: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Message {
@@ -305,8 +307,9 @@ input ChatInputType {
   id: String!
   isOpen: Boolean!
   users: [UserInputType!]!
-  chat_time: Int!
   duration: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input MessageInputType {
@@ -530,6 +533,7 @@ input CreateLessonInput {
   time_start: Float!
   duration: Int = 1
   day: Day!
+  timeZone: String!
 }
 
 input CreateTransactionInput {
@@ -593,15 +597,15 @@ input UpdateAnswerInput {
 
 input CreateChatInput {
   users: [String!]!
-  chat_time: Int!
 }
 
 input UpdateChatInput {
   id: String
   isOpen: Boolean
   users: [UserInputType!]
-  chat_time: Int
   duration: Int
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 input CreateMessageInput {
