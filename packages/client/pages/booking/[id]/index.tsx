@@ -2,8 +2,7 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { SecondaryButton } from 'components'
 import { DisplayError } from 'components/Cards/ErrorCard'
-import { endOfDay, endOfWeek, format, getTime, parseISO, startOfDay, startOfWeek } from 'date-fns'
-import { getHours } from 'date-fns/esm'
+import { endOfDay, getHours, endOfWeek, getMilliseconds,format, getTime, parseISO, startOfDay, startOfWeek } from 'date-fns'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { BOOK_LESSON, COACH } from 'utilities/schema'
@@ -17,7 +16,7 @@ function BookingForm() {
     const [bookLesson] = useMutation<bookLesson, bookLessonVariables>(BOOK_LESSON)
     const [message, setError] = useState('')
 
-    const { id, day, dayTime,timzeone } = router.query
+    const { id, day, dayTime,timezone } = router.query
     const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
     const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
 
@@ -32,7 +31,7 @@ function BookingForm() {
     const onBookLesson = async () => {
         try {
 
-            await bookLesson({ variables: { amount:10,createLesson: {timeZone:timzeone as string ,coach: id as string, date: parseISO(dayTime as string).getUTCMilliseconds(), day: day as Day, time_start: getTime( parseISO(dayTime as any) ), subject: data?.getUserSpecialization.subject.id } } })
+            await bookLesson({ variables: { amount:10,createLesson: {timeZone:timezone as string ,coach: id as string, date:Number.parseInt(format(parseISO(dayTime as string),'T')), day: day as Day, time_start: getHours( parseISO(dayTime as any) ), subject: data?.getUserSpecialization.subject.id } } })
             router.replace(`/coaches/coach/${id}?isRefetch=true`)
         } catch (error) {
             setError(error.message);

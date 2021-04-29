@@ -49,7 +49,7 @@ export class LessonResolver {
     @Args('createLessonInput') createLessonInput: CreateLessonInput,
   ) {
     try {
-      await this.validateSchedule(createLessonInput);
+      // await this.validateSchedule(createLessonInput);
       await this.validateLesson(createLessonInput);
       //get the user wallet
       const wallet = await this.userWalletService.findOneByQuery({user:user.id})
@@ -112,24 +112,24 @@ export class LessonResolver {
     }
   }
 
-  async validateSchedule({
-    coach,
-    time_start,
-    day,
-    duration,
-  }: CreateLessonInput) {
-    const weeklySchedule = await this.scheduleService.findOne({ coach });
-
-    if (
-      weeklySchedule.schedule.find((schedule) =>
-        schedule.day === day
-          ? schedule.time_start > time_start ||
-            time_start + duration > schedule.time_end
-          : false,
-      )
-    )
-      throw new HttpException(invalidSelectedTimeError, HttpStatus.BAD_REQUEST);
-  }
+  // async validateSchedule({
+  //   coach,
+  //   time_start,
+  //   day,
+  //   duration,
+  // }: CreateLessonInput) {
+  //   const weeklySchedule = await this.scheduleService.findOne({ coach });
+//
+  //   if (
+  //     weeklySchedule.schedule.find((schedule) =>
+  //       schedule.day === day
+  //         ? schedule.time_start > time_start ||
+  //           time_start + duration > schedule.time_end
+  //         : false,
+  //     )
+  //   )
+  //     throw new HttpException(invalidSelectedTimeError, HttpStatus.BAD_REQUEST);
+  // }
 
   convertEpochTime(epochDate: number) {
     const newDate = new Date(0);

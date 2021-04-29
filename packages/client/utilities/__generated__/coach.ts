@@ -68,6 +68,7 @@ export interface coach_getBookedLessonsOfTheWeek {
   id: string;
   day: Day;
   date: number;
+  timeZone: string;
   time_start: number;
   duration: number;
 }

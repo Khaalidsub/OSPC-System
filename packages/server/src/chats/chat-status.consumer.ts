@@ -6,7 +6,7 @@ import { ChatsService } from "./chats.service";
 @Processor('chatStatus')
 export class ChatStatusConsumer{
     constructor(private eventEmitter: EventEmitter2,private chatService:ChatsService){}
-    @Process()
+    @Process({})
     async updateChatStatus(job:Job<{chatId:string,status:boolean}>){
         try {
             console.log('processing data',job.data);

@@ -54,7 +54,7 @@ const pubSub = new PubSub();
         graphVariant: process.env.APOLLO_GRAPH_VARIANT,
       },
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      formatError: formatError,
+      // formatError: formatError,
       include: [
         UsersModule,
         AuthModule,

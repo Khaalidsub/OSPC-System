@@ -1,4 +1,4 @@
-FROM node:alpine As development
+FROM node:14-alpine As development
 
 RUN apk update && apk add build-base git python
 
@@ -14,7 +14,7 @@ COPY packages/server/ ./packages/server/
 
 RUN yarn build:server
 
-FROM node:alpine As production
+FROM node:14-alpine As production
 
 RUN apk update && apk add build-base git python
 

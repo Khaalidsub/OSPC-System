@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     container_name: nginx
     volumes:
-      - ./nginx/production.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ~/etc/letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
@@ -23,6 +23,19 @@ services:
     container_name: frontend
     depends_on:
       - cat
+  redis:
+    image: 'redis'
+    container_name: redis
+  
+  redisCommander:
+    image: 'rediscommander/redis-commander'
+    container_name: rediscommander
+    depends_on:
+      - redis
+    env_file: 
+      ./.env
+    ports:
+      - "8081:3000"
   cat:
     build:
       context: .
@@ -31,6 +44,7 @@ services:
     container_name: cat
     depends_on:
       - mongodb
+      - redis
     env_file: 
       ./.env
     stdin_open: true
@@ -39,5 +53,7 @@ services:
     image: 'mongo:4.4'
     container_name: mongodb
     restart: always
+    ports: 
+      - "27017:27017"
     volumes:
       - ~/etc/data/db:/data/db

@@ -309,6 +309,7 @@ export const COACH = gql`
       id
       day
       date
+      timeZone
       time_start
       duration
     }
