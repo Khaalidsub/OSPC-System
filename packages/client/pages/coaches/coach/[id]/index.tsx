@@ -1,13 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { InformationButton } from "components"
 import { useRouter } from "next/router"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { BOOK_LESSON, COACH } from "utilities/schema"
-import { coach, coachVariables, coach_user, coach_getCoachSchedule, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
-import { bookLesson, bookLessonVariables } from 'utilities/__generated__/bookLesson'
-import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format, addHours } from 'date-fns'
+import { coach, coachVariables, coach_user, coach_getCoachSchedule_schedule, coach_getBookedLessonsOfTheWeek } from 'utilities/__generated__/coach'
+import { startOfWeek, endOfWeek, getDay, startOfDay, endOfDay, add, format, addHours, getHours } from 'date-fns'
 import { withAuth } from "components/withAuth"
 import { formatToTimeZone, parseFromTimeZone } from 'date-fns-timezone'
+const ct = require('countries-and-timezones')
+import momentTZ from 'moment-timezone';
 interface CoachProps {
     coach: coach_user
 
@@ -16,21 +17,32 @@ interface IDaySchedule {
     schedule: coach_getCoachSchedule_schedule
     lessons: coach_getBookedLessonsOfTheWeek[]
     dayTime: Date
+    time_start:number
+    time_end:number
 
 }
 export const Coach = () => {
     const router = useRouter()
     const { id, isRefetch } = router.query
+    const [country, setCountry] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    const [startDay, setStartDay] = useState(startOfWeek(Date.now(), { weekStartsOn: 1 }))
+    const [endDay, setEndDay] = useState(endOfWeek(Date.now(), { weekStartsOn: 1 }))
+    useEffect(() => {
+        
+        
+        const countryDate = momentTZ.tz(startDay,country)
+        console.log('country:',countryDate);
+        setStartDay(startOfWeek(countryDate.toDate(),{weekStartsOn:1}))
+        setEndDay(endOfWeek(countryDate.toDate(),{weekStartsOn:1}))
 
-    console.log('your country is', Intl.DateTimeFormat().resolvedOptions().timeZone);
-    const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
-    const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
-    const epochStart = format(startDay, 'T')
-    const epochEnd = format(endDay, 'T')
+    },[country])
+
+    useEffect(() => {
+        refetch({dateFrom:startDay.getMilliseconds(),dateTo:endDay.getMilliseconds()})
+    },[startDay,endDay])
 
 
-
-    const { data, refetch } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
+    const { data, refetch } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: startDay.getMilliseconds(), dateTo: endDay.getMilliseconds() } })
 
     useEffect(() => {
 
@@ -75,59 +87,100 @@ export const Coach = () => {
         Lorem aliquip aliquip aliquip fugiat ullamco dolore anim dolore. Eiusmod excepteur aliqua ipsum nulla consectetur culpa. Cupidatat mollit aliqua fugiat commodo fugiat incididunt ea tempor non occaecat.
 Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat pariatur aliquip consectetur quis cupidatat incididunt proident do consectetur aliquip consectetur. Labore culpa sunt enim exercitation. Ullamco irure ut eu labore non ex proident do Lorem proident in culpa velit sunt.</p> </div>)
     }
+    const SelectCountryField = ({country,setCountry})=>{
+        const timezones = momentTZ.tz.names()
+        console.log();
+        
+        return (
+            <>
+            <select value={country} onChange={(e)=>setCountry(e.target.value)} className="focus:outline-none font-raleway  font-normal shadow-lg bg-white justify-self-stretch p-1 px-4  border-none rounded-lg pr-6" >
+               {timezones.map((timezone)=>{
+                  return <option key={timezone} value={timezone} >{timezone} {ct.getTimezone(timezone).utcOffsetStr}</option>
+               })}
+            </select>
+            </>
+        )
+    }
     const CoachSchedule = () => {
+        // const [isOverFlowed, setisOverFlowed] = useState(false)
+      let isOverFlowed = false
+      let overFlowedDifference = 0
         return (
 
             <div className='bg-white p-4 rounded-lg shadow-md space-y-8'>
                 <div className='flex flex-row space-x-12 items-center'>
 
                     <h4 className='text-3xl'> Schedule</h4>
-                    <h3>{format(startDay, 'zzz')} {Intl.DateTimeFormat().resolvedOptions().timeZone}</h3>
+
+                    {/* <h3>{ct.getTimezone(country).utcOffsetStr} {ct.getTimezone(country).name}</h3> */}
+                    <SelectCountryField setCountry={setCountry} country={country} />
                 </div>
 
                 <div className='grid grid-cols-7 gap-2'>
                     {data?.getCoachSchedule.schedule.map((scheduleValue, i) => {
                         let lessonDay = data?.getBookedLessonsOfTheWeek.filter((lessonDay) => lessonDay.day === scheduleValue.day)
-
-                        const output = formatToTimeZone(add(startDay, { days: i, hours: scheduleValue.time_start }), 'D.M.YY HH:mm:ss.SSS', { timeZone: 'Europe/Berlin' })
+                        let output = ''
+                        let time_start = 0
+                        let startDate = new Date()
                         //now causally it will 0:00 and that is the time start
                         // get the day in the schedule add it with date and format it to local
                         // for example date is given Mon time_start 0,
                         // different time would become Sunday
-                        console.log('date formated', output);
+                       
+                        
+                        
+                        if (isOverFlowed) {
+                            // get the previous time with the time zone
+                            output = formatToTimeZone(add(startDay, { days: i-1, hours: scheduleValue.time_start }), 'DD.MM.YYYY HH:mm:ss.SSS', { timeZone: data.getCoachSchedule.timeZone })
+                            startDate = add(parseFromTimeZone(output,'DD.MM.YYYY HH:mm:ss.SSS',{timeZone: country}),{hours:-overFlowedDifference})
+                            isOverFlowed = false
+                            overFlowedDifference = 0
+                            time_start = getHours(startDate)
+                            startDate = add(startDate,{days:1})
+                        }else{
+                            output = formatToTimeZone(add(startDay, { days: i, hours: scheduleValue.time_start }), 'DD.MM.YYYY HH:mm:ss.SSS', { timeZone: data.getCoachSchedule.timeZone })
+                            startDate = parseFromTimeZone(output,'DD.MM.YYYY HH:mm:ss.SSS',{timeZone: country})
+                            time_start = getHours(startDate)
+                        }
 
-                        const day = add(startDay, { days: i })
+                        
+                        
+                        let time_end =  time_start + scheduleValue.time_end
+                        // console.log('time_Start : ',time_start,time_end);
+                        // console.log('date formated', startDate);
+
+                       if ( time_end > 23) {
+                           isOverFlowed = true
+                           overFlowedDifference = time_end - 24
+                           time_end = 23
+                       }
+                       console.log('time end now :',time_start,time_end);
+                       
                         // console.log(day, Date.now(), day.getTime());
                         //compare the formatted day with the start, and return only the proper one
-                        return <DaySchedule dayTime={day} key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
+                        return <DaySchedule time_start={time_start} time_end={time_end} dayTime={startDate} key={scheduleValue.day} schedule={scheduleValue} lessons={lessonDay} />
                     })}
                 </div>
             </div>
         )
     }
-    const DaySchedule = ({ lessons, schedule, dayTime }: IDaySchedule) => {//the booked lessons of the day too
-        const { time_end, time_start, day } = schedule
-        console.log('formated', time_start);
-        //probably get the day and see if the day is same as the day the schedule is timezone formatted
+    const DaySchedule = ({ lessons, schedule, dayTime,time_start,time_end }: IDaySchedule) => {//the booked lessons of the day too
+        const {  day } = schedule
 
         let elements: JSX.Element[] = []
         for (let i = time_start; i <= time_end - 1; i++) {
 
-            // console.log('hello'  , i, lessons);
-            // console.log(addHours(startOfDay(dayTime), i), Date.now());
 
             if (lessons.find((lesson) => lesson.time_start === i) || addHours(startOfDay(dayTime), i).getTime() < Date.now()) {
 
-                // elements.push(<h4 key={i} className="text-gray-400 text-lg">{formatToTimeZone(add(dayTime, { hours: i }), 'HH:mm', { timeZone: 'Europe/Paris' })}</h4>)
-                elements.push(<h4 key={i} className="text-gray-400 text-lg">{i}:00</h4>)
+               
+                elements.push(<h4 key={i} className="text-gray-400 text-lg">{getHours(add(dayTime,{hours:i}))}:00</h4>)
             } else {
 
-                // elements.push(<h4 onClick={() =>
-                //     router.push(`/booking/${id}?day=${day}&time=${i}&dayTime=${format(startOfDay(dayTime), 'T')}`)
-                // } key={i} className="hover:underline cursor-pointer text-lg">{formatToTimeZone(add(dayTime, { hours: i }), 'HH:mm', { timeZone: 'Europe/Paris' })}</h4>)
+                
                 elements.push(<h4 onClick={() =>
-                    router.push(`/booking/${id}?day=${day}&time=${i}&dayTime=${format(startOfDay(dayTime), 'T')}`)
-                } key={i} className="hover:underline cursor-pointer text-lg">{i}:00</h4>)
+                    router.push(`/booking/${id}?day=${day}&dayTime=${add(dayTime,{hours:i}).toISOString()}&timezone=${country}`)
+                } key={i} className="hover:underline cursor-pointer text-lg">{getHours(add(dayTime,{hours:i}))}:00</h4>)
             }
 
         }

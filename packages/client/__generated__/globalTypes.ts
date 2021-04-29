@@ -64,6 +64,7 @@ export interface CreateLessonInput {
   time_start: number;
   duration?: number | null;
   day: Day;
+  timeZone: string;
 }
 
 export interface CreateQuestionInput {

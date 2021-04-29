@@ -26,11 +26,7 @@ export const ANSWER_FRAGMENT = gql`
   }
 `;
 
-export const IS_AUTHORIZED = gql`
-  mutation isAuthorized {
-    isAuthorized
-  }
-`;
+
 //Mutation
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {

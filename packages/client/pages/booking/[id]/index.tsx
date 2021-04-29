@@ -2,7 +2,8 @@
 import { useMutation, useQuery } from '@apollo/client'
 import { SecondaryButton } from 'components'
 import { DisplayError } from 'components/Cards/ErrorCard'
-import { endOfDay, endOfWeek, format, startOfDay, startOfWeek } from 'date-fns'
+import { endOfDay, endOfWeek, format, getTime, parseISO, startOfDay, startOfWeek } from 'date-fns'
+import { getHours } from 'date-fns/esm'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { BOOK_LESSON, COACH } from 'utilities/schema'
@@ -16,22 +17,22 @@ function BookingForm() {
     const [bookLesson] = useMutation<bookLesson, bookLessonVariables>(BOOK_LESSON)
     const [message, setError] = useState('')
 
-    const { id, day, time, dayTime } = router.query
+    const { id, day, dayTime,timzeone } = router.query
     const startDay = startOfDay(startOfWeek(Date.now(), { weekStartsOn: 1 }))
     const endDay = endOfDay(endOfWeek(Date.now(), { weekStartsOn: 1 }))
-    const epochStart = format(startDay, 'T')
-    const epochEnd = format(endDay, 'T')
-    const date = format(new Date(Number.parseInt(dayTime as any)), 'MMMMPPP')
-    const { data } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: Number.parseInt(epochStart), dateTo: Number.parseInt(epochEnd) } })
-    useEffect(() => {
-        console.log('data', day, time,dayTime);
-        //!fix the dateTime to have the correct additional time
 
-    }, [data])
+    const date = format(parseISO(dayTime as string), 'MMMMPPP')
+    // console.log('data', day,dayTime);
+    const { data } = useQuery<coach, coachVariables>(COACH, { variables: { id: id as string, dateFrom: startDay.getMilliseconds(), dateTo: endDay.getMilliseconds() } })
+    // useEffect(() => {
+    //     console.log('data', day,dayTime,parseISO(dayTime as any));
+    //     //!fix the dateTime to have the correct additional time
+
+    // }, [data])
     const onBookLesson = async () => {
         try {
 
-            await bookLesson({ variables: { amount:10,createLesson: { coach: id as string, date: Number.parseInt(dayTime as any), day: day as Day, time_start: Number.parseInt(time as string), subject: data?.getUserSpecialization.subject.id } } })
+            await bookLesson({ variables: { amount:10,createLesson: {timeZone:timzeone as string ,coach: id as string, date: parseISO(dayTime as string).getUTCMilliseconds(), day: day as Day, time_start: getTime( parseISO(dayTime as any) ), subject: data?.getUserSpecialization.subject.id } } })
             router.replace(`/coaches/coach/${id}?isRefetch=true`)
         } catch (error) {
             setError(error.message);
@@ -71,7 +72,7 @@ function BookingForm() {
                     <div className="justify-self-center w-1/4 space-y-2">
 
                         <label className="text-md font-poppins mb-4 text-center">Date :</label>
-                        <h3 className="text-lg">{date} {time}:00</h3>
+                        <h3 className="text-lg">{date} {getHours( parseISO( dayTime as string))}:00</h3>
                     </div>
 
                     <div className="justify-self-center text-center w-1/4">
