@@ -6,7 +6,7 @@ import withApollo from "next-with-apollo";
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
 import { authHttpLink, AUTH_TOKEN } from "lib/utils";
 import { AuthContext, useProviderAuth } from "lib/auth";
-import { httpLink } from "lib/withApollo";
+import { httpLink, link } from "lib/withApollo";
 import { isBrowser } from "lib/isBrowser";
 import { MainLayout } from "Layouts/MainLayout";
 function MyApp({ Component, pageProps, apollo }) {
@@ -36,10 +36,11 @@ const AppApollo = withApollo(({ initialState }) => {
   // console.log(initialState);
 
   // let apolloClient: ApolloClient<NormalizedCacheObject>;
+
   return new ApolloClient({
     ssrMode: !isBrowser,
     connectToDevTools: isBrowser,
-    link: authHttpLink.concat(httpLink),
+    link: link,
     cache: new InMemoryCache().restore(initialState || {}),
 
   })
