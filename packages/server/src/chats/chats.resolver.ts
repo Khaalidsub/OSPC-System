@@ -103,7 +103,7 @@ export class ChatsResolver {
           chatId: result.id,
           status: true,
         },
-        { delay: payload.date },
+        { delay: payload.date,attempts:5,removeOnComplete:true },
       );
     } catch (error) {
       this.logger.error(error.message);
