@@ -1,13 +1,21 @@
-import message from "globalize/dist/globalize/message";
-
-export const ChatMessage = ({message,isUser = true}) => {
-    const bgColor = isUser ? 'bg-secondary' : 'bg-white'
-    const textColor = isUser ? 'text-white' : 'text-black'
-    const content = isUser ? 'justify-self-end' : 'justify-self-start'
+import { formatDistance } from "date-fns";
+import dynamic from "next/dynamic";
+const ViewTextEditor = dynamic(() => import("components/TextEditor/ViewEditor"), {
+    ssr: false,
+})
+export const ChatMessage = ({message,isUser = true,createdAt}) => {
+    const bgColor = isUser ? ' justify-self-end bg-secondary text-white text-right' : 'bg-white justify-self-start'
+    const content = isUser ? 'justify-self-end text-right' : 'justify-self-start text-left'
+    
+    
     return (
-        <div className={` rounded ${content}  ${bgColor} ${textColor} p-2 `}>
-<p>{message}</p>
-        </div>
+        <div className={` w-1/2 ${content}`} >
+    <div className={` rounded  ${bgColor} p-3 font-raleway`}>
+       <ViewTextEditor content={message} />
+        </div>  
+        <p className='text-xs '>{formatDistance(Date.parse(createdAt), Date.now(), { addSuffix: true })}</p>
+        </div >
+   
     )
 }
 

@@ -25,7 +25,43 @@ export const ANSWER_FRAGMENT = gql`
     createdAt
   }
 `;
+export const MESSAGE_FRAGMENT = gql`
+fragment MessageParts on Message {
+  id
+  sender{
+    id
+  }
+  chat{
+    id
+  }
+  input
+  createdAt
+  updatedAt
+}
+`
+export const CHAT_FRAGMENT = gql`
+fragment ChatParts on Chat {
+  id
+isOpen
+users{
+  id
+  name
 
+}
+createdAt
+updatedAt
+}
+
+`
+
+export const SEND_MESSAGE = gql`
+mutation sendMessage($createMessageInput: CreateMessageInput!){
+  createMessage(createMessageInput: $createMessageInput){
+    ...MessageParts
+  }
+}
+${MESSAGE_FRAGMENT}
+`
 
 //Mutation
 export const LOGIN_USER = gql`
@@ -593,4 +629,46 @@ createdAt
   }
 }
 `
+
+export const CHATS = gql`
+query chats{
+  chats{
+    ...ChatParts
+  }
+}
+${CHAT_FRAGMENT}
+`
+export const CHAT = gql`
+query chat($id: String!){
+  chat(id: $id){
+    ...ChatParts
+  }
+}
+${CHAT_FRAGMENT}
+`
+
+export const MESSAGES = gql`
+query messages($id: String!){
+  messages(id: $id){
+    ...MessageParts
+  }
+}
+${MESSAGE_FRAGMENT}
+`
 // Subscription
+export const ON_MESSAGE = gql`
+subscription onMessageSent{
+  onMessageSent{
+    ...MessageParts
+  }
+}
+${MESSAGE_FRAGMENT}
+`
+export const ON_CHATS = gql`
+subscription onChatCreate{
+  onChatCreate{
+    ...ChatParts
+  }
+}
+${CHAT_FRAGMENT}
+`

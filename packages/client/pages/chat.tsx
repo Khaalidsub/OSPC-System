@@ -1,17 +1,41 @@
+import { useQuery } from "@apollo/client"
 import { ActiveConversation } from "components"
+import { withAuth } from "components/withAuth"
 import dynamic from "next/dynamic"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { CHATS, ON_CHATS } from "utililites/schema"
+import { chats,chats_chats } from "utililites/__generated__/chats"
+import { onChatCreate,onChatCreate_onChatCreate } from "utililites/__generated__/onChatCreate"
+import { currentUser_currentUser } from "utililites/__generated__/currentUser"
 
+interface ChatProps{
+    currentUser:currentUser_currentUser
+    }
+function Chat({currentUser}:ChatProps) {
+    const { data, subscribeToMore} = useQuery<chats>(CHATS)
+    const [currentChat, setCurrentChat] = useState(null)
+    
 
-function Chat() {
+    useEffect(() => {
+        const unsubscribe = subscribeToMore<onChatCreate>({
+            document:ON_CHATS,
+            updateQuery:(prev,{subscriptionData})=>{
 
+                if (!subscriptionData.data) return prev
+                return Object.assign({},prev,{ chats:[...prev.chats,subscriptionData.data.onChatCreate]})
+            }
+        })
 
-    const Conversation = () => {
+        return ()=> unsubscribe()
+    },[data])
+
+    const Conversation = ({users = [],id,isOpen}) => {
+        const chatUser = users.find((user)=>user.id !== currentUser.id)
         return (
-            <div className="flex flex-row p-4 border  py-8 space-x-2 rounded-lg bg-white hover:bg-gray-100 ">
+            <div onClick={()=>setCurrentChat(data?.chats.find((chat)=>chat.id === id))} className="flex flex-row p-4 border  py-8 space-x-2 rounded-lg bg-white hover:bg-gray-100 ">
                 <img src="fake_images/Rectangle 825.jpg" className='h-12 w-12 rounded-full' alt="" />
                 <div className="flex flex-col">
-                    <h2>Adelia</h2>
+                    <h2 className='text-lg'>{chatUser.name}</h2>
                     <p>lorem ipsum dolor sit amet</p>
 
                 </div>
@@ -21,29 +45,25 @@ function Chat() {
     }
     const ChatConversation = () => {
         return (
-            <div className="flex flex-col w-2/5  overflow-hidden truncate relative max-h-screen min-h-screen bg-white">
+            <div className="flex flex-col w-2/5   max-h-screen  bg-white">
                 <div>
                     <h2 className="bg-white border p-4 text-xl">Conversations</h2>
                 </div>
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
-                <Conversation />
+                <>
+          {data?.chats.map(chat=>{
             
+              return <Conversation  key={chat.id} {...chat} />
+          })}
+          </>
             </div>
         )
     }
- 
+    
     return (
         <div className="min-h-screen">
             <div className="flex flex-row">
             <ChatConversation />
-            <ActiveConversation />
+            {currentChat && <ActiveConversation id={currentChat.id} user={currentUser.id} chatUser={currentChat.users.find(user=>user.id !== currentUser.id).name} />}
             </div>
 
 
@@ -53,5 +73,5 @@ function Chat() {
 
 
 
-export default Chat
+export default withAuth(Chat)
 

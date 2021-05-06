@@ -67,6 +67,12 @@ export interface CreateLessonInput {
   timeZone: string;
 }
 
+export interface CreateMessageInput {
+  input: string;
+  sender: string;
+  chat: string;
+}
+
 export interface CreateQuestionInput {
   title: string;
   body: string;
