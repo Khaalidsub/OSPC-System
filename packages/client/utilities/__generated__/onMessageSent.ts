@@ -30,3 +30,7 @@ export interface onMessageSent_onMessageSent {
 export interface onMessageSent {
   onMessageSent: onMessageSent_onMessageSent;
 }
+
+export interface onMessageSentVariables {
+  id: string;
+}

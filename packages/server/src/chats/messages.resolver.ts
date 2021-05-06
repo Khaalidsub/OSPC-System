@@ -29,16 +29,20 @@ export class MessagesResolver {
   ) {
     try {
       const message = await this.MessagesService.create(createMessageInput);
-      pubSub.publish('onMessageSent', { onMessageSent: message });
+      pubSub.publish(`onMessageSent:${message.chat}`, { onMessageSent: message });
       return message;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  @Query(() => [Message], { name: 'messages' })
+  @Query(() => [Message], {  })
   findAll() {
     return this.MessagesService.findAll();
+  }
+  @Query(() => [Message], { name: 'messages' })
+  chatMessages(@Args('id') id: string){
+    return this.MessagesService.findByQuery({chat:id})
   }
 
   @Query(() => Message, { name: 'message' })
@@ -59,8 +63,8 @@ export class MessagesResolver {
     return this.MessagesService.remove(id);
   }
   @Subscription(() => Message)
-  onMessageSent(@Context('pubSub') pubSub: PubSub) {
-    return pubSub.asyncIterator('onMessageSent');
+  onMessageSent(@Args('id', { type: () => String}) chatId: string,@Context('pubSub') pubSub: PubSub) {
+    return pubSub.asyncIterator(`onMessageSent:${chatId}`);
   }
 
   @ResolveField()

@@ -7,7 +7,7 @@ import { User } from 'users/entities/user.entity';
 import { Chat } from './chat.entity';
 export type MessageDocument = Message & Document;
 @ObjectType()
-@Schema()
+@Schema({timestamps: true})
 @InputType('MessageInputType')
 export class Message implements IMessage {
   @Field(() => ID)
@@ -21,5 +21,9 @@ export class Message implements IMessage {
   @Field(() => String)
   @Prop()
   input: string;
+  @Field(() =>Date)
+  createdAt: Date;
+  @Field(() =>Date)
+  updatedAt: Date;
 }
 export const MessageSchema = SchemaFactory.createForClass(Message);

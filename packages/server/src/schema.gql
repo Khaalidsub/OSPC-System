@@ -212,6 +212,8 @@ type Message {
   sender: User!
   chat: Chat!
   input: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input UserInputType {
@@ -317,6 +319,8 @@ input MessageInputType {
   sender: UserInputType!
   chat: ChatInputType!
   input: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {
@@ -358,7 +362,8 @@ type Query {
   answer(id: String!): Answer!
   chats: [Chat!]!
   chat(id: String!): Chat!
-  messages: [Message!]!
+  findAll: [Message!]!
+  messages(id: String!): [Message!]!
   message(id: String!): Message!
 }
 
@@ -619,9 +624,11 @@ input UpdateMessageInput {
   sender: UserInputType
   chat: ChatInputType
   input: String
+  createdAt: DateTime
+  updatedAt: DateTime
 }
 
 type Subscription {
   onChatCreate: Chat!
-  onMessageSent: Message!
+  onMessageSent(id: String!): Message!
 }

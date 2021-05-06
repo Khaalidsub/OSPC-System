@@ -21,6 +21,9 @@ export class MessagesService {
   findOne(id: string) {
     return this.MessageModel.findOne({ id: id });
   }
+  findByQuery(query){
+    return this.MessageModel.find(query);
+  }
   findById(id: string) {
     return this.MessageModel.findById(id);
   }

@@ -657,8 +657,8 @@ ${MESSAGE_FRAGMENT}
 `
 // Subscription
 export const ON_MESSAGE = gql`
-subscription onMessageSent{
-  onMessageSent{
+subscription onMessageSent($id: String!){
+  onMessageSent(id: $id){
     ...MessageParts
   }
 }

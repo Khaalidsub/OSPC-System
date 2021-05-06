@@ -23,6 +23,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { Logger } from '@nestjs/common';
+import { CurrentUser } from 'auth/guards/graph-auth.guard';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
@@ -40,9 +41,12 @@ export class ChatsResolver {
   ) {
     try {
       const chat = await this.chatsService.create(createChatInput);
-      pubSub.publish('onChatCreate', {
-        onChatCreate: chat,
-      });
+      chat.users.forEach(user => {
+        pubSub.publish(`onChatCreate:${user}`, {
+          onChatCreate: chat,
+        });
+      })
+
       return chat;
     } catch (error) {
       throw new Error(error.message);
@@ -64,8 +68,8 @@ export class ChatsResolver {
     return this.chatsService.update(updateChatInput.id, updateChatInput);
   }
   @Subscription(() => Chat)
-  onChatCreate(@Context('pubSub') pubSub: PubSub) {
-    return pubSub.asyncIterator('onChatCreate');
+  onChatCreate(@CurrentUser() user: User, @Context('pubSub') pubSub: PubSub) {
+    return pubSub.asyncIterator(`onChatCreate:${user.id}`);
   }
 
   @Mutation(() => Chat)
@@ -74,7 +78,9 @@ export class ChatsResolver {
   }
   @ResolveField('users', () => [User])
   async getUsers(@Parent() chatDocument: ChatDocument) {
-    const chat = await chatDocument.populate('users').execPopulate();
+    
+    const chat = await chatDocument.populate('users').execPopulate()
+    
     return chat.users;
   }
 
