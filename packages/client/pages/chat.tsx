@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { ActiveConversation } from "components"
+import { ActiveConversation, InlineSearchField, SearchField } from "components"
 import { withAuth } from "components/withAuth"
 import dynamic from "next/dynamic"
 import React, { useEffect, useState } from "react"
@@ -7,6 +7,7 @@ import { CHATS, ON_CHATS } from "utililites/schema"
 import { chats,chats_chats } from "utililites/__generated__/chats"
 import { onChatCreate,onChatCreate_onChatCreate } from "utililites/__generated__/onChatCreate"
 import { currentUser_currentUser } from "utililites/__generated__/currentUser"
+import ChatConversation from "components/chat/ChatConversation"
 
 interface ChatProps{
     currentUser:currentUser_currentUser
@@ -14,7 +15,19 @@ interface ChatProps{
 function Chat({currentUser}:ChatProps) {
     const { data, subscribeToMore} = useQuery<chats>(CHATS)
     const [currentChat, setCurrentChat] = useState(null)
+    const [chats, setChats] = useState([]as chats_chats[])
+    const [search, setSearch] = useState('')
     
+    useEffect(() => {
+    setChats(data?.chats)
+    },[data])
+    useEffect(() => {
+        const result = data?.chats.filter(chat=>{
+            let user = chat.users.find(user=>user.id !== currentUser.id)
+            return user.name.toLowerCase().includes(search.toLowerCase())
+        })
+        setChats(result)
+    },[search])
 
     useEffect(() => {
         const unsubscribe = subscribeToMore<onChatCreate>({
@@ -29,40 +42,13 @@ function Chat({currentUser}:ChatProps) {
         return ()=> unsubscribe()
     },[data])
 
-    const Conversation = ({users = [],id,isOpen}) => {
-        const chatUser = users.find((user)=>user.id !== currentUser.id)
-        return (
-            <div onClick={()=>setCurrentChat(data?.chats.find((chat)=>chat.id === id))} className="flex flex-row p-4 border  py-8 space-x-2 rounded-lg bg-white hover:bg-gray-100 ">
-                <img src="fake_images/Rectangle 825.jpg" className='h-12 w-12 rounded-full' alt="" />
-                <div className="flex flex-col">
-                    <h2 className='text-lg'>{chatUser.name}</h2>
-                    <p>lorem ipsum dolor sit amet</p>
 
-                </div>
-
-            </div>
-        )
-    }
-    const ChatConversation = () => {
-        return (
-            <div className="flex flex-col w-2/5   max-h-screen  bg-white">
-                <div>
-                    <h2 className="bg-white border p-4 text-xl">Conversations</h2>
-                </div>
-                <>
-          {data?.chats.map(chat=>{
-            
-              return <Conversation  key={chat.id} {...chat} />
-          })}
-          </>
-            </div>
-        )
-    }
+  
     
     return (
         <div className="min-h-screen">
             <div className="flex flex-row">
-            <ChatConversation />
+            <ChatConversation currentUser={currentUser}  setCurrentChat={setCurrentChat} search={search} setSearch={setSearch} currentChat={currentChat} chats={chats}  />
             {currentChat && <ActiveConversation id={currentChat.id} user={currentUser.id} chatUser={currentChat.users.find(user=>user.id !== currentUser.id).name} />}
             </div>
 
