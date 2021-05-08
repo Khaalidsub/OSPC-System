@@ -35,7 +35,7 @@
     "@ospc/common": "file:../common",
     "@sentry/node": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
-    "@types/bull": "^3.15.0",
+    "@types/bull": "^3.15.1",
     "@types/node": "^14.14.31",
     "apollo-server-core": "^2.21.1",
     "apollo-server-express": "^2.19.0",

@@ -2,7 +2,7 @@ import React from "react"
 import { InlineSearchField } from ".."
 import Conversation from "./Conversation"
 
-const ChatConversation = ({chats = [],search,setSearch,currentChat,setCurrentChat}) => {
+const ChatConversation = ({chats = [],search,setSearch,currentChat,setCurrentChat,currentUser}) => {
     return (
         <div className="flex flex-col w-2/5   max-h-screen  bg-white">
             <div className='flex flex-row bg-white border p-4 w-full space-x-2 items-center'>
@@ -12,7 +12,7 @@ const ChatConversation = ({chats = [],search,setSearch,currentChat,setCurrentCha
             <>
       {chats.map(chat=>{
         
-          return <Conversation  key={chat.id} {...chat} setCurrentChat={setCurrentChat} chats={chats} />
+          return <Conversation  key={chat.id} {...chat} userId={currentUser.id} setCurrentChat={setCurrentChat} chats={chats} />
       })}
       </>
         </div>

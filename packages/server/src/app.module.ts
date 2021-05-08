@@ -19,13 +19,14 @@ import { BullModule } from '@nestjs/bull';
 // import { StripeModule,  } from '@golevelup/nestjs-stripe';
 const db = process.env.DB_HOST;
 const pubSub = new PubSub();
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     BullModule.forRoot({
       redis:{
         host:process.env.REDIS_HOST,
-        port:Number.parseInt(process.env.REDIS_PORT)
+        port:Number.parseInt(process.env.REDIS_PORT) || 6379
       }
     }),
     // StripeModule.forRoot(StripeModule, {
@@ -45,13 +46,14 @@ const pubSub = new PubSub();
         return { req, pubSub };
       },
       installSubscriptionHandlers: true,
-      tracing: true,
+      // tracing: true,
 
       engine: {
         apiKey: process.env.APOLLO_KEY,
 
-        reportSchema: true,
+        reportSchema:process.env.NODE_ENV !== 'production',
         graphVariant: process.env.APOLLO_GRAPH_VARIANT,
+        
       },
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       // formatError: formatError,

@@ -109,7 +109,8 @@ export class ChatsResolver {
           chatId: result.id,
           status: true,
         },
-        { delay: payload.date,attempts:5,removeOnComplete:true },
+        
+        { delay: payload.date - Date.now() ,attempts:5,removeOnComplete:true },
       );
     } catch (error) {
       this.logger.error(error.message);
@@ -127,7 +128,7 @@ export class ChatsResolver {
           chatId: payload.id,
           status: false,
         },
-        { delay: 60 * 60 * 1000 },
+        { delay: 60 * 60 * 1000 ,attempts:5,removeOnComplete:true },
       );
     } catch (error) {
       this.logger.error(error.message);

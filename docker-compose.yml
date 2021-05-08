@@ -26,6 +26,8 @@ services:
   redis:
     image: 'redis'
     container_name: redis
+    ports: 
+      - "6379:6379"
   
   redisCommander:
     image: 'rediscommander/redis-commander'

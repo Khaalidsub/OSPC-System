@@ -39,6 +39,7 @@ const AppApollo = withApollo(({ initialState }) => {
 
   return new ApolloClient({
     ssrMode: !isBrowser,
+   
     connectToDevTools: isBrowser,
     link: link,
     cache: new InMemoryCache().restore(initialState || {}),

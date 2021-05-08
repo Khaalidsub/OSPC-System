@@ -15,6 +15,7 @@ async function bootstrap() {
   }
   const app = await NestFactory.create(AppModule);
 
+  
   Sentry.init({
     environment: 'development',
     dsn:
@@ -37,6 +38,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     // credentials: true,
+    origin:'*'
     // origin: `http://${process.env.CLIENT || 'localhost'}:3000`,
   });
   await app.listen(process.env.PORT || 3001);
