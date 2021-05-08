@@ -13,13 +13,14 @@ interface ChatProps{
     currentUser:currentUser_currentUser
     }
 function Chat({currentUser}:ChatProps) {
-    const { data, subscribeToMore} = useQuery<chats>(CHATS)
+    const { data, subscribeToMore,startPolling,} = useQuery<chats>(CHATS)
     const [currentChat, setCurrentChat] = useState(null)
     const [chats, setChats] = useState([]as chats_chats[])
     const [search, setSearch] = useState('')
     
     useEffect(() => {
     setChats(data?.chats)
+    // startPolling(10)
     },[data])
     useEffect(() => {
         const result = data?.chats.filter(chat=>{
@@ -35,7 +36,11 @@ function Chat({currentUser}:ChatProps) {
             updateQuery:(prev,{subscriptionData})=>{
 
                 if (!subscriptionData.data) return prev
-                return Object.assign({},prev,{ chats:[...prev.chats,subscriptionData.data.onChatCreate]})
+                if (!prev.chats.includes(subscriptionData.data.onChatCreate)) 
+                    return Object.assign({},prev,{ chats:[...prev.chats,subscriptionData.data.onChatCreate]})
+                
+
+                return Object.assign({},prev,{ chats:[...prev.chats.filter(chat=>chat.id !== subscriptionData.data.onChatCreate.id),subscriptionData.data.onChatCreate]})
             }
         })
 
@@ -49,7 +54,7 @@ function Chat({currentUser}:ChatProps) {
         <div className="min-h-screen">
             <div className="flex flex-row">
             <ChatConversation currentUser={currentUser}  setCurrentChat={setCurrentChat} search={search} setSearch={setSearch} currentChat={currentChat} chats={chats}  />
-            {currentChat && <ActiveConversation id={currentChat.id} user={currentUser.id} chatUser={currentChat.users.find(user=>user.id !== currentUser.id).name} />}
+            {currentChat && <ActiveConversation id={currentChat.id} user={currentUser.id} isOpen={currentChat.isOpen} chatUser={currentChat.users.find(user=>user.id !== currentUser.id).name} />}
             </div>
 
 

@@ -22,8 +22,8 @@ import { OnEvent } from '@nestjs/event-emitter';
 
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
-import { Logger } from '@nestjs/common';
-import { CurrentUser } from 'auth/guards/graph-auth.guard';
+import { Logger, UseGuards } from '@nestjs/common';
+import { CurrentUser, GqlAuthGuard } from 'auth/guards/graph-auth.guard';
 
 @Resolver(() => Chat)
 export class ChatsResolver {
@@ -68,6 +68,7 @@ export class ChatsResolver {
     return this.chatsService.update(updateChatInput.id, updateChatInput);
   }
   @Subscription(() => Chat)
+  @UseGuards(GqlAuthGuard)
   onChatCreate(@CurrentUser() user: User, @Context('pubSub') pubSub: PubSub) {
     return pubSub.asyncIterator(`onChatCreate:${user.id}`);
   }
@@ -120,7 +121,7 @@ export class ChatsResolver {
   }
 
   @OnEvent('chat.isOpened')
-  async handleChatOpened(payload: ChatDocument) {
+  async handleChatOpened(@Context('pubSub') pubSub: PubSub,payload: ChatDocument) {
     try {
       this.logger.log(`Chat with the id ${payload.id} has been opened`);
       this.chatStatusQueue.add(
@@ -130,6 +131,26 @@ export class ChatsResolver {
         },
         { delay: 60 * 60 * 1000 ,attempts:5,removeOnComplete:true },
       );
+      payload.users.forEach(user=>{
+        pubSub.publish(`onChatCreate:${user}`, {
+          onChatCreate: payload,
+        });
+      })
+    } catch (error) {
+      this.logger.error(error.message);
+      throw new Error(error.message);
+    }
+  }
+
+  @OnEvent('chat.isClosed')
+  async handleChatClosed(@Context('pubSub') pubSub: PubSub,payload: ChatDocument) {
+    try {
+      this.logger.log(`Chat with the id ${payload.id} has been closed`);
+      payload.users.forEach(user=>{
+        pubSub.publish(`onChatCreate:${user}`, {
+          onChatCreate: payload,
+        });
+      })
     } catch (error) {
       this.logger.error(error.message);
       throw new Error(error.message);

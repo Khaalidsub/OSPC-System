@@ -52,13 +52,15 @@ export const authHttpLink = setContext((_, context) => {
 
 export const authWsLink = setContext((_, context) => {
     const token = context.token || getTokenFromCookie();
+    console.log('ws token', token);
+    
     return {
-        options:{
+
             reconnect: true,
             connectionParams:{
                 authorization: token ? `Bearer ${token}` : '',
             }
-        }
+        
     }
 })
 

@@ -41,6 +41,8 @@ const pubSub = new PubSub();
 
       context: ({ req, connection }) => {
         if (connection?.context) {
+          
+          
           return { req: { headers: connection.context }, pubSub };
         }
         return { req, pubSub };

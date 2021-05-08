@@ -17,6 +17,8 @@ export class ChatStatusConsumer{
             const chat = await this.chatService.update(chatId,{isOpen: status});
        if (status) {
            this.eventEmitter.emit('chat.isOpened',chat)
+       }else{
+           this.eventEmitter.emit('chat.isCloded',chat)
        }
         } catch (error) {
             console.log(error);
