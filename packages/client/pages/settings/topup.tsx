@@ -2,8 +2,13 @@ import { SecondaryButton } from "components"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import {TopUp as TopUpValue} from '__generated__/globalTypes'
+enum Currency  {
+    USD = 'usd',
+    MYR = 'myr',
+}
 export const TopUp = ()=>{
     const [topupValue, setTopup] = useState(null)
+    const [currency, setCurrency] = useState(Currency.MYR)
     const router = useRouter()
     useEffect(() => {console.log(topupValue);
     },[topupValue])
@@ -14,12 +19,12 @@ export const TopUp = ()=>{
 
                 <h3 className="font-poppins text-xl  ">{coins} ST</h3>
                 </div>
-                <h3 className="font-poppins text-xs italic text-badgs ">for RM {cost}.0</h3>
+                <h3 className={`font-poppins text-xs italic ${topup === topupValue ? 'text-badgs' : 'text-primary'} `}>for RM {cost}.0</h3>
             </div>
         )
     }
     return (
-        <div className="grid grid-cols-1 ">
+        <div className="flex flex-col mx-auto">
             <div className="w-8/12  place-self-center py-6 px-3 bg-white shadow-lg rounded-lg space-y-12">
                 <h3 className="text-2xl text-secondary text-center">Top Up Amount</h3>
             <div className="grid grid-cols-3 gap-12 mx-auto">
@@ -32,7 +37,7 @@ export const TopUp = ()=>{
         
             </div>
             <div className="w-1/3 mx-auto">
-            <SecondaryButton onClick={() =>{router.push(`/settings/payment?topup=${topupValue}`)}} color={'bg-secondary'} label="TOP UP NOW"/>
+            <SecondaryButton onClick={() =>{router.push(`/settings/payment?topup=${topupValue}`)}} color={'bg-secondary'} label="TOP UP"/>
 
             </div>
             </div>
