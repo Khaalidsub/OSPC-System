@@ -1,14 +1,7 @@
-import {
-  useLazyQuery,
-  useMutation,
-  useQuery,
-} from '@apollo/client';
 import { createContext, useContext, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { CURRENT_USER, LOGIN_USER } from 'utilities/schema';
 import { currentUser ,currentUser_currentUser} from 'utilities/__generated__/currentUser';
-import { CoachingStatus, Role, } from '__generated__/globalTypes';
-import * as LoginTypes from "../utilities/__generated__/login";
+import {  Role, } from '__generated__/globalTypes';
 import { AUTH_TOKEN, deleteTokenFromCookie, deleteUserFromCookie } from './utils';
 const defaultContext = {
 
@@ -34,20 +27,7 @@ export function useProviderAuth() {
     deleteTokenFromCookie()
   };
 
-  // const login = async ({ email, password }) => {
 
-  //   const [signIn, { error }] = useMutation<LoginTypes.login, LoginTypes.loginVariables>(LOGIN_USER)
-
-
-  //   const result = await signIn({ variables: { email, password } })
-  //   console.log(result);
-  //   if (result.data) {
-  //     cookie.set('auth_token', result.data.loginUser.token)
-  //     cookie.set('user', result.data.loginUser.user)
-  //   }
-
-
-  // };
   
 
   const isSignedIn = () => {
@@ -57,16 +37,6 @@ export function useProviderAuth() {
       return false;
     }
   };
-  // const isActive = () => {
-
-  //   if (user?.currentUser){
-  //     const currentUser = user.currentUser
-  //     if (currentUser.accountStatus === CoachingStatus.active) {
-  //       return true;
-  //     }
-  //   }
-  //   return false
-  // }
 
   const isAuthorized = (role: Role) => {
     console.log('auth', cookie.get('user') as currentUser_currentUser);

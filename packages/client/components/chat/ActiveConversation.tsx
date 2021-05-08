@@ -13,7 +13,7 @@ import { htmlToText } from 'html-to-text';
 const TextEditor = dynamic(() => import('components/TextEditor/ChatEditor'), {
     ssr: false,
 });
-export const ActiveConversation = ({ id, user,chatUser }) => {
+export const ActiveConversation = ({ id, user,chatUser,isOpen }) => {
     const [body, setBody] = useState('');
 
     const [sendMessage] = useMutation<sendMessage, sendMessageVariables>(
@@ -65,7 +65,7 @@ export const ActiveConversation = ({ id, user,chatUser }) => {
             <div
 
                 style={{ overflowX: 'hidden' }}
-                className="h-3/4 grid px-12  space-y-6 py-8  max-h-screen overflow-scroll"
+                className="h-3/4 grid px-12 border rounded-md  space-y-6 py-8  max-h-screen overflow-scroll"
             >
                 <MessageList
                     subscribeToMore={subscribeToMoreMessages}
@@ -77,8 +77,8 @@ export const ActiveConversation = ({ id, user,chatUser }) => {
                 <div ref={scrollChat} />
             </ div>
             <div className=" flex flex-row items-center space-x-2">
-                {id && (
-                    <>
+                {id && (isOpen &&
+                   ( <>
                         <div className="w-full">
                             <TextEditor onInput={setBody} />
                         </div>
@@ -90,7 +90,7 @@ export const ActiveConversation = ({ id, user,chatUser }) => {
                                 alt=""
                             />
                         </div>
-                    </>
+                    </>)
                 )}
             </div>
         </div>

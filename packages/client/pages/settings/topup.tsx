@@ -9,12 +9,12 @@ export const TopUp = ()=>{
     },[topupValue])
     const TopUpOptions = ({cost,coins,topup})=>{
         return (
-            <div onClick={()=>{setTopup(topup)}} className={` ${topupValue === topup ? "bg-secondary":"bg-white"}hover:shadow-2xl cursor-pointer p-3 rounded-lg  shadow-lg w-1/2 place-self-center text-center`}>
+            <div onClick={()=>{setTopup(topup)}} className={` ${topupValue === topup ? "bg-secondary text-white":"bg-white text-secondary"} hover:shadow-2xl cursor-pointer p-3 py-6 rounded-lg  shadow-lg w-1/2 place-self-center text-center`}>
                 <div className="p-4 rounded-lg">
 
-                <h3 className="font-poppins text-xl text-secondary ">{coins} ST</h3>
+                <h3 className="font-poppins text-xl  ">{coins} ST</h3>
                 </div>
-<h3 className="font-poppins text-xs italic text-primary ">for RM {cost}.0</h3>
+                <h3 className="font-poppins text-xs italic text-badgs ">for RM {cost}.0</h3>
             </div>
         )
     }
