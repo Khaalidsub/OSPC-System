@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CreateChatInput } from './dto/create-chat.input';
 import { UpdateChatInput } from './dto/update-chat.input';
 import { Chat, ChatDocument } from './entities/chat.entity';
-
+import * as mongoose from 'mongoose';
 @Injectable()
 export class ChatsService {
   constructor(@InjectModel(Chat.name) private chatModel: Model<ChatDocument>) {}
@@ -34,6 +34,9 @@ export class ChatsService {
   }
 
   findChatByUsers(users: string[]) {
-    return this.chatModel.find({ users: users });
+    return this.chatModel.find({ users: {$eq:users} });
+  }
+  findAllByUser(user:string) {
+    return this.chatModel.find({}).where({users:{$eq:mongoose.Types.ObjectId(user)}})
   }
 }
