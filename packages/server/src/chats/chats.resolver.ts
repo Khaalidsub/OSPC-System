@@ -122,8 +122,12 @@ export class ChatsResolver {
   }
 
   @OnEvent('chat.isOpened')
-  async handleChatOpened(@Context('pubSub') pubSub: PubSub,payload: ChatDocument) {
+  async handleChatOpened(payload: ChatDocument) {
     try {
+      
+      
+      const pubSub = new PubSub();
+      console.log(payload);
       this.logger.log(`Chat with the id ${payload.id} has been opened`);
       this.chatStatusQueue.add(
         {
@@ -144,8 +148,9 @@ export class ChatsResolver {
   }
 
   @OnEvent('chat.isClosed')
-  async handleChatClosed(@Context('pubSub') pubSub: PubSub,payload: ChatDocument) {
+  async handleChatClosed(payload: ChatDocument) {
     try {
+      const pubSub = new PubSub();
       this.logger.log(`Chat with the id ${payload.id} has been closed`);
       payload.users.forEach(user=>{
         pubSub.publish(`onChatCreate:${user}`, {

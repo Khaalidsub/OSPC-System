@@ -15,6 +15,7 @@ export class ChatStatusConsumer{
             this.logger.log('Processing data...')
             const {chatId,status} = job.data
             const chat = await this.chatService.update(chatId,{isOpen: status});
+            this.logger.log(`Chat with the id of ${chat.id} has been updated`)
        if (status) {
            this.eventEmitter.emit('chat.isOpened',chat)
        }else{
