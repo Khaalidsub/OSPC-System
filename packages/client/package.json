@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.12",
+    "@cloudinary/base": "^1.0.0-beta.3",
+    "@cloudinary/react": "^1.0.0-beta.8",
     "@headlessui/react": "^1.0.0",
     "@ospc/common": "file:../common",
     "@stripe/react-stripe-js": "^1.4.0",
@@ -35,6 +37,7 @@
     "next-with-apollo": "^5.1.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-dropzone": "^11.3.2",
     "react-useportal": "^1.0.14",
     "react-widgets": "^4.6.1",
     "react-widgets-globalize": "^6.0.0-beta.9",
