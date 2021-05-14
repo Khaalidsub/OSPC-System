@@ -10,10 +10,11 @@ import { validateSubjectArea } from "utilities/validate";
 import * as AvailableModeratorTypes from 'utilities/__generated__/availableModerators'
 import * as AddDepartment from 'utilities/__generated__/addSubjectArea'
 import axios from "axios";
+import { useImageUpload } from "hooks/useImageUpload";
 function CreateSubjectArea() {
     const [moderators, setModerators] = useState([] as AvailableModeratorTypes.availableModerators_availableModerators[])
     const [moderator, setModerator] = useState({} as AvailableModeratorTypes.availableModerators_availableModerators)
-    const [file, setFile] = useState(null)
+    const {ImageCard,file,setFile} = useImageUpload()
     const { data } = useQuery<AvailableModeratorTypes.availableModerators>(MODERATORS_OPTIONS)
     const router = useRouter()
     const [addDepartment, { error }] = useMutation<AddDepartment.addSubjectArea, AddDepartment.addSubjectAreaVariables>(ADD_SUBJECT_AREA)
@@ -103,11 +104,8 @@ function CreateSubjectArea() {
                             ) : null}
                             <textarea {...formik.getFieldProps('description')} name='description' placeholder='subject area description' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
-                        <div className="flex flex-col">
-                        <label className="text-sm font-poppins pb-2">Image</label>
-                        <UploadCard setFile={setFile} file={file}/>
-                        </div>
-                       
+                            
+                       <ImageCard/>
                         <div className="flex flex-col">
                             <label className="text-sm font-poppins pb-2">Moderator</label>
                             <FormSelectField label='Subject' data={moderators?.map(moderator => { return { label: moderator.name, value: moderator.id } })} onClick={(e) => {

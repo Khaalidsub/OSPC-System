@@ -475,6 +475,7 @@ export const DEPARTMENT_BY_ID = gql`
     department(id: $id) {
       id
       name
+      image
       description
     }
   }

@@ -20,6 +20,10 @@ export interface getDepartment_department {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   description: string;
 }
 

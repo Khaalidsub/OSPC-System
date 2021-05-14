@@ -29,7 +29,7 @@ const acceptStyle = {
 const rejectStyle = {
     borderColor: '#ff1744'
 };
-export const UploadCard = ({ setFile,file }) => {
+export const UploadCard = ({ setFile,file, image=null }) => {
   
     // const [isUploaded, setIsUploaded] = useState(false)
     const { acceptedFiles, isDragActive,
@@ -63,7 +63,8 @@ export const UploadCard = ({ setFile,file }) => {
     return (
         <div className="flex flex-col space-y-4">
             <div className='flex flex-row space-x-2'>
-                {!file && <div className='h-24 w-24 rounded-full flex flex-row justify-center bg-gray-100'> <p className='text-center self-center text-xs'>Image Preview</p></div>}
+                {!file && (!image && <div className='h-24 w-24 rounded-full flex flex-row justify-center bg-gray-100'> <p className='text-center self-center text-xs'>Image Preview</p></div>)}
+                {!file && (image && <img className="h-24 w-24 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}  alt="" />)}
                 {file && <img className="h-24 w-24 rounded-full" src={`${file.preview}`} alt="" />}
                 <div className='' {...getRootProps({ className: 'cursor-pointer dropzone border border-dotted p-2 rounded bg-gray-100 ', style: style as any })}>
                     <input {...getInputProps()} />
