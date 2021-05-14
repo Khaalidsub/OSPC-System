@@ -14,7 +14,7 @@ jobs:
           host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}
           username: ${{secrets.SSH_USER}}
-
+          command_timeout: 30m
           script: |
             cd ./ospc
             git pull
