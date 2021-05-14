@@ -1,5 +1,10 @@
+import { useMutation } from '@apollo/client';
+import axios from 'axios';
+import { SecondaryButton } from 'components/Buttons';
 import React, { useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { UPDATE_USER } from 'utililites/schema';
+import { updateUserVariables, updateUser } from 'utililites/__generated__/updateUser';
 const baseStyle = {
     flex: 1,
     display: 'flex',
@@ -30,7 +35,8 @@ const baseStyle = {
   
 function UploadProfileImage() {
     const [file, setFile] = useState(null)
-  const { acceptedFiles,isDragActive,
+    const [updateUser] = useMutation<updateUser,updateUserVariables>(UPDATE_USER)
+    const { acceptedFiles,isDragActive,
     isDragAccept,
     isDragReject, getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -55,6 +61,38 @@ function UploadProfileImage() {
     isDragReject,
     isDragAccept
   ]);
+
+  const onSubmit = async ()=>{
+    const data = new FormData();
+    data.append('file', file);
+    try {
+      console.log(process.env.NEXT_PUBLIC_IMAGE_URL);
+      const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_URL,data,{headers:{"Access-Control-Allow-Origin": "*"}});
+      
+      // const response = await fetch(process.env.NEXT_PUBLIC_IMAGE_URL,
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //       // 'Content-Type': 'application/x-www-form-urlencoded',
+      //     },
+      //     mode: 'no-cors',
+      //     method: "POST",
+      //     body: data,
+      // }
+      // )
+
+    // const result = await response.json()
+    console.log(result);
+
+    await updateUser({variables:{updateUserInput:{image:result.data}}})
+    
+    
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <div className=" w-1/2  mx-auto my-2 bg-white shadow-lg p-4 rounded-lg">
       <div className="flex flex-col items-center space-y-6">
@@ -70,7 +108,7 @@ function UploadProfileImage() {
               <p className='self-start'>Drag 'n' drop an image here, or click to select image</p>
               </div>
         </div>
-   
+      <SecondaryButton label='upload' onClick={() =>onSubmit()}/>
      
       </div>
     </div>
