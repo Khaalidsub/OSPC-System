@@ -23,7 +23,7 @@ export function MainLayout(props: MainLayoutProps) {
         }
         return (
             <>
-                <ProfileInfoCard />
+                <ProfileInfoCard user={user} />
             </>
         )
     }

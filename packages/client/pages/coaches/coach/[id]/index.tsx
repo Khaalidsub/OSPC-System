@@ -9,6 +9,7 @@ import { withAuth } from "components/withAuth"
 import { formatToTimeZone, parseFromTimeZone } from 'date-fns-timezone'
 const ct = require('countries-and-timezones')
 import momentTZ from 'moment-timezone';
+import { profileDefault } from "utililites/util"
 interface CoachProps {
     coach: coach_user
 
@@ -61,7 +62,7 @@ export const Coach = () => {
         return (
 
             <div className="p-2  flex flex-row space-x-12 items-stretch">
-                <img className="w-2/12 cursor-pointer rounded-lg" src="/fake_images/fake_user.png" alt="" />
+                <img className="w-2/12 cursor-pointer rounded-lg" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${coach?.image || profileDefault}`} alt="" />
                 <div className="flex flex-col w-full space-y-3 pt-2 overflow-hidden pr-5">
                     <div className="flex flex-row justify-between">
                         <h3 className=" cursor-pointer hover:underline text-5xl font-semibold">{coach?.name}</h3>

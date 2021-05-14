@@ -18,6 +18,7 @@ export interface myLessons_myLessons_subject {
 export interface myLessons_myLessons_coach {
   __typename: "User";
   name: string;
+  image: string;
 }
 
 export interface myLessons_myLessons {

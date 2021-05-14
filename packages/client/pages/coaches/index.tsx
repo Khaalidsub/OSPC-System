@@ -20,7 +20,7 @@ export const Coaches = () => {
     const CoachList = () => {
         return (<>
             {coaches?.map((coach) => {
-                return <CoachCard onClick={(e) => { router.push(`/coaches/coach/${coach.id}`) }} key={coach.id} name={coach.name} specialization={coach.email} />
+                return <CoachCard onClick={(e) => { router.push(`/coaches/coach/${coach.id}`) }} key={coach.id} image={coach.image} name={coach.name} specialization={coach.email} />
             })}
         </>)
     }

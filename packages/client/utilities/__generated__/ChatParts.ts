@@ -11,6 +11,7 @@ export interface ChatParts_users {
   __typename: "User";
   id: string | null;
   name: string;
+  image: string;
 }
 
 export interface ChatParts {

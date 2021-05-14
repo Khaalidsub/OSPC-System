@@ -9,6 +9,7 @@ export interface IUser {
   universityId: string;
   university: string;
   role?: Role;
+  image?: string;
   accountStatus?: Status;
   coachingStatus?: Status;
   moderatorStatus?: Status;

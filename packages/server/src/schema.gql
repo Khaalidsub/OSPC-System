@@ -13,6 +13,7 @@ type User {
   accountStatus: CoachingStatus
   coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
+  image: String!
 }
 
 enum Role {
@@ -227,6 +228,7 @@ input UserInputType {
   accountStatus: CoachingStatus
   coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus!
+  image: String!
 }
 
 input DepartmentInputType {
@@ -430,7 +432,8 @@ input UpdateUserInput {
   accountStatus: CoachingStatus
   coachingStatus: CoachingStatus
   moderatorStatus: CoachingStatus
-  phoneNumber: Float!
+  image: String
+  phoneNumber: Float
 }
 
 input Credential {

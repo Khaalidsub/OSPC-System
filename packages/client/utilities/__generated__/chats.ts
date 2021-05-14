@@ -11,6 +11,7 @@ export interface chats_chats_users {
   __typename: "User";
   id: string | null;
   name: string;
+  image: string;
 }
 
 export interface chats_chats {

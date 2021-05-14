@@ -17,6 +17,7 @@ export interface applyAsCoach_applyCoach {
   university: string;
   phoneNumber: number | null;
   role: Role | null;
+  image: string;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;
 }

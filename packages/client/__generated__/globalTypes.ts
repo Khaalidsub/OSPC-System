@@ -161,7 +161,8 @@ export interface UpdateUserInput {
   accountStatus?: CoachingStatus | null;
   coachingStatus?: CoachingStatus | null;
   moderatorStatus?: CoachingStatus | null;
-  phoneNumber: number;
+  image?: string | null;
+  phoneNumber?: number | null;
 }
 
 export interface UpdateWeeklySchedule {
@@ -180,6 +181,7 @@ export interface UserInputType {
   accountStatus?: CoachingStatus | null;
   coachingStatus?: CoachingStatus | null;
   moderatorStatus: CoachingStatus;
+  image: string;
 }
 
 //==============================================================

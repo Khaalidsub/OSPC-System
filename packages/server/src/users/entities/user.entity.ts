@@ -48,6 +48,10 @@ export class User implements IUser {
   @Field(() => Status)
   @Prop({ default: Status.inactive })
   moderatorStatus?: Status;
+
+  @Field(() =>String)
+  @Prop({default:'17d6a1697e8dcda04bd6ea1d8977effa1620991309510.png'})
+  image:string;
   // @Field(() => Subject, {})
   // subject?: string;
 }

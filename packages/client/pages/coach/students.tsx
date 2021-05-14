@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { SearchField, SecondarySelectField } from 'components/InputFields'
 import { withAuth } from 'components/withAuth'
 import React, { useEffect, useState } from 'react'
+import { profileDefault } from 'utililites/util'
 import { COACH_LESSONS, STUDENT_LESSONS } from 'utilities/schema'
 import { studentLessons, studentLessons_studentLessons } from 'utilities/__generated__/studentLessons'
 // import { } fr
@@ -54,12 +55,12 @@ export const Lessons = () => {
     
         )
     }
-    const Lesson = ({ email, id, name, lessons_given, }: studentLessons_studentLessons) => {
+    const Lesson = ({ email,image, id, name, lessons_given, }: studentLessons_studentLessons) => {
         return (
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row w-full space-x-4 items-center">
     
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/fake_user.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image|| profileDefault}`} alt="" />
                     <div className="flex flex-col   space-y-2">
     
                         <div className="flex flex-row justify-between">

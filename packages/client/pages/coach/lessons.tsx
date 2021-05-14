@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client'
 import { SearchField, SecondarySelectField } from 'components/InputFields'
 import { withAuth } from 'components/withAuth'
 import React from 'react'
+import { profileDefault } from 'utililites/util'
 import { COACH_LESSONS } from 'utilities/schema'
 import { coachLessons, coachLessons_coachLessons } from 'utilities/__generated__/coachLessons'
 // import { } fr
@@ -16,12 +17,12 @@ const MetricCard = () => {
 export const Lessons = () => {
     console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
     const { data: coachLessons } = useQuery<coachLessons>(COACH_LESSONS)
-    const Lesson = ({ email, id, name, lessons_taken, subjectSpecialization }: coachLessons_coachLessons) => {
+    const Lesson = ({ email, id,image, name, lessons_taken, subjectSpecialization }: coachLessons_coachLessons) => {
         return (
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row w-full space-x-4 items-center">
 
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/fake_user.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image || profileDefault}`} alt="" />
                     <div className="flex flex-col   space-y-2">
 
                         <div className="flex flex-row justify-between">

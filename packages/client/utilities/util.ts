@@ -30,3 +30,5 @@ export const getCoinValue = (topup:TopUp,currency:string)=>{
       return `100 ST (35 ${currency.toUpperCase()})`
   }
 }
+
+export const profileDefault = '17d6a1697e8dcda04bd6ea1d8977effa1620991309510.png'

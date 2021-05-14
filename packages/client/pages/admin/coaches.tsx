@@ -4,6 +4,7 @@ import { CoachingStatus } from "__generated__/globalTypes"
 import * as CoachingTypes from 'utilities/__generated__/coaches'
 import { ACCEPT_COACH, COACHES, REJECT_COACH } from "utilities/schema"
 import { useMutation, useQuery } from "@apollo/client"
+import { profileDefault } from "utililites/util"
 interface CoachProps {
     coach: CoachingTypes.coaches_pendingCoaches
 }
@@ -77,7 +78,7 @@ export const Coaches = () => {
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row space-x-4 items-center">
 
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/Rectangle 798.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${coach.coach.image|| profileDefault}`} alt="" />
                     <div className="flex flex-col space-y-4">
 
 

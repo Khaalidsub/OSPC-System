@@ -7,7 +7,7 @@ export class UpdateUserInput extends PartialType(
   OmitType(User, [ 'id', 'phoneNumber'] as const, InputType),
 ) {
   // @IsPhoneNumber()
-  @IsNumber()
-  @Field()
+
+  @Field({nullable:true})
   phoneNumber?:number;
 }
