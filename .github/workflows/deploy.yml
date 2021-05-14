@@ -1,0 +1,23 @@
+name: Build & Deploy to digital ocean
+
+on: 
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy cloud storage
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{secrets.SSH_HOST}}
+          key: ${{secrets.SSH_KEY}}
+          username: ${{secrets.SSH_USER}}
+
+          script: |
+            cd ./ospc
+            git pull
+            docker-compose up -d --build
+            docker system prune -a -f
+            echo "Deployment successful to digital ocean"
