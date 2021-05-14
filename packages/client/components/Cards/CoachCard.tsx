@@ -1,9 +1,10 @@
 import { InformationButton } from 'components/Buttons'
+import { profileDefault } from 'utililites/util'
 
-export const CoachCard = ({ name, rated = 'Top Rated', specialization, onClick }) => {
+export const CoachCard = ({ name, image = profileDefault, rated = 'Top Rated', specialization, onClick }) => {
     return (
         <div className="p-2 rounded-md flex flex-row  bg-white shadow-md space-x-3 items-center">
-            <img onClick={onClick} className="h-36 cursor-pointer rounded-lg" src="/fake_images/fake_user.png" alt="" />
+            <img onClick={onClick} className="h-36 cursor-pointer rounded-lg" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`} alt="" />
             <div className="flex flex-col space-y-1 pt-2 overflow-hidden pr-5">
                 <div className="flex flex-row justify-between">
                     <h3 onClick={onClick} className=" cursor-pointer hover:underline text-lg font-semibold">{name}</h3>

@@ -10,6 +10,7 @@
 export interface onMessageSent_onMessageSent_sender {
   __typename: "User";
   id: string | null;
+  image: string;
 }
 
 export interface onMessageSent_onMessageSent_chat {

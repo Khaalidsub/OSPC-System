@@ -11,6 +11,7 @@ export interface onChatCreate_onChatCreate_users {
   __typename: "User";
   id: string | null;
   name: string;
+  image: string;
 }
 
 export interface onChatCreate_onChatCreate {

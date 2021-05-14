@@ -31,6 +31,7 @@ fragment MessageParts on Message {
   id
   sender{
     id
+    image
   }
   chat{
     id
@@ -47,6 +48,7 @@ isOpen
 users{
   id
   name
+  image
 
 }
 createdAt

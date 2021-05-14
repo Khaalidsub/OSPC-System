@@ -12,6 +12,7 @@ import { CreateMessageInput } from "./../../__generated__/globalTypes";
 export interface sendMessage_createMessage_sender {
   __typename: "User";
   id: string | null;
+  image: string;
 }
 
 export interface sendMessage_createMessage_chat {

@@ -10,6 +10,7 @@
 export interface MessageParts_sender {
   __typename: "User";
   id: string | null;
+  image: string;
 }
 
 export interface MessageParts_chat {

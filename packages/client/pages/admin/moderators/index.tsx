@@ -4,6 +4,7 @@ import * as ModeratorTypes from 'utilities/__generated__/moderators'
 import { useMutation, useQuery } from "@apollo/client"
 import { MODERATORS } from "utilities/schema"
 import { useRouter } from "next/router"
+import { profileDefault } from "utililites/util"
 interface ModeratorProps {
     moderator: ModeratorTypes.moderators_moderators
 }
@@ -44,7 +45,7 @@ export const Moderators = () => {
             <div className="relative flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row space-x-4 items-center">
 
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/fake_user.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${moderator.moderator.image ||profileDefault}`} alt="" />
                     <div className="flex flex-col space-y-4">
 
 

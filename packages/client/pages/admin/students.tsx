@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client"
 import { SearchField, SecondaryButton, SelectField } from "components"
 import React, { useEffect, useState } from "react"
+import { profileDefault } from "utililites/util"
 import { ACCEPT_STUDENT, REJECT_STUDENT, STUDENTS } from "utilities/schema"
 import * as StudentTypes from "utilities/__generated__/students"
 import { CoachingStatus } from "__generated__/globalTypes"
@@ -79,7 +80,7 @@ export const Students = () => {
             <div className="flex flex-row bg-white  justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row space-x-4">
 
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/Rectangle 798.png" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${student.student.image || profileDefault}`} alt="" />
                     <div className="flex flex-col justify-between">
 
 
