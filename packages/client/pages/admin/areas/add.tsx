@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { FormSelectField, SecondarySelectField } from "components";
+import { FormSelectField, SecondarySelectField, UploadCard } from "components";
 import { SecondaryButton } from "components/Buttons"
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -84,6 +84,11 @@ function CreateSubjectArea() {
                             ) : null}
                             <textarea {...formik.getFieldProps('description')} name='description' placeholder='subject area description' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
+                        <div className="flex flex-col">
+                        <label className="text-sm font-poppins pb-2">Image</label>
+                        <UploadCard/>
+                        </div>
+                       
                         <div className="flex flex-col">
                             <label className="text-sm font-poppins pb-2">Moderator</label>
                             <FormSelectField label='Subject' data={moderators?.map(moderator => { return { label: moderator.name, value: moderator.id } })} onClick={(e) => {
