@@ -516,6 +516,7 @@ export const COACH_LESSONS = gql`
       id
       name
       email
+      image
       lessons_taken
       subjectSpecialization {
         specialization {
@@ -531,6 +532,7 @@ export const STUDENT_LESSONS = gql`
     studentLessons {
       id
       name
+      image
       email
       lessons_given
     }
@@ -544,6 +546,7 @@ export const MY_LESSONS = gql`
       }
       coach {
         name
+        image
       }
       date
       id

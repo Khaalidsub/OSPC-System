@@ -10,6 +10,7 @@ import {
     sendMessageVariables,
 } from 'utililites/__generated__/sendMessage';
 import { htmlToText } from 'html-to-text';
+import { profileDefault } from 'utililites/util';
 const TextEditor = dynamic(() => import('components/TextEditor/ChatEditor'), {
     ssr: false,
 });
@@ -59,8 +60,9 @@ export const ActiveConversation = ({ id, user,chatUser,isOpen }) => {
     };
     return (
         <div className="flex flex-col w-full min-h-screen">
-            <div>
-                <h2 className="bg-white border p-4 text-xl">{chatUser}</h2>
+            <div className="bg-white border p-4 flex flex-row items-center space-x-3">
+            <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${chatUser.image||profileDefault}`} className='h-12 w-12 rounded-full' alt="" />
+                <h2 className=" text-xl">{chatUser.name}</h2>
             </div>
             <div
 

@@ -23,6 +23,7 @@ export interface coachLessons_coachLessons {
   id: string;
   name: string;
   email: string;
+  image: string | null;
   lessons_taken: number;
   subjectSpecialization: coachLessons_coachLessons_subjectSpecialization;
 }

@@ -54,7 +54,7 @@ function Chat({currentUser}:ChatProps) {
         <div className="min-h-screen">
             <div className="flex flex-row">
             <ChatConversation currentUser={currentUser}  setCurrentChat={setCurrentChat} search={search} setSearch={setSearch} currentChat={currentChat} chats={chats}  />
-            {currentChat && <ActiveConversation id={currentChat.id} user={currentUser.id} isOpen={currentChat.isOpen} chatUser={currentChat.users.find(user=>user.id !== currentUser.id).name} />}
+            {currentChat && <ActiveConversation  id={currentChat.id} user={currentUser.id} isOpen={currentChat.isOpen} chatUser={currentChat.users.find(user=>user.id !== currentUser.id)} />}
             </div>
 
 
