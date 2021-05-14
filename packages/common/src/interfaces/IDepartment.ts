@@ -3,6 +3,7 @@ export interface IDepartment {
   name: string;
   description: string;
   moderator: string;
+  image: string;
 }
 
 export interface IDepartmentModeratorApplication {

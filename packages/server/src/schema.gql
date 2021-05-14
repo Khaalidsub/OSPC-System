@@ -42,6 +42,9 @@ type Department {
 
   """Example field (placeholder)"""
   moderator: User!
+
+  """Example field (placeholder)"""
+  image: String!
   subjects: Float!
   subjectFields: [Subject!]!
 }
@@ -55,6 +58,9 @@ type Subject {
 
   """Example field (placeholder)"""
   name: String!
+
+  """Example field (placeholder)"""
+  image: String!
 
   """Example field (placeholder)"""
   description: String!
@@ -243,6 +249,9 @@ input DepartmentInputType {
 
   """Example field (placeholder)"""
   moderator: UserInputType!
+
+  """Example field (placeholder)"""
+  image: String!
   subjects: Float!
   subjectFields: [SubjectInputType!]!
 }
@@ -256,6 +265,9 @@ input SubjectInputType {
 
   """Example field (placeholder)"""
   name: String!
+
+  """Example field (placeholder)"""
+  image: String!
 
   """Example field (placeholder)"""
   description: String!
@@ -453,6 +465,9 @@ input CreateDepartmentInput {
 
   """Example field (placeholder)"""
   moderator: String!
+
+  """"""
+  image: String!
 }
 
 input CreateDepartmentModeratorApplication {
@@ -481,6 +496,9 @@ input UpdateDepartmentInput {
 
   """Example field (placeholder)"""
   moderator: UserInputType
+
+  """Example field (placeholder)"""
+  image: String
   subjects: Float
   subjectFields: [SubjectInputType!]
 }
@@ -502,6 +520,9 @@ input UpdateSubjectInput {
 
   """Example field (placeholder)"""
   name: String
+
+  """Example field (placeholder)"""
+  image: String
 
   """Example field (placeholder)"""
   description: String

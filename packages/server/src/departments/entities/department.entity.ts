@@ -24,11 +24,17 @@ export class Department implements IDepartment {
   })
   @Field(() => User, { description: 'Example field (placeholder)' })
   moderator: string;
+
+  @Field(() => String, { description: 'Example field (placeholder)'})
+  @Prop({default:'565eb8e7de5b8f96b2707f72992789aa1621005597714.jpg'})
+  image: string;
   @Field(() => Number)
   subjects: number;
 
   @Field(() => [require('subjects/entities/subject.entity').Subject])
   subjectFields: string[];
+
+  
 }
 
 export const DepartmentSchema = SchemaFactory.createForClass(Department);

@@ -23,6 +23,10 @@ export class Subject implements ISubject {
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop({ unique: true })
   name: string;
+  
+  @Field(() => String, { description: 'Example field (placeholder)'})
+  @Prop({default:'565eb8e7de5b8f96b2707f72992789aa1621005597714.jpg'})
+  image: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   @Prop()
   description: string;
