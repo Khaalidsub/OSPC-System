@@ -401,6 +401,7 @@ export const SUBJECT_AREAS = gql`
     departments {
       id
       name
+      image
       description
       subjects
       moderator {
@@ -423,6 +424,7 @@ export const SUBJECTS = gql`
     subjects {
       id
       name
+      image
       description
       coaches
     }

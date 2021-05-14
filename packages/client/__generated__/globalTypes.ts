@@ -55,6 +55,7 @@ export interface CreateDepartmentInput {
   name: string;
   description: string;
   moderator: string;
+  image: string;
 }
 
 export interface CreateLessonInput {
@@ -118,6 +119,7 @@ export interface DepartmentInputType {
   name: string;
   description: string;
   moderator: UserInputType;
+  image: string;
   subjects: number;
   subjectFields: SubjectInputType[];
 }
@@ -132,6 +134,7 @@ export interface SubjectInputType {
   id: string;
   department: DepartmentInputType;
   name: string;
+  image: string;
   description: string;
   coaches: number;
 }
@@ -141,6 +144,7 @@ export interface UpdateDepartmentInput {
   name?: string | null;
   description?: string | null;
   moderator?: UserInputType | null;
+  image?: string | null;
   subjects?: number | null;
   subjectFields?: SubjectInputType[] | null;
 }
@@ -148,6 +152,7 @@ export interface UpdateDepartmentInput {
 export interface UpdateSubjectInput {
   id?: string | null;
   name?: string | null;
+  image?: string | null;
   description?: string | null;
   coaches?: number | null;
 }

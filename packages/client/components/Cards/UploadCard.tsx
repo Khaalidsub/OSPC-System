@@ -1,3 +1,5 @@
+import axios from "axios";
+import { SecondaryButton } from "components/Buttons";
 import { useMemo, useState } from "react";
 import { useDropzone } from 'react-dropzone';
 const baseStyle = {
@@ -27,8 +29,9 @@ const acceptStyle = {
 const rejectStyle = {
     borderColor: '#ff1744'
 };
-export const UploadCard = () => {
-    const [file, setFile] = useState(null)
+export const UploadCard = ({ setFile,file }) => {
+  
+    // const [isUploaded, setIsUploaded] = useState(false)
     const { acceptedFiles, isDragActive,
         isDragAccept,
         isDragReject, getRootProps, getInputProps } = useDropzone({
@@ -40,6 +43,7 @@ export const UploadCard = () => {
                 setFile(Object.assign(file, {
                     preview: URL.createObjectURL(file)
                 }));
+                // setIsUploaded(false)
             }
 
         });
@@ -54,18 +58,32 @@ export const UploadCard = () => {
         isDragAccept
     ]);
 
+
+
     return (
-        <div className='flex flex-row space-x-2'>
-             {!file && <div className='h-24 w-24 rounded-full flex flex-row justify-center bg-gray-100'> <p className='text-center self-center text-xs'>Image Preview</p></div>}
-            {file && <img className="h-24 w-24 rounded-full" src={`${file.preview}`} alt="" />}
-            <div className='' {...getRootProps({ className: 'cursor-pointer dropzone border border-dotted p-2 rounded bg-gray-100 ', style: style as any })}>
-                <input {...getInputProps()} />
-                <div className='text-lg  h-full '>
-                    <p className='self-start'>Drag 'n' drop an image here, or click to select image</p>
+        <div className="flex flex-col space-y-4">
+            <div className='flex flex-row space-x-2'>
+                {!file && <div className='h-24 w-24 rounded-full flex flex-row justify-center bg-gray-100'> <p className='text-center self-center text-xs'>Image Preview</p></div>}
+                {file && <img className="h-24 w-24 rounded-full" src={`${file.preview}`} alt="" />}
+                <div className='' {...getRootProps({ className: 'cursor-pointer dropzone border border-dotted p-2 rounded bg-gray-100 ', style: style as any })}>
+                    <input {...getInputProps()} />
+                    <div className='text-lg  h-full '>
+                        <p className='self-start'>Drag 'n' drop an image here, or click to select image</p>
+                    </div>
                 </div>
+
             </div>
-           
+            {/* <div className='px-2 w-1/3'>
+                {file &&( !isUploaded && <SecondaryButton onClick={(e)=>{
+                    e.stopPropagation();
+                    e.nativeEvent.stopImmediatePropagation();
+                    onSubmit()
+
+                }} label="upload image" />)}
+            </div> */}
+
         </div>
+
     )
 }
 

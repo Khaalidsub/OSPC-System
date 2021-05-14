@@ -32,3 +32,4 @@ export const getCoinValue = (topup:TopUp,currency:string)=>{
 }
 
 export const profileDefault = '17d6a1697e8dcda04bd6ea1d8977effa1620991309510.png'
+export const subjectAreaDefault = '/fake_images/CS.jpg'

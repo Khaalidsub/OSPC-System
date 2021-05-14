@@ -9,9 +9,11 @@ import { validateSubjectArea } from "utilities/validate";
 
 import * as AvailableModeratorTypes from 'utilities/__generated__/availableModerators'
 import * as AddDepartment from 'utilities/__generated__/addSubjectArea'
+import axios from "axios";
 function CreateSubjectArea() {
     const [moderators, setModerators] = useState([] as AvailableModeratorTypes.availableModerators_availableModerators[])
     const [moderator, setModerator] = useState({} as AvailableModeratorTypes.availableModerators_availableModerators)
+    const [file, setFile] = useState(null)
     const { data } = useQuery<AvailableModeratorTypes.availableModerators>(MODERATORS_OPTIONS)
     const router = useRouter()
     const [addDepartment, { error }] = useMutation<AddDepartment.addSubjectArea, AddDepartment.addSubjectAreaVariables>(ADD_SUBJECT_AREA)
@@ -25,9 +27,24 @@ function CreateSubjectArea() {
         if (!moderator) {
             setError('Moderator not defined')
         }
+        if (!file) {
+            setError('Image not defined')
+        }
         try {
+
+            const data = new FormData();
+            data.append('file', file);
+
+            const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API, data, { headers: { "Access-Control-Allow-Origin": "*" } });
+    
+      
+    
+       
+                
+    
+          
             console.log(name, description, values);
-            await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
+            await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id , image:result.data } } })
             // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
             router.replace(`/admin/areas?isRefetch=true`)
         } catch (error) {
@@ -44,6 +61,8 @@ function CreateSubjectArea() {
         validate: validateSubjectArea,
         onSubmit: onSubmit
     })
+
+    
     const DisplayError = () => {
         return (
             <div className="bg-red-100 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
@@ -86,7 +105,7 @@ function CreateSubjectArea() {
                         </div>
                         <div className="flex flex-col">
                         <label className="text-sm font-poppins pb-2">Image</label>
-                        <UploadCard/>
+                        <UploadCard setFile={setFile} file={file}/>
                         </div>
                        
                         <div className="flex flex-col">
@@ -105,9 +124,6 @@ function CreateSubjectArea() {
 
                         </div>
                     </form>
-
-
-
                 </div>
 
             </div>
