@@ -17,6 +17,7 @@ export interface users_users {
   university: string;
   phoneNumber: number | null;
   role: Role | null;
+  image: string;
   accountStatus: CoachingStatus | null;
   coachingStatus: CoachingStatus | null;
 }

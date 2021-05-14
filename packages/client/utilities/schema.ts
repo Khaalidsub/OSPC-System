@@ -8,6 +8,7 @@ export const USER_FRAGMENT = gql`
     university
     phoneNumber
     role
+    image
     accountStatus
     coachingStatus
   }

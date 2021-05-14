@@ -6,6 +6,7 @@ import { formatDistance } from "date-fns"
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 import { TRANSACTIONS } from "utililites/schema"
+import { profileDefault } from "utililites/util"
 import { currentUser_currentUser } from "utililites/__generated__/currentUser"
 import { transactions,transactions_BookedLessonHistory,transactions_TransactionHistory,transactions_myWallet } from "utililites/__generated__/transactions"
 import { CoachingStatus } from "__generated__/globalTypes"
@@ -76,7 +77,7 @@ export const Settings = ({currentUser}:SettingsProps) => {
                 <div className="grid grid-cols-3">
                     {/* <div></div> */}
                     <div className="col-start-2 flex flex-col space-y-7 items-center">
-                        <img src="/fake_images/fake_user.png" className="h-44 w-44 rounded-full" alt="" />
+                        <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${currentUser.image || profileDefault}`} className="h-44 w-44 rounded-full" alt="" />
                         <h2 className='text-3xl'>{name}</h2>
                         <div className="w-1/3">
                         <SecondaryButton onClick={()=>router.push('settings/upload')} label="Upload image"/>

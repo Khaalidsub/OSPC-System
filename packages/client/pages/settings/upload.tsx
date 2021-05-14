@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import axios from 'axios';
 import { SecondaryButton } from 'components/Buttons';
+import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { UPDATE_USER } from 'utililites/schema';
@@ -35,6 +36,7 @@ const baseStyle = {
   
 function UploadProfileImage() {
     const [file, setFile] = useState(null)
+    const router = useRouter()
     const [updateUser] = useMutation<updateUser,updateUserVariables>(UPDATE_USER)
     const { acceptedFiles,isDragActive,
     isDragAccept,
@@ -67,7 +69,7 @@ function UploadProfileImage() {
     data.append('file', file);
     try {
       console.log(process.env.NEXT_PUBLIC_IMAGE_URL);
-      const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_URL,data,{headers:{"Access-Control-Allow-Origin": "*"}});
+      const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API,data,{headers:{"Access-Control-Allow-Origin": "*"}});
       
       // const response = await fetch(process.env.NEXT_PUBLIC_IMAGE_URL,
       //   {
@@ -85,7 +87,7 @@ function UploadProfileImage() {
     console.log(result);
 
     await updateUser({variables:{updateUserInput:{image:result.data}}})
-    
+    router.push('/settings')
     
       
     } catch (error) {
@@ -108,7 +110,10 @@ function UploadProfileImage() {
               <p className='self-start'>Drag 'n' drop an image here, or click to select image</p>
               </div>
         </div>
-      <SecondaryButton label='upload' onClick={() =>onSubmit()}/>
+        <div className='w-1/3'>
+        <SecondaryButton label='upload' onClick={() =>onSubmit()}/>
+
+        </div>
      
       </div>
     </div>
