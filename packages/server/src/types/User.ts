@@ -14,6 +14,8 @@ export class CoachLessons {
   lessons: Lesson[];
   @Field()
   lessons_taken: number;
+  @Field({nullable: true})
+  image?:string;
   @Field(() => SubjectSpecialization, { name: 'subjectSpecialization' })
   subjectspecializations: SubjectSpecialization;
 }
@@ -29,4 +31,6 @@ export class StudentLessons {
   lessons: Lesson[];
   @Field()
   lessons_given: number;
+  @Field({nullable: true})
+  image?:string;
 }

@@ -111,6 +111,7 @@ type CoachLessons {
   email: String!
   lessons: [Lesson!]!
   lessons_taken: Float!
+  image: String
   subjectSpecialization: SubjectSpecialization!
 }
 
@@ -120,6 +121,7 @@ type StudentLessons {
   email: String!
   lessons: [Lesson!]!
   lessons_given: Float!
+  image: String
 }
 
 type AuthResult {
