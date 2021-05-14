@@ -30,6 +30,7 @@
         "build": "yarn  build:server"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "graphql": "^15.5.0"
     },
     "devDependencies": {
