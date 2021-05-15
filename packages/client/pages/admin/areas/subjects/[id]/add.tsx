@@ -19,7 +19,7 @@ function CreateSubject() {
     const onSubmit = async ({ name, description, ...values }) => {
 
         try {
-            console.log(name, description, values);
+    
             const data = new FormData();
             data.append('file', file);
 

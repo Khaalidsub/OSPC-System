@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { SecondarySelectField } from "components";
+import axios from "axios";
 import { SecondaryButton } from "components/Buttons"
 import { DisplayError } from "components/Cards/ErrorCard";
 import { useFormik } from "formik";
+import { useImageUpload } from "hooks/useImageUpload";
 import { useRouter } from "next/router";
 import React, { useState } from "react"
 import { ADD_SUBJECT, DEPARTMENT } from "utilities/schema";
@@ -13,15 +14,18 @@ function CreateSubject() {
     const [message, setError] = useState('')
     const router = useRouter()
     const [addSubject, { error }] = useMutation<AddSubject.addSubject, AddSubject.addSubjectVariables>(ADD_SUBJECT)
+    const {ImageCard,file,setFile} = useImageUpload()
+
     const { data } = useQuery<Department.department>(DEPARTMENT)
     const onSubmit = async ({ name, description, ...values }) => {
 
         try {
             const department = data?.departmentByModerator
-            console.log(name, description, values);
-            // await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
-            // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            await addSubject({ variables: { createSubject: { name, description, department: department.id } } })
+            const formData = new FormData();
+            formData.append('file', file);
+            const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API, formData, { headers: { "Access-Control-Allow-Origin": "*" } });
+
+            await addSubject({ variables: { createSubject: { name, description, image:result.data, department: department.id } } })
             router.replace('/moderator/subjects')
         } catch (error) {
 
@@ -54,6 +58,7 @@ function CreateSubject() {
                             ) : null}
                             <input {...formik.getFieldProps('name')} name='name' type='text' placeholder='area' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
+                        <ImageCard/>
                         <div className="">
 
                             <label className="text-sm font-poppins pb-2">Description</label>

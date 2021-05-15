@@ -33,6 +33,10 @@ export interface subjectsByModerator_subjectsByModerator {
    * Example field (placeholder)
    */
   description: string;
+  /**
+   * Example field (placeholder)
+   */
+  image: string;
   coaches: number;
   /**
    * Example field (placeholder)

@@ -16,6 +16,10 @@ export interface department_departmentByModerator {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   name: string;
 }
 

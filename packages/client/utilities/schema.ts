@@ -468,6 +468,7 @@ export const DEPARTMENT = gql`
   query department {
     departmentByModerator {
       id
+      image
       name
     }
   }
@@ -488,6 +489,7 @@ export const SUBJECTS_BY_MODERATOR = gql`
       id
       name
       description
+      image
       coaches
       department {
         id
