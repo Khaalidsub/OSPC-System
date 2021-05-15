@@ -10,4 +10,7 @@ export class CreateDepartmentInput {
     description: 'Example field (placeholder)',
   })
   moderator: string;
+
+  @Field(() => String, { description: ''})
+  image: string;
 }

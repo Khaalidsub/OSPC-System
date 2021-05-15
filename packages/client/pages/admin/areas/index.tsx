@@ -3,6 +3,7 @@ import { SecondaryButton } from "components/Buttons"
 import { SearchField } from "components/InputFields/SearchField"
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import { profileDefault, subjectAreaDefault } from "utililites/util"
 import { SUBJECT_AREAS } from "utilities/schema"
 import * as SubjectAreaTypes from "utilities/__generated__/subjectAreas"
 interface SubjectAreaProps {
@@ -35,7 +36,7 @@ function SubjectAreas() {
         return (
             <div className="flex flex-row bg-white justify-between rounded-lg shadow-md  p-4 space-y-4">
                 <div className="flex flex-row w-full space-x-4 items-center">
-                    <img className="h-28 w-28 rounded-full" src="/fake_images/CS.jpg" alt="" />
+                    <img className="h-28 w-28 rounded-full" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${props.subjectArea.image || subjectAreaDefault}`} alt="" />
                     <div className="flex flex-col w-full space-y-3">
 
                         <div className="flex flex-row justify-between">

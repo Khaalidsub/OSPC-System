@@ -1,8 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
+import axios from "axios";
 import { SecondaryButton } from "components/Buttons"
 import { useFormik } from "formik";
+import { useImageUpload } from "hooks/useImageUpload";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react"
+import { subjectAreaDefault } from "utililites/util";
 import { DEPARTMENT_BY_ID, UPDATE_SUBJECT_AREA } from "utilities/schema";
 import { validateSubjectArea } from "utilities/validate";
 import * as departmentTypes from "utilities/__generated__/getDepartment"
@@ -14,6 +17,7 @@ function UpdateSubjectArea() {
     const { data } = useQuery<departmentTypes.getDepartment, departmentTypes.getDepartmentVariables>(DEPARTMENT_BY_ID, { variables: { id: id as string } })
     const [updateSubjectArea] = useMutation<updateDepartmentTypes.updateSubjectArea, updateDepartmentTypes.updateSubjectAreaVariables>(UPDATE_SUBJECT_AREA)
     const [name, setName] = useState('')
+    const { ImageCard, file, setFile } = useImageUpload(data?.department.image || subjectAreaDefault)
     const [description, setDescription] = useState('')
     useEffect(() => {
         // console.log(data, id);
@@ -22,8 +26,15 @@ function UpdateSubjectArea() {
     }, [data])
     const onSubmit = async ({ name, description, ...values }) => {
         try {
-            console.log(name, description, values);
-            await updateSubjectArea({ variables: { updateSubjectArea: { name, description }, id: id as string } })
+            if (file) {
+                const data = new FormData();
+                data.append('file', file);
+
+                const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API, data, { headers: { "Access-Control-Allow-Origin": "*" } });
+                await updateSubjectArea({ variables: { updateSubjectArea: { name, description ,image:result.data }, id: id as string } })
+
+            } else await updateSubjectArea({ variables: { updateSubjectArea: { name, description }, id: id as string } })
+
             router.replace(`/admin/areas?isRefetch=true`)
         } catch (error) {
 
@@ -33,9 +44,9 @@ function UpdateSubjectArea() {
     }
 
     const formik = useFormik<any>({
-        
+
         initialValues: {
-            
+
             name: data?.department.name,
             description: data?.department.description
         },
@@ -75,6 +86,7 @@ function UpdateSubjectArea() {
                             ) : null}
                             <input {...formik.getFieldProps('name')} name='name' type='text' placeholder='area' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
+                        <ImageCard />
                         <div className="">
 
                             <label className="text-sm font-poppins pb-2">Description</label>

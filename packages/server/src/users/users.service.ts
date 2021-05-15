@@ -83,6 +83,7 @@ export class UsersService {
           _id: 1,
           name: 1,
           email: 1,
+          image:1,
           lessons: {
             $filter: {
               input: '$lessons',
@@ -100,6 +101,7 @@ export class UsersService {
           _id: 1,
           name: 1,
           email: 1,
+          image:1,
           lessons: 1,
           lessons_taken: {
             $size: '$lessons',
@@ -156,6 +158,7 @@ export class UsersService {
             _id: 1,
             name: 1,
             email: 1,
+            image:1,
             lessons: {
               $filter: {
                 input: '$lessons',
@@ -173,6 +176,7 @@ export class UsersService {
             name: 1,
             email: 1,
             lessons: 1,
+            image:1,
             lessons_given: {
               $size: '$lessons',
             },

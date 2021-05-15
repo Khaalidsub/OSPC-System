@@ -25,6 +25,10 @@ export interface subjectAreas_departments {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   description: string;
   subjects: number;
   /**

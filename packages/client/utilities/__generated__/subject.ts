@@ -20,6 +20,10 @@ export interface subject_subject {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   description: string;
   coaches: number;
 }

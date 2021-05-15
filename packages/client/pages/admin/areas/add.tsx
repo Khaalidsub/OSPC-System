@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { FormSelectField, SecondarySelectField } from "components";
+import { FormSelectField, SecondarySelectField, UploadCard } from "components";
 import { SecondaryButton } from "components/Buttons"
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -9,9 +9,12 @@ import { validateSubjectArea } from "utilities/validate";
 
 import * as AvailableModeratorTypes from 'utilities/__generated__/availableModerators'
 import * as AddDepartment from 'utilities/__generated__/addSubjectArea'
+import axios from "axios";
+import { useImageUpload } from "hooks/useImageUpload";
 function CreateSubjectArea() {
     const [moderators, setModerators] = useState([] as AvailableModeratorTypes.availableModerators_availableModerators[])
     const [moderator, setModerator] = useState({} as AvailableModeratorTypes.availableModerators_availableModerators)
+    const {ImageCard,file,setFile} = useImageUpload()
     const { data } = useQuery<AvailableModeratorTypes.availableModerators>(MODERATORS_OPTIONS)
     const router = useRouter()
     const [addDepartment, { error }] = useMutation<AddDepartment.addSubjectArea, AddDepartment.addSubjectAreaVariables>(ADD_SUBJECT_AREA)
@@ -25,9 +28,24 @@ function CreateSubjectArea() {
         if (!moderator) {
             setError('Moderator not defined')
         }
+        if (!file) {
+            setError('Image not defined')
+        }
         try {
+
+            const data = new FormData();
+            data.append('file', file);
+
+            const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API, data, { headers: { "Access-Control-Allow-Origin": "*" } });
+    
+      
+    
+       
+                
+    
+          
             console.log(name, description, values);
-            await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
+            await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id , image:result.data } } })
             // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
             router.replace(`/admin/areas?isRefetch=true`)
         } catch (error) {
@@ -44,6 +62,8 @@ function CreateSubjectArea() {
         validate: validateSubjectArea,
         onSubmit: onSubmit
     })
+
+    
     const DisplayError = () => {
         return (
             <div className="bg-red-100 space-x-2 items-center border border-red-500 text-red-dark pl-4 pr-8 py-3 rounded flex flex-row" role="alert">
@@ -84,6 +104,8 @@ function CreateSubjectArea() {
                             ) : null}
                             <textarea {...formik.getFieldProps('description')} name='description' placeholder='subject area description' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
+                            
+                       <ImageCard/>
                         <div className="flex flex-col">
                             <label className="text-sm font-poppins pb-2">Moderator</label>
                             <FormSelectField label='Subject' data={moderators?.map(moderator => { return { label: moderator.name, value: moderator.id } })} onClick={(e) => {
@@ -100,9 +122,6 @@ function CreateSubjectArea() {
 
                         </div>
                     </form>
-
-
-
                 </div>
 
             </div>

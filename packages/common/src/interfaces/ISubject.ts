@@ -3,4 +3,5 @@ export interface ISubject {
   name: string;
   description: string;
   department: string;
+  image: string;
 }

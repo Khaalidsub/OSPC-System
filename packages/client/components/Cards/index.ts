@@ -6,3 +6,4 @@ export * from './BadgeCard';
 export * from './CoachCard';
 export * from './ProfileInfoCard';
 export * from './ErrorCard';
+export * from './UploadCard';

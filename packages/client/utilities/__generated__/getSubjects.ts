@@ -20,6 +20,10 @@ export interface getSubjects_subjects {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   description: string;
   coaches: number;
 }

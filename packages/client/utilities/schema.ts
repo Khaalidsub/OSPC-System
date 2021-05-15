@@ -401,6 +401,7 @@ export const SUBJECT_AREAS = gql`
     departments {
       id
       name
+      image
       description
       subjects
       moderator {
@@ -423,6 +424,7 @@ export const SUBJECTS = gql`
     subjects {
       id
       name
+      image
       description
       coaches
     }
@@ -433,6 +435,7 @@ export const SUBJECT = gql`
     subject(id: $id) {
       id
       name
+      image
       description
       coaches
     }
@@ -443,6 +446,7 @@ export const SUBJECTS_BY_DEPARTMENT = gql`
     subjectsByDepartment(id: $id) {
       id
       name
+      image
       description
       coaches
       department {
@@ -464,6 +468,7 @@ export const DEPARTMENT = gql`
   query department {
     departmentByModerator {
       id
+      image
       name
     }
   }
@@ -473,6 +478,7 @@ export const DEPARTMENT_BY_ID = gql`
     department(id: $id) {
       id
       name
+      image
       description
     }
   }
@@ -483,6 +489,7 @@ export const SUBJECTS_BY_MODERATOR = gql`
       id
       name
       description
+      image
       coaches
       department {
         id
