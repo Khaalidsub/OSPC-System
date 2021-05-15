@@ -8,4 +8,6 @@ export class CreateSubjectInput {
   description: string;
   @Field(() => String, { description: 'Example field (placeholder)' })
   department: string;
+  @Field()
+  image: string;
 }

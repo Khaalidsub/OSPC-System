@@ -514,6 +514,7 @@ input CreateSubjectInput {
 
   """Example field (placeholder)"""
   department: String!
+  image: String!
 }
 
 input UpdateSubjectInput {
