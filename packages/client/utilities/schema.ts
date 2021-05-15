@@ -435,6 +435,7 @@ export const SUBJECT = gql`
     subject(id: $id) {
       id
       name
+      image
       description
       coaches
     }
@@ -445,6 +446,7 @@ export const SUBJECTS_BY_DEPARTMENT = gql`
     subjectsByDepartment(id: $id) {
       id
       name
+      image
       description
       coaches
       department {

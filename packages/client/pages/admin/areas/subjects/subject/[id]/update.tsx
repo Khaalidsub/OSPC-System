@@ -9,6 +9,9 @@ import { validateSubject } from "utilities/validate";
 import { updateSubject, updateSubjectVariables } from 'utilities/__generated__/updateSubject'
 import { subject, subjectVariables } from 'utilities/__generated__/subject'
 import { DisplayError } from "components/Cards/ErrorCard";
+import { useImageUpload } from "hooks/useImageUpload";
+import { subjectDefault } from "utililites/util";
+import axios from "axios";
 // import * as AddSubject from 'utilities/__generated__/addSubject'
 // import * as Department from "utilities/__generated__/department"
 function UpdateSubject() {
@@ -19,15 +22,19 @@ function UpdateSubject() {
 
     const { data } = useQuery<subject, subjectVariables>(SUBJECT, { variables: { id: id as string } })
     const [updateSubject] = useMutation<updateSubject, updateSubjectVariables>(UPDATE_SUBJECT)
+    const { ImageCard, file, setFile } = useImageUpload(data?.subject.image || subjectDefault)
+
     const onSubmit = async ({ name, description, ...values }) => {
 
         try {
-            // const department = data?.departmentByModerator
-            console.log(name, description, values);
-            // await addDepartment({ variables: { createSubjectArea: { name, description, moderator: moderator.id } } })
-            // await addModerator({ variables: { createUserInput: { email: email, password: password, university: university, name } } })
-            // await addSubject({ variables: { createSubject: { name, description, department: department.id } } })
-            await updateSubject({ variables: { updateSubject: { name, description }, id: id as string } })
+            if (file) {
+                const data = new FormData();
+                data.append('file', file);
+
+                const result = await axios.post(process.env.NEXT_PUBLIC_IMAGE_API, data, { headers: { "Access-Control-Allow-Origin": "*" } });
+                await updateSubject({ variables: { updateSubject: { name, image:result.data, description }, id: id as string } })
+
+            } else await updateSubject({ variables: { updateSubject: { name, description }, id: id as string } })
             router.back()
         } catch (error) {
 
@@ -61,6 +68,7 @@ function UpdateSubject() {
                             ) : null}
                             <input {...formik.getFieldProps('name')} name='name' type='text' placeholder='area' className="w-full rounded-md  focus:outline-none focus:ring-opacity-75 focus:border-secondary  " />
                         </div>
+                        <ImageCard/>
                         <div className="">
 
                             <label className="text-sm font-poppins pb-2">Description</label>

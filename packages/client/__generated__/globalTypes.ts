@@ -94,6 +94,7 @@ export interface CreateSubjectInput {
   name: string;
   description: string;
   department: string;
+  image: string;
 }
 
 export interface CreateTransactionInput {

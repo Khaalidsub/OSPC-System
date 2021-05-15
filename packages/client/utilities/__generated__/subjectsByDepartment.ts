@@ -32,6 +32,10 @@ export interface subjectsByDepartment_subjectsByDepartment {
   /**
    * Example field (placeholder)
    */
+  image: string;
+  /**
+   * Example field (placeholder)
+   */
   description: string;
   coaches: number;
   /**
