@@ -77,11 +77,12 @@ const pubSub = new PubSub();
         useFindAndModify: false,
         dbName: process.env.DB_NAME,
         connectionFactory: (connection) => {
-          // connection.plugin(autoPopulateAllFields);
+          connection.plugin(require('mongoose-paginate-v2'));
           return connection;
         },
       },
     ),
+
     UsersModule,
     AuthModule,
     DepartmentsModule,

@@ -21,6 +21,7 @@ import { Question, QuestionDocument } from './entities/forum.entity';
 import { SentryInterceptor } from '../Sentry';
 import { UsersService } from 'users/users.service';
 import { AnswerService } from './answer.service';
+import { QuestionArgs, QuestionConnection } from 'types';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => Question)
 export class QuestionsResolver {
@@ -53,9 +54,9 @@ export class QuestionsResolver {
     }
   }
 
-  @Query(() => [Question], { name: 'questions' })
-  findAll() {
-    return this.questionService.findAll();
+  @Query(() => QuestionConnection, { name: 'questions' })
+  findAll(@Args({type:()=>QuestionArgs}) questionArgs:QuestionArgs) {
+     return this.questionService.findAll(questionArgs)
   }
 
   @Query(() => Question, { name: 'question' })

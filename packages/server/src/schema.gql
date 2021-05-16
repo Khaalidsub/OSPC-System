@@ -130,6 +130,30 @@ type StudentLessons {
   image: String
 }
 
+type Question {
+  id: ID!
+  title: String!
+  body: String!
+  subject: Subject!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  answers: Float!
+}
+
+type QuestionConnection {
+  totalDocs: Float!
+  limit: Float!
+  totalPages: Float!
+  hasNextPage: Boolean!
+  hasPrevPage: Boolean!
+  page: Float!
+  nextPage: Float!
+  prevPage: Float!
+  pagingCounter: Float!
+  questions: [Question!]
+}
+
 type AuthResult {
   token: String!
   user: User!
@@ -183,17 +207,6 @@ type UserWallet {
   id: String!
   balance: Float!
   user: User!
-}
-
-type Question {
-  id: ID!
-  title: String!
-  body: String!
-  subject: Subject!
-  user: User!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  answers: Float!
 }
 
 type Answer {
@@ -276,6 +289,17 @@ input SubjectInputType {
   coaches: Float!
 }
 
+input QuestionInputType {
+  id: ID!
+  title: String!
+  body: String!
+  subject: SubjectInputType!
+  user: UserInputType!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  answers: Float!
+}
+
 input ScheduleInputType {
   day: Day!
   time_start: Float!
@@ -297,17 +321,6 @@ input UserWalletInputType {
   id: String!
   balance: Float!
   user: UserInputType!
-}
-
-input QuestionInputType {
-  id: ID!
-  title: String!
-  body: String!
-  subject: SubjectInputType!
-  user: UserInputType!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  answers: Float!
 }
 
 input AnswerInputType {
@@ -372,7 +385,7 @@ type Query {
   wallets: [UserWallet!]!
   wallet(id: String!): UserWallet!
   myWallet: UserWallet
-  questions: [Question!]!
+  questions(page: Float, limit: Float, sort: QuestionSort): QuestionConnection!
   question(id: String!): Question!
   answers(id: String!): [Answer!]!
   answer(id: String!): Answer!
@@ -381,6 +394,17 @@ type Query {
   findAll: [Message!]!
   messages(id: String!): [Message!]!
   message(id: String!): Message!
+}
+
+input QuestionSort {
+  createdAt: Sort
+  updatedAt: Sort
+  title: Sort
+}
+
+enum Sort {
+  asc
+  desc
 }
 
 type Mutation {
