@@ -142,15 +142,15 @@ type Question {
 }
 
 type QuestionConnection {
-  totalDocs: Float!
-  limit: Float!
-  totalPages: Float!
-  hasNextPage: Boolean!
-  hasPrevPage: Boolean!
-  page: Float!
-  nextPage: Float!
-  prevPage: Float!
-  pagingCounter: Float!
+  totalDocs: Float
+  limit: Float
+  totalPages: Float
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  page: Float
+  nextPage: Float
+  prevPage: Float
+  pagingCounter: Float
   questions: [Question!]
 }
 
@@ -385,7 +385,7 @@ type Query {
   wallets: [UserWallet!]!
   wallet(id: String!): UserWallet!
   myWallet: UserWallet
-  questions(page: Float, limit: Float, sort: QuestionSort): QuestionConnection!
+  questions(page: Float, limit: Float, sort: QuestionSort, query: QuestionSearch): QuestionConnection!
   question(id: String!): Question!
   answers(id: String!): [Answer!]!
   answer(id: String!): Answer!
@@ -405,6 +405,10 @@ input QuestionSort {
 enum Sort {
   asc
   desc
+}
+
+input QuestionSearch {
+  title: String
 }
 
 type Mutation {

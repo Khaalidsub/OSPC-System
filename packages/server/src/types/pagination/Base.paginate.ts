@@ -1,23 +1,23 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-@ObjectType({ isAbstract: true })
+@ObjectType({isAbstract:true  })
 export class BasePaginate {
-  @Field()
+  @Field({nullable: true})
   totalDocs: number;
-  @Field()
+  @Field({nullable: true})
   limit: number;
-  @Field()
+  @Field({nullable: true})
   totalPages: number;
-  @Field()
+  @Field({nullable: true})
   hasNextPage: boolean;
-  @Field()
+  @Field({nullable: true})
   hasPrevPage: boolean;
-  @Field()
+  @Field({nullable: true})
   page: number;
-  @Field()
+  @Field({nullable: true})
   nextPage: number;
-  @Field()
+  @Field({nullable: true})
   prevPage: number;
-  @Field()
+  @Field({nullable: true})
   pagingCounter: number;
 }

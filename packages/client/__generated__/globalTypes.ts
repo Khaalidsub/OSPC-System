@@ -32,6 +32,11 @@ export enum Role {
   student = "student",
 }
 
+export enum Sort {
+  asc = "asc",
+  desc = "desc",
+}
+
 export enum TopUp {
   large = "large",
   medium = "medium",
@@ -123,6 +128,16 @@ export interface DepartmentInputType {
   image: string;
   subjects: number;
   subjectFields: SubjectInputType[];
+}
+
+export interface QuestionSearch {
+  title?: string | null;
+}
+
+export interface QuestionSort {
+  createdAt?: Sort | null;
+  updatedAt?: Sort | null;
+  title?: Sort | null;
 }
 
 export interface ScheduleInputType {

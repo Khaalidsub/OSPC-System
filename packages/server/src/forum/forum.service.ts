@@ -16,9 +16,9 @@ export class QuestionService {
     return new this.questionModel(createQuestionInput).save();
   }
 
-  findAll({page=1,limit=20,sort}:QuestionArgs) {
+  findAll({page=1,limit=20,sort,query}:QuestionArgs) {
     
-    return this.questionModel.paginate({},{sort,page,limit,customLabels:questionLabels})
+    return this.questionModel.paginate(query,{sort,page,limit,customLabels:questionLabels})
   }
 
   findOne(query) {

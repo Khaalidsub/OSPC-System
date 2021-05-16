@@ -2,19 +2,26 @@ import { useQuery } from '@apollo/client'
 import { withAuth } from 'components/withAuth'
 import { useRouter } from 'next/router'
 import { QUESTIONS } from 'utilities/schema'
-import { questions, questions_questions } from 'utilities/__generated__/questions'
+import { questions, questionsVariables, questions_questions, questions_questions_questions, } from 'utilities/__generated__/questions'
 import { formatDistance } from 'date-fns'
 import { htmlToText } from 'html-to-text'
 import React, { useEffect, useState } from 'react'
 import { SearchField } from 'components'
+import { QuestionSort } from '__generated__/globalTypes'
 export const Forum = () => {
-    const { data, refetch } = useQuery<questions>(QUESTIONS)
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(10)
+    const [sortType, setSortType] = useState({createdAt:'asc'}as QuestionSort)
+    const { data, refetch } = useQuery<questions, questionsVariables>(QUESTIONS,{variables: { limit:limit,page:page,sort:sortType}})
+  
     const [search, setSearch] = useState('')
-    const [questions, setQuestions] = useState([] as questions_questions[])
+    const [questions, setQuestions] = useState(null as questions_questions)
     const router = useRouter()
     const { isRefetch } = router.query
     useEffect(() => {
         setQuestions(data?.questions)
+     
+        
     }, [data])
     useEffect(() => {
         if (isRefetch) {
@@ -22,10 +29,10 @@ export const Forum = () => {
         }
     }, [isRefetch])
     useEffect(() => {
-        const result = data?.questions.filter(question => {
+        const result = data?.questions.questions.filter(question => {
             return question?.title?.toLowerCase().includes(search)
         })
-        setQuestions(result)
+        setQuestions({...data?.questions,questions:result})
     }, [search])
     const Metadata = ({ name, createdAt, subject, answers }) => {
         return (
@@ -37,7 +44,7 @@ export const Forum = () => {
             </div>
         )
     }
-    const Question = ({ id, title, subject, createdAt, user, body, answers }: questions_questions) => {
+    const Question = ({ id, title, subject, createdAt, user, body, answers }: questions_questions_questions) => {
         return (
             <div className="w-full self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
                 <h2 onClick={() => router.push(`/forum/${id}`)} className="font-raleway text-2xl capitalize cursor-pointer hover:underline" >{title}</h2>
@@ -49,7 +56,7 @@ export const Forum = () => {
     const QuestionList = () => {
         return (
             <>
-                {questions?.map(question => {
+                {questions?.questions?.map(question => {
                     return <Question key={question.id} {...question} />
                 })}
             </>
@@ -71,7 +78,7 @@ export const Forum = () => {
                 <SearchField placeholder='Search Question' setSearch={setSearch} search={search} />
                 <div className=" flex flex-row justify-between px-4 pt-6">
                     <div className="space-x-4 flex flex-row items-center self-end">
-                        <h3>{questions?.length || 0} Question(s)</h3>
+                        <h3>{questions?.totalDocs || 0} Question(s)</h3>
                         <button onClick={() => router.push('forum/ask')} className="px-5 py-2 font-semibold rounded-md shadow-md font-raleway bg-tertiary text-white">Ask Question</button>
                     </div>
                     <div className="space-x-4">

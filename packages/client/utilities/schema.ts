@@ -57,6 +57,20 @@ updatedAt
 
 `
 
+export const BASE_CONNECTION_FRAGMENT = gql`
+fragment BasePaginateParts on QuestionConnection{
+  totalDocs
+  limit
+  totalPages
+  hasNextPage
+  hasPrevPage
+  page
+  nextPage
+  prevPage
+  pagingCounter
+}
+`
+
 export const SEND_MESSAGE = gql`
 mutation sendMessage($createMessageInput: CreateMessageInput!){
   createMessage(createMessageInput: $createMessageInput){
@@ -575,8 +589,11 @@ export const SCHEDULE = gql`
 `;
 
 export const QUESTIONS = gql`
-  query questions {
-    questions {
+  query questions($page:Float,$limit:Float,$sort:QuestionSort, $query:QuestionSearch) {
+    questions(page: $page,limit:$limit, sort:$sort, query:$query) {
+      ...BasePaginateParts
+
+      questions{
       id
       title
       body
@@ -591,8 +608,10 @@ export const QUESTIONS = gql`
         id
         name
       }
+      }
     }
   }
+  ${BASE_CONNECTION_FRAGMENT}
 `;
 export const QUESTION = gql`
   query question($id: String!) {
