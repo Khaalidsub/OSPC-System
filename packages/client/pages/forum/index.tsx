@@ -6,22 +6,34 @@ import { questions, questionsVariables, questions_questions, questions_questions
 import { formatDistance } from 'date-fns'
 import { htmlToText } from 'html-to-text'
 import React, { useEffect, useState } from 'react'
-import { SearchField } from 'components'
+import { SearchField,LoadMore } from 'components'
 import { QuestionSort } from '__generated__/globalTypes'
+
+const SelectField = ({setSortType,sortType}) => {
+    return (
+
+        <select onClick={(e: any) => { setSortType({ ...sortType, createdAt: e.target.value }) }} className="border-none outline-none focus:outline-none bg-transparent">
+            <option value="asc">Most Recent</option>
+            <option value="desc">Oldest</option>
+        </select>
+    )
+}
+
 export const Forum = () => {
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(10)
-    const [sortType, setSortType] = useState({createdAt:'asc'}as QuestionSort)
-    const { data, refetch } = useQuery<questions, questionsVariables>(QUESTIONS,{variables: { limit:limit,page:page,sort:sortType}})
-  
+
+    const [sortType, setSortType] = useState({ createdAt: 'asc' } as QuestionSort)
+    const { data, refetch, fetchMore, previousData } = useQuery<questions, questionsVariables>(QUESTIONS, { variables: { limit: 10, page: page, sort: sortType } })
+
     const [search, setSearch] = useState('')
     const [questions, setQuestions] = useState(null as questions_questions)
     const router = useRouter()
     const { isRefetch } = router.query
     useEffect(() => {
-        setQuestions(data?.questions)
-     
         
+        
+        const questions = [...previousData?.questions?.questions || [], ...data?.questions?.questions || []]
+        setQuestions({ ...data?.questions, questions:questions.filter((val,id,array) => array.indexOf(val) == id) })
     }, [data])
     useEffect(() => {
         if (isRefetch) {
@@ -32,8 +44,13 @@ export const Forum = () => {
         const result = data?.questions.questions.filter(question => {
             return question?.title?.toLowerCase().includes(search)
         })
-        setQuestions({...data?.questions,questions:result})
+        // TODO: if it is empty, search from the db
+        setQuestions({ ...data?.questions, questions: result })
     }, [search])
+
+    useEffect(() => {
+        fetchMore({ variables: { limit: 10, page: page, sort: sortType } })
+    }, [page])
     const Metadata = ({ name, createdAt, subject, answers }) => {
         return (
             <div className="flex flex-row space-x-4 text-xs">
@@ -46,7 +63,7 @@ export const Forum = () => {
     }
     const Question = ({ id, title, subject, createdAt, user, body, answers }: questions_questions_questions) => {
         return (
-            <div className="w-full self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
+            <div className="self-center flex flex-col bg-white rounded-md shadow-md  p-4 space-y-4">
                 <h2 onClick={() => router.push(`/forum/${id}`)} className="font-raleway text-2xl capitalize cursor-pointer hover:underline" >{title}</h2>
                 <p className="font-raleway line-clamp-2 pr-28 font-normal">{htmlToText(body)}</p>
                 <Metadata name={user.name} createdAt={createdAt} subject={subject.name} answers={answers} />
@@ -55,22 +72,16 @@ export const Forum = () => {
     }
     const QuestionList = () => {
         return (
-            <>
+            <div className="w-full space-y-4 ">
                 {questions?.questions?.map(question => {
                     return <Question key={question.id} {...question} />
                 })}
-            </>
+                <LoadMore hasNextPage={questions?.hasNextPage} setPage={setPage} page={page} />
+            </div>
         )
     }
 
-    const SelectField = () => {
-        return (
 
-            <select className="border-none outline-none focus:outline-none bg-transparent">
-                <option value="Most Recent">Most Recent</option>
-            </select>
-        )
-    }
     return (
         <div className="grid grid-cols-1">
             <div className="w-3/4 mx-auto flex flex-col space-y-2 ">
@@ -82,7 +93,7 @@ export const Forum = () => {
                         <button onClick={() => router.push('forum/ask')} className="px-5 py-2 font-semibold rounded-md shadow-md font-raleway bg-tertiary text-white">Ask Question</button>
                     </div>
                     <div className="space-x-4">
-                        <SelectField />
+                        <SelectField setSortType={setSortType} sortType={sortType} />
                         {/* <SelectField /> */}
                     </div>
 
