@@ -1,26 +1,61 @@
 version: '3.3'
 services:
-  server:
+  nginx:
+    image: 'nginx'
     build:
-      context: ./packages/server
-      dockerfile: ./Dockerfile.dev
-    image: 'khaalid-subaan/ospc-dev:latest'
-    container_name: ospc-dev
-
-    ports:
-      - '3000:3000'
+      context: ./nginx
+      dockerfile: ./Dockerfile
+    container_name: nginx
     volumes:
-      - /usr/src/app/node_modules
-      - .:/usr/src/app
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ~/etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - cat
+      - frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: ./packages/client/Dockerfile
+    image: 'sleepinglotus/ospc-client'
+    container_name: frontend
+    depends_on:
+      - cat
+  redis:
+    image: 'redis'
+    container_name: redis
+    ports: 
+      - "6379:6379"
+  
+  redisCommander:
+    image: 'rediscommander/redis-commander'
+    container_name: rediscommander
+    depends_on:
+      - redis
+    env_file: 
+      ./.env
+    ports:
+      - "8081:3000"
+  cat:
+    build:
+      context: .
+      dockerfile: ./packages/server/Dockerfile.prod
+    image: 'sleepinglotus/ospc-api'
+    container_name: cat
     depends_on:
       - mongodb
+      - redis
+    env_file: 
+      ./.env
     stdin_open: true
     tty: true
   mongodb:
     image: 'mongo:4.4'
     container_name: mongodb
     restart: always
+    # ports: 
+    #   - "27017:27017"
     volumes:
-      - /data/db:/data/db
-    ports:
-      - '27017:27017'
+      - ~/etc/data/db:/data/db

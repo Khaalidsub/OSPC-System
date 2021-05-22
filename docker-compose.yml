@@ -26,8 +26,6 @@ services:
   redis:
     image: 'redis'
     container_name: redis
-    ports: 
-      - "6379:6379"
   
   redisCommander:
     image: 'rediscommander/redis-commander'
@@ -36,8 +34,6 @@ services:
       - redis
     env_file: 
       ./.env
-    ports:
-      - "8081:3000"
   cat:
     build:
       context: .
@@ -55,7 +51,5 @@ services:
     image: 'mongo:4.4'
     container_name: mongodb
     restart: always
-    # ports: 
-    #   - "27017:27017"
     volumes:
       - ~/etc/data/db:/data/db
