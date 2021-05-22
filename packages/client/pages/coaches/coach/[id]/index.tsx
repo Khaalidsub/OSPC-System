@@ -59,7 +59,9 @@ export const Coach = () => {
     }, [data])
 
     const CoachProfileCard = ({ coach }: CoachProps) => {
+        
         return (
+        
 
             <div className="p-2  flex flex-row space-x-12 items-stretch">
                 <img className="w-2/12 cursor-pointer rounded-lg" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${coach?.image || profileDefault}`} alt="" />
@@ -177,13 +179,13 @@ Amet laborum ipsum occaecat officia do pariatur velit proident velit. Fugiat par
             if (lesson  || addHours(startOfDay(dayTime), i).getTime() < getTime(momentTZ.tz(Date.now(), country).toDate())) {//format to specific timezone
 
 
-                elements.push(<h4 key={i} className="text-gray-400 text-lg">{getHours(add(dayTime, { hours: i }))}:00</h4>)
+                elements.push(<h4 key={i} className="text-lg text-gray-500 bg-gray-200 rounded-lg py-1">{getHours(add(dayTime, { hours: i }))}:00</h4>)
             } else {
 
 
                 elements.push(<h4 onClick={() =>
                     router.push(`/booking/${id}?day=${day}&dayTime=${add(dayTime, { hours: i }).toISOString()}&timezone=${country}`)
-                } key={i} className="hover:underline cursor-pointer text-lg">{getHours(add(dayTime, { hours: i }))}:00</h4>)
+                } key={i} className="hover:underline cursor-pointer text-lg bg-tertiary text-white rounded-lg py-1 hover:shadow-2xl">{getHours(add(dayTime, { hours: i }))}:00</h4>)
             }
 
         }

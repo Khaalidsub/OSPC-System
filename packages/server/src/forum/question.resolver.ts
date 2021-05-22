@@ -56,7 +56,7 @@ export class QuestionsResolver {
 
   @Query(() => QuestionConnection, { name: 'questions' })
   findAll(@Args({type:()=>QuestionArgs}) questionArgs:QuestionArgs) {
-    console.log(questionArgs);
+    // console.log(questionArgs);
      
     return this.questionService.findAll(questionArgs)
   }
