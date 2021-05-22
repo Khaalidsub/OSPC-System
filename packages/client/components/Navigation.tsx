@@ -64,7 +64,7 @@ export const useNavigation = ({ currentUser }) => {
     }
   }, [isActive])
 
-  console.log(isActive,Navigation);
+  // console.log(isActive,Navigation);
   
 
 
