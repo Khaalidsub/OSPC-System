@@ -5,8 +5,8 @@ import { profileDefault } from 'utililites/util'
 
 export const ProfileInfoCard = ({user}) => {
     const router = useRouter()
-    const userImage = user.image || profileDefault
-
+    const userImage = user?.image || profileDefault
+    
     return (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }} className="space-x-6 p-4 items-center bg-white shadow-md">
             <a href="/settings" onClick={() => router.push('/settings')}><img className="h-5 w-5" src="/assets/settings.svg" alt="" /></a>

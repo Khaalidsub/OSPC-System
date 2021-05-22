@@ -35,7 +35,7 @@ export const Question = (): JSX.Element => {
 
     const onSubmit = async () => {
         try {
-            console.log('hello');
+            // console.log('hello');
             if (htmlToText(answer) && htmlToText(answer).trim()) {
                 // await askQuestion({ variables: { createQuestionInput: { title: title, body: body, subject: subject.id } } })
                 // router.replace()
@@ -47,7 +47,7 @@ export const Question = (): JSX.Element => {
             } else
                 setError('Answer must not be empty')
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setError(error.message)
         }
     }

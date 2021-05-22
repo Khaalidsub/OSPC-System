@@ -27,14 +27,14 @@ export const AskQuestion = () => {
 
     const onSubmit = async ({ title }) => {
         try {
-            console.log('hello');
+            // console.log('hello');
             if (htmlToText(body) && htmlToText(body).trim()) {
                 await askQuestion({ variables: { createQuestionInput: { title: title, body: body, subject: subject.id } } })
                 router.replace('/forum?isRefetch=true')
             } else
                 setError('Body must not be empty')
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             setError(error.message)
         }
     }

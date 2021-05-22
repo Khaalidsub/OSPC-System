@@ -25,7 +25,7 @@ export function MainLayout(props: MainLayoutProps) {
         }
         return (
             <>
-                <ProfileInfoCard user={user} />
+                <ProfileInfoCard user={user?.currentUser} />
             </>
         )
     }

@@ -1,20 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { QuestionArgs } from 'src/types/args/Question.args';
+import { ModelPaginate, questionLabels } from 'types';
+
 import { CreateQuestionInput } from './dto/create-forum.input';
 import { Question, QuestionDocument } from './entities/forum.entity';
 
 @Injectable()
 export class QuestionService {
   constructor(
-    @InjectModel(Question.name) private questionModel: Model<QuestionDocument>,
+    @InjectModel(Question.name) private questionModel: Model<QuestionDocument> & any,
   ) {}
   create(createQuestionInput: CreateQuestionInput) {
     return new this.questionModel(createQuestionInput).save();
   }
 
-  findAll() {
-    return this.questionModel.find({}).exec();
+  findAll({page=1,limit=20,sort,query}:QuestionArgs) {
+    
+    return this.questionModel.paginate(query,{sort,page,limit,customLabels:questionLabels})
   }
 
   findOne(query) {
