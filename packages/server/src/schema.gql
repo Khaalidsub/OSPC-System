@@ -159,6 +159,13 @@ type AuthResult {
   user: User!
 }
 
+type StudentMetrics {
+  id: ID!
+  lessons: Float
+  answers: Float
+  questions: Float
+}
+
 type Schedule {
   day: Day!
   time_start: Float!
@@ -358,10 +365,11 @@ type Query {
   pendingCoaches: [User!]!
   activeCoaches(subject: String): [User!]!
   coachLessons(subject: String): [CoachLessons!]!
-  studentLessons: [StudentLessons!]!
   moderators: [User!]!
   user(id: String!): User!
   fakeData: String!
+  studentLessons: [StudentLessons!]!
+  studentMetrics: StudentMetrics!
   currentUser: User!
   availableModerators: [User!]!
   subjectsByModerator: [Subject!]!
