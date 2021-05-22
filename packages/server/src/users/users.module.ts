@@ -4,6 +4,7 @@ import { UsersResolver } from './users.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from 'auth/auth.module';
 import { User, UserSchema } from './entities/user.entity';
+import { UsersStudentResolver } from './users.student.resolver';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { User, UserSchema } from './entities/user.entity';
     forwardRef(() => AuthModule),
   ],
 
-  providers: [UsersResolver, UsersService],
+  providers: [UsersResolver,UsersStudentResolver, UsersService],
   exports: [UsersService],
 })
 export class UsersModule {}
