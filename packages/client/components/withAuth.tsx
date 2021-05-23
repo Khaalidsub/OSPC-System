@@ -9,10 +9,11 @@ import Cookies from "universal-cookie";
 import { AUTH_TOKEN } from "lib/utils";
 
 
-export const withAuth = <T extends object>(C: any) => {
+export const withAuth = <T extends any>(C: any) => {
     const AuthComponent = ({ props }) => {
 
-
+        console.log(props,C);
+        
         return (
             <C {...props} />
         )
@@ -25,8 +26,10 @@ export const withAuth = <T extends object>(C: any) => {
         
         try {
             const cookies = new Cookies(ctx.req?.headers.cookie)
-            const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) } });
-            // console.log('so liek', response?.data);
+            // console.log('so liek', apolloClient);
+            
+            const response = await apolloClient?.query<CurrentTypes.currentUser>({ query: CURRENT_USER, context: { token: cookies.get(AUTH_TOKEN) }, });
+ 
 
             if (response.data.currentUser.accountStatus === CoachingStatus.pending) {
 
@@ -42,7 +45,7 @@ export const withAuth = <T extends object>(C: any) => {
                    props:{ currentUser: null}
                 }
             }
-            console.log(response.data.currentUser.id);
+            // console.log(response.data.currentUser.id);
             
             return {
                
@@ -50,7 +53,7 @@ export const withAuth = <T extends object>(C: any) => {
             };
         } catch (error) {
             const cookies = new Cookies(ctx.req?.headers.cookie)
-            console.log(error);
+            console.log('errors:',error);
             if (cookies.get('user')) {
                 cookies.remove('user')
             }

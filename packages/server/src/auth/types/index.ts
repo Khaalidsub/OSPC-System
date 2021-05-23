@@ -16,3 +16,7 @@ export class AuthResult {
   @Field(() => User)
   user: User;
 }
+export enum VerificationChannel{
+  sms = 'sms',
+  email = 'email'
+}

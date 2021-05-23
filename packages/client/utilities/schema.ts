@@ -27,58 +27,56 @@ export const ANSWER_FRAGMENT = gql`
   }
 `;
 export const MESSAGE_FRAGMENT = gql`
-fragment MessageParts on Message {
-  id
-  sender{
+  fragment MessageParts on Message {
     id
-    image
+    sender {
+      id
+      image
+    }
+    chat {
+      id
+    }
+    input
+    createdAt
+    updatedAt
   }
-  chat{
-    id
-  }
-  input
-  createdAt
-  updatedAt
-}
-`
+`;
 export const CHAT_FRAGMENT = gql`
-fragment ChatParts on Chat {
-  id
-isOpen
-users{
-  id
-  name
-  image
-
-}
-createdAt
-updatedAt
-}
-
-`
+  fragment ChatParts on Chat {
+    id
+    isOpen
+    users {
+      id
+      name
+      image
+    }
+    createdAt
+    updatedAt
+  }
+`;
 
 export const BASE_CONNECTION_FRAGMENT = gql`
-fragment BasePaginateParts on QuestionConnection{
-  totalDocs
-  limit
-  totalPages
-  hasNextPage
-  hasPrevPage
-  page
-  nextPage
-  prevPage
-  pagingCounter
-}
-`
+  fragment BasePaginateParts on QuestionConnection {
+    totalDocs
+    limit
+    totalPages
+    hasNextPage
+    hasPrevPage
+    page
+    nextPage
+    prevPage
+    pagingCounter
+  }
+`;
 
 export const SEND_MESSAGE = gql`
-mutation sendMessage($createMessageInput: CreateMessageInput!){
-  createMessage(createMessageInput: $createMessageInput){
-    ...MessageParts
+  mutation sendMessage($createMessageInput: CreateMessageInput!) {
+    createMessage(createMessageInput: $createMessageInput) {
+      ...MessageParts
+    }
   }
-}
-${MESSAGE_FRAGMENT}
-`
+  ${MESSAGE_FRAGMENT}
+`;
 
 //Mutation
 export const LOGIN_USER = gql`
@@ -103,7 +101,7 @@ export const REGISTER_USER = gql`
 `;
 export const UPDATE_USER = gql`
   mutation updateUser($updateUserInput: UpdateUserInput!) {
-    updateUser(updateUserInput: $updateUserInput)  {
+    updateUser(updateUserInput: $updateUserInput) {
       ...UserParts
     }
   }
@@ -158,7 +156,6 @@ export const REJECT_STUDENT = gql`
 export const ACCEPT_STUDENT = gql`
   mutation approveStudent($id: String!) {
     approveStudent(id: $id) {
-  
       ...UserParts
     }
   }
@@ -232,8 +229,8 @@ export const UPDATE_SUBJECT = gql`
 `;
 
 export const BOOK_LESSON = gql`
-  mutation bookLesson($createLesson: CreateLessonInput!, $amount:Float!) {
-    bookLesson(createLessonInput: $createLesson, amount:$amount) {
+  mutation bookLesson($createLesson: CreateLessonInput!, $amount: Float!) {
+    bookLesson(createLessonInput: $createLesson, amount: $amount) {
       id
       day
       date
@@ -279,17 +276,20 @@ export const VOTE_ANSWER = gql`
 `;
 
 export const CREATE_PAYMENT_INTENT = gql`
-mutation createPaymentIntent($topup:TopUp!){
-  createPaymentIntent(topup: $topup)
-}
-`
-export const CREATE_TRANSACTION = gql`
-mutation createTransaction($topup:TopUp!,$transaction:CreateTransactionInput!){
-  createPayment(createTransactionHistoryInput: $transaction,topup:$topup){
-    id
+  mutation createPaymentIntent($topup: TopUp!) {
+    createPaymentIntent(topup: $topup)
   }
-}
-`
+`;
+export const CREATE_TRANSACTION = gql`
+  mutation createTransaction(
+    $topup: TopUp!
+    $transaction: CreateTransactionInput!
+  ) {
+    createPayment(createTransactionHistoryInput: $transaction, topup: $topup) {
+      id
+    }
+  }
+`;
 // Query
 export const CURRENT_USER = gql`
   query currentUser {
@@ -312,7 +312,6 @@ export const USERS = gql`
 export const STUDENTS = gql`
   query students {
     students {
-  
       ...UserParts
     }
   }
@@ -322,7 +321,6 @@ export const STUDENTS = gql`
 export const COACHES = gql`
   query coaches {
     pendingCoaches {
-
       ...UserParts
     }
   }
@@ -331,7 +329,6 @@ export const COACHES = gql`
 export const COACH = gql`
   query coach($id: String!, $dateTo: Float!, $dateFrom: Float!) {
     user(id: $id) {
-      
       ...UserParts
     }
     getUserSpecialization(id: $id) {
@@ -574,6 +571,15 @@ export const MY_LESSONS = gql`
     }
   }
 `;
+export const STUDENT_METRIC = gql`
+  query studentMetrics {
+    studentMetrics {
+      lessons
+      answers
+      questions
+    }
+  }
+`;
 export const SCHEDULE = gql`
   query schedule {
     getSchedule {
@@ -589,25 +595,30 @@ export const SCHEDULE = gql`
 `;
 
 export const QUESTIONS = gql`
-  query questions($page:Float,$limit:Float,$sort:QuestionSort, $query:QuestionSearch) {
-    questions(page: $page,limit:$limit, sort:$sort, query:$query) {
+  query questions(
+    $page: Float
+    $limit: Float
+    $sort: QuestionSort
+    $query: QuestionSearch
+  ) {
+    questions(page: $page, limit: $limit, sort: $sort, query: $query) {
       ...BasePaginateParts
 
-      questions{
-      id
-      title
-      body
-      answers
-      subject {
+      questions {
         id
-        name
-      }
-      createdAt
-      updatedAt
-      user {
-        id
-        name
-      }
+        title
+        body
+        answers
+        subject {
+          id
+          name
+        }
+        createdAt
+        updatedAt
+        user {
+          id
+          name
+        }
       }
     }
   }
@@ -643,64 +654,64 @@ export const ANSWERS = gql`
 `;
 
 export const TRANSACTIONS = gql`
-query transactions{
-  myWallet{
-    id
-    balance
-  }
+  query transactions {
+    myWallet {
+      id
+      balance
+    }
 
-  TransactionHistory : transactions(type:topup){
-    id
- createdAt
-    amount
+    TransactionHistory: transactions(type: topup) {
+      id
+      createdAt
+      amount
+    }
+    BookedLessonHistory: transactions(type: booking) {
+      id
+      createdAt
+      amount
+    }
   }
-  BookedLessonHistory : transactions(type:booking){
-    id
-createdAt
-    amount
-  }
-}
-`
+`;
 
 export const CHATS = gql`
-query chats{
-  chats{
-    ...ChatParts
+  query chats {
+    chats {
+      ...ChatParts
+    }
   }
-}
-${CHAT_FRAGMENT}
-`
+  ${CHAT_FRAGMENT}
+`;
 export const CHAT = gql`
-query chat($id: String!){
-  chat(id: $id){
-    ...ChatParts
+  query chat($id: String!) {
+    chat(id: $id) {
+      ...ChatParts
+    }
   }
-}
-${CHAT_FRAGMENT}
-`
+  ${CHAT_FRAGMENT}
+`;
 
 export const MESSAGES = gql`
-query messages($id: String!){
-  messages(id: $id){
-    ...MessageParts
+  query messages($id: String!) {
+    messages(id: $id) {
+      ...MessageParts
+    }
   }
-}
-${MESSAGE_FRAGMENT}
-`
+  ${MESSAGE_FRAGMENT}
+`;
 // Subscription
 export const ON_MESSAGE = gql`
-subscription onMessageSent($id: String!){
-  onMessageSent(id: $id){
-    ...MessageParts
+  subscription onMessageSent($id: String!) {
+    onMessageSent(id: $id) {
+      ...MessageParts
+    }
   }
-}
-${MESSAGE_FRAGMENT}
-`
+  ${MESSAGE_FRAGMENT}
+`;
 export const ON_CHATS = gql`
-subscription onChatCreate{
-  onChatCreate{
-    ...ChatParts
+  subscription onChatCreate {
+    onChatCreate {
+      ...ChatParts
+    }
   }
-}
-${CHAT_FRAGMENT}
-`
+  ${CHAT_FRAGMENT}
+`;

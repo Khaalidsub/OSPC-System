@@ -42,7 +42,8 @@ export class LessonsService {
           },
         },
       ])
-      .limit(arg.limit)
+      .sort({date:-1})
+      .limit(arg.limit)    
       .exec();
   }
   findById(id: string) {

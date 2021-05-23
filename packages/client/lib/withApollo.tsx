@@ -7,13 +7,13 @@ import { authHttpLink, authWsLink, getTokenFromCookie } from './utils';
 // const host = process.env.NEXT_PUBLIC_BACKEND || 'localhost'
 // const port = process.env.NEXT_PUBLIC_BACKEND_PORT || '3001'
 //  const url = process.env.NEXT_PUBLIC_URL || 'localhost:3001/graphql';
+const getProductionUrl = ()=>{
+  return isBrowser ? `http://${process.env.NEXT_PUBLIC_URL}`:`http://${process.env.NEXT_PUBLIC_URL_SERVER}`
+}
 export const httpLink = new HttpLink({
-
-    uri: process.env.NODE_ENV === 'production'?  `http://${process.env.NEXT_PUBLIC_URL}` : `http://localhost:3001/graphql`,
+    
+    uri: process.env.NODE_ENV === 'production'?  getProductionUrl() : `http://localhost:3001/graphql`,
 })
-// const wsWithAuth = ()=>{
-//   return 
-// }
 export const wsLink = isBrowser ?  new SubscriptionClient(
     process.env.NODE_ENV === 'production'?  `ws://${process.env.NEXT_PUBLIC_URL}` : `ws://localhost:3001/graphql`,
     {
@@ -22,9 +22,8 @@ export const wsLink = isBrowser ?  new SubscriptionClient(
         authorization:  getTokenFromCookie() ? `Bearer ${getTokenFromCookie()}` : '',
     }
   }) : null;
-// const createWebSocketLink = ()=>{
-//   return 
-// }
+
+
 export const link = isBrowser ?  split(
     ({ query }) => {
       const definition = getMainDefinition(query);

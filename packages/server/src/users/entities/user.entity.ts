@@ -11,6 +11,7 @@ import { Role, Status } from '@common/enums';
 import { IUser } from '@common/interfaces';
 import { SubjectSpecialization } from 'coach/entities/coach.entity';
 import { Subject } from 'subjects/entities/subject.entity';
+import { hash, compare } from 'bcrypt';
 export type UserDocument = User & Document;
 
 @Schema()
@@ -54,6 +55,14 @@ export class User implements IUser {
   image:string;
   // @Field(() => Subject, {})
   // subject?: string;
+  async hashPassword(): Promise<void> {
+    this.password = await hash(this.password, 10);
+  }
+  async comparePassword(enteredPassword: string): Promise<boolean> {
+    const result = await compare(enteredPassword, this.password);
+    console.log(result);
+    return result;
+  }
 }
 registerEnumType(Role, { name: 'Role' });
 registerEnumType(Status, { name: 'Status' });

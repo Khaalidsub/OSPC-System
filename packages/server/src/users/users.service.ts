@@ -6,11 +6,21 @@ import { User, UserDocument } from './entities/user.entity';
 import * as mongoose from 'mongoose';
 import { CoachLessons } from 'types';
 import { CreateUserInput } from './dto/create-user.input';
-const users:any[] = [{email:'admin@gmail.com',name:"admin",password:'123Zebra',university:"UTM", role:Role.admin, accountStatus:Status.active}]
+const users: any[] = [
+  {
+    email: 'admin@gmail.com',
+    name: 'admin',
+    password: '123Zebra',
+    university: 'UTM',
+    role: Role.admin,
+    accountStatus: Status.active,
+  },
+];
 
 @Injectable()
 export class UsersService {
-  
+
+
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   create(user: User) {
@@ -18,8 +28,7 @@ export class UsersService {
     return createdUser.save();
   }
   populateData() {
-    return new this.userModel(users[0]).save()
-
+    return new this.userModel(users[0]).save();
   }
 
   findAll() {
@@ -31,6 +40,10 @@ export class UsersService {
 
   findOne(query) {
     return this.userModel.findOne(query).exec();
+  }
+
+  countByQuery(query) {
+    return this.userModel.find(query).count()
   }
 
   findById(id: string) {
@@ -83,7 +96,7 @@ export class UsersService {
           _id: 1,
           name: 1,
           email: 1,
-          image:1,
+          image: 1,
           lessons: {
             $filter: {
               input: '$lessons',
@@ -93,7 +106,6 @@ export class UsersService {
               },
             },
           },
-          
         },
       },
       {
@@ -101,7 +113,7 @@ export class UsersService {
           _id: 1,
           name: 1,
           email: 1,
-          image:1,
+          image: 1,
           lessons: 1,
           lessons_taken: {
             $size: '$lessons',
@@ -116,17 +128,17 @@ export class UsersService {
           as: 'subjectspecializations',
         },
       },
-     
+
       {
         $unwind: {
           path: '$subjectspecializations',
         },
       },
-      { 
+      {
         $match: {
-          lessons_taken:{$gt:0}
-        }
-      }
+          lessons_taken: { $gt: 0 },
+        },
+      },
     ]);
     if (subject) {
       return aggregate
@@ -158,7 +170,7 @@ export class UsersService {
             _id: 1,
             name: 1,
             email: 1,
-            image:1,
+            image: 1,
             lessons: {
               $filter: {
                 input: '$lessons',
@@ -176,7 +188,7 @@ export class UsersService {
             name: 1,
             email: 1,
             lessons: 1,
-            image:1,
+            image: 1,
             lessons_given: {
               $size: '$lessons',
             },
@@ -184,11 +196,59 @@ export class UsersService {
         },
         {
           $match: {
-            lessons_given:{$gt:0}
-          }
-        }
+            lessons_given: { $gt: 0 },
+          },
+        },
       ])
       .exec();
+  }
+  findStudentMetrics(student: string) {
+    return this.userModel.aggregate([
+      {
+        $match: {
+          _id: mongoose.Types.ObjectId(student),
+        },
+      },
+      {
+        $lookup: {
+          from: 'lessons',
+          localField: '_id',
+          foreignField: 'student',
+          as: 'lessons',
+        },
+      },
+      {
+        $lookup: {
+          from: 'questions',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'questions',
+        },
+      },
+      {
+        $lookup: {
+          from: 'answers',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'answers',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+  
+          lessons: {
+            $size: '$lessons',
+          },
+          answers: {
+            $size: '$answers',
+          },
+          questions: {
+            $size: '$questions',
+          },
+        },
+      },
+    ]);
   }
   findCoachBySubject(subject: string) {
     return this.userModel.aggregate([

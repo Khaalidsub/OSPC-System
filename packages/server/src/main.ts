@@ -9,15 +9,17 @@ import { ValidationPipe } from '@nestjs/common';
 declare const module: any;
 
 async function bootstrap() {
-  if (process.env.NODE_ENV !== 'production') {
-  config();
-    
-  }
+  if (process.env.NODE_ENV !=='production') {
+     
+    console.log('helli it is being dispatched');
+    config({debug:true});
+      
+    }
   const app = await NestFactory.create(AppModule);
 
   
   Sentry.init({
-    environment: 'development',
+    environment: process.env.NODE_ENV,
     dsn:
       'https://22d588d25f6e403ab2070c38abe3b644@o334664.ingest.sentry.io/5636077',
     integrations: [
@@ -43,6 +45,7 @@ async function bootstrap() {
   });
   await app.listen(process.env.PORT || 3001);
   if (module.hot) {
+
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }

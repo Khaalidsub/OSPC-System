@@ -176,9 +176,14 @@
         "signature": "2860288dd6c5c4fed4c1826db0eb66f485145077a3f578dcb1cc04f168ac0539",
         "affectsGlobalScope": false
       },
+      "./src/enums/verificationchannel.ts": {
+        "version": "3c7ddc9264f98ad5763111d8d59acdcb9b675f7da3451318daee177eeba1c6fd",
+        "signature": "f939e12f16235f6f91b08111cdd2f03fad76f8ffe6ac5126b36dc71ae635d903",
+        "affectsGlobalScope": false
+      },
       "./src/enums/index.ts": {
-        "version": "919e3ed298e4eb137ec745954e846a886ebae2877616548c0991ece5d3d1d4f9",
-        "signature": "919e3ed298e4eb137ec745954e846a886ebae2877616548c0991ece5d3d1d4f9",
+        "version": "53ca783b825e7b87de69aa1ec20224f8e848c88686e2e5e565918a6fd055b6df",
+        "signature": "53ca783b825e7b87de69aa1ec20224f8e848c88686e2e5e565918a6fd055b6df",
         "affectsGlobalScope": false
       },
       "./src/errors/index.ts": {
@@ -1457,13 +1462,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/mongodb/index.d.ts": {
-        "version": "937f880fdab11788a782bd886368f22d47da50a7adfc3e9e97b3cf42c8cea087",
-        "signature": "937f880fdab11788a782bd886368f22d47da50a7adfc3e9e97b3cf42c8cea087",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/mongoose/index.d.ts": {
-        "version": "d80c4e0d4038d812d74f6e711e4e15fb06c483cc5e0f0c9b392f698f577136c9",
-        "signature": "d80c4e0d4038d812d74f6e711e4e15fb06c483cc5e0f0c9b392f698f577136c9",
+        "version": "257890b41dbcade5cf8f05a666513de9999cd9b53259242581c76e31156c5f53",
+        "signature": "257890b41dbcade5cf8f05a666513de9999cd9b53259242581c76e31156c5f53",
         "affectsGlobalScope": false
       },
       "../../node_modules/form-data/index.d.ts": {
@@ -2123,13 +2123,6 @@
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/tls.d.ts"
       ],
-      "../../node_modules/@types/mongoose/index.d.ts": [
-        "../../node_modules/@types/mongodb/index.d.ts",
-        "../../node_modules/@types/mongoose/index.d.ts",
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/index.d.ts",
-        "../../node_modules/@types/node/stream.d.ts"
-      ],
       "../../node_modules/@types/node-fetch/index.d.ts": [
         "../../node_modules/@types/node-fetch/externals.d.ts",
         "../../node_modules/@types/node/http.d.ts",
@@ -3017,7 +3010,8 @@
       "./src/enums/index.ts": [
         "./src/enums/days.ts",
         "./src/enums/role.ts",
-        "./src/enums/status.ts"
+        "./src/enums/status.ts",
+        "./src/enums/verificationchannel.ts"
       ],
       "./src/interfaces/ianswer.ts": [
         "./src/interfaces/iuser.ts"
@@ -3490,13 +3484,6 @@
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/tls.d.ts"
       ],
-      "../../node_modules/@types/mongoose/index.d.ts": [
-        "../../node_modules/@types/mongodb/index.d.ts",
-        "../../node_modules/@types/mongoose/index.d.ts",
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/index.d.ts",
-        "../../node_modules/@types/node/stream.d.ts"
-      ],
       "../../node_modules/@types/node-fetch/index.d.ts": [
         "../../node_modules/@types/node-fetch/externals.d.ts",
         "../../node_modules/@types/node/http.d.ts",
@@ -4384,7 +4371,8 @@
       "./src/enums/index.ts": [
         "./src/enums/days.ts",
         "./src/enums/role.ts",
-        "./src/enums/status.ts"
+        "./src/enums/status.ts",
+        "./src/enums/verificationchannel.ts"
       ],
       "./src/interfaces/ilesson.ts": [
         "./src/enums/index.ts"
@@ -4502,7 +4490,6 @@
       "../../node_modules/@types/minimatch/index.d.ts",
       "../../node_modules/@types/minimist/index.d.ts",
       "../../node_modules/@types/mongodb/index.d.ts",
-      "../../node_modules/@types/mongoose/index.d.ts",
       "../../node_modules/@types/node-fetch/externals.d.ts",
       "../../node_modules/@types/node-fetch/index.d.ts",
       "../../node_modules/@types/node/assert.d.ts",
@@ -4737,6 +4724,7 @@
       "./src/enums/index.ts",
       "./src/enums/role.ts",
       "./src/enums/status.ts",
+      "./src/enums/verificationchannel.ts",
       "./src/errors/index.ts",
       "./src/interfaces/ianswer.ts",
       "./src/interfaces/ichat.ts",

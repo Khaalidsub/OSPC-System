@@ -6,7 +6,9 @@ import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthResolver } from './auth.resolver';
-
+import { Twilio } from 'twilio';
+import { TwilioResolver } from './twilio.resolver';
+import { TwilioService } from './twilio.service';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -16,7 +18,15 @@ import { AuthResolver } from './auth.resolver';
     }),
     forwardRef(() => UsersModule),
   ],
-  providers: [AuthService, JwtStrategy, AuthResolver],
+  providers: [AuthService, JwtStrategy, AuthResolver,
+    
+    TwilioResolver,
+    TwilioService,
+    {
+      provide: 'TwilioClient',
+      useValue:process.env.TWILIO_USER ? new Twilio(process.env.TWILIO_USER, process.env.TWILIO_PASS) :{},
+    },
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

@@ -39,6 +39,7 @@
     "@types/node": "^14.14.31",
     "apollo-server-core": "^2.21.1",
     "apollo-server-express": "^2.19.0",
+    "bcrypt": "^5.0.1",
     "bull": "^3.22.1",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
@@ -57,6 +58,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "stripe": "^8.144.0",
+    "twilio": "^3.63.0",
     "typescript": "^4.1.5",
     "uuid": "^8.3.1"
   },

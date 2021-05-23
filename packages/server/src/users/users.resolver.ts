@@ -122,15 +122,7 @@ export class UsersResolver {
       throw new Error(error.message);
     }
   }
-  @Query(() => [StudentLessons], { name: 'studentLessons' })
-  @UseGuards(GqlAuthGuard)
-  findStudentLessons(@CurrentUser() user: User) {
-    try {
-      return this.usersService.findStudentLessons(user.id);
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
+
   @Query(() => [User], { name: 'moderators' })
   findModerators() {
     return this.usersService.findByQuery({

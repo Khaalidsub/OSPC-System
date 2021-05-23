@@ -41,15 +41,15 @@ export interface questions_questions_questions {
 
 export interface questions_questions {
   __typename: "QuestionConnection";
-  totalDocs: number;
-  limit: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  page: number;
-  nextPage: number;
-  prevPage: number;
-  pagingCounter: number;
+  totalDocs: number | null;
+  limit: number | null;
+  totalPages: number | null;
+  hasNextPage: boolean | null;
+  hasPrevPage: boolean | null;
+  page: number | null;
+  nextPage: number | null;
+  prevPage: number | null;
+  pagingCounter: number | null;
   questions: questions_questions_questions[] | null;
 }
 
