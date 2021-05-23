@@ -24,10 +24,10 @@ export const Admin = () => {
                 <h2 className="text-secondary text-4xl">Welcome..!</h2>
                 <h4>What do you want to learn today?</h4>
                 <div className="grid grid-cols-2 gap-4">
+                    {/* <MetricCard />
                     <MetricCard />
                     <MetricCard />
-                    <MetricCard />
-                    <MetricCard />
+                    <MetricCard /> */}
 
                 </div>
             </div>
