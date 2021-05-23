@@ -154,9 +154,25 @@ type QuestionConnection {
   questions: [Question!]
 }
 
+type UpdateResponse {
+  message: String!
+}
+
 type AuthResult {
   token: String!
   user: User!
+}
+
+type VerificationResponse {
+  dateCreated: DateTime!
+  dateUpdated: DateTime!
+  status: String!
+
+  """Field Phonenumber"""
+  to: String!
+
+  """"""
+  valid: Boolean!
 }
 
 type StudentMetrics {
@@ -426,6 +442,26 @@ type Mutation {
   rejectCoach(id: String!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   loginUser(credentials: Credential!): AuthResult!
+  sendSMSVerificationCode(phoneNumber: String!): VerificationResponse! @deprecated(reason: "Use sendVerificationCode Instead")
+
+  """
+  Sends Verification Code to a channel depending on whether it is a phoneNumber of or email entered
+  """
+  sendVerificationCode(email: String, phoneNumber: String): VerificationResponse!
+  loginViaPhoneVerificationCode(phoneNumber: String!, code: String!): String!
+  updatePhoneNumber(phoneNumber: String!, code: String!): UpdateResponse!
+  updateEmail(email: String!, code: String!): UpdateResponse!
+
+  """
+  Returns login JWT token after verifying the verification code sent via email
+  """
+  verifyEmailRegistration(email: String!, code: String!): String!
+
+  """Returns a Reset JWT after verifying Verification Code"""
+  verifyResetPasswordCode(email: String, phoneNumber: String, code: String!): String!
+
+  """Returns a Login JWT after verifying Reset Token and new Password"""
+  resetPassword(password: String!, resetToken: String!): String!
   createDepartment(createDepartmentInput: CreateDepartmentInput!): Department!
   applyModerator(createDepartmentModeratorApplication: CreateDepartmentModeratorApplication!): User!
   addModerator(createDepartmentModerator: CreateUserInput!): User!

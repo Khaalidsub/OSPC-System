@@ -24,7 +24,7 @@ import { TwilioService } from './twilio.service';
     TwilioService,
     {
       provide: 'TwilioClient',
-      useValue: new Twilio(process.env.TWILIO_USER, process.env.TWILIO_PASS),
+      useValue:process.env.TWILIO_USER ? new Twilio(process.env.TWILIO_USER, process.env.TWILIO_PASS) :{},
     },
   ],
   exports: [AuthService],
