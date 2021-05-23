@@ -19,6 +19,8 @@ const users: any[] = [
 
 @Injectable()
 export class UsersService {
+
+
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   create(user: User) {
@@ -38,6 +40,10 @@ export class UsersService {
 
   findOne(query) {
     return this.userModel.findOne(query).exec();
+  }
+
+  countByQuery(query) {
+    return this.userModel.find(query).count()
   }
 
   findById(id: string) {
