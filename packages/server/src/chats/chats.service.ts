@@ -34,9 +34,12 @@ export class ChatsService {
   }
 
   findChatByUsers(users: string[]) {
-    return this.chatModel.find({ users: {$eq:users} });
+    return this.chatModel.find({ users: { $in: users } });
   }
-  findAllByUser(user:string) {
-    return this.chatModel.find({}).where({users:{$eq:mongoose.Types.ObjectId(user)}})
+  findAllByUser(user: string) {
+    // return this.chatModel.aggregate().match({users:{$in:[mongoose.Types.ObjectId(user)]}}).addFields({id:"$_id"})
+    return this.chatModel
+      .find({})
+      .where({ users: { $in: [mongoose.Types.ObjectId(user)] } });
   }
 }

@@ -23,7 +23,7 @@ export class Chat implements IChat {
   @Field(() => Int)
   @Prop({ default: 1 })
   duration: number;
-  @Field(() =>Date)
+  @Field(() =>Date,{nullable:true})
   createdAt: Date
   @Field(() =>Date)
   updatedAt:Date
