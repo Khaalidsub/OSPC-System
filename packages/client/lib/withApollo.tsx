@@ -8,7 +8,7 @@ import { authHttpLink, authWsLink, getTokenFromCookie } from './utils';
 // const port = process.env.NEXT_PUBLIC_BACKEND_PORT || '3001'
 //  const url = process.env.NEXT_PUBLIC_URL || 'localhost:3001/graphql';
 const getProductionUrl = ()=>{
-  return isBrowser ? `http://${process.env.NEXT_PUBLIC_URL}`:`http://${process.env.NEXT_PUBLIC_URL_SERVER}`
+  return `http://${process.env.NEXT_PUBLIC_URL}`
 }
 export const httpLink = new HttpLink({
     
