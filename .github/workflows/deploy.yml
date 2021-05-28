@@ -8,7 +8,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy cloud storage
+      - name: Deploy OSPC Production
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{secrets.SSH_HOST}}
@@ -18,6 +18,6 @@ jobs:
           script: |
             cd ./ospc
             git pull
-            docker-compose up -d --build
+            source start.sh
             docker system prune -a -f
             echo "Deployment successful to digital ocean"

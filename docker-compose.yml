@@ -22,6 +22,8 @@ services:
       dockerfile: ./packages/client/Dockerfile
     image: 'sleepinglotus/ospc-client'
     container_name: frontend
+    environment: 
+      - NEXT_PUBLIC_URL=${DOMAIN}/backend/graphql
     depends_on:
       - cat
   redis:
@@ -54,3 +56,9 @@ services:
     restart: always
     volumes:
       - ~/etc/data/db:/data/db
+  
+networks: 
+  nginx-public:
+    # Allow setting it to false for testing
+    # external: ${TRAEFIK_PUBLIC_NETWORK_IS_EXTERNAL?true}
+    external: true
