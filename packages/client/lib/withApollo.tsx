@@ -4,11 +4,8 @@ import {SubscriptionClient} from 'subscriptions-transport-ws'
 import { getMainDefinition } from '@apollo/client/utilities';
 import { isBrowser } from './isBrowser';
 import { authHttpLink, authWsLink, getTokenFromCookie } from './utils';
-// const host = process.env.NEXT_PUBLIC_BACKEND || 'localhost'
-// const port = process.env.NEXT_PUBLIC_BACKEND_PORT || '3001'
-//  const url = process.env.NEXT_PUBLIC_URL || 'localhost:3001/graphql';
 const getProductionUrl = ()=>{
-  return `http://${process.env.NEXT_PUBLIC_URL}`
+  return isBrowser ? `http://${process.env.NEXT_PUBLIC_URL}`:`http://${process.env.NEXT_PUBLIC_URL_SERVER}`
 }
 export const httpLink = new HttpLink({
     
