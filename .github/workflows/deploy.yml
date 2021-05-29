@@ -19,5 +19,4 @@ jobs:
             cd ./ospc
             git pull
             source start.sh
-            docker system prune -a -f
             echo "Deployment successful to digital ocean"
