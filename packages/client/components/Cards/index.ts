@@ -7,3 +7,4 @@ export * from './CoachCard';
 export * from './ProfileInfoCard';
 export * from './ErrorCard';
 export * from './UploadCard';
+export * from './UploadManyCard';

@@ -83,6 +83,13 @@ export interface CreateQuestionInput {
   title: string;
   body: string;
   subject: string;
+  references?: CreateReferenceDocumentInput[] | null;
+}
+
+export interface CreateReferenceDocumentInput {
+  fileName: string;
+  originalName: string;
+  type: string;
 }
 
 export interface CreateSubjecSpecialization {

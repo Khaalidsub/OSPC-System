@@ -630,6 +630,11 @@ export const QUESTION = gql`
       id
       title
       body
+      references{
+        originalName
+        fileName
+        type
+      }
       # answers
       subject {
         id

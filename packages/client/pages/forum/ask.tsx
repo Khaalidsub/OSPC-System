@@ -11,6 +11,8 @@ import { makeQuestion, makeQuestionVariables } from "utilities/__generated__/mak
 import { useRouter } from "next/router"
 import { htmlToText } from 'html-to-text'
 import { DisplayError } from "components/Cards/ErrorCard"
+import { useMultipleFileUpload } from "hooks/useMultipleFileUpload"
+import axios from "axios"
 const TextEditor = dynamic(() => import("components/TextEditor"), {
     ssr: false,
 })
@@ -21,15 +23,27 @@ export const AskQuestion = () => {
     const [body, setBody] = useState('')
     const [subject, setSubject] = useState({} as subjects_subjects)
     const [message, setError] = useState('')
-
+    const {UploadCard,files,setFiles} = useMultipleFileUpload({label:'Reference (Optional)', description:'Add additional documents to help others to understand your questions(max 3)'})
 
 
 
     const onSubmit = async ({ title }) => {
         try {
+     
             // console.log('hello');
             if (htmlToText(body) && htmlToText(body).trim()) {
-                await askQuestion({ variables: { createQuestionInput: { title: title, body: body, subject: subject.id } } })
+                const resultFiles = []
+                if (files) {
+                    const data = new FormData();
+                    files.forEach((file,index) =>{
+                        data.append(`files`,file)
+                    })
+                    const result = await axios.post(process.env.NEXT_PUBLIC_MANY_API, data, { headers: { "Access-Control-Allow-Origin": "*" } });
+                    // console.log(result.data);
+                    resultFiles.push(...result.data?.map(file=>{return {fileName:file.filename,originalName:file.originalname,type:file.type}}))
+                    
+                }
+                await askQuestion({ variables: { createQuestionInput: { title: title, body: body, subject: subject.id , references:resultFiles } } })
                 router.replace('/forum?isRefetch=true')
             } else
                 setError('Body must not be empty')
@@ -69,6 +83,7 @@ export const AskQuestion = () => {
                         <label className="text-sm font-poppins font-semibold">Body</label>
                         <TextEditor onInput={setBody} />
                     </div>
+                    <UploadCard/>
                     <div className='flex flex-col space-y-2'>
 
                         <label className="text-sm font-poppins font-semibold">Subject</label>

@@ -19,7 +19,7 @@ export interface onChatCreate_onChatCreate {
   id: string;
   isOpen: boolean;
   users: onChatCreate_onChatCreate_users[];
-  createdAt: any;
+  createdAt: any | null;
   updatedAt: any;
 }
 

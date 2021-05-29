@@ -7,6 +7,13 @@
 // GraphQL query operation: question
 // ====================================================
 
+export interface question_question_references {
+  __typename: "ReferenceDocument";
+  originalName: string;
+  fileName: string;
+  type: string;
+}
+
 export interface question_question_subject {
   __typename: "Subject";
   /**
@@ -30,6 +37,7 @@ export interface question_question {
   id: string;
   title: string;
   body: string;
+  references: question_question_references[] | null;
   subject: question_question_subject;
   createdAt: any;
   updatedAt: any;

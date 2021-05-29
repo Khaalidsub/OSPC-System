@@ -130,12 +130,19 @@ type StudentLessons {
   image: String
 }
 
+type ReferenceDocument {
+  fileName: String!
+  originalName: String!
+  type: String!
+}
+
 type Question {
   id: ID!
   title: String!
   body: String!
   subject: Subject!
   user: User!
+  references: [ReferenceDocument!]
   createdAt: DateTime!
   updatedAt: DateTime!
   answers: Float!
@@ -248,7 +255,7 @@ type Chat {
   isOpen: Boolean!
   users: [User!]!
   duration: Int!
-  createdAt: DateTime!
+  createdAt: DateTime
   updatedAt: DateTime!
 }
 
@@ -312,12 +319,19 @@ input SubjectInputType {
   coaches: Float!
 }
 
+input ReferenceDocumentInputType {
+  fileName: String!
+  originalName: String!
+  type: String!
+}
+
 input QuestionInputType {
   id: ID!
   title: String!
   body: String!
   subject: SubjectInputType!
   user: UserInputType!
+  references: [ReferenceDocumentInputType!]
   createdAt: DateTime!
   updatedAt: DateTime!
   answers: Float!
@@ -362,7 +376,7 @@ input ChatInputType {
   isOpen: Boolean!
   users: [UserInputType!]!
   duration: Int!
-  createdAt: DateTime!
+  createdAt: DateTime
   updatedAt: DateTime!
 }
 
@@ -673,12 +687,20 @@ input CreateQuestionInput {
   """"""
   body: String!
   subject: String!
+  references: [CreateReferenceDocumentInput!]
+}
+
+input CreateReferenceDocumentInput {
+  fileName: String!
+  originalName: String!
+  type: String!
 }
 
 input UpdateQuestionInput {
   id: ID
   title: String
   body: String
+  references: [ReferenceDocumentInputType!]
   createdAt: DateTime
   updatedAt: DateTime
   answers: Float

@@ -19,7 +19,7 @@ export interface chat_chat {
   id: string;
   isOpen: boolean;
   users: chat_chat_users[];
-  createdAt: any;
+  createdAt: any | null;
   updatedAt: any;
 }
 

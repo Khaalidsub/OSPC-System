@@ -19,6 +19,6 @@ export interface ChatParts {
   id: string;
   isOpen: boolean;
   users: ChatParts_users[];
-  createdAt: any;
+  createdAt: any | null;
   updatedAt: any;
 }

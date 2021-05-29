@@ -106,6 +106,22 @@ export const Question = (): JSX.Element => {
             })}
         </div>)
     }
+    const ReferenceDocument = ()=>{
+        return (<div className="flex flex-col space-y-2">
+            <label className="text-md font-raleway pb-2 font-semibold">Additional Documents :</label>
+            <div className="flex flex-row space-x-6">
+            {data?.question.references?.map(reference=>{
+                const image_url = reference.type.includes('image') ? `${process.env.NEXT_PUBLIC_MANY_URL}/${reference.fileName}`:'/icons/pdf.svg'
+                return (
+                    <div className='flex flex-col items-center space-y-3'>
+                    <img className='h-12 w-12' src={`${image_url}`}/>
+                    <a href={`${process.env.NEXT_PUBLIC_MANY_URL}/${reference.fileName}`} className='hover:underline text-secondary' target="_blank">{reference.originalName}</a>
+                    </div>
+                )
+            })}
+            </div>
+        </div>)
+    }
     return (<div className="grid grid-cols-1">
 
         <div className="flex flex-col space-y-8 w-3/6 place-self-center">
@@ -113,7 +129,8 @@ export const Question = (): JSX.Element => {
             <div className="grid grid-cols-1 gap-y-8 bg-white py-12 px-12 rounded-xl shadow-md space-y-4">
                 <QuestionTitle title={data?.question.title} subject={data?.question.subject.name} createdAt={data?.question.createdAt} />
                 <QuestionBody body={data?.question.body} />
-                <h3 className='font-semibold'>{data?.question.user.name}</h3>
+                <h3 className='font-semibold'>Author : {data?.question.user.name}</h3>
+                <ReferenceDocument/>
                 <hr />
                 <div className='flex flex-col space-y-2'>
 
