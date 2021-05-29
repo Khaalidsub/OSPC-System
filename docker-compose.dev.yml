@@ -22,6 +22,9 @@ services:
       dockerfile: ./packages/client/Dockerfile
     image: 'sleepinglotus/ospc-client'
     container_name: frontend
+    environment: 
+      - NEXT_PUBLIC_URL_SERVER=cat:3000/graphql
+      - NEXT_PUBLIC_URL=localhost/backend/graphql
     depends_on:
       - cat
   redis:

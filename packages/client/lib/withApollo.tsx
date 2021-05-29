@@ -5,14 +5,14 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { isBrowser } from './isBrowser';
 import { authHttpLink, authWsLink, getTokenFromCookie } from './utils';
 const getProductionUrl = ()=>{
-  return isBrowser ? `http://${process.env.NEXT_PUBLIC_URL}`:`http://${process.env.NEXT_PUBLIC_URL_SERVER}`
+  return isBrowser ? `https://${process.env.NEXT_PUBLIC_URL}`:`http://${process.env.NEXT_PUBLIC_URL_SERVER}`
 }
 export const httpLink = new HttpLink({
     
     uri: process.env.NODE_ENV === 'production'?  getProductionUrl() : `http://localhost:3001/graphql`,
 })
 export const wsLink = isBrowser ?  new SubscriptionClient(
-    process.env.NODE_ENV === 'production'?  `ws://${process.env.NEXT_PUBLIC_URL}` : `ws://localhost:3001/graphql`,
+    process.env.NODE_ENV === 'production'?  `wss://${process.env.NEXT_PUBLIC_URL}` : `ws://localhost:3001/graphql`,
     {
       reconnect: true,
     connectionParams:{

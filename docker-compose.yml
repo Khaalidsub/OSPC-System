@@ -24,6 +24,7 @@ services:
     container_name: frontend
     environment: 
       - NEXT_PUBLIC_URL_SERVER=cat:3000/graphql
+      - NEXT_PUBLIC_URL=ospc-test.club/backend/graphql
     depends_on:
       - cat
   redis:
