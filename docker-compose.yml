@@ -23,7 +23,7 @@ services:
     image: 'sleepinglotus/ospc-client'
     container_name: frontend
     environment: 
-      - NEXT_PUBLIC_URL_SERVER=${DOMAIN}/backend/graphql
+      - NEXT_PUBLIC_URL_SERVER=cat:3000/graphql
     depends_on:
       - cat
   redis:
@@ -43,6 +43,7 @@ services:
       dockerfile: ./packages/server/Dockerfile.prod
     image: 'sleepinglotus/ospc-api'
     container_name: cat
+    hostname: cat
     depends_on:
       - mongodb
       - redis
