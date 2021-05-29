@@ -1,8 +1,25 @@
 
-import { Editor, EditorState, RichUtils } from "draft-js"
+import {  EditorState, RichUtils } from "draft-js"
 import { useEffect, useRef, useState } from "react";
 import { convertToHTML } from 'draft-convert'
 import "draft-js/dist/Draft.css"
+import '@draft-js-plugins/image/lib/plugin.css';
+import Editor,{composeDecorators} from '@draft-js-plugins/editor';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import createImagePlugin from '@draft-js-plugins/image';
+import createBlockDndPlugin from '@draft-js-plugins/drag-n-drop';
+
+import createFocusPlugin from '@draft-js-plugins/focus';
+const linkifyPlugin = createLinkifyPlugin();
+
+const blockDndPlugin = createBlockDndPlugin();
+const focusPlugin = createFocusPlugin();
+const decorator = composeDecorators(
+    focusPlugin.decorator,
+    blockDndPlugin.decorator
+  );
+  const imagePlugin = createImagePlugin({ decorator });
+const plugins = [linkifyPlugin,blockDndPlugin, focusPlugin, imagePlugin];
 export const TextEditor = ({ onInput }) => {
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
@@ -42,6 +59,10 @@ export const TextEditor = ({ onInput }) => {
         // console.log('not handled');
         return 'not-handled'
     }
+    const focus = () => {
+        editor.current.focus()
+      };
+    
     return (<div className='border p-2 rounded-md'>
         <div className='p-2 space-x-4'>
 
@@ -52,9 +73,9 @@ export const TextEditor = ({ onInput }) => {
             <button className='font-thin font-poppins' onClick={_onCodeClick.bind(this)}>{"{ }"}</button>
         </div>
         <hr />
-        <div className='font-raleway p-2'>
+        <div  onClick={focus} className='font-raleway p-2'>
 
-            <Editor ref={editor} placeholder="Write" handleKeyCommand={handleKeyCommand} editorState={editorState} onChange={setEditorState} />
+            <Editor plugins={plugins} ref={editor} placeholder="Write" handleKeyCommand={handleKeyCommand} editorState={editorState} onChange={setEditorState} />
         </div>
     </div>
     )

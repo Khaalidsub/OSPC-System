@@ -1,10 +1,21 @@
-import { Editor, EditorState, RichUtils } from "draft-js"
+import {  EditorState, RichUtils } from "draft-js"
 import { useEffect, useRef, useState } from "react";
 import { convertToHTML } from 'draft-convert'
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
 import "draft-js/dist/Draft.css"
-export const ChatEditor = ({ onInput }) => {
+import '@draft-js-plugins/linkify/lib/plugin.css';
+import Editor,{composeDecorators} from '@draft-js-plugins/editor';
+import createFocusPlugin from '@draft-js-plugins/focus';
 
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+import createEmojiPlugin from '@draft-js-plugins/emoji';
+
+const emojiPlugin = createEmojiPlugin()
+const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+const linkifyPlugin = createLinkifyPlugin();
+const plugins = [emojiPlugin,linkifyPlugin];
+export const ChatEditor = ({ onInput,editorState,setEditorState }) => {
+
+    
     useEffect(() => {
         const html = convertToHTML(editorState.getCurrentContent());
         // console.log(html);
@@ -31,7 +42,9 @@ export const ChatEditor = ({ onInput }) => {
     
         <div className='font-raleway p-2'>
 
-            <Editor ref={editor} placeholder="message" handleKeyCommand={handleKeyCommand} editorState={editorState} onChange={setEditorState} />
+            <Editor plugins={plugins} ref={editor} placeholder="message" handleKeyCommand={handleKeyCommand} editorState={editorState} onChange={setEditorState} />
+       {/* <EmojiSuggestions/>
+       <EmojiSelect/> */}
         </div>
     </div>
     )
