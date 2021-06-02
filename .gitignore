@@ -6,7 +6,7 @@
 /packages/*/.env
 /packages/*/.next
 .env
-/.env
+
 /node_modules
 # Logs
 logs
