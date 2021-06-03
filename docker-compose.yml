@@ -27,17 +27,6 @@ services:
       - NEXT_PUBLIC_URL=ospc-test.club/backend/graphql
     depends_on:
       - cat
-  redis:
-    image: 'redis'
-    container_name: redis
-  
-  redisCommander:
-    image: 'rediscommander/redis-commander'
-    container_name: rediscommander
-    depends_on:
-      - redis
-    env_file: 
-      ./.env
   cat:
     build:
       context: .
@@ -45,19 +34,16 @@ services:
     image: 'sleepinglotus/ospc-api'
     container_name: cat
     hostname: cat
-    depends_on:
-      - mongodb
-      - redis
     env_file: 
       ./.env
     stdin_open: true
     tty: true
-  mongodb:
-    image: 'mongo:4.4'
-    container_name: mongodb
-    restart: always
-    volumes:
-      - ~/etc/data/db:/data/db
+  # mongodb:
+  #   image: 'mongo:4.4'
+  #   container_name: mongodb
+  #   restart: always
+  #   volumes:
+  #     - ~/etc/data/db:/data/db
   
 networks: 
   nginx-public:

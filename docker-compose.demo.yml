@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.3'
 services:
   nginx:
     image: 'nginx'
@@ -6,12 +6,11 @@ services:
       context: ./nginx
       dockerfile: ./Dockerfile
     container_name: nginx
+    hostname: nginx
     volumes:
-      - ./nginx/production.conf:/etc/nginx/nginx.conf
-      - ~/etc/letsencrypt:/etc/letsencrypt
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
-      - 443:443
     depends_on:
       - cat
       - frontend
@@ -21,8 +20,26 @@ services:
       dockerfile: ./packages/client/Dockerfile
     image: 'sleepinglotus/ospc-client'
     container_name: frontend
+    environment: 
+      - NEXT_PUBLIC_URL_SERVER=cat:3000/graphql
+      - NEXT_PUBLIC_URL=localhost/backend/graphql
     depends_on:
       - cat
+  redis:
+    image: 'redis'
+    container_name: redis
+    ports: 
+      - "6379:6379"
+  
+  redisCommander:
+    image: 'rediscommander/redis-commander'
+    container_name: rediscommander
+    depends_on:
+      - redis
+    env_file: 
+      ./.env
+    ports:
+      - "8081:3000"
   cat:
     build:
       context: .
@@ -31,6 +48,7 @@ services:
     container_name: cat
     depends_on:
       - mongodb
+      - redis
     env_file: 
       ./.env
     stdin_open: true
@@ -39,5 +57,7 @@ services:
     image: 'mongo:4.4'
     container_name: mongodb
     restart: always
+    ports: 
+      - "27017:27017"
     volumes:
       - ~/etc/data/db:/data/db

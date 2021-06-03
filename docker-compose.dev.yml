@@ -25,17 +25,9 @@ services:
       - NEXT_PUBLIC_URL=localhost/backend/graphql
     depends_on:
       - cat
-  redis:
-    image: 'redis'
-    container_name: redis
-    ports: 
-      - "6379:6379"
-  
   redisCommander:
     image: 'rediscommander/redis-commander'
     container_name: rediscommander
-    depends_on:
-      - redis
     env_file: 
       ./.env
     ports:
@@ -46,18 +38,15 @@ services:
       dockerfile: ./packages/server/Dockerfile.prod
     image: 'sleepinglotus/ospc-api'
     container_name: cat
-    depends_on:
-      - mongodb
-      - redis
     env_file: 
       ./.env
     stdin_open: true
     tty: true
-  mongodb:
-    image: 'mongo:4.4'
-    container_name: mongodb
-    restart: always
-    ports: 
-      - "27017:27017"
-    volumes:
-      - ~/etc/data/db:/data/db
+  # mongodb:
+  #   image: 'mongo:4.4'
+  #   container_name: mongodb
+  #   restart: always
+  #   ports: 
+  #     - "27017:27017"
+  #   volumes:
+  #     - ~/etc/data/db:/data/db

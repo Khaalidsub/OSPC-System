@@ -17,7 +17,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ApolloServerPluginUsageReporting } from 'apollo-server-core';
 import { BullModule } from '@nestjs/bull';
 // import { StripeModule,  } from '@golevelup/nestjs-stripe';
-const db = process.env.DB_HOST;
 const pubSub = new PubSub();
 
 @Module({
@@ -26,8 +25,9 @@ const pubSub = new PubSub();
     BullModule.forRoot({
       redis:{
         host:process.env.REDIS_HOST,
-        port:Number.parseInt(process.env.REDIS_PORT) || 6379
-      }
+        port:Number.parseInt(process.env.REDIS_PORT) || 6379,
+        password: process.env.REDIS_PASSWORD
+      },
     }),
     // StripeModule.forRoot(StripeModule, {
     //   apiKey: process.env.STRIPE_SECRET,
@@ -72,10 +72,9 @@ const pubSub = new PubSub();
     }),
 
     MongooseModule.forRoot(
-      `mongodb://${process.env.DB_HOST || 'localhost'}/ospc`,
+      `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`,
       {
         useFindAndModify: false,
-        dbName: process.env.DB_NAME,
         connectionFactory: (connection) => {
           connection.plugin(require('mongoose-paginate-v2'));
           return connection;
