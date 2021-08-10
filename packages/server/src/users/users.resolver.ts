@@ -17,6 +17,7 @@ import { User, UserDocument } from './entities/user.entity';
 import { SentryInterceptor } from '../Sentry';
 import { Role, Status } from '@common/enums';
 import { CoachLessons, StudentLessons } from 'types';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => User)
@@ -25,6 +26,7 @@ export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
     private authService: AuthService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   @Mutation(() => User)
@@ -32,11 +34,12 @@ export class UsersResolver {
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
     try {
-      return this.authService.register(
+      const user  =await this.authService.register(
         createUserInput,
         Role.student,
         Status.pending,
       );
+      this.eventEmitter.emit('user.created', user);
     } catch (error) {
       this.logger.error(error);
       throw new Error(error);
@@ -50,7 +53,7 @@ export class UsersResolver {
       const result = await this.usersService.update(id, {
         accountStatus: Status.active,
       });
-
+      this.eventEmitter.emit('user.approved', result);
       return result;
     } catch (error) {
       this.logger.error(error);
@@ -64,7 +67,7 @@ export class UsersResolver {
       const result = await this.usersService.update(id, {
         accountStatus: Status.rejected,
       });
-
+      this.eventEmitter.emit('user.rejected', result);
       return result;
     } catch (error) {
       throw new Error(error.message);
@@ -76,7 +79,7 @@ export class UsersResolver {
       const result = await this.usersService.update(id, {
         coachingStatus: Status.rejected,
       });
-
+      this.eventEmitter.emit('coach.rejected', result);
       return result;
     } catch (error) {
       throw new Error(error.message);

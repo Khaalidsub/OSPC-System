@@ -34,6 +34,7 @@ import {
 } from '@common/utils';
 import { CreateCoachApplicationInput } from './dto/create-coach-application.input';
 import { CoachApplicationService } from './coach-application.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 @UseInterceptors(SentryInterceptor)
 @Resolver(() => WeeklySchedule)
 export class CoachResolver {
@@ -43,6 +44,8 @@ export class CoachResolver {
     private readonly usersService: UsersService,
     private readonly specializationService: SubjectSpecializationService,
     private readonly coachApplicationService: CoachApplicationService,
+    private readonly eventEmitter: EventEmitter2,
+
   ) {}
 
   @Mutation(() => User)
@@ -72,10 +75,11 @@ export class CoachResolver {
         coach: user.id,
       } as unknown) as WeeklySchedule);
 
-      await this.coachApplicationService.save({
+      const result = await this.coachApplicationService.save({
         ...createCoachApplication,
         user: user.id,
       });
+      this.eventEmitter.emit('coach.created', user);
 
       return user;
     } catch (error) {
@@ -97,12 +101,13 @@ export class CoachResolver {
 
   @Mutation(() => User)
   @UseGuards(GqlAuthGuard, AdminGuard)
-  approveCoach(@Args('id', { type: () => String }) id: string) {
+  async approveCoach(@Args('id', { type: () => String }) id: string) {
     try {
-      return this.usersService.update(id, {
+      const result = await this.usersService.update(id, {
         coachingStatus: Status.active,
         role: Role.coach,
       });
+      this.eventEmitter.emit('coach.approved', result);
     } catch (error) {
       throw new Error(error.message);
     }

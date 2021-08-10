@@ -33,10 +33,8 @@ import { UserWalletService } from '../payment/wallet.service';
 export class LessonResolver {
   constructor(
     private readonly lessonsService: LessonsService,
-    private readonly scheduleService: ScheduleService,
     private readonly usersService: UsersService,
     private readonly subjectsService: SubjectsService,
-    private readonly transactionService: TransactionService,
     private readonly userWalletService: UserWalletService,
     private eventEmitter: EventEmitter2,
   ) {}

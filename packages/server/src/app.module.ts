@@ -14,9 +14,11 @@ import { PaymentModule } from './payment/payment.module';
 import { PubSub } from 'apollo-server-express';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ApolloServerPluginUsageReporting } from 'apollo-server-core';
+import { ConfigModule } from '@nestjs/config';
+
 import { BullModule } from '@nestjs/bull';
 // import { StripeModule,  } from '@golevelup/nestjs-stripe';
+import { MailingModule } from './mailing/mailing.module';
 const pubSub = new PubSub();
 
 @Module({
@@ -70,6 +72,9 @@ const pubSub = new PubSub();
         ChatsModule,
       ],
     }),
+    // ConfigModule.forRoot({
+    //   isGlobal:true,
+    // }),
 
     MongooseModule.forRoot(
       `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?authSource=admin`,
@@ -90,6 +95,7 @@ const pubSub = new PubSub();
     ForumModule,
     ChatsModule,
     PaymentModule,
+    MailingModule,
   ],
   exports:[]
 })
