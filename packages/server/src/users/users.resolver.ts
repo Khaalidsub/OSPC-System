@@ -40,6 +40,7 @@ export class UsersResolver {
         Status.pending,
       );
       this.eventEmitter.emit('user.created', user);
+      return user
     } catch (error) {
       this.logger.error(error);
       throw new Error(error);

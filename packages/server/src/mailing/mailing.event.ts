@@ -1,9 +1,9 @@
-import { Inject, Logger, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { MailService } from '@sendgrid/mail';
 import { UserDocument } from 'users/entities/user.entity';
 const sgMail = require('@sendgrid/mail');
-
+@Injectable()
 export class MailingConsumer implements OnModuleInit {
   private readonly logger = new Logger(MailingConsumer.name);
   constructor(@Inject('MailingService') private mailingService: MailService) {}
@@ -21,6 +21,7 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We are looking into your coach appliction</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
   }
   @OnEvent('coach.approved')
   async onApproveCoach({ email, name }: UserDocument) {
@@ -32,6 +33,8 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We are looking into your coach appliction</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
+
   }
   @OnEvent('coach.rejected')
   async onRejectCoach({ email, name }: UserDocument) {
@@ -43,6 +46,8 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We are looking into your coach appliction</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
+
   }
 
   @OnEvent('user.created')
@@ -55,6 +60,8 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We are sorry to say that your application has been rejected</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
+
   }
 
   @OnEvent('user.rejected')
@@ -67,6 +74,8 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We are sorry to say that your application has been rejected</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
+
   }
 
   @OnEvent('user.approved')
@@ -79,5 +88,7 @@ export class MailingConsumer implements OnModuleInit {
       html:
         '<p>Hello ${name}, Thank you for your application.</p><p>We have happily to say , we approved your application</p>',
     });
+    this.logger.log(`Email Sent : ${email}`)
+
   }
 }
